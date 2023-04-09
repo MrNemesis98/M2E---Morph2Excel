@@ -43,22 +43,27 @@ class Initiator(QMainWindow):
 
     def create_window(self):
         # Main Properties
-        self.setFixedSize(1000, 650)
+        self.setFixedSize(1600, 1000)
         self.setWindowTitle("Morph2Excel")
         self.setWindowIcon(QIcon("data/GUI_img/17636.ico"))
 
         self.background_label = QLabel(self)
-        self.background_label.setGeometry(0, 0, 1000, 650)
+        self.background_label.setGeometry(0, 0, 1600, 1000)
         self.background_label.setStyleSheet("background-color:black")
         self.background_label.show()
 
         # Headline Widgets
+        self.headline_label = QLabel(self)
+        self.headline_label.setAlignment(QtCore.Qt.AlignCenter)
+        self.headline_label.setFont(QFont("Times New Roman", 25))
+        self.headline_label.setGeometry(0, 0, 1600, 80)
+        self.headline_label.setStyleSheet(gss.headline_label())
+        self.headline_label.setText("Morph2Excel - API for Wiki_Morph")
+
         self.chapter_label = QLabel(self)
         self.chapter_label.setAlignment(QtCore.Qt.AlignCenter)
         self.chapter_label.setFont(QFont("Times New Roman", 16))
         self.chapter_label.setGeometry(-2, 0, 404, 60)
-
-        self.design_label = QLabel(self)
 
         self.info_label = QLabel(self)
         self.info_label.setGeometry(50, 85, 300, 240)
@@ -106,16 +111,12 @@ class Initiator(QMainWindow):
         self.gui_mode = "main_window"
         # self.update_system_parameters()
 
-        self.chapter_label.setStyleSheet(gss.chapter_label())
-        # self.design_label.setStyleSheet(gss.design_label())
-        # self.info_label.setStyleSheet(gss.info_label(False, True))
-        self.design_label.setGeometry(-2, 350, 404, 100)
-        self.forward_button.setGeometry(75, 380, 250, 45)
-        self.start_button.setGeometry(75, 470, 250, 45)
-        self.back_button.setGeometry(75, 530, 250, 45)
-        self.back_button.setText("Konfigurator starten")
+        self.forward_button.hide()
+        self.start_button.hide()
+        self.back_button.hide()
 
-        self.chapter_label.show()
+
+
 
 
 
