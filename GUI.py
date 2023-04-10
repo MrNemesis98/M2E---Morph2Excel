@@ -3,88 +3,105 @@ from PyQt5.QtCore import QEventLoop, QTimer, pyqtSignal
 from PyQt5.QtGui import QIcon, QFont
 from PyQt5.QtWidgets import *
 from PyQt5 import QtCore
+from PyQt5.QtCore import Qt
 
-import GUI_Stylesheets as gss
-import GUI_Text_Inputs as gti
+import GUI_Stylesheets as GSS
+import GUI_Text_Inputs as GTI
+import GUI_Special_Items as GSI
 
 
 def delay(milliseconds):
-    dl = QEventLoop()
-    QTimer.singleShot(milliseconds, dl.quit)
-    dl.exec_()
+    delay_event = QEventLoop()
+    QTimer.singleShot(milliseconds, delay_event.quit)
+    delay_event.exec_()
 
 
 class Initiator(QMainWindow):
 
-    # System Variables
-
-    closed = pyqtSignal()
-    gui_mode = None
-    general_memory = None
-
+    # Creating Instance ------------------------------------------------------------------------------------------------
     def __init__(self):
         super().__init__()
-        self.create_window()
 
-        self.background_label = None
-        self.chapter_label = None
-        self.info_label = None
-        self.user_name_input_item = None
-        self.password_input_item = None
-        self.checkbox = None
-        self.design_label = None
-        self.back_button = None
-        self.forward_button = None
-        self.start_button = None
+        self.headline_label = None
+        self.main_button = None
+        self.results_button = None
+        self.settings_button = None
+        self.search_bar = None
 
         self.timer = QTimer()
 
         self.create_window()
 
+    # System Variables -------------------------------------------------------------------------------------------------
+
+    closed = pyqtSignal()
+
+    gui_mode = None
+    results = None
+
+    # creating items ---------------------------------------------------------------------------------------------------
+
     def create_window(self):
         # Main Properties
-        self.setFixedSize(1600, 1000)
+        self.setFixedSize(1800, 1000)
         self.setWindowTitle("Morph2Excel")
         self.setWindowIcon(QIcon("data/GUI_img/17636.ico"))
 
         self.background_label = QLabel(self)
-        self.background_label.setGeometry(0, 0, 1600, 1000)
+        self.background_label.setGeometry(0, 0, 1800, 1000)
         self.background_label.setStyleSheet("background-color:black")
         self.background_label.show()
 
-        # Headline Widgets
+        # Labels
         self.headline_label = QLabel(self)
-        self.headline_label.setAlignment(QtCore.Qt.AlignCenter)
+        self.headline_label.setGeometry(0, 0, 1800, 80)
         self.headline_label.setFont(QFont("Times New Roman", 25))
-        self.headline_label.setGeometry(0, 0, 1600, 80)
-        self.headline_label.setStyleSheet(gss.headline_label())
+        self.headline_label.setAlignment(QtCore.Qt.AlignCenter)
         self.headline_label.setText("Morph2Excel - API for Wiki_Morph")
 
+        """
         self.chapter_label = QLabel(self)
         self.chapter_label.setAlignment(QtCore.Qt.AlignCenter)
         self.chapter_label.setFont(QFont("Times New Roman", 16))
         self.chapter_label.setGeometry(-2, 0, 404, 60)
-
+        """
+        """
         self.info_label = QLabel(self)
         self.info_label.setGeometry(50, 85, 300, 240)
         self.info_label.setWordWrap(True)
         self.info_label.setFont(QFont("Times New Roman", 14))
         self.info_label.setAlignment(QtCore.Qt.AlignVCenter)
-
-        # self.text_input_item = GSI.SpecialTextEdit(self)
-        # self.text_input_item.setAlignment(QtCore.Qt.AlignLeft)
-        # self.text_input_item.setFont(QFont("Times New Roman", 12))
-        # self.text_input_item.Change_Focus.connect(self.change_focus_of_text_item)
-        # self.text_input_item.Enter_Event.connect(self.change_focus_of_text_item)
-
         """
-        self.password_input_item = GSI.SpecialTextEdit(self)
-        self.password_input_item.setStyleSheet(gss.text_input_item())
-        self.password_input_item.setAlignment(QtCore.Qt.AlignLeft)
-        self.password_input_item.setFont(QFont("Times New Roman", 12))
-        self.password_input_item.Change_Focus.connect(self.change_focus_of_text_item)
-        self.password_input_item.Enter_Event.connect(self.mode_login)
-        """
+
+        # Buttons
+
+        self.main_button = QPushButton(self)
+        self.main_button.setGeometry(600, 80, 600, 80)
+        self.main_button.setFont(QFont("Times New Roman", 20))
+        self.main_button.setText("Main Menu")
+        self.main_button.clicked.connect(self.main_menu)
+
+        self.results_button = QPushButton(self)
+        self.results_button.setGeometry(1200, 80, 600, 80)
+        self.results_button.setFont(QFont("Times New Roman", 20))
+        self.results_button.setText("Search Results")
+        self.results_button.clicked.connect(self.results_menu)
+
+        self.settings_button = QPushButton(self)
+        self.settings_button.setGeometry(0, 80, 600, 80)
+        self.settings_button.setFont(QFont("Times New Roman", 20))
+        self.settings_button.setText("Settings")
+        self.settings_button.clicked.connect(self.settings_menu)
+
+        # Special Items
+
+        self.search_bar = GSI.SpecialTextEdit(self)
+        self.search_bar.setAlignment(QtCore.Qt.AlignLeft)
+        self.search_bar.setFont(QFont("Times New Roman", 12))
+        self.search_bar.setAlignment(QtCore.Qt.AlignLeft)
+        self.search_bar.setStyleSheet(GSS.search_bar())
+        self.search_bar.setVerticalScrollBarPolicy(Qt.ScrollBarAlwaysOff)
+
         """
         self.checkbox = QCheckBox(self)
         self.checkbox.setFont(QFont("Times New Roman", 15))
@@ -93,27 +110,42 @@ class Initiator(QMainWindow):
         self.checkbox.clicked.connect(self.checkbox_clicked)
         """
 
-        self.back_button = QPushButton(self)
-        self.back_button.setFont(QFont("Times New Roman", 12))
-        # self.back_button.clicked.connect(self.back_button_pressed)
+        self.main_menu()
 
-        self.forward_button = QPushButton(self)
-        self.forward_button.setFont(QFont("Times New Roman", 12))
-        # self.forward_button.clicked.connect(self.forward_button_pressed)
+    # primary menus ----------------------------------------------------------------------------------------------------
 
-        self.start_button = QPushButton(self)
-        self.start_button.setFont(QFont("Times New Roman", 12))
-        # self.start_button.clicked.connect(self.start_button_pressed)
-
-        self.main_window()
-
-    def main_window(self):
-        self.gui_mode = "main_window"
+    def main_menu(self):
+        self.gui_mode = "main_menu"
         # self.update_system_parameters()
+        self.headline_label.setStyleSheet(GSS.headline_label(self.gui_mode))
+        self.main_button.setStyleSheet(GSS.main_button(self.gui_mode))
+        self.results_button.setStyleSheet(GSS.results_button(self.gui_mode))
+        self.settings_button.setStyleSheet(GSS.settings_button(self.gui_mode))
 
-        self.forward_button.hide()
-        self.start_button.hide()
-        self.back_button.hide()
+        self.search_bar.setGeometry(700, 500, 400, 51)
+
+
+        self.search_bar.show()
+
+        self.search_bar.print_placeholder_text("Enter a search term...")
+        self.search_bar.setFocus()
+
+    def results_menu(self):
+        self.gui_mode = "results_menu"
+        # self.update_system_parameters()
+        self.headline_label.setStyleSheet(GSS.headline_label(self.gui_mode))
+        self.main_button.setStyleSheet(GSS.main_button(self.gui_mode))
+        self.results_button.setStyleSheet(GSS.results_button(self.gui_mode))
+        self.settings_button.setStyleSheet(GSS.settings_button(self.gui_mode))
+
+    def settings_menu(self):
+        self.gui_mode = "settings_menu"
+        # self.update_system_parameters()
+        self.headline_label.setStyleSheet(GSS.headline_label(self.gui_mode))
+        self.main_button.setStyleSheet(GSS.main_button(self.gui_mode))
+        self.results_button.setStyleSheet(GSS.results_button(self.gui_mode))
+        self.settings_button.setStyleSheet(GSS.settings_button(self.gui_mode))
+
 
 
 
