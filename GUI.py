@@ -8,6 +8,7 @@ from PyQt5.QtCore import Qt
 import GUI_Stylesheets as GSS
 import GUI_Text_Inputs as GTI
 import GUI_Special_Items as GSI
+import savedata_manager as SDM
 
 
 def delay(milliseconds):
@@ -23,10 +24,14 @@ class Initiator(QMainWindow):
         super().__init__()
 
         self.headline_label = None
+        self.background_label = None
         self.main_button = None
         self.results_button = None
         self.settings_button = None
         self.search_bar = None
+        self.alpha_button = None
+        self.beta_button = None
+        self.gamma_button = None
 
         self.timer = QTimer()
 
@@ -38,6 +43,14 @@ class Initiator(QMainWindow):
 
     gui_mode = None
     results = None
+    search_available = None
+    general_memory = None
+    entries_history = None
+
+    # get current status -----------------------------------------------------------------------------------------------
+    def update_system_parameters(self):
+        self.entries_history = SDM.get_entry_history()
+        print(self.entries_history)
 
     # creating items ---------------------------------------------------------------------------------------------------
 
@@ -93,6 +106,18 @@ class Initiator(QMainWindow):
         self.settings_button.setText("Settings")
         self.settings_button.clicked.connect(self.settings_menu)
 
+        self.alpha_button = QPushButton(self)
+        self.alpha_button.setFont(QFont("Times New Roman", 20))
+        self.alpha_button.clicked.connect(self.alpha_button_pressed)
+
+        self.beta_button = QPushButton(self)
+        self.beta_button.setFont(QFont("Times New Roman", 20))
+        self.beta_button.clicked.connect(self.beta_button_pressed)
+
+        self.gamma_button = QPushButton(self)
+        self.gamma_button.setFont(QFont("Times New Roman", 20))
+        self.gamma_button.clicked.connect(self.gamma_button_pressed)
+
         # Special Items
 
         self.search_bar = GSI.SpecialTextEdit(self)
@@ -101,6 +126,7 @@ class Initiator(QMainWindow):
         self.search_bar.setAlignment(QtCore.Qt.AlignLeft)
         self.search_bar.setStyleSheet(GSS.search_bar())
         self.search_bar.setVerticalScrollBarPolicy(Qt.ScrollBarAlwaysOff)
+        self.search_bar.textChanged.connect(self.check_search_bar_text)
 
         """
         self.checkbox = QCheckBox(self)
@@ -116,6 +142,7 @@ class Initiator(QMainWindow):
 
     def main_menu(self):
         self.gui_mode = "main_menu"
+        self.search_available = False
         # self.update_system_parameters()
         self.headline_label.setStyleSheet(GSS.headline_label(self.gui_mode))
         self.main_button.setStyleSheet(GSS.main_button(self.gui_mode))
@@ -124,10 +151,25 @@ class Initiator(QMainWindow):
 
         self.search_bar.setGeometry(700, 500, 400, 51)
 
+        self.alpha_button.setGeometry(700, 600, 190, 50)
+        self.alpha_button.setStyleSheet(GSS.alpha_button(False))
+        self.alpha_button.setText("Search!")
 
+        self.beta_button.setGeometry(910, 600, 190, 50)
+        self.beta_button.setStyleSheet(GSS.beta_button(False))
+        self.beta_button.setText("Clear")
+
+        self.gamma_button.setGeometry(1500, 900, 200, 50)
+        self.gamma_button.setStyleSheet(GSS.gamma_button())
+        self.gamma_button.setText("Delete history")
+
+
+        self.alpha_button.show()
+        self.beta_button.show()
+        self.gamma_button.show()
         self.search_bar.show()
 
-        self.search_bar.print_placeholder_text("Enter a search term...")
+        self.search_bar.print_placeholder_text(" Enter a search term...")
         self.search_bar.setFocus()
 
     def results_menu(self):
@@ -146,6 +188,38 @@ class Initiator(QMainWindow):
         self.results_button.setStyleSheet(GSS.results_button(self.gui_mode))
         self.settings_button.setStyleSheet(GSS.settings_button(self.gui_mode))
 
+    # Button Functions
+    def alpha_button_pressed(self):
+        if self.gui_mode == "main_menu":
+            if self.search_available:
+                self.general_memory = self.search_bar.toPlainText()
+                if "/" in self.general_memory:
+                    self.general_memory = self.general_memory.replace("/", "")
+                SDM.add_entry_to_history(self.general_memory)
+                self.update_system_parameters()
+                print(self.general_memory)
+
+    def beta_button_pressed(self):
+        if self.gui_mode == "main_menu":
+            if self.search_available:
+                self.search_bar.clear()
+
+    def gamma_button_pressed(self):
+        if self.gui_mode == "main_menu":
+            SDM.delete_entry_history()
+            self.update_system_parameters()
+
+    def check_search_bar_text(self):
+        if self.gui_mode == "main_menu":
+            if self.search_bar.toPlainText() == "" \
+                    or self.search_bar.toPlainText() == self.search_bar.placeholderText():
+                self.search_available = False
+                self.alpha_button.setStyleSheet(GSS.alpha_button(False))
+                self.beta_button.setStyleSheet(GSS.beta_button(False))
+            else:
+                self.search_available = True
+                self.alpha_button.setStyleSheet(GSS.alpha_button(True))
+                self.beta_button.setStyleSheet(GSS.beta_button(True))
 
 
 
