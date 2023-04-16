@@ -1,4 +1,5 @@
 from PyQt5.QtCore import QEventLoop, QTimer, pyqtSignal
+import threading
 
 from PyQt5.QtGui import QIcon, QFont
 from PyQt5.QtWidgets import *
@@ -9,6 +10,7 @@ import GUI_Stylesheets as GSS
 import GUI_Text_Inputs as GTI
 import GUI_Special_Items as GSI
 import savedata_manager as SDM
+import database_manager as DBM
 
 
 def delay(milliseconds):
@@ -25,13 +27,27 @@ class Initiator(QMainWindow):
 
         self.headline_label = None
         self.background_label = None
+
         self.main_button = None
         self.results_button = None
         self.settings_button = None
+
+        self.submenu_button_1 = None
+
+        self.intro_label = None
+        self.info_label_1 = None
+        self.info_label_2 = None
+        self.info_label_3 = None
+        self.frame_label = None
+
         self.search_bar = None
+
         self.alpha_button = None
         self.beta_button = None
         self.gamma_button = None
+        self.delta_button = None
+        self.epsilon_button = None
+        self.zeta_button = None
 
         self.timer = QTimer()
 
@@ -46,11 +62,19 @@ class Initiator(QMainWindow):
     search_available = None
     general_memory = None
     entries_history = None
+    check_database_status = True
+    database_status = None
+    database_status_submenu = True
 
     # get current status -----------------------------------------------------------------------------------------------
     def update_system_parameters(self):
         self.entries_history = SDM.get_entry_history()
-        print(self.entries_history)
+
+    def generate_database_status_report(self):
+        delay(2000)
+        self.database_status = DBM.get_database_status()
+        self.check_database_status = False
+        self.main_menu()
 
     # creating items ---------------------------------------------------------------------------------------------------
 
@@ -72,19 +96,28 @@ class Initiator(QMainWindow):
         self.headline_label.setAlignment(QtCore.Qt.AlignCenter)
         self.headline_label.setText("Morph2Excel - API for Wiki_Morph")
 
-        """
-        self.chapter_label = QLabel(self)
-        self.chapter_label.setAlignment(QtCore.Qt.AlignCenter)
-        self.chapter_label.setFont(QFont("Times New Roman", 16))
-        self.chapter_label.setGeometry(-2, 0, 404, 60)
-        """
-        """
-        self.info_label = QLabel(self)
-        self.info_label.setGeometry(50, 85, 300, 240)
-        self.info_label.setWordWrap(True)
-        self.info_label.setFont(QFont("Times New Roman", 14))
-        self.info_label.setAlignment(QtCore.Qt.AlignVCenter)
-        """
+        self.frame_label = QLabel(self)
+
+        self.intro_label = GSI.SpecialLabel(self)
+        self.intro_label.setAlignment(QtCore.Qt.AlignCenter)
+        self.intro_label.setFont(QFont("Times New Roman", 20))
+        self.intro_label.setWordWrap(True)
+
+        self.info_label_1 = GSI.SpecialLabel(self)
+        self.info_label_1.setFont(QFont("Times New Roman", 20))
+        self.info_label_1.setAlignment(QtCore.Qt.AlignLeft)
+        self.info_label_1.setWordWrap(True)
+
+        self.info_label_2 = GSI.SpecialLabel(self)
+        self.info_label_2.setFont(QFont("Times New Roman", 20))
+        self.info_label_2.setAlignment(QtCore.Qt.AlignLeft)
+        self.info_label_2.setWordWrap(True)#
+
+        self.info_label_3 = GSI.SpecialLabel(self)
+        self.info_label_3.setFont(QFont("Times New Roman", 20))
+        self.info_label_3.setAlignment(QtCore.Qt.AlignLeft)
+        self.info_label_3.setWordWrap(True)
+
 
         # Buttons
 
@@ -106,6 +139,10 @@ class Initiator(QMainWindow):
         self.settings_button.setText("Settings")
         self.settings_button.clicked.connect(self.settings_menu)
 
+        self.submenu_button_1 = QPushButton(self)
+        self.submenu_button_1.setFont(QFont("Times New Roman", 20))
+        self.submenu_button_1.clicked.connect(self.submenu_button_1_pressed)
+
         self.alpha_button = QPushButton(self)
         self.alpha_button.setFont(QFont("Times New Roman", 20))
         self.alpha_button.clicked.connect(self.alpha_button_pressed)
@@ -117,6 +154,18 @@ class Initiator(QMainWindow):
         self.gamma_button = QPushButton(self)
         self.gamma_button.setFont(QFont("Times New Roman", 20))
         self.gamma_button.clicked.connect(self.gamma_button_pressed)
+
+        self.delta_button = QPushButton(self)
+        self.delta_button.setFont(QFont("Times New Roman", 20))
+        self.delta_button.clicked.connect(self.delta_button_pressed)
+
+        self.epsilon_button = QPushButton(self)
+        self.epsilon_button.setFont(QFont("Times New Roman", 20))
+        self.epsilon_button.clicked.connect(self.epsilon_button_pressed)
+
+        self.zeta_button = QPushButton(self)
+        self.zeta_button.setFont(QFont("Times New Roman", 20))
+        self.zeta_button.clicked.connect(self.zeta_button_pressed)
 
         # Special Items
 
@@ -149,19 +198,57 @@ class Initiator(QMainWindow):
         self.results_button.setStyleSheet(GSS.results_button(self.gui_mode))
         self.settings_button.setStyleSheet(GSS.settings_button(self.gui_mode))
 
-        self.search_bar.setGeometry(700, 500, 400, 51)
+        if self.check_database_status:
+            self.info_label_3.print_text("Check current database status...")
+            threading.Thread(target=self.generate_database_status_report, daemon=False).start()
+            if self.database_status == 0:
+                self.info_label_3.print_text("Everything is prepared.")
+            if not self.database_status == 2:
+                self.check_database_status = False
+            print(self.database_status, self.check_database_status)
 
-        self.alpha_button.setGeometry(700, 600, 190, 50)
+        if self.database_status_submenu:
+            self.intro_label.setGeometry(600, 220, 549, 50)
+            self.intro_label.setStyleSheet(GSS.intro_label())
+            self.intro_label.print_text("Status of Wiki-Morph database")
+
+            self.submenu_button_1.setGeometry(1150, 219, 50, 52)
+            self.submenu_button_1.setStyleSheet(GSS.submenu_buttons(open=True))
+            self.submenu_button_1.setText("↑")
+
+            self.frame_label.setGeometry(600, 280, 600, 320)
+            self.frame_label.setStyleSheet(GSS.frame_label(1))
+            self.frame_label.show()
+
+            self.info_label_3.setGeometry(605, 520, 590, 70)
+            self.info_label_3.setStyleSheet(GSS.intro_label())
+            self.info_label_3.show()
+
+        else:
+            self.intro_label.setGeometry(600, 220, 549, 50)
+            self.intro_label.setStyleSheet(GSS.intro_label())
+            self.intro_label.print_text("Status of Wiki-Morph database")
+
+            self.submenu_button_1.setGeometry(1150, 220, 50, 50)
+            self.submenu_button_1.setStyleSheet(GSS.submenu_buttons(open=True))
+            self.submenu_button_1.setText("↓")
+
+            self.frame_label.hide()
+
+        self.search_bar.setGeometry(700, 700, 400, 51)
+
+        self.alpha_button.setGeometry(700, 800, 190, 50)
         self.alpha_button.setStyleSheet(GSS.alpha_button(False))
         self.alpha_button.setText("Search!")
 
-        self.beta_button.setGeometry(910, 600, 190, 50)
+        self.beta_button.setGeometry(910, 800, 190, 50)
         self.beta_button.setStyleSheet(GSS.beta_button(False))
         self.beta_button.setText("Clear")
 
         self.gamma_button.setGeometry(1500, 900, 200, 50)
         self.gamma_button.setStyleSheet(GSS.gamma_button())
         self.gamma_button.setText("Delete history")
+
 
 
         self.alpha_button.show()
@@ -189,6 +276,10 @@ class Initiator(QMainWindow):
         self.settings_button.setStyleSheet(GSS.settings_button(self.gui_mode))
 
     # Button Functions
+
+    def submenu_button_1_pressed(self):
+        pass
+
     def alpha_button_pressed(self):
         if self.gui_mode == "main_menu":
             if self.search_available:
@@ -208,6 +299,15 @@ class Initiator(QMainWindow):
         if self.gui_mode == "main_menu":
             SDM.delete_entry_history()
             self.update_system_parameters()
+
+    def delta_button_pressed(self):
+        pass
+
+    def epsilon_button_pressed(self):
+        pass
+
+    def zeta_button_pressed(self):
+        pass
 
     def check_search_bar_text(self):
         if self.gui_mode == "main_menu":

@@ -10,11 +10,36 @@ def headline_label(gui_mode):
         return stylesheet
 
 
-def chapter_label():
-    stylesheet = "background-color: black; color: white; border-bottom: 2px solid blue;" \
-                 "border-right: 2px solid blue; border-left:2px solid blue;" \
-                 "border-bottom-right-radius: 40px; border-bottom-left-radius: 40px"
+def frame_label(status):
+    if status == 2:
+        stylesheet = "background-color:black; border: 1px solid maroon;"
+        return stylesheet
+    elif status == 1:
+        stylesheet = "background-color:black; border: 1px solid olive;"
+        return stylesheet
+    elif status == 0:
+        stylesheet = "background-color:black; border: 1px solid white;"
+        return stylesheet
+    elif status == -1:
+        stylesheet = "background-color:black; border: 1px solid gray;"
+        return stylesheet
+
+
+def intro_label():
+    stylesheet = "background-color:black; color: white; border: 1px solid white;"
     return stylesheet
+
+
+def info_label(status):
+    if status == 2:
+        stylesheet = "background-color:black; color: red;"
+        return stylesheet
+    elif status == 1:
+        stylesheet = "background-color:black; color: yellow;"
+        return stylesheet
+    elif status == 0:
+        stylesheet = "background-color:black; color: white;"
+        return stylesheet
 
 
 def main_button(gui_mode):
@@ -78,6 +103,29 @@ def settings_button(gui_mode):
     elif gui_mode == "settings_menu":
         stylesheet = "QPushButton{background-color: black; color: white; text-align:center;" \
                      "border:4px solid; border-top-color: orange;}"
+        return stylesheet
+
+
+def submenu_buttons(open):
+    if not open:
+        stylesheet = "QPushButton{background-color: black; color: green;" \
+                     "text-align:center;" \
+                     "border-bottom:1px solid dark green;border-left:1px solid dark green;" \
+                     "border-top:1px solid dark green;border-right:1px solid dark green;}" \
+                     "QPushButton::hover{color: lime;" \
+                     "border-bottom:1px solid lime;border-left:1px solid lime;" \
+                     "border-top:1px solid lime;border-right:1px solid lime;}" \
+                     "QPushButton::pressed{background-color:lime; color:black}"
+        return stylesheet
+    else:
+        stylesheet = "QPushButton{background-color: black; color: maroon;" \
+                     "text-align:center;" \
+                     "border-bottom:1px solid maroon;border-left:1px solid maroon;" \
+                     "border-top:1px solid maroon;border-right:1px solid maroon;}" \
+                     "QPushButton::hover{color: red;" \
+                     "border-bottom:1px solid red;border-left:1px solid red;" \
+                     "border-top:1px solid red;border-right:1px solid red;}" \
+                     "QPushButton::pressed{background-color:red; color:black}"
         return stylesheet
 
 

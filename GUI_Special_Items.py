@@ -40,3 +40,28 @@ class SpecialTextEdit(QTextEdit):
             self.Change_Focus.emit()
             return
         QTextEdit.keyPressEvent(self, event)
+
+
+class SpecialLabel(QLabel):
+
+    def __init__(self, parent=None):
+        super().__init__(parent)
+        self.setText("")
+        self.timer = QTimer()
+        self.timer.timeout.connect(self.add_letter)
+        self.text = ""
+        self.current_text = ""
+
+    def add_letter(self):
+        if len(self.text) > 0:
+            self.current_text += self.text[0]
+            self.text = self.text[1:]
+            self.setText(self.current_text)
+        else:
+            self.timer.stop()
+
+    def print_text(self, text, timer=30):
+        self.text = text
+        self.current_text = ""
+        self.setText(self.current_text)
+        self.timer.start(timer)
