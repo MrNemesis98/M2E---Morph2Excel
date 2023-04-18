@@ -58,10 +58,10 @@ def check_paths():
                 print("Download wird nicht ausgeführt.")
 
 
-start_initiator()
+# start_initiator()
 # check_paths()
 
-"""
+
 term = input()
 
 # Lade die englische Flexionsdatei von Wiki_Morph
@@ -76,4 +76,7 @@ for x in range(len(entries_list)):
             if value == term:
                 
                 print(entries_list[x])
-"""
+
+
+# focus on console input and output
+# -> first visualizastion regarding output

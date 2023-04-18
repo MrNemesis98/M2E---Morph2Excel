@@ -4,3 +4,6 @@ data/wiki_morph.json
 __pycache__/GUI_Special_Items.cpython-39.pyc
 __pycache__/GUI.cpython-39.pyc
 *.pyc
+.idea/misc.xml
+*.iml
+*.pyc

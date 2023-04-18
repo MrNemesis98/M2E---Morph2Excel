@@ -198,14 +198,6 @@ class Initiator(QMainWindow):
         self.results_button.setStyleSheet(GSS.results_button(self.gui_mode))
         self.settings_button.setStyleSheet(GSS.settings_button(self.gui_mode))
 
-        if self.check_database_status:
-            self.info_label_3.print_text("Check current database status...")
-            threading.Thread(target=self.generate_database_status_report, daemon=False).start()
-            if self.database_status == 0:
-                self.info_label_3.print_text("Everything is prepared.")
-            if not self.database_status == 2:
-                self.check_database_status = False
-            print(self.database_status, self.check_database_status)
 
         if self.database_status_submenu:
             self.intro_label.setGeometry(600, 220, 549, 50)
@@ -258,6 +250,15 @@ class Initiator(QMainWindow):
 
         self.search_bar.print_placeholder_text(" Enter a search term...")
         self.search_bar.setFocus()
+
+        if self.check_database_status:
+            self.info_label_3.print_text("Check current database status...")
+            self.generate_database_status_report()
+            if self.database_status == 0:
+                self.info_label_3.print_text("Everything is prepared.")
+            if not self.database_status == 2:
+                self.check_database_status = False
+            print(self.database_status, self.check_database_status)
 
     def results_menu(self):
         self.gui_mode = "results_menu"
