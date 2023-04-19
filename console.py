@@ -2,11 +2,6 @@ import json, os, sys
 import urllib.request
 import time
 
-from PyQt5.QtWidgets import QApplication
-from PyQt5.QtWidgets import *
-
-import GUI
-
 
 def check_paths():
     print("\nWelcome to Morph2Excel - the wiki_morph API!")
@@ -77,14 +72,19 @@ def search_for_terms():
 
                     if key == "Word":
                         if value == term:
-                            print(entries_list[x])
-                            found = True
+                            entry = entries_list[x]
+                            print(entry.keys())
+                            print(entry.values())
+                            first_value = next(iter(entry.values()))
+                            print(type(first_value))
+                            exit(0)
+                            # found = True
             if not found:
                 print("Warning: no results found for '" + term + "'")
 
 
 time.sleep(1)
-check_paths()
+# check_paths()
 search_for_terms()
 
 # focus on console input and output
