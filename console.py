@@ -2,17 +2,20 @@ import json, os, sys
 import urllib.request
 import time
 import datetime
+import subprocess
 
 
 def create_logfile():
     now = datetime.datetime.now()
-    date_format = "%d/%m/%Y/%H:%M"
+    date_format = "%d_%m_%Y_(%H_%M_%S)"
     formatted_date = now.strftime(date_format)
 
-    title = "data/Morph2Excel_logfile_(" + formatted_date + ")"
-    with open(title, "w") as log:
-        log.write("Morph2Excel Log from " + formatted_date)
+    log_title = "data/Morph2Excel_logfile_(" + str(formatted_date) + ").txt"
+    with open(log_title, "w") as log:
+        log.write("Morph2Excel Log from " + str(formatted_date))
     log.close()
+
+    return log_title
 
 
 def check_paths():
@@ -56,10 +59,10 @@ def check_paths():
         time.sleep(1)
     else:
         os.system('cls')
-        print("database installed and available.")
+        print("\tdatabase installed and available.")
 
 
-def search_for_terms():
+def search_for_terms(log_title):
     # loading database
     os.system('cls')
     print("\n\tLoading wiki_morph database...")
@@ -93,8 +96,13 @@ def search_for_terms():
         os.system('cls')
         if term == "exit!":
             print("\n\tProgram terminated!")
-            sys.exit(0)
+            stop = True
         else:
+
+            found_entries = 0
+            final_output = "\t------------------------------------------------------------\n\n\tWord: " + term
+            output = ""
+
             for x in range(len(entries_list)):
 
                 for key, value in entries_list[x].items():
@@ -102,23 +110,26 @@ def search_for_terms():
                     if key == "Word":
                         if value == term:
                             entry = entries_list[x]
-                            # print(entry.keys())
-                            # print(entry.values())
-                            first_value = next(iter(entry.values()))
-                            # print(type(first_value))
-                            print("\n")
-                            print(entry)
-
-                            found = True
-            if not found:
-                print("\n\tWarning: no results found for '" + term + "'")
+                            keys = list(entry.keys())
+                            output += "\n\t" + str(found_entries+1) + ")" + \
+                                     "\t" + str(keys[1]) + ": " + str(entry[keys[1]]) + "\n" + \
+                                     "\t\t" + str(keys[2]) + ": " + str(entry[keys[2]]) + "\n" + \
+                                     "\t\t" + str(keys[3]) + ": " + str(entry[keys[3]]) + "\n" + \
+                                     "\t\t" + str(keys[4]) + ": " + str(entry[keys[4]]) + "\n"
+                            found_entries += 1
+            if found_entries == 0:
+                final_output += "\n\tWarning: no results found for '" + term + "'."
+            else:
+                final_output += "\n\tEntries found: " + str(found_entries) + "\n"
+                final_output += output
+            print(final_output)
+            log = open(log_title, "a")
+            log.write("\n\n" + final_output)
+            log.close()
 
 
 os.system('cls')
 print("\033[32m" + "\n\tWelcome to Morph2Excel - the wiki_morph API!" + "\033[0m")
-# create_logfile()
+log_name = create_logfile()
 check_paths()
-search_for_terms()
-
-# focus on console input and output
-# -> first visualization regarding output
+search_for_terms(log_name)
