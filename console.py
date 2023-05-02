@@ -2,6 +2,10 @@ import json, os, sys
 import urllib.request
 import time
 import datetime
+import openpyxl
+from openpyxl import load_workbook
+from openpyxl.styles.borders import Border, Side
+from openpyxl.styles import Font
 import subprocess
 
 
@@ -10,12 +14,45 @@ def create_logfile():
     date_format = "%d_%m_%Y_(%H_%M_%S)"
     formatted_date = now.strftime(date_format)
 
-    log_title = "data/Morph2Excel_logfile_(" + str(formatted_date) + ").txt"
+    log_title = "data/M2E_Log_(" + str(formatted_date) + ").txt"
     with open(log_title, "w") as log:
         log.write("Morph2Excel Log from " + str(formatted_date))
     log.close()
 
     return log_title
+
+
+def create_excel():
+    now = datetime.datetime.now()
+    date_format = "%d_%m_%Y_(%H_%M_%S)"
+    formatted_date = now.strftime(date_format)
+
+    workbook_title = "data/M2E_Output_(" + str(formatted_date) + ").xlsx"
+    # Eine neue Excel-Datei erstellen
+    workbook = openpyxl.Workbook()
+
+    # Eine Tabelle auswählen
+    worksheet = workbook.active
+
+    # Daten in die Tabelle schreiben
+    worksheet['A1'] = 'Term'
+    worksheet['B1'] = 'Part of Speech'
+    worksheet['C1'] = 'Syllables'
+    worksheet['D1'] = 'Definition'
+    worksheet['E1'] = 'Morphemes'
+    worksheet['A1'].font = Font(bold=True)
+    worksheet['B1'].font = Font(bold=True)
+    worksheet['C1'].font = Font(bold=True)
+    worksheet['D1'].font = Font(bold=True)
+    worksheet['E1'].font = Font(bold=True)
+
+    for col in worksheet.iter_cols(min_row=1, max_row=1):
+        for cell in col:
+            cell.border = Border(bottom=Side(border_style='thin', color='000000'))  # untere Grenze
+
+    workbook.save(workbook_title)
+
+    return workbook_title
 
 
 def check_paths():
@@ -62,7 +99,7 @@ def check_paths():
         print("\tdatabase installed and available.")
 
 
-def search_for_terms(log_title):
+def search_for_terms(log_title, workbook_title):
     # loading database
     os.system('cls')
     print("\n\tLoading wiki_morph database...")
@@ -88,9 +125,11 @@ def search_for_terms(log_title):
 
     # search function
     stop = False
+    excel_row = 2
+    workbook = load_workbook(workbook_title)
+    worksheet = workbook.active
 
     while not stop:
-        found = False
 
         term = input("\n\tSearch term: ")
         os.system('cls')
@@ -98,8 +137,11 @@ def search_for_terms(log_title):
             print("\n\tProgram terminated!")
             stop = True
         else:
-
+            term_cell = "A" + str(excel_row)
+            worksheet[term_cell] = term
             found_entries = 0
+            excel_row += 1
+            log_output = "\t------------------------------------------------------------\n\n\tWord: " + term
             final_output = "\t------------------------------------------------------------\n\n\tWord: " + term
             output = ""
 
@@ -117,19 +159,49 @@ def search_for_terms(log_title):
                                      "\t\t" + str(keys[3]) + ": " + str(entry[keys[3]]) + "\n" + \
                                      "\t\t" + str(keys[4]) + ": " + str(entry[keys[4]]) + "\n"
                             found_entries += 1
+
+                            pos_cell = "B" + str(excel_row)
+                            syll_cell = "C" + str(excel_row)
+                            def_cell = "D" + str(excel_row)
+                            morph_cell = "E" + str(excel_row)
+
+                            worksheet[pos_cell] = str(entry[keys[1]])
+                            worksheet[syll_cell] = str(entry[keys[2]])
+                            worksheet[def_cell] = str(entry[keys[3]])
+                            worksheet[morph_cell] = str(entry[keys[4]])
+
+                            excel_row += 1
+
             if found_entries == 0:
                 final_output += "\n\tWarning: no results found for '" + term + "'."
+                log_output += "\n\tWarning: no results found for '" + term + "'."
+
+                pos_cell = "B" + str(excel_row)
+                syll_cell = "C" + str(excel_row)
+                def_cell = "D" + str(excel_row)
+                morph_cell = "E" + str(excel_row)
+                worksheet[pos_cell] = "N/V"
+                worksheet[syll_cell] = "N/V"
+                worksheet[def_cell] = "N/V"
+                worksheet[morph_cell] = "N/V"
+                excel_row += 1
             else:
+                log_output += "\n\tEntries found: " + str(found_entries) + "\n"
                 final_output += "\n\tEntries found: " + str(found_entries) + "\n"
                 final_output += output
             print(final_output)
-            log = open(log_title, "a")
-            log.write("\n\n" + final_output)
+
+            log = open(log_title, "a", encoding="utf-8")
+            log.write("\n\n" + log_output)
             log.close()
+
+            workbook.save(workbook_title)
 
 
 os.system('cls')
 print("\033[32m" + "\n\tWelcome to Morph2Excel - the wiki_morph API!" + "\033[0m")
 log_name = create_logfile()
+wb_name = create_excel()
 check_paths()
-search_for_terms(log_name)
+search_for_terms(log_name, wb_name)
+

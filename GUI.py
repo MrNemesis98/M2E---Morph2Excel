@@ -75,7 +75,6 @@ class Initiator(QMainWindow):
         self.database_status = DBM.get_database_status()
         self.check_database_status = False
         self.main_menu()
-
     # creating items ---------------------------------------------------------------------------------------------------
 
     def create_window(self):
