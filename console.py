@@ -6,28 +6,27 @@ import openpyxl
 from openpyxl import load_workbook
 from openpyxl.styles.borders import Border, Side
 from openpyxl.styles import Font
-import subprocess
 
 
-def create_logfile():
+def get_datetime():
     now = datetime.datetime.now()
     date_format = "%d_%m_%Y_(%H_%M_%S)"
     formatted_date = now.strftime(date_format)
+    return formatted_date
 
-    log_title = "data/M2E_Log_(" + str(formatted_date) + ").txt"
+
+def create_logfile(fd):
+    log_title = "data/M2E_Log_(" + str(fd) + ").txt"
     with open(log_title, "w") as log:
-        log.write("Morph2Excel Log from " + str(formatted_date))
+        log.write("Morph2Excel Log from " + str(fd))
     log.close()
 
     return log_title
 
 
-def create_excel():
-    now = datetime.datetime.now()
-    date_format = "%d_%m_%Y_(%H_%M_%S)"
-    formatted_date = now.strftime(date_format)
+def create_excel(fd):
 
-    workbook_title = "data/M2E_Output_(" + str(formatted_date) + ").xlsx"
+    workbook_title = "data/M2E_Output_(" + str(fd) + ").xlsx"
     # Eine neue Excel-Datei erstellen
     workbook = openpyxl.Workbook()
 
@@ -127,7 +126,6 @@ def search_for_terms(log_title, workbook_title):
         entries_list = json.load(f)
     os.system('cls')
     print("\n\tCompleted!")
-    """
     time.sleep(1.5)
     os.system('cls')
     print("\n\tYou can now use the search function as follows:")
@@ -143,7 +141,6 @@ def search_for_terms(log_title, workbook_title):
     print("\t5) Results are saved into an .txt file (since version 1.1),"
           " which will open automatically when this program ends.")
     time.sleep(.5)
-    """
 
     # search function
     stop = False
@@ -179,10 +176,13 @@ def search_for_terms(log_title, workbook_title):
                                      "\t" + str(keys[1]) + ": " + str(entry[keys[1]]) + "\n" + \
                                      "\t\t" + str(keys[2]) + ": " + str(entry[keys[2]]) + "\n" + \
                                      "\t\t" + str(keys[3]) + ": " + str(entry[keys[3]]) + "\n" + \
-                                     "\t\t" + str(keys[4]) + ": " + str(entry[keys[4]]) + "\n" \
-                                     "\t\t" + str(type(list((entry[keys[4]])[0].values())[4])) + "\n" \
-                                     "\t\t" + str(len(list((entry[keys[4]])[0].values())[4])) + "\n"
+                                     "\t\t" + str(keys[4]) + ": " + str(entry[keys[4]]) + "\n"
 
+                            """
+                             "\t\t" + str(type(list((entry[keys[4]])[0].values())[4])) + "\n" \
+                             "\t\t" + str(len(list((entry[keys[4]])[0].values())[4])) + "\n" \
+                             "\t\t" + str(list((entry[keys[4]])[0].values())[4]) + "\n"
+                            """
                             found_entries += 1
 
                             pos_cell = "B" + str(excel_row)
@@ -240,10 +240,12 @@ def search_for_terms(log_title, workbook_title):
 
 os.system('cls')
 print("\033[32m" + "\n\tWelcome to Morph2Excel - the wiki_morph API!" + "\033[0m")
-log_name = create_logfile()
-wb_name = create_excel()
-# check_paths()
-search_for_terms(log_name, wb_name)
+check_paths()
+time.sleep(1.5)
+formatted_date = get_datetime()
+log_name = create_logfile(fd=formatted_date)
+wb_name = create_excel(fd=formatted_date)
+search_for_terms(log_name, "")
 
 
 
