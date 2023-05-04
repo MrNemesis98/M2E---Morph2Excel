@@ -40,11 +40,31 @@ def create_excel():
     worksheet['C1'] = 'Syllables'
     worksheet['D1'] = 'Definition'
     worksheet['E1'] = 'Morphemes'
+    worksheet['E2'] = 'Affix'
+    worksheet['F2'] = 'Language'
+    worksheet['G2'] = 'PoS'
+    worksheet['H2'] = 'Meaning'
+    worksheet['I2'] = 'Etymology Compounds'
+    worksheet['I3'] = 'Affix'
+    worksheet['J3'] = 'Language'
+    worksheet['K3'] = 'Decoded'
+    worksheet['L3'] = 'PoS'
+    worksheet['M3'] = 'Meaning'
     worksheet['A1'].font = Font(bold=True)
     worksheet['B1'].font = Font(bold=True)
     worksheet['C1'].font = Font(bold=True)
     worksheet['D1'].font = Font(bold=True)
     worksheet['E1'].font = Font(bold=True)
+    worksheet['E2'].font = Font(bold=True)
+    worksheet['F2'].font = Font(bold=True)
+    worksheet['G2'].font = Font(bold=True)
+    worksheet['H2'].font = Font(bold=True)
+    worksheet['I2'].font = Font(bold=True)
+    worksheet['I3'].font = Font(bold=True)
+    worksheet['J3'].font = Font(bold=True)
+    worksheet['K3'].font = Font(bold=True)
+    worksheet['L3'].font = Font(bold=True)
+    worksheet['M3'].font = Font(bold=True)
 
     for col in worksheet.iter_cols(min_row=1, max_row=1):
         for cell in col:
@@ -107,6 +127,7 @@ def search_for_terms(log_title, workbook_title):
         entries_list = json.load(f)
     os.system('cls')
     print("\n\tCompleted!")
+    """
     time.sleep(1.5)
     os.system('cls')
     print("\n\tYou can now use the search function as follows:")
@@ -122,10 +143,11 @@ def search_for_terms(log_title, workbook_title):
     print("\t5) Results are saved into an .txt file (since version 1.1),"
           " which will open automatically when this program ends.")
     time.sleep(.5)
+    """
 
     # search function
     stop = False
-    excel_row = 2
+    excel_row = 3
     workbook = load_workbook(workbook_title)
     worksheet = workbook.active
 
@@ -157,7 +179,10 @@ def search_for_terms(log_title, workbook_title):
                                      "\t" + str(keys[1]) + ": " + str(entry[keys[1]]) + "\n" + \
                                      "\t\t" + str(keys[2]) + ": " + str(entry[keys[2]]) + "\n" + \
                                      "\t\t" + str(keys[3]) + ": " + str(entry[keys[3]]) + "\n" + \
-                                     "\t\t" + str(keys[4]) + ": " + str(entry[keys[4]]) + "\n"
+                                     "\t\t" + str(keys[4]) + ": " + str(entry[keys[4]]) + "\n" \
+                                     "\t\t" + str(type(list((entry[keys[4]])[0].values())[4])) + "\n" \
+                                     "\t\t" + str(len(list((entry[keys[4]])[0].values())[4])) + "\n"
+
                             found_entries += 1
 
                             pos_cell = "B" + str(excel_row)
@@ -169,8 +194,23 @@ def search_for_terms(log_title, workbook_title):
                             worksheet[syll_cell] = str(entry[keys[2]])
                             worksheet[def_cell] = str(entry[keys[3]])
                             worksheet[morph_cell] = str(entry[keys[4]])
+                            affix_cell = "E" + str(excel_row)
+                            lang_cell = "F" + str(excel_row)
+                            pos_cell = "G" + str(excel_row)
+                            mean_cell = "H" + str(excel_row)
+                            etcom_cell = "I" + str(excel_row)
 
                             excel_row += 1
+
+                            worksheet[affix_cell] = str(list((entry[keys[4]])[0].values())[0])
+                            worksheet[lang_cell] = str(list((entry[keys[4]])[0].values())[1])
+                            worksheet[pos_cell] = str(list((entry[keys[4]])[0].values())[2])
+                            worksheet[mean_cell] = str(list((entry[keys[4]])[0].values())[3])
+                            worksheet[etcom_cell] = str(list((entry[keys[4]])[0].values())[4])
+                            """
+                            for entry in range(len(list((entry[keys[4]])[0].values())[4])):
+                                print(entry)
+                            """
 
             if found_entries == 0:
                 final_output += "\n\tWarning: no results found for '" + term + "'."
@@ -202,6 +242,8 @@ os.system('cls')
 print("\033[32m" + "\n\tWelcome to Morph2Excel - the wiki_morph API!" + "\033[0m")
 log_name = create_logfile()
 wb_name = create_excel()
-check_paths()
+# check_paths()
 search_for_terms(log_name, wb_name)
+
+
 
