@@ -115,7 +115,7 @@ def check_paths():
         time.sleep(1)
     else:
         os.system('cls')
-        print("\tdatabase installed and available.")
+        print("\n\tDatabase installed and available.")
 
 
 def search_for_terms(log_title, workbook_title):
@@ -144,7 +144,7 @@ def search_for_terms(log_title, workbook_title):
 
     # search function
     stop = False
-    excel_row = 3
+    excel_row = 4
     workbook = load_workbook(workbook_title)
     worksheet = workbook.active
 
@@ -172,11 +172,17 @@ def search_for_terms(log_title, workbook_title):
                         if value == term:
                             entry = entries_list[x]
                             keys = list(entry.keys())
+
+                            pos_value = entry[keys[1]]
+                            syllables_value = entry[keys[2]]
+                            definition_value = entry[keys[3]]
+                            morphemes_value = entry[keys[4]]
+
                             output += "\n\t" + str(found_entries+1) + ")" + \
-                                     "\t" + str(keys[1]) + ": " + str(entry[keys[1]]) + "\n" + \
-                                     "\t\t" + str(keys[2]) + ": " + str(entry[keys[2]]) + "\n" + \
-                                     "\t\t" + str(keys[3]) + ": " + str(entry[keys[3]]) + "\n" + \
-                                     "\t\t" + str(keys[4]) + ": " + str(entry[keys[4]]) + "\n"
+                                     "\t" + str(keys[1]) + ": " + str(pos_value) + "\n" + \
+                                     "\t\t" + str(keys[2]) + ": " + str(syllables_value) + "\n" + \
+                                     "\t\t" + str(keys[3]) + ": " + str(definition_value) + "\n" + \
+                                     "\t\t" + str(keys[4]) + ": " + str(morphemes_value) + "\n"
 
                             """
                              "\t\t" + str(type(list((entry[keys[4]])[0].values())[4])) + "\n" \
@@ -190,10 +196,12 @@ def search_for_terms(log_title, workbook_title):
                             def_cell = "D" + str(excel_row)
                             morph_cell = "E" + str(excel_row)
 
-                            worksheet[pos_cell] = str(entry[keys[1]])
-                            worksheet[syll_cell] = str(entry[keys[2]])
-                            worksheet[def_cell] = str(entry[keys[3]])
-                            worksheet[morph_cell] = str(entry[keys[4]])
+                            worksheet[pos_cell] = str(pos_value)
+                            worksheet[syll_cell] = str(syllables_value)
+                            worksheet[def_cell] = str(definition_value)
+                            # worksheet[morph_cell] = str(morphemes_value)
+                            # nicht (mehr) nötig, da morphologische Information erneut unterteilt wird
+
                             affix_cell = "E" + str(excel_row)
                             lang_cell = "F" + str(excel_row)
                             pos_cell = "G" + str(excel_row)
@@ -202,11 +210,20 @@ def search_for_terms(log_title, workbook_title):
 
                             excel_row += 1
 
-                            worksheet[affix_cell] = str(list((entry[keys[4]])[0].values())[0])
-                            worksheet[lang_cell] = str(list((entry[keys[4]])[0].values())[1])
-                            worksheet[pos_cell] = str(list((entry[keys[4]])[0].values())[2])
-                            worksheet[mean_cell] = str(list((entry[keys[4]])[0].values())[3])
-                            worksheet[etcom_cell] = str(list((entry[keys[4]])[0].values())[4])
+                            affix_value = list(morphemes_value[0].values())[0]
+                            language_value = list(morphemes_value[0].values())[1]
+                            sub_pos_value = list(morphemes_value[0].values())[2]
+                            meaning_value = list(morphemes_value[0].values())[3]
+                            etcom_value = list(morphemes_value[0].values())[4]
+                            print(type(affix_value))
+                            print(type(etcom_value))
+
+                            worksheet[affix_cell] = str(affix_value)
+                            worksheet[lang_cell] = str(language_value)
+                            worksheet[pos_cell] = str(sub_pos_value)
+                            worksheet[mean_cell] = str(meaning_value)
+                            worksheet[etcom_cell] = str(etcom_value)
+
                             """
                             for entry in range(len(list((entry[keys[4]])[0].values())[4])):
                                 print(entry)
@@ -245,7 +262,13 @@ time.sleep(1.5)
 formatted_date = get_datetime()
 log_name = create_logfile(fd=formatted_date)
 wb_name = create_excel(fd=formatted_date)
-search_for_terms(log_name, "")
+search_for_terms(log_name, wb_name)
 
+
+# what to fix next?
+# xlsx output: morphological information should be split into single entries (per entry)
+# general filters on (i.e.) pos
+
+# IMPORTANT: Proof version consistency with GitHub batches!
 
 
