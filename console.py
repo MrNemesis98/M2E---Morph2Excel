@@ -155,18 +155,21 @@ def search_for_terms(log_title, workbook_title):
                 term = i
 
             term_Hcell = 'A' + str(excel_row)
-            pos_Hcell = 'B' + str(excel_row)
-            syll_Hcell = 'C' + str(excel_row)
-            def_Hcell = 'D' + str(excel_row)
-            morph_Hcell = 'E' + str(excel_row)
+            filter_Hcell = 'B' + str(excel_row)
+            pos_Hcell = 'C' + str(excel_row)
+            syll_Hcell = 'D' + str(excel_row)
+            def_Hcell = 'E' + str(excel_row)
+            morph_Hcell = 'F' + str(excel_row)
 
             worksheet[term_Hcell] = 'Term'
+            worksheet[filter_Hcell] = 'Filter'
             worksheet[pos_Hcell] = 'PoS'
             worksheet[syll_Hcell] = 'Syllables'
             worksheet[def_Hcell] = 'Definition'
             worksheet[morph_Hcell] = 'Morphemes'
 
             worksheet[term_Hcell].font = Font(bold=True)
+            worksheet[filter_Hcell].font = Font(bold=True)
             worksheet[pos_Hcell].font = Font(bold=True)
             worksheet[syll_Hcell].font = Font(bold=True)
             worksheet[def_Hcell].font = Font(bold=True)
@@ -176,11 +179,17 @@ def search_for_terms(log_title, workbook_title):
 
             term_cell = "A" + str(excel_row)
             worksheet[term_cell] = term
+            filter_cell = "B" + str(excel_row)
+            if len(pos_filters) == 6:
+                worksheet[filter_cell] = "NONE"
+            else:
+                worksheet[filter_cell] = str(pos_filters)
             found_entries = 0
 
             log_output = "\t------------------------------------------------------------\n\n\tWord: " + term
             final_output = "\t------------------------------------------------------------\n\n\tWord: " + term
             output = ""
+            pos_output = ""
 
             for x in range(len(entries_list)):
 
@@ -201,9 +210,9 @@ def search_for_terms(log_title, workbook_title):
                     definition_value = entry[keys[3]]
                     morphemes_value = entry[keys[4]]
 
-                    pos_cell = "B" + str(excel_row)
-                    syll_cell = "C" + str(excel_row)
-                    def_cell = "D" + str(excel_row)
+                    pos_cell = "C" + str(excel_row)
+                    syll_cell = "D" + str(excel_row)
+                    def_cell = "E" + str(excel_row)
 
                     worksheet[pos_cell] = str(pos_value)
                     worksheet[syll_cell] = str(syllables_value)
@@ -223,11 +232,11 @@ def search_for_terms(log_title, workbook_title):
                     """
                     if morphemes_value is not None:
 
-                        affix_Hcell = 'E' + str(excel_row)
-                        lang_Hcell = 'F' + str(excel_row)
-                        sub_pos_Hcell = 'G' + str(excel_row)
-                        mean_Hcell = 'H' + str(excel_row)
-                        etcom_Hcell = 'I' + str(excel_row)
+                        affix_Hcell = 'F' + str(excel_row)
+                        lang_Hcell = 'G' + str(excel_row)
+                        sub_pos_Hcell = 'H' + str(excel_row)
+                        mean_Hcell = 'I' + str(excel_row)
+                        etcom_Hcell = 'J' + str(excel_row)
 
                         worksheet[affix_Hcell] = 'Affix'
                         worksheet[lang_Hcell] = 'Language'
@@ -253,10 +262,10 @@ def search_for_terms(log_title, workbook_title):
                             meaning_value = morphemes_sub_values[3]
                             etcom_value = morphemes_sub_values[4]
 
-                            affix_cell = "E" + str(excel_row)
-                            lang_cell = "F" + str(excel_row)
-                            pos_cell = "G" + str(excel_row)
-                            mean_cell = "H" + str(excel_row)
+                            affix_cell = "F" + str(excel_row)
+                            lang_cell = "G" + str(excel_row)
+                            pos_cell = "H" + str(excel_row)
+                            mean_cell = "I" + str(excel_row)
 
                             worksheet[affix_cell] = str(affix_value)
                             worksheet[lang_cell] = str(language_value)
@@ -270,11 +279,11 @@ def search_for_terms(log_title, workbook_title):
                             """
                             if etcom_value is not None:
 
-                                sub_affix_Hcell = 'I' + str(excel_row)
-                                sub_lang_Hcell = 'J' + str(excel_row)
-                                decoded_Hcell = 'K' + str(excel_row)
-                                sub_sub_pos_Hcell = 'L' + str(excel_row)
-                                sub_meaning_Hcell = 'M' + str(excel_row)
+                                sub_affix_Hcell = 'J' + str(excel_row)
+                                sub_lang_Hcell = 'K' + str(excel_row)
+                                decoded_Hcell = 'L' + str(excel_row)
+                                sub_sub_pos_Hcell = 'M' + str(excel_row)
+                                sub_meaning_Hcell = 'N' + str(excel_row)
 
                                 worksheet[sub_affix_Hcell] = 'Affix'
                                 worksheet[sub_lang_Hcell] = 'Language'
@@ -300,11 +309,11 @@ def search_for_terms(log_title, workbook_title):
                                     sub_sub_pos_value = etcom_sub_values[3]
                                     sub_meaning_value = etcom_sub_values[4]
 
-                                    sub_affix_cell = "I" + str(excel_row)
-                                    sub_language_cell = "J" + str(excel_row)
-                                    decoded_cell = "K" + str(excel_row)
-                                    sub_sub_pos_cell = "L" + str(excel_row)
-                                    sub_meaning_cell = "M" + str(excel_row)
+                                    sub_affix_cell = "J" + str(excel_row)
+                                    sub_language_cell = "K" + str(excel_row)
+                                    decoded_cell = "L" + str(excel_row)
+                                    sub_sub_pos_cell = "M" + str(excel_row)
+                                    sub_meaning_cell = "N" + str(excel_row)
 
                                     worksheet[sub_affix_cell] = str(sub_affix_value)
                                     worksheet[sub_language_cell] = str(sub_language_value)
@@ -312,24 +321,65 @@ def search_for_terms(log_title, workbook_title):
                                     worksheet[sub_sub_pos_cell] = str(sub_sub_pos_value)
                                     worksheet[sub_meaning_cell] = str(sub_meaning_value)
 
-                                    excel_row += 1
+                    excel_row += 1
 
-            if found_entries == 0:
-                final_output += "\n\tWarning: no results found for '" + term + "'."
-                log_output += "\n\tWarning: no results found for '" + term + "'."
+            if found_entries == 0 and len(pos_filters) == 6:
+                final_output += "\n\tWarning: database has no entry for '" + term + "'."
+                log_output += "\n\tWarning: no entry for '" + term + "'."
 
-                pos_cell = "B" + str(excel_row)
-                syll_cell = "C" + str(excel_row)
-                def_cell = "D" + str(excel_row)
-                morph_cell = "E" + str(excel_row)
+                pos_cell = "C" + str(excel_row)
+                syll_cell = "D" + str(excel_row)
+                def_cell = "E" + str(excel_row)
+                morph_cell = "F" + str(excel_row)
                 worksheet[pos_cell] = "N/V"
                 worksheet[syll_cell] = "N/V"
                 worksheet[def_cell] = "N/V"
                 worksheet[morph_cell] = "N/V"
                 excel_row += 1
+
+            elif found_entries == 0 and len(pos_filters) != 6:
+
+                for x in range(len(pos_filters)):
+                    if x != len(pos_filters) - 1:
+                        pos_output += pos_filters[x] + ", "
+                    else:
+                        pos_output += pos_filters[x]
+
+                final_output += "\n\tWarning: no results found for '" + term + "' with filters '" +\
+                    pos_output + "'. \n\tYou can try to extend the filtering."
+                log_output += "\n\tWarning: no results for '" + term + "' with filters '" +\
+                    pos_output + "'."
+
+                pos_cell = "C" + str(excel_row)
+                syll_cell = "D" + str(excel_row)
+                def_cell = "E" + str(excel_row)
+                morph_cell = "F" + str(excel_row)
+                worksheet[pos_cell] = "N/V"
+                worksheet[syll_cell] = "N/V"
+                worksheet[def_cell] = "N/V"
+                worksheet[morph_cell] = "N/V"
+                excel_row += 1
+
             else:
-                log_output += "\n\tEntries found: " + str(found_entries) + "\n"
-                final_output += "\n\tEntries found: " + str(found_entries) + "\n"
+                if len(pos_filters) == 6:
+                    log_output += "\n\tFilters: NONE" +\
+                                  "\n\tEntries found: " + str(found_entries) + "\n"
+
+                    final_output += "\n\tFilters: NONE" +\
+                                    "\n\tEntries found: " + str(found_entries) + "\n"
+                else:
+                    for x in range(len(pos_filters)):
+                        if x != len(pos_filters)-1:
+                            pos_output += " " + pos_filters[x] + ","
+                        else:
+                            pos_output += " " + pos_filters[x]
+                    print("pos: " + pos_output)
+
+                    log_output += "\n\tFilters:" + str(pos_output) + \
+                                  "\n\tEntries found: " + str(found_entries) + "\n"
+
+                    final_output += "\n\tFilters:" + str(pos_output) + \
+                                    "\n\tEntries found: " + str(found_entries) + "\n"
                 final_output += output
             print(final_output)
 
@@ -351,9 +401,6 @@ search_for_terms(log_name, wb_name)
 
 
 # what to fix next?
-# xlsx output: add filter column
-# console output: add filter information
-# multiple filter tests
 # launch version 1.3c
 
 # IMPORTANT: Proof version consistency with GitHub batches!
