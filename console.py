@@ -48,7 +48,7 @@ def check_paths():
         os.system('cls')
         print("\n\tWarning: wiki_morph database could not be found on your system!"
               "\n\tDo you want to download it automatically? (y/n)")
-        answer = input()
+        answer = input("\n\tanswer: ")
         if answer == "y":
 
             # Function for generating loading bar
@@ -64,7 +64,7 @@ def check_paths():
             os.system('cls')
             print("\n\tDownload completed!"
                   "\n\tDo you wish to search for terms now? (y/n)")
-            answer = input()
+            answer = input("\n\tanswer: ")
             if answer == "n":
                 sys.exit(0)
 
