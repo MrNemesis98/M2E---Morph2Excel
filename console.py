@@ -1,113 +1,149 @@
-import json, os, sys
-import urllib.request
+import json, sys
 import time
-import datetime
-import openpyxl
 from openpyxl import load_workbook
-from openpyxl.styles.borders import Border, Side
 from openpyxl.styles import Font
+import os, requests
+import savedata_manager as SDM
+import console_assistance as CA
 
-
-def get_datetime():
-    now = datetime.datetime.now()
-    date_format = "%d_%m_%Y_(%H_%M_%S)"
-    formatted_date = now.strftime(date_format)
-    return formatted_date
-
-
-def create_logfile(fd):
-    log_title = "data/M2E_Log_(" + str(fd) + ").txt"
-    with open(log_title, "w") as log:
-        log.write("Morph2Excel Log from " + str(fd))
-    log.close()
-
-    return log_title
-
-
-def create_excel(fd):
-
-    workbook_title = "data/M2E_Output_(" + str(fd) + ").xlsx"
-    # Eine neue Excel-Datei erstellen
-    workbook = openpyxl.Workbook()
-
-    """
-    for col in worksheet.iter_cols(min_row=1, max_row=1):
-        for cell in col:
-            cell.border = Border(bottom=Side(border_style='thin', color='000000'))  # untere Grenze
-    """
-    workbook.save(workbook_title)
-
-    return workbook_title
+check_for_updates_necessary = True
 
 
 def check_paths():
+    global check_for_updates_necessary
     time.sleep(2)
     os.system('cls')
-    print("\n\tChecking for database status...")
+    print("\n\tChecking database status...")
+    time.sleep(1)
+
     if not os.path.exists("data/wiki_morph.json"):
+        SDM.set_current_size()
+        url = "https://zenodo.org/record/5172857/files/wiki_morph.json?download=1"
+        response = requests.get(url, stream=True)
+        remote_size = int(response.headers.get("Content-Length", 0))
+        remote_size = int(remote_size / (1024 * 1024))
+
         os.system('cls')
         print("\n\tWarning: wiki_morph database could not be found on your system!"
-              "\n\tDo you want to download it automatically? (y/n)")
+              "\n\tYou are free to download it automatically.")
+        if remote_size == 0:
+            print("\tSize of file: unknown")
+        else:
+            print("\tSize of file: " + str(remote_size) + "MB")
+        print("\tDo you want to download it now? (y/n)")
         answer = input("\n\tanswer: ")
+
         if answer == "y":
 
-            # Function for generating loading bar
-            def progress(count, block_size, total_size):
-                percent = int(count * block_size * 100 / total_size)
-                sys.stdout.write("\r" + "[%-100s] %d%%" % ("#" * percent, percent))
-                sys.stdout.flush()
+            SDM.set_download_size(remote_size)
 
+            CA.download_database(url=url)
+
+            current_size = os.path.getsize("data/wiki_morph.json")
+            current_size = int(current_size / (1024 * 1024))
+            SDM.set_current_size(current_size)
+
+            check_for_updates_necessary = False
             os.system('cls')
-            print("\n\tDownloading wiki_morph...\n")
-            url = "https://zenodo.org/record/5172857/files/wiki_morph.json?download=1"
-            urllib.request.urlretrieve(url, "data/wiki_morph.json", reporthook=progress)
-            os.system('cls')
-            print("\n\tDownload completed!"
-                  "\n\tDo you wish to search for terms now? (y/n)")
+            print("\n\n\tDownload completed! (" + str(current_size) + " MB)"
+                  "\n\n\tDo you wish to search for terms now? (y/n)")
             answer = input("\n\tanswer: ")
             if answer == "n":
+                print("\n\tProgramm will now terminate.")
+                time.sleep(3)
                 sys.exit(0)
 
         else:
-            os.system('cls')
-            print("\n\tDownload will not start.")
-            time.sleep(1.5)
-            os.system('cls')
-            print("\n\tNotice: You have to download the database another time to use this program.")
-            time.sleep(3)
-            os.system('cls')
-            print("\n\tProgram will now terminate. For downloading wiki_morph you can start it again.")
-            sys.exit(0)
+            CA.print_exit_without_download()
         time.sleep(1)
+
     else:
         os.system('cls')
-        print("\n\tDatabase installed and available.")
+        current_size = os.path.getsize("data/wiki_morph.json")
+        current_size = int(current_size / (1024 * 1024))
+        soll_size = SDM.get_soll_size()
+
+        if current_size < soll_size:
+            print("\n\tWarning: the local database file does not cover the expected amount of information!"
+                  "\n\n\t(Expected size: min. " + str(soll_size) + " MB)"
+                  "\n\t(Local size: " + str(current_size) + " MB)"
+                  "\n\n\tThis may be due to an interruption during the last downloading process."
+                  "\n\tTo solve this problem you should reinstall the database by downloading it again."
+                  "\n\tDo you want to start the download now? (y/n)")
+            answer = input("\n\tanswer: ")
+
+            if answer == "y":
+
+                SDM.set_current_size()
+                url = "https://zenodo.org/record/5172857/files/wiki_morph.json?download=1"
+                response = requests.get(url, stream=True)
+                remote_size = int(response.headers.get("Content-Length", 0))
+                remote_size = int(remote_size / (1024 * 1024))
+
+                SDM.set_download_size(remote_size)
+                CA.download_database(url=url)
+
+                current_size = os.path.getsize("data/wiki_morph.json")
+                current_size = int(current_size / (1024 * 1024))
+                SDM.set_current_size(current_size)
+
+                check_for_updates_necessary = False
+                os.system('cls')
+                print("\n\n\tDownload completed! (" + str(current_size) + " MB)"
+                      "\n\n\tDo you wish to search for terms now? (y/n)")
+                answer = input("\n\tanswer: ")
+                if answer == "n":
+                    print("\n\tProgramm will now terminate.")
+                    time.sleep(3)
+                    sys.exit(0)
+
+            else:
+                CA.print_exit_without_download()
+        else:
+            print("\n\tDatabase installed and available.")
+        time.sleep(3)
 
 
-def show_instructions():
-    time.sleep(1.5)
+def check_for_updates():
     os.system('cls')
-    print("\n\tInstructions:")
-    time.sleep(.5)
-    print("\n\t1) Please type in the term you want to SEARCH and press Enter.")
-    time.sleep(.5)
-    print("\t2) You are free to repeat this procedure till you end this program.")
-    time.sleep(.5)
-    print("\t3) You can only SEARCH for one term at the same time.")
-    time.sleep(.5)
-    print("\t4) To END this program you can type in 'exit!'.")
-    time.sleep(.5)
-    print("\t5) Results are saved into an excel file (.xlsx),"
-          " which will open automatically after the end of the program.")
-    time.sleep(.5)
-    print("\t6) There is also a short logfile (.txt), which covers the search history.")
-    time.sleep(.5)
-    print("\t7) To FILTER your results you can define the part of speech characteristics of the term as follows:"
-          '\n\n\tgeneral:     "term:PoS"'
-          '\n\texamples:    "cool:Noun"  /  "cool:Adjective"  /  "hide:Verb"  /  "hide:Adjective:Adverb"'
-          '\n\n\tThere are the following pos types you can filter on: '
-          '(Noun, Verb, Adverb, Adjective, Preposition, Phrase).'
-          '\n\tYou can search for more than one pos type by connecting them via ":" (see last example).')
+    print("\n\tChecking for wiki_morph updates...")
+    time.sleep(3)
+
+    current_size = SDM.get_current_size()
+
+    url = "https://zenodo.org/record/5172857/files/wiki_morph.json?download=1"
+    response = requests.get(url, stream=True)
+    remote_size = int(response.headers.get("Content-Length", 0))
+    remote_size = int(remote_size / (1024 * 1024))
+
+    if remote_size == 0:
+        os.system('cls')
+        print("\n\tUpdate check not possible: Server does not provide required information!"
+              "\n\tLast recent locally installed version will be used.")
+        time.sleep(7)
+    else:
+        if current_size < remote_size:
+            os.system('cls')
+            print("\n\tThere is a new version of wiki_morph available!"
+                  "\n\n\tSize: " + str(remote_size) + " MB"
+                  "\n\n\t Do you want to download the update now? (y/n)")
+            answer = input("\n\tanswer: ")
+            if answer == "y":
+                SDM.set_download_size(remote_size)
+                CA.download_database(url=url)
+
+                os.system('cls')
+                print("\n\n\tUpdate completed! (" + str(current_size) + " MB)"
+                      "\n\n\tDo you wish to search for terms now? (y/n)")
+                answer = input("\n\tanswer: ")
+                if answer == "n":
+                    print("\n\tProgramm will now terminate.")
+                    time.sleep(3)
+                    sys.exit(0)
+        else:
+            os.system('cls')
+            print("\n\tThe installed database is up to date!")
+            time.sleep(3)
 
 
 def search_for_terms(log_title, workbook_title):
@@ -123,6 +159,8 @@ def search_for_terms(log_title, workbook_title):
     print("\n\tYou can now search for terms.")
     time.sleep(.5)
     print('\tFor instructions type "i!".')
+    time.sleep(.5)
+    print('\tFor version description type "v!".')
     time.sleep(.5)
 
     # search function
@@ -141,8 +179,9 @@ def search_for_terms(log_title, workbook_title):
             stop = True
             os.system(f'start "" {workbook_title}')
         elif i == "i!":
-            show_instructions()
-
+            CA.show_instructions()
+        elif i == "v!":
+            CA.show_version_description()
         else:
             if ":" in i:
                 splitted_input = i.split(":")
@@ -373,7 +412,6 @@ def search_for_terms(log_title, workbook_title):
                             pos_output += " " + pos_filters[x] + ","
                         else:
                             pos_output += " " + pos_filters[x]
-                    print("pos: " + pos_output)
 
                     log_output += "\n\tFilters:" + str(pos_output) + \
                                   "\n\tEntries found: " + str(found_entries) + "\n"
@@ -390,19 +428,16 @@ def search_for_terms(log_title, workbook_title):
             workbook.save(workbook_title)
 
 
-os.system('cls')
-print("\033[32m" + "\n\tWelcome to Morph2Excel - the wiki_morph API!" + "\033[0m")
+CA.print_opening(version="Version 2.0")
+
 check_paths()
-time.sleep(1.5)
-formatted_date = get_datetime()
-log_name = create_logfile(fd=formatted_date)
-wb_name = create_excel(fd=formatted_date)
+
+if check_for_updates_necessary:
+    check_for_updates()
+
+formatted_date = CA.get_datetime()
+
+log_name = CA.create_logfile(fd=formatted_date)
+wb_name = CA.create_excel(fd=formatted_date)
+
 search_for_terms(log_name, wb_name)
-
-
-# what to fix next?
-# launch version 1.3c
-
-# IMPORTANT: Proof version consistency with GitHub batches!
-
-
