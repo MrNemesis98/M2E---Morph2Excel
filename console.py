@@ -5,6 +5,7 @@ from openpyxl.styles import Font
 import os, requests
 import savedata_manager as SDM
 import console_assistance as CA
+import pandas as pd
 
 check_for_updates_necessary = True
 
@@ -427,7 +428,7 @@ def search_for_terms(log_title, workbook_title):
 
             workbook.save(workbook_title)
 
-
+"""
 CA.print_opening(version="Version 2.0")
 
 check_paths()
@@ -441,3 +442,17 @@ log_name = CA.create_logfile(fd=formatted_date)
 wb_name = CA.create_excel(fd=formatted_date)
 
 search_for_terms(log_name, wb_name)
+"""
+
+
+# Path to your Excel file
+excel_file = r'C:\Users\tillp\Desktop\Morph2Excel - Version 2.0c\data\M2E_Output_(06_06_2023_(14_17_55)).xlsx'
+
+# Read the Excel file
+data = pd.read_excel(excel_file)
+
+# Get the values from the first column (assuming it's named 'Column1')
+column1_values = data['Term'].dropna().tolist()
+
+# Print the values
+print(column1_values)
