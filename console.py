@@ -5,7 +5,6 @@ from openpyxl.styles import Font
 import os, requests
 import savedata_manager as SDM
 import console_assistance as CA
-import pandas as pd
 
 check_for_updates_necessary = True
 
@@ -159,9 +158,13 @@ def search_for_terms(log_title, workbook_title):
     time.sleep(.5)
     print("\n\tYou can now search for terms.")
     time.sleep(.5)
-    print('\tFor instructions type "i!".')
+    print('\n\t1) For instructions type "i!".')
     time.sleep(.5)
-    print('\tFor version description type "v!".')
+    print('\t2) For version description type "v!".')
+    time.sleep(.5)
+    print('\t3) For Automatic scan mode type "s!".')
+    time.sleep(.5)
+    print('\t4) For ending the program type "exit!".')
     time.sleep(.5)
 
     # search function
@@ -183,6 +186,56 @@ def search_for_terms(log_title, workbook_title):
             CA.show_instructions()
         elif i == "v!":
             CA.show_version_description()
+
+        elif i == "s!":
+            os.system('cls')
+            print("\t- Automatic scan mode -"
+                  "\n\n\tPlease select an excel file to scan for possible terms.")
+            time.sleep(1.5)
+            file = CA.select_excel_file()
+            terms = CA.autoscan(file)
+            number_of_terms = len(terms)
+            pos_filters = ["Noun"]
+            status = "\t- Automatic scan mode -" \
+                     "\n\n\tExcel file: " + file +\
+                     "\n\tFound terms: " + str(number_of_terms)
+            os.system('cls')
+            print(status)
+            print("\n\tThe terms will now be searched in the database.")
+            time.sleep(2)
+
+            for x in range(number_of_terms):
+                term = terms[x]
+                os.system('cls')
+                progress = format(100*(x/number_of_terms), ".2f")
+                print(status)
+                print("\n\tSearching for terms..."
+                      "\n\tCurrent term: " + term + "\t\tProgress: " + str(progress) + "%")
+                worksheet, excel_row, log_output = CA.search_and_output(worksheet=worksheet,
+                                                                        excel_row=excel_row,
+                                                                        pos_filters=pos_filters,
+                                                                        term=term,
+                                                                        entries_list=entries_list,
+                                                                        print_console_output=False)
+                progress = int(50*(x/number_of_terms))
+                progressbar = ("\t[" + "-" * (progress-1) + ">" + " " * (50-(progress+1)) + "]")
+                print(progressbar)
+
+                log = open(log_title, "a", encoding="utf-8")
+                log.write("\n\n" + log_output)
+                log.close()
+
+                workbook.save(workbook_title)
+
+            os.system('cls')
+            print(status)
+            print("\n\tProcess finished!"
+                  "\n\n\tResults will be saved to output when the program ends."
+                  "\n\tReturning to manual search mode...")
+
+            time.sleep(3)
+            os.system('cls')
+
         else:
             if ":" in i:
                 splitted_input = i.split(":")
@@ -194,233 +247,240 @@ def search_for_terms(log_title, workbook_title):
                 pos_filters = ["Noun", "Verb", "Adverb", "Adjective", "Preposition", "Phrase"]
                 term = i
 
-            term_Hcell = 'A' + str(excel_row)
-            filter_Hcell = 'B' + str(excel_row)
-            pos_Hcell = 'C' + str(excel_row)
-            syll_Hcell = 'D' + str(excel_row)
-            def_Hcell = 'E' + str(excel_row)
-            morph_Hcell = 'F' + str(excel_row)
-
-            worksheet[term_Hcell] = 'Term'
-            worksheet[filter_Hcell] = 'Filter'
-            worksheet[pos_Hcell] = 'PoS'
-            worksheet[syll_Hcell] = 'Syllables'
-            worksheet[def_Hcell] = 'Definition'
-            worksheet[morph_Hcell] = 'Morphemes'
-
-            worksheet[term_Hcell].font = Font(bold=True)
-            worksheet[filter_Hcell].font = Font(bold=True)
-            worksheet[pos_Hcell].font = Font(bold=True)
-            worksheet[syll_Hcell].font = Font(bold=True)
-            worksheet[def_Hcell].font = Font(bold=True)
-            worksheet[morph_Hcell].font = Font(bold=True)
-
-            excel_row += 1
-
-            term_cell = "A" + str(excel_row)
-            worksheet[term_cell] = term
-            filter_cell = "B" + str(excel_row)
-            if len(pos_filters) == 6:
-                worksheet[filter_cell] = "NONE"
-            else:
-                worksheet[filter_cell] = str(pos_filters)
-            found_entries = 0
-
-            log_output = "\t------------------------------------------------------------\n\n\tWord: " + term
-            final_output = "\t------------------------------------------------------------\n\n\tWord: " + term
-            output = ""
-            pos_output = ""
-
-            for x in range(len(entries_list)):
-
-                # print(type(entries_list[x]))
-                # print(entries_list[x])
-                entry = entries_list[x]
-
-                if entry["Word"] == term and entry["PoS"] in pos_filters:
-
-                    keys = list(entry.keys())
-
-                    """
-                    Data Structure Level 1 ---------------------------------------------------------------------
-                    """
-
-                    pos_value = entry[keys[1]]
-                    syllables_value = entry[keys[2]]
-                    definition_value = entry[keys[3]]
-                    morphemes_value = entry[keys[4]]
-
+            """
+            def search_and_output(excel_row):
+                term_Hcell = 'A' + str(excel_row)
+                filter_Hcell = 'B' + str(excel_row)
+                pos_Hcell = 'C' + str(excel_row)
+                syll_Hcell = 'D' + str(excel_row)
+                def_Hcell = 'E' + str(excel_row)
+                morph_Hcell = 'F' + str(excel_row)
+    
+                worksheet[term_Hcell] = 'Term'
+                worksheet[filter_Hcell] = 'Filter'
+                worksheet[pos_Hcell] = 'PoS'
+                worksheet[syll_Hcell] = 'Syllables'
+                worksheet[def_Hcell] = 'Definition'
+                worksheet[morph_Hcell] = 'Morphemes'
+    
+                worksheet[term_Hcell].font = Font(bold=True)
+                worksheet[filter_Hcell].font = Font(bold=True)
+                worksheet[pos_Hcell].font = Font(bold=True)
+                worksheet[syll_Hcell].font = Font(bold=True)
+                worksheet[def_Hcell].font = Font(bold=True)
+                worksheet[morph_Hcell].font = Font(bold=True)
+    
+                excel_row += 1
+    
+                term_cell = "A" + str(excel_row)
+                worksheet[term_cell] = term
+                filter_cell = "B" + str(excel_row)
+                if len(pos_filters) == 6:
+                    worksheet[filter_cell] = "NONE"
+                else:
+                    worksheet[filter_cell] = str(pos_filters)
+                found_entries = 0
+    
+                log_output = "\t------------------------------------------------------------\n\n\tWord: " + term
+                final_output = "\t------------------------------------------------------------\n\n\tWord: " + term
+                output = ""
+                pos_output = ""
+    
+                for x in range(len(entries_list)):
+    
+                    # print(type(entries_list[x]))
+                    # print(entries_list[x])
+                    entry = entries_list[x]
+    
+                    if entry["Word"] == term and entry["PoS"] in pos_filters:
+    
+                        keys = list(entry.keys())
+                        
+                        Data Structure Level 1 ---------------------------------------------------------------------
+                        
+    
+                        pos_value = entry[keys[1]]
+                        syllables_value = entry[keys[2]]
+                        definition_value = entry[keys[3]]
+                        morphemes_value = entry[keys[4]]
+    
+                        pos_cell = "C" + str(excel_row)
+                        syll_cell = "D" + str(excel_row)
+                        def_cell = "E" + str(excel_row)
+    
+                        worksheet[pos_cell] = str(pos_value)
+                        worksheet[syll_cell] = str(syllables_value)
+                        worksheet[def_cell] = str(definition_value)
+    
+                        excel_row += 1
+                        found_entries += 1
+    
+                        output += "\n\t" + str(found_entries) + ")" + \
+                                  "\t" + str(keys[1]) + ": " + str(pos_value) + "\n" + \
+                                  "\t\t" + str(keys[2]) + ": " + str(syllables_value) + "\n" + \
+                                  "\t\t" + str(keys[3]) + ": " + str(definition_value) + "\n" + \
+                                  "\t\t" + str(keys[4]) + ": " + str(morphemes_value) + "\n"
+    
+                        
+                        Data Structure Level 2 ---------------------------------------------------------------------
+                        
+                        if morphemes_value is not None:
+    
+                            affix_Hcell = 'F' + str(excel_row)
+                            lang_Hcell = 'G' + str(excel_row)
+                            sub_pos_Hcell = 'H' + str(excel_row)
+                            mean_Hcell = 'I' + str(excel_row)
+                            etcom_Hcell = 'J' + str(excel_row)
+    
+                            worksheet[affix_Hcell] = 'Affix'
+                            worksheet[lang_Hcell] = 'Language'
+                            worksheet[sub_pos_Hcell] = 'PoS'
+                            worksheet[mean_Hcell] = 'Meaning'
+                            worksheet[etcom_Hcell] = 'Etymology Compounds'
+    
+                            worksheet[affix_Hcell].font = Font(bold=True)
+                            worksheet[lang_Hcell].font = Font(bold=True)
+                            worksheet[sub_pos_Hcell].font = Font(bold=True)
+                            worksheet[mean_Hcell].font = Font(bold=True)
+                            worksheet[etcom_Hcell].font = Font(bold=True)
+    
+                            excel_row += 1
+    
+                            for respective_morph_dict in morphemes_value:
+    
+                                morphemes_sub_values = list(respective_morph_dict.values())
+    
+                                affix_value = morphemes_sub_values[0]
+                                language_value = morphemes_sub_values[1]
+                                sub_pos_value = morphemes_sub_values[2]
+                                meaning_value = morphemes_sub_values[3]
+                                etcom_value = morphemes_sub_values[4]
+    
+                                affix_cell = "F" + str(excel_row)
+                                lang_cell = "G" + str(excel_row)
+                                pos_cell = "H" + str(excel_row)
+                                mean_cell = "I" + str(excel_row)
+    
+                                worksheet[affix_cell] = str(affix_value)
+                                worksheet[lang_cell] = str(language_value)
+                                worksheet[pos_cell] = str(sub_pos_value)
+                                worksheet[mean_cell] = str(meaning_value)
+    
+                                excel_row += 1
+    
+                                
+                                Data Structure Level 3 -------------------------------------------------------------
+                                
+                                if etcom_value is not None:
+    
+                                    sub_affix_Hcell = 'J' + str(excel_row)
+                                    sub_lang_Hcell = 'K' + str(excel_row)
+                                    decoded_Hcell = 'L' + str(excel_row)
+                                    sub_sub_pos_Hcell = 'M' + str(excel_row)
+                                    sub_meaning_Hcell = 'N' + str(excel_row)
+    
+                                    worksheet[sub_affix_Hcell] = 'Affix'
+                                    worksheet[sub_lang_Hcell] = 'Language'
+                                    worksheet[decoded_Hcell] = 'Decoded'
+                                    worksheet[sub_sub_pos_Hcell] = 'PoS'
+                                    worksheet[sub_meaning_Hcell] = 'Meaning'
+    
+                                    worksheet[sub_affix_Hcell].font = Font(bold=True)
+                                    worksheet[sub_lang_Hcell].font = Font(bold=True)
+                                    worksheet[decoded_Hcell].font = Font(bold=True)
+                                    worksheet[sub_sub_pos_Hcell].font = Font(bold=True)
+                                    worksheet[sub_meaning_Hcell].font = Font(bold=True)
+    
+                                    excel_row += 1
+    
+                                    for respective_etcom_dict in etcom_value:
+    
+                                        etcom_sub_values = list(respective_etcom_dict.values())
+    
+                                        sub_affix_value = etcom_sub_values[0]
+                                        sub_language_value = etcom_sub_values[1]
+                                        decoded_value = etcom_sub_values[2]
+                                        sub_sub_pos_value = etcom_sub_values[3]
+                                        sub_meaning_value = etcom_sub_values[4]
+    
+                                        sub_affix_cell = "J" + str(excel_row)
+                                        sub_language_cell = "K" + str(excel_row)
+                                        decoded_cell = "L" + str(excel_row)
+                                        sub_sub_pos_cell = "M" + str(excel_row)
+                                        sub_meaning_cell = "N" + str(excel_row)
+    
+                                        worksheet[sub_affix_cell] = str(sub_affix_value)
+                                        worksheet[sub_language_cell] = str(sub_language_value)
+                                        worksheet[decoded_cell] = str(decoded_value)
+                                        worksheet[sub_sub_pos_cell] = str(sub_sub_pos_value)
+                                        worksheet[sub_meaning_cell] = str(sub_meaning_value)
+    
+                        excel_row += 1
+    
+                if found_entries == 0 and len(pos_filters) == 6:
+                    final_output += "\n\tWarning: database has no entry for '" + term + "'."
+                    log_output += "\n\tWarning: no entry for '" + term + "'."
+    
                     pos_cell = "C" + str(excel_row)
                     syll_cell = "D" + str(excel_row)
                     def_cell = "E" + str(excel_row)
-
-                    worksheet[pos_cell] = str(pos_value)
-                    worksheet[syll_cell] = str(syllables_value)
-                    worksheet[def_cell] = str(definition_value)
-
+                    morph_cell = "F" + str(excel_row)
+                    worksheet[pos_cell] = "N/V"
+                    worksheet[syll_cell] = "N/V"
+                    worksheet[def_cell] = "N/V"
+                    worksheet[morph_cell] = "N/V"
                     excel_row += 1
-                    found_entries += 1
-
-                    output += "\n\t" + str(found_entries) + ")" + \
-                              "\t" + str(keys[1]) + ": " + str(pos_value) + "\n" + \
-                              "\t\t" + str(keys[2]) + ": " + str(syllables_value) + "\n" + \
-                              "\t\t" + str(keys[3]) + ": " + str(definition_value) + "\n" + \
-                              "\t\t" + str(keys[4]) + ": " + str(morphemes_value) + "\n"
-
-                    """
-                    Data Structure Level 2 ---------------------------------------------------------------------
-                    """
-                    if morphemes_value is not None:
-
-                        affix_Hcell = 'F' + str(excel_row)
-                        lang_Hcell = 'G' + str(excel_row)
-                        sub_pos_Hcell = 'H' + str(excel_row)
-                        mean_Hcell = 'I' + str(excel_row)
-                        etcom_Hcell = 'J' + str(excel_row)
-
-                        worksheet[affix_Hcell] = 'Affix'
-                        worksheet[lang_Hcell] = 'Language'
-                        worksheet[sub_pos_Hcell] = 'PoS'
-                        worksheet[mean_Hcell] = 'Meaning'
-                        worksheet[etcom_Hcell] = 'Etymology Compounds'
-
-                        worksheet[affix_Hcell].font = Font(bold=True)
-                        worksheet[lang_Hcell].font = Font(bold=True)
-                        worksheet[sub_pos_Hcell].font = Font(bold=True)
-                        worksheet[mean_Hcell].font = Font(bold=True)
-                        worksheet[etcom_Hcell].font = Font(bold=True)
-
-                        excel_row += 1
-
-                        for respective_morph_dict in morphemes_value:
-
-                            morphemes_sub_values = list(respective_morph_dict.values())
-
-                            affix_value = morphemes_sub_values[0]
-                            language_value = morphemes_sub_values[1]
-                            sub_pos_value = morphemes_sub_values[2]
-                            meaning_value = morphemes_sub_values[3]
-                            etcom_value = morphemes_sub_values[4]
-
-                            affix_cell = "F" + str(excel_row)
-                            lang_cell = "G" + str(excel_row)
-                            pos_cell = "H" + str(excel_row)
-                            mean_cell = "I" + str(excel_row)
-
-                            worksheet[affix_cell] = str(affix_value)
-                            worksheet[lang_cell] = str(language_value)
-                            worksheet[pos_cell] = str(sub_pos_value)
-                            worksheet[mean_cell] = str(meaning_value)
-
-                            excel_row += 1
-
-                            """
-                            Data Structure Level 3 -------------------------------------------------------------
-                            """
-                            if etcom_value is not None:
-
-                                sub_affix_Hcell = 'J' + str(excel_row)
-                                sub_lang_Hcell = 'K' + str(excel_row)
-                                decoded_Hcell = 'L' + str(excel_row)
-                                sub_sub_pos_Hcell = 'M' + str(excel_row)
-                                sub_meaning_Hcell = 'N' + str(excel_row)
-
-                                worksheet[sub_affix_Hcell] = 'Affix'
-                                worksheet[sub_lang_Hcell] = 'Language'
-                                worksheet[decoded_Hcell] = 'Decoded'
-                                worksheet[sub_sub_pos_Hcell] = 'PoS'
-                                worksheet[sub_meaning_Hcell] = 'Meaning'
-
-                                worksheet[sub_affix_Hcell].font = Font(bold=True)
-                                worksheet[sub_lang_Hcell].font = Font(bold=True)
-                                worksheet[decoded_Hcell].font = Font(bold=True)
-                                worksheet[sub_sub_pos_Hcell].font = Font(bold=True)
-                                worksheet[sub_meaning_Hcell].font = Font(bold=True)
-
-                                excel_row += 1
-
-                                for respective_etcom_dict in etcom_value:
-
-                                    etcom_sub_values = list(respective_etcom_dict.values())
-
-                                    sub_affix_value = etcom_sub_values[0]
-                                    sub_language_value = etcom_sub_values[1]
-                                    decoded_value = etcom_sub_values[2]
-                                    sub_sub_pos_value = etcom_sub_values[3]
-                                    sub_meaning_value = etcom_sub_values[4]
-
-                                    sub_affix_cell = "J" + str(excel_row)
-                                    sub_language_cell = "K" + str(excel_row)
-                                    decoded_cell = "L" + str(excel_row)
-                                    sub_sub_pos_cell = "M" + str(excel_row)
-                                    sub_meaning_cell = "N" + str(excel_row)
-
-                                    worksheet[sub_affix_cell] = str(sub_affix_value)
-                                    worksheet[sub_language_cell] = str(sub_language_value)
-                                    worksheet[decoded_cell] = str(decoded_value)
-                                    worksheet[sub_sub_pos_cell] = str(sub_sub_pos_value)
-                                    worksheet[sub_meaning_cell] = str(sub_meaning_value)
-
-                    excel_row += 1
-
-            if found_entries == 0 and len(pos_filters) == 6:
-                final_output += "\n\tWarning: database has no entry for '" + term + "'."
-                log_output += "\n\tWarning: no entry for '" + term + "'."
-
-                pos_cell = "C" + str(excel_row)
-                syll_cell = "D" + str(excel_row)
-                def_cell = "E" + str(excel_row)
-                morph_cell = "F" + str(excel_row)
-                worksheet[pos_cell] = "N/V"
-                worksheet[syll_cell] = "N/V"
-                worksheet[def_cell] = "N/V"
-                worksheet[morph_cell] = "N/V"
-                excel_row += 1
-
-            elif found_entries == 0 and len(pos_filters) != 6:
-
-                for x in range(len(pos_filters)):
-                    if x != len(pos_filters) - 1:
-                        pos_output += pos_filters[x] + ", "
-                    else:
-                        pos_output += pos_filters[x]
-
-                final_output += "\n\tWarning: no results found for '" + term + "' with filters '" +\
-                    pos_output + "'. \n\tYou can try to extend the filtering."
-                log_output += "\n\tWarning: no results for '" + term + "' with filters '" +\
-                    pos_output + "'."
-
-                pos_cell = "C" + str(excel_row)
-                syll_cell = "D" + str(excel_row)
-                def_cell = "E" + str(excel_row)
-                morph_cell = "F" + str(excel_row)
-                worksheet[pos_cell] = "N/V"
-                worksheet[syll_cell] = "N/V"
-                worksheet[def_cell] = "N/V"
-                worksheet[morph_cell] = "N/V"
-                excel_row += 1
-
-            else:
-                if len(pos_filters) == 6:
-                    log_output += "\n\tFilters: NONE" +\
-                                  "\n\tEntries found: " + str(found_entries) + "\n"
-
-                    final_output += "\n\tFilters: NONE" +\
-                                    "\n\tEntries found: " + str(found_entries) + "\n"
-                else:
+    
+                elif found_entries == 0 and len(pos_filters) != 6:
+    
                     for x in range(len(pos_filters)):
-                        if x != len(pos_filters)-1:
-                            pos_output += " " + pos_filters[x] + ","
+                        if x != len(pos_filters) - 1:
+                            pos_output += pos_filters[x] + ", "
                         else:
-                            pos_output += " " + pos_filters[x]
-
-                    log_output += "\n\tFilters:" + str(pos_output) + \
-                                  "\n\tEntries found: " + str(found_entries) + "\n"
-
-                    final_output += "\n\tFilters:" + str(pos_output) + \
-                                    "\n\tEntries found: " + str(found_entries) + "\n"
-                final_output += output
-            print(final_output)
+                            pos_output += pos_filters[x]
+    
+                    final_output += "\n\tWarning: no results found for '" + term + "' with filters '" +\
+                        pos_output + "'. \n\tYou can try to extend the filtering."
+                    log_output += "\n\tWarning: no results for '" + term + "' with filters '" +\
+                        pos_output + "'."
+    
+                    pos_cell = "C" + str(excel_row)
+                    syll_cell = "D" + str(excel_row)
+                    def_cell = "E" + str(excel_row)
+                    morph_cell = "F" + str(excel_row)
+                    worksheet[pos_cell] = "N/V"
+                    worksheet[syll_cell] = "N/V"
+                    worksheet[def_cell] = "N/V"
+                    worksheet[morph_cell] = "N/V"
+                    excel_row += 1
+    
+                else:
+                    if len(pos_filters) == 6:
+                        log_output += "\n\tFilters: NONE" +\
+                                      "\n\tEntries found: " + str(found_entries) + "\n"
+    
+                        final_output += "\n\tFilters: NONE" +\
+                                        "\n\tEntries found: " + str(found_entries) + "\n"
+                    else:
+                        for x in range(len(pos_filters)):
+                            if x != len(pos_filters)-1:
+                                pos_output += " " + pos_filters[x] + ","
+                            else:
+                                pos_output += " " + pos_filters[x]
+    
+                        log_output += "\n\tFilters:" + str(pos_output) + \
+                                      "\n\tEntries found: " + str(found_entries) + "\n"
+    
+                        final_output += "\n\tFilters:" + str(pos_output) + \
+                                        "\n\tEntries found: " + str(found_entries) + "\n"
+                    final_output += output
+                print(final_output)
+                """
+            worksheet, excel_row, log_output = CA.search_and_output(worksheet=worksheet,
+                                                                    excel_row=excel_row,
+                                                                    pos_filters=pos_filters,
+                                                                    term=term,
+                                                                    entries_list=entries_list)
 
             log = open(log_title, "a", encoding="utf-8")
             log.write("\n\n" + log_output)
@@ -428,7 +488,7 @@ def search_for_terms(log_title, workbook_title):
 
             workbook.save(workbook_title)
 
-"""
+
 CA.print_opening(version="Version 2.0")
 
 check_paths()
@@ -442,17 +502,4 @@ log_name = CA.create_logfile(fd=formatted_date)
 wb_name = CA.create_excel(fd=formatted_date)
 
 search_for_terms(log_name, wb_name)
-"""
 
-
-# Path to your Excel file
-excel_file = r'C:\Users\tillp\Desktop\Morph2Excel - Version 2.0c\data\M2E_Output_(06_06_2023_(14_17_55)).xlsx'
-
-# Read the Excel file
-data = pd.read_excel(excel_file)
-
-# Get the values from the first column (assuming it's named 'Column1')
-column1_values = data['Term'].dropna().tolist()
-
-# Print the values
-print(column1_values)
