@@ -1,7 +1,7 @@
 import json, sys
 import time
 from openpyxl import load_workbook
-from openpyxl.styles import Font
+
 import os, requests
 import savedata_manager as SDM
 import console_assistance as CA

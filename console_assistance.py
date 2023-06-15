@@ -7,8 +7,6 @@ import time
 import pandas as pd
 from PyQt5.QtWidgets import QApplication, QFileDialog
 from openpyxl.styles import Font, Color
-import textwrap
-import shutil
 
 
 def print_opening(version):
