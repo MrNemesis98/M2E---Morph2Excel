@@ -7,6 +7,7 @@ import time
 import pandas as pd
 from PyQt5.QtWidgets import QApplication, QFileDialog
 from openpyxl.styles import Font, Color
+from urllib3.exceptions import NameResolutionError, MaxRetryError
 
 
 def print_opening(version):
@@ -65,9 +66,25 @@ def download_database(url):
         sys.stdout.write("\r" + "\t[%-100s] %d%%" % ("#" * percent, percent))
         sys.stdout.flush()
 
-    os.system('cls')
-    print("\n\tDownloading wiki_morph...\n")
-    urllib.request.urlretrieve(url, "data/wiki_morph.json", reporthook=progress)
+    stop = False
+    normal = True
+
+    while not stop:
+        try:
+            os.system('cls')
+            print("\n\tDownloading wiki_morph...\n")
+            urllib.request.urlretrieve(url, "data/wiki_morph.json", reporthook=progress)
+            stop = True
+        except NameResolutionError or MaxRetryError:
+            print("\n\tDownload not possible: No internet connection!"
+                  "\n\tYou can try again by pressing enter."
+                  '\n\tAlternatively you can end the problem by typing "exit!".')
+            normal = False
+            i = input("\n\t")
+            if i == "exit!":
+                stop = True
+
+    return normal
 
 
 def show_instructions():

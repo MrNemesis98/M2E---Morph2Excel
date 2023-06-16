@@ -3,6 +3,9 @@ import time
 from openpyxl import load_workbook
 
 import os, requests
+
+from urllib3.exceptions import NameResolutionError, MaxRetryError
+
 import savedata_manager as SDM
 import console_assistance as CA
 
@@ -18,44 +21,58 @@ def check_paths():
 
     if not os.path.exists("data/wiki_morph.json"):
         SDM.set_current_size()
-        url = "https://zenodo.org/record/5172857/files/wiki_morph.json?download=1"
-        response = requests.get(url, stream=True)
-        remote_size = int(response.headers.get("Content-Length", 0))
-        remote_size = int(remote_size / (1024 * 1024))
+        try:
+            url = "https://zenodo.org/record/5172857/files/wiki_morph.json?download=1"
+            response = requests.get(url, stream=True)
+            remote_size = int(response.headers.get("Content-Length", 0))
+            remote_size = int(remote_size / (1024 * 1024))
 
-        os.system('cls')
-        print("\n\tWarning: wiki_morph database could not be found on your system!"
-              "\n\tYou are free to download it automatically.")
-        if remote_size == 0:
-            print("\tSize of file: unknown")
-        else:
-            print("\tSize of file: " + str(remote_size) + "MB")
-        print("\tDo you want to download it now? (y/n)")
-        answer = input("\n\tanswer: ")
-
-        if answer == "y":
-
-            SDM.set_download_size(remote_size)
-
-            CA.download_database(url=url)
-
-            current_size = os.path.getsize("data/wiki_morph.json")
-            current_size = int(current_size / (1024 * 1024))
-            SDM.set_current_size(current_size)
-
-            check_for_updates_necessary = False
             os.system('cls')
-            print("\n\n\tDownload completed! (" + str(current_size) + " MB)"
-                  "\n\n\tDo you wish to search for terms now? (y/n)")
+            print("\n\tWarning: wiki_morph database could not be found on your system!"
+                  "\n\tYou are free to download it automatically.")
+            if remote_size == 0:
+                print("\tSize of file: unknown")
+            else:
+                print("\tSize of file: " + str(remote_size) + "MB")
+            print("\tDo you want to download it now? (y/n)")
             answer = input("\n\tanswer: ")
-            if answer == "n":
-                print("\n\tProgramm will now terminate.")
-                time.sleep(3)
-                sys.exit(0)
 
-        else:
-            CA.print_exit_without_download()
-        time.sleep(1)
+            if answer == "y":
+
+                SDM.set_download_size(remote_size)
+
+                normal = CA.download_database(url=url)
+
+                if normal:
+                    current_size = os.path.getsize("data/wiki_morph.json")
+                    current_size = int(current_size / (1024 * 1024))
+                    SDM.set_current_size(current_size)
+
+                    check_for_updates_necessary = False
+                    os.system('cls')
+                    print("\n\n\tDownload completed! (" + str(current_size) + " MB)"
+                          "\n\n\tDo you wish to search for terms now? (y/n)")
+                    answer = input("\n\tanswer: ")
+                    if answer == "n":
+                        print("\n\tProgramm will now terminate.")
+                        time.sleep(3)
+                        sys.exit(0)
+                else:
+                    sys.exit()
+
+            else:
+                CA.print_exit_without_download()
+            time.sleep(1)
+
+        except NameResolutionError or MaxRetryError:
+            os.system('cls')
+            print("\tWarning: Database is not installed currently."
+                  "\n\n\tThis program offers the possibility to download the database automatically."
+                  "\n\tBut for the moment there was no internet connection recognized."
+                  "\n\tPlease make sure you are connected and restart the program."
+                  "\n\tThe program will now terminate.")
+            time.sleep(7)
+            sys.exit(0)
 
     else:
         os.system('cls')
@@ -111,39 +128,43 @@ def check_for_updates():
 
     current_size = SDM.get_current_size()
 
-    url = "https://zenodo.org/record/5172857/files/wiki_morph.json?download=1"
-    response = requests.get(url, stream=True)
-    remote_size = int(response.headers.get("Content-Length", 0))
-    remote_size = int(remote_size / (1024 * 1024))
+    try:
+        url = "https://zenodo.org/record/5172857/files/wiki_morph.json?download=1"
+        response = requests.get(url, stream=True)
+        remote_size = int(response.headers.get("Content-Length", 0))
+        remote_size = int(remote_size / (1024 * 1024))
 
-    if remote_size == 0:
-        os.system('cls')
-        print("\n\tUpdate check not possible: Server does not provide required information!"
-              "\n\tLast recent locally installed version will be used.")
-        time.sleep(7)
-    else:
-        if current_size < remote_size:
+        if remote_size == 0:
             os.system('cls')
-            print("\n\tThere is a new version of wiki_morph available!"
-                  "\n\n\tSize: " + str(remote_size) + " MB"
-                  "\n\n\t Do you want to download the update now? (y/n)")
-            answer = input("\n\tanswer: ")
-            if answer == "y":
-                SDM.set_download_size(remote_size)
-                CA.download_database(url=url)
-
-                os.system('cls')
-                print("\n\n\tUpdate completed! (" + str(current_size) + " MB)"
-                      "\n\n\tDo you wish to search for terms now? (y/n)")
-                answer = input("\n\tanswer: ")
-                if answer == "n":
-                    print("\n\tProgramm will now terminate.")
-                    time.sleep(3)
-                    sys.exit(0)
+            print("\n\tUpdate check not possible: Server does not provide required information!"
+                  "\n\tLast recent locally installed version will be used.")
+            time.sleep(7)
         else:
-            os.system('cls')
-            print("\n\tThe installed database is up to date!")
-            time.sleep(3)
+            if current_size < remote_size:
+                os.system('cls')
+                print("\n\tThere is a new version of wiki_morph available!"
+                      "\n\n\tSize: " + str(remote_size) + " MB"
+                      "\n\n\t Do you want to download the update now? (y/n)")
+                answer = input("\n\tanswer: ")
+                if answer == "y":
+                    SDM.set_download_size(remote_size)
+                    CA.download_database(url=url)
+
+                    os.system('cls')
+                    print("\n\n\tUpdate completed! (" + str(current_size) + " MB)"
+                          "\n\n\tDo you wish to search for terms now? (y/n)")
+                    answer = input("\n\tanswer: ")
+                    if answer == "n":
+                        print("\n\tProgramm will now terminate.")
+                        time.sleep(3)
+                        sys.exit(0)
+            else:
+                os.system('cls')
+                print("\n\tThe installed database is up to date!")
+                time.sleep(3)
+    except NameResolutionError or MaxRetryError:
+        print("\n\tUpdate check not possible: No internet connection!"
+              "\n\tLast recent locally installed version will be used.")
 
 
 def search_for_terms(log_title, workbook_title):
