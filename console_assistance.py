@@ -78,10 +78,10 @@ def download_database(url):
         except NameResolutionError or MaxRetryError:
             print("\n\tDownload not possible: No internet connection!"
                   "\n\tYou can try again by pressing enter."
-                  '\n\tAlternatively you can end the problem by typing "exit!".')
+                  '\n\tAlternatively you can end the program by typing "exit!".')
             normal = False
             i = input("\n\t")
-            if i == "exit!":
+            if i == "exit!" or i == "exit":
                 stop = True
 
     return normal
@@ -110,16 +110,16 @@ def show_instructions():
           '\n\t\texamples:    "cool:Noun"  /  "cool:Adjective"  /  "hide:Verb"  /  "hide:Adjective:Adverb"'
           '\n\n\t\tThere are the following pos types you can filter on: '
           '(Noun, Verb, Adverb, Adjective, Preposition, Phrase).'
-          '\n\t\tYou can search for more than one pos type by connecting them via ":" (see last example).')
+          '\n\t\t\tYou can search for more than one pos type by connecting them via ":" (see last example).')
     time.sleep(.25)
     print('\n\t8) By typing in "s!" you can enter the new scan mode. '
-          'Here you are free to select an excel file in the directory, which will be scanned form possible terms. '
-          'These terms will automatically be searched in the wiki_morph database. '
-          'The generated output contains all the morphological information as usual. '
-          'You can use the manual search before or after the automatic scan. '
-          'You can also execute the automatic scan several times in a row. '
-          'These ways the respective outputs are combined in one final output table. '
-          'For separating the outputs and getting different tables you need to end and restart the program'
+          '\n\t\tHere you are free to select an excel file in the directory, which will be scanned for possible terms. '
+          '\n\t\tThese terms will automatically be searched in the wiki_morph database. '
+          '\n\t\tThe generated output contains all the morphological information as usual. '
+          '\n\t\tYou can use the manual search before or after the automatic scan. '
+          '\n\t\tYou can also execute the automatic scan several times in a row. '
+          '\n\t\tThese ways the respective outputs are combined in one final output table. '
+          '\n\t\tFor separating the outputs and getting different tables you need to end\n\t\tand restart the program'
           ' and plan the scans / manual searches respectively. '
           '\n\t\tHint: soon there will be a version update which allows outputting and cleaning the cache on the flow.')
     time.sleep(.25)
@@ -131,29 +131,30 @@ def show_version_description():
     os.system('cls')
     print("\n\tWhat´s new in version 2.0?")
     time.sleep(.25)
-    print("\n\t1) The instructions and this version description are new features, separated from the main function of "
-          "searching terms in the database.")
+    print("\n\t1) The instructions and this version description are new features,\n\t\tseparated from the main function"
+          " of searching terms in the database.")
     time.sleep(.25)
     print("\t2) This version introduces Part of Speech (PoS) filters, as described in the instructions.")
     time.sleep(.25)
-    print("\t3) The excel output has got a new structure since the program is now able to capture morphological "
-          "information up to the database´s maximum depth of three levels (etymology compound level).")
+    print("\t3) The excel output has got a new structure since the program is now able\n\t\tto capture morphological "
+          "information up to the database´s maximum depth \n\t\tof three levels (etymology compound level).")
     time.sleep(.25)
     print("\t4) Smaller improvements on the function for automatic updating of the database.")
     time.sleep(.25)
-    print("\t5) There is a new consistency test at the beginning of the program to proof whether the last download of "
-          "the database was either successful or has been interrupted. This consistency data is saved to and managed "
-          "by the file 'savedata.txt' and an external script savedata_manager.py.")
+    print("\t5) There is a new consistency test at the beginning of the program to proof\n\t\twhether the last download "
+          "of the database was either successful or has been interrupted. "
+          "\n\t\tThis consistency data is saved to and managed "
+          "by the file 'savedata.txt' \n\t\tand an external script savedata_manager.py.")
     time.sleep(.25)
     print("\t6) The created excel file will now open automatically after the program terminated correctly.")
     time.sleep(.25)
     print("\t7) General revision of the displayed text, supplemented by the addition of data size information.")
     time.sleep(.25)
     print("\t8) There is a new automatic scan mode (since v2.1), "
-          "which allows you to select an excel file in the directory. "
-          "The first column of this file will be scanned and for every term it contains, "
-          "M2E will search for the respective etymology "
-          "and create an output file containing all the information automatically.")
+          "\n\t\twhich allows you to select an excel file in the directory. "
+          "\n\t\tThe first column of this file will be scanned and for every term it contains, "
+          "\n\t\tM2E will search for the respective etymology "
+          "\n\t\tand create an output file containing all the information automatically.")
     time.sleep(.25)
 
 
