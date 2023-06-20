@@ -54,7 +54,7 @@ def check_paths():
                           "\n\n\tDo you wish to search for terms now? (y/n)")
                     answer = input("\n\tanswer: ")
                     if answer == "n":
-                        print("\n\tProgramm will now terminate.")
+                        print("\n\tProgram will now terminate.")
                         time.sleep(3)
                         sys.exit(0)
                 else:

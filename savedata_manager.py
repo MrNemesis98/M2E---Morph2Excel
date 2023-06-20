@@ -75,7 +75,7 @@ def update_history_data():
 
     # Datei neu beschreiben, nur Nutzer-Trainingsdaten updaten
     sd = open("data/savedata.txt", "w")
-    text = "h:"
+    text = data[0] + "h:"
     for entry in range(len(entries_list)):
         text += "/" + entries_list[entry]
     sd.write(text)
