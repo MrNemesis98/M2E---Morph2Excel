@@ -34,6 +34,9 @@ class Initiator(QMainWindow):
         self.mbl_delta_button = None
         self.mbl_epsilon_button = None
         self.mbl_zeta_button = None
+        self.hlm_alpha_button = None
+        self.hlm_beta_button = None
+        self.hlm_gamma_button = None
 
         self.timer = QTimer()
 
@@ -98,6 +101,18 @@ class Initiator(QMainWindow):
         self.mbl_zeta_button.setGeometry(0, 880, 100, 100)
         self.mbl_zeta_button.clicked.connect(self.mbl_zeta_button_pressed)
 
+        self.hlm_alpha_button = QPushButton(self)
+        self.hlm_alpha_button.setGeometry(1450, 40, 100, 100)
+        self.hlm_alpha_button.clicked.connect(self.hlm_alpha_button_pressed)
+
+        self.hlm_beta_button = QPushButton(self)
+        self.hlm_beta_button.setGeometry(1550, 40, 100, 100)
+        self.hlm_beta_button.clicked.connect(self.hlm_beta_button_pressed)
+
+        self.hlm_gamma_button = QPushButton(self)
+        self.hlm_gamma_button.setGeometry(1650, 40, 100, 100)
+        self.hlm_gamma_button.clicked.connect(self.hlm_gamma_button_pressed)
+
         """
         self.mbl_eta_button = QPushButton(self)
         self.mbl_eta_button.setGeometry(0, 770, 100, 100)
@@ -138,51 +153,107 @@ class Initiator(QMainWindow):
         self.mbl_delta_button.setStyleSheet(GSS.mbl_delta_button())
         self.mbl_epsilon_button.setStyleSheet(GSS.mbl_epsilon_button())
         self.mbl_zeta_button.setStyleSheet(GSS.mbl_zeta_button())
+        self.hlm_alpha_button.setStyleSheet(GSS.hlm_alpha_button())
+        self.hlm_beta_button.setStyleSheet(GSS.hlm_beta_button())
+        self.hlm_gamma_button.setStyleSheet(GSS.hlm_gamma_button())
 
     def database_menu(self):
-        self.gui_mode = "home_menu"
+        self.gui_mode = "database_menu"
         self.mbl_alpha_button.setStyleSheet(GSS.mbl_alpha_button())
         self.mbl_beta_button.setStyleSheet(GSS.mbl_beta_button(selected=True))
         self.mbl_gamma_button.setStyleSheet(GSS.mbl_gamma_button())
         self.mbl_delta_button.setStyleSheet(GSS.mbl_delta_button())
         self.mbl_epsilon_button.setStyleSheet(GSS.mbl_epsilon_button())
         self.mbl_zeta_button.setStyleSheet(GSS.mbl_zeta_button())
+        self.hlm_alpha_button.setStyleSheet(GSS.hlm_alpha_button())
+        self.hlm_beta_button.setStyleSheet(GSS.hlm_beta_button())
+        self.hlm_gamma_button.setStyleSheet(GSS.hlm_gamma_button())
 
     def search_menu(self):
-        self.gui_mode = "home_menu"
+        self.gui_mode = "search_menu"
         self.mbl_alpha_button.setStyleSheet(GSS.mbl_alpha_button())
         self.mbl_beta_button.setStyleSheet(GSS.mbl_beta_button())
         self.mbl_gamma_button.setStyleSheet(GSS.mbl_gamma_button(selected=True))
         self.mbl_delta_button.setStyleSheet(GSS.mbl_delta_button())
         self.mbl_epsilon_button.setStyleSheet(GSS.mbl_epsilon_button())
         self.mbl_zeta_button.setStyleSheet(GSS.mbl_zeta_button())
+        self.hlm_alpha_button.setStyleSheet(GSS.hlm_alpha_button())
+        self.hlm_beta_button.setStyleSheet(GSS.hlm_beta_button())
+        self.hlm_gamma_button.setStyleSheet(GSS.hlm_gamma_button())
 
     def scan_menu(self):
-        self.gui_mode = "home_menu"
+        self.gui_mode = "scan_menu"
         self.mbl_alpha_button.setStyleSheet(GSS.mbl_alpha_button())
         self.mbl_beta_button.setStyleSheet(GSS.mbl_beta_button())
         self.mbl_gamma_button.setStyleSheet(GSS.mbl_gamma_button())
         self.mbl_delta_button.setStyleSheet(GSS.mbl_delta_button(selected=True))
         self.mbl_epsilon_button.setStyleSheet(GSS.mbl_epsilon_button())
         self.mbl_zeta_button.setStyleSheet(GSS.mbl_zeta_button())
+        self.hlm_alpha_button.setStyleSheet(GSS.hlm_alpha_button())
+        self.hlm_beta_button.setStyleSheet(GSS.hlm_beta_button())
+        self.hlm_gamma_button.setStyleSheet(GSS.hlm_gamma_button())
 
     def output_menu(self):
-        self.gui_mode = "home_menu"
+        self.gui_mode = "output_menu"
         self.mbl_alpha_button.setStyleSheet(GSS.mbl_alpha_button())
         self.mbl_beta_button.setStyleSheet(GSS.mbl_beta_button())
         self.mbl_gamma_button.setStyleSheet(GSS.mbl_gamma_button())
         self.mbl_delta_button.setStyleSheet(GSS.mbl_delta_button())
         self.mbl_epsilon_button.setStyleSheet(GSS.mbl_epsilon_button(selected=True))
         self.mbl_zeta_button.setStyleSheet(GSS.mbl_zeta_button())
+        self.hlm_alpha_button.setStyleSheet(GSS.hlm_alpha_button())
+        self.hlm_beta_button.setStyleSheet(GSS.hlm_beta_button())
+        self.hlm_gamma_button.setStyleSheet(GSS.hlm_gamma_button())
 
     def settings_menu(self):
-        self.gui_mode = "home_menu"
+        self.gui_mode = "settings_menu"
         self.mbl_alpha_button.setStyleSheet(GSS.mbl_alpha_button())
         self.mbl_beta_button.setStyleSheet(GSS.mbl_beta_button())
         self.mbl_gamma_button.setStyleSheet(GSS.mbl_gamma_button())
         self.mbl_delta_button.setStyleSheet(GSS.mbl_delta_button())
         self.mbl_epsilon_button.setStyleSheet(GSS.mbl_epsilon_button())
         self.mbl_zeta_button.setStyleSheet(GSS.mbl_zeta_button(selected=True))
+        self.hlm_alpha_button.setStyleSheet(GSS.hlm_alpha_button())
+        self.hlm_beta_button.setStyleSheet(GSS.hlm_beta_button())
+        self.hlm_gamma_button.setStyleSheet(GSS.hlm_gamma_button())
+
+    def account_menu(self):
+        self.gui_mode = "info_menu"
+        self.mbl_alpha_button.setStyleSheet(GSS.mbl_alpha_button())
+        self.mbl_beta_button.setStyleSheet(GSS.mbl_beta_button())
+        self.mbl_gamma_button.setStyleSheet(GSS.mbl_gamma_button())
+        self.mbl_delta_button.setStyleSheet(GSS.mbl_delta_button())
+        self.mbl_epsilon_button.setStyleSheet(GSS.mbl_epsilon_button())
+        self.mbl_zeta_button.setStyleSheet(GSS.mbl_zeta_button())
+        self.hlm_alpha_button.setStyleSheet(GSS.hlm_alpha_button(selected=True))
+        self.hlm_beta_button.setStyleSheet(GSS.hlm_beta_button())
+        self.hlm_gamma_button.setStyleSheet(GSS.hlm_gamma_button())
+
+
+    def info_menu(self):
+        self.gui_mode = "info_menu"
+        self.mbl_alpha_button.setStyleSheet(GSS.mbl_alpha_button())
+        self.mbl_beta_button.setStyleSheet(GSS.mbl_beta_button())
+        self.mbl_gamma_button.setStyleSheet(GSS.mbl_gamma_button())
+        self.mbl_delta_button.setStyleSheet(GSS.mbl_delta_button())
+        self.mbl_epsilon_button.setStyleSheet(GSS.mbl_epsilon_button())
+        self.mbl_zeta_button.setStyleSheet(GSS.mbl_zeta_button())
+        self.hlm_alpha_button.setStyleSheet(GSS.hlm_alpha_button())
+        self.hlm_beta_button.setStyleSheet(GSS.hlm_beta_button(selected=True))
+        self.hlm_gamma_button.setStyleSheet(GSS.hlm_gamma_button())
+
+
+    def help_menu(self):
+        self.gui_mode = "info_menu"
+        self.mbl_alpha_button.setStyleSheet(GSS.mbl_alpha_button())
+        self.mbl_beta_button.setStyleSheet(GSS.mbl_beta_button())
+        self.mbl_gamma_button.setStyleSheet(GSS.mbl_gamma_button())
+        self.mbl_delta_button.setStyleSheet(GSS.mbl_delta_button())
+        self.mbl_epsilon_button.setStyleSheet(GSS.mbl_epsilon_button())
+        self.mbl_zeta_button.setStyleSheet(GSS.mbl_zeta_button())
+        self.hlm_alpha_button.setStyleSheet(GSS.hlm_alpha_button())
+        self.hlm_beta_button.setStyleSheet(GSS.hlm_beta_button())
+        self.hlm_gamma_button.setStyleSheet(GSS.hlm_gamma_button(selected=True))
 
     # Button Functions
     def mbl_alpha_button_pressed(self):
@@ -209,6 +280,17 @@ class Initiator(QMainWindow):
         if not self.menu_buttons_restricted:
             self.settings_menu()
 
+    def hlm_alpha_button_pressed(self):
+        if not self.menu_buttons_restricted:
+            self.account_menu()
+
+    def hlm_beta_button_pressed(self):
+        if not self.menu_buttons_restricted:
+            self.info_menu()
+
+    def hlm_gamma_button_pressed(self):
+        if not self.menu_buttons_restricted:
+            self.help_menu()
 
 
 

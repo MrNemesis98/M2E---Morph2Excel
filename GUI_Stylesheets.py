@@ -74,3 +74,24 @@ def mbl_zeta_button(selected=False):
     hover_link = "data/GUI_img/Settings_Sel.png"
     pressed_link = "data/GUI_img/Settings_Sel.png"
     return image_button_stylesheet(standard_link, hover_link, pressed_link, selected)
+
+
+def hlm_alpha_button(selected=False):
+    standard_link = "data/GUI_img/Account_Std.png"
+    hover_link = "data/GUI_img/Account_Sel.png"
+    pressed_link = "data/GUI_img/Account_Sel.png"
+    return image_button_stylesheet(standard_link, hover_link, pressed_link, selected)
+
+
+def hlm_beta_button(selected=False):
+    standard_link = "data/GUI_img/Info_Std.png"
+    hover_link = "data/GUI_img/Info_Sel.png"
+    pressed_link = "data/GUI_img/Info_Sel.png"
+    return image_button_stylesheet(standard_link, hover_link, pressed_link, selected)
+
+
+def hlm_gamma_button(selected=False):
+    standard_link = "data/GUI_img/Help_Std.png"
+    hover_link = "data/GUI_img/Help_Sel.png"
+    pressed_link = "data/GUI_img/Help_Sel.png"
+    return image_button_stylesheet(standard_link, hover_link, pressed_link, selected)
