@@ -27,6 +27,7 @@ class Initiator(QMainWindow):
 
         self.main_background_label = None
         self.menu_bar_label = None
+        self.headline_label = None
 
         self.mbl_alpha_button = None
         self.mbl_beta_button = None
@@ -74,6 +75,31 @@ class Initiator(QMainWindow):
         self.menu_bar_label.setGeometry(0, 0, 100, 1000)
         self.menu_bar_label.setStyleSheet(GSS.menu_bar_label())
         self.menu_bar_label.show()
+
+        self.headline_label = QLabel(self)
+        self.headline_label.setGeometry(150, 15, 1650, 150)
+        self.headline_label.setStyleSheet(GSS.headline_label())
+        self.headline_label.setFont(QFont("Times New Roman", 35))
+        self.headline_label.setAlignment(Qt.AlignVCenter)
+        self.headline_label.show()
+
+        self.alpha_label = QLabel(self)
+        self.alpha_label.setStyleSheet(GSS.main_labels())
+        self.alpha_label.setFont(QFont("Times New Roman", 20))
+        self.alpha_label.setAlignment(Qt.AlignVCenter)
+        self.alpha_label.show()
+
+        self.beta_label = QLabel(self)
+        self.beta_label.setStyleSheet(GSS.main_labels())
+        self.beta_label.setFont(QFont("Times New Roman", 20))
+        self.beta_label.setAlignment(Qt.AlignVCenter)
+        self.beta_label.show()
+
+        self.gamma_label = QLabel(self)
+        self.gamma_label.setStyleSheet(GSS.main_labels())
+        self.gamma_label.setFont(QFont("Times New Roman", 20))
+        self.gamma_label.setAlignment(Qt.AlignVCenter)
+        self.gamma_label.show()
 
         # Buttons ------------------------------------------------------------------------------------------------------
 
@@ -147,6 +173,7 @@ class Initiator(QMainWindow):
 
     def home_menu(self):
         self.gui_mode = "home_menu"
+        self.headline_label.setText("Overview")
         self.mbl_alpha_button.setStyleSheet(GSS.mbl_alpha_button(selected=True))
         self.mbl_beta_button.setStyleSheet(GSS.mbl_beta_button())
         self.mbl_gamma_button.setStyleSheet(GSS.mbl_gamma_button())
@@ -159,6 +186,8 @@ class Initiator(QMainWindow):
 
     def database_menu(self):
         self.gui_mode = "database_menu"
+        self.headline_label.setText("Status of Wikimorph Database")
+
         self.mbl_alpha_button.setStyleSheet(GSS.mbl_alpha_button())
         self.mbl_beta_button.setStyleSheet(GSS.mbl_beta_button(selected=True))
         self.mbl_gamma_button.setStyleSheet(GSS.mbl_gamma_button())
@@ -169,8 +198,12 @@ class Initiator(QMainWindow):
         self.hlm_beta_button.setStyleSheet(GSS.hlm_beta_button())
         self.hlm_gamma_button.setStyleSheet(GSS.hlm_gamma_button())
 
+        self.alpha_label.setGeometry(200, 250, 750, 700)
+        self.beta_label.setGeometry(1050, 250, 650, 700)
+        
     def search_menu(self):
         self.gui_mode = "search_menu"
+        self.headline_label.setText("Manual Term Search Menu")
         self.mbl_alpha_button.setStyleSheet(GSS.mbl_alpha_button())
         self.mbl_beta_button.setStyleSheet(GSS.mbl_beta_button())
         self.mbl_gamma_button.setStyleSheet(GSS.mbl_gamma_button(selected=True))
@@ -183,6 +216,7 @@ class Initiator(QMainWindow):
 
     def scan_menu(self):
         self.gui_mode = "scan_menu"
+        self.headline_label.setText("Automatic Scan Menu")
         self.mbl_alpha_button.setStyleSheet(GSS.mbl_alpha_button())
         self.mbl_beta_button.setStyleSheet(GSS.mbl_beta_button())
         self.mbl_gamma_button.setStyleSheet(GSS.mbl_gamma_button())
@@ -195,6 +229,7 @@ class Initiator(QMainWindow):
 
     def output_menu(self):
         self.gui_mode = "output_menu"
+        self.headline_label.setText("Results")
         self.mbl_alpha_button.setStyleSheet(GSS.mbl_alpha_button())
         self.mbl_beta_button.setStyleSheet(GSS.mbl_beta_button())
         self.mbl_gamma_button.setStyleSheet(GSS.mbl_gamma_button())
@@ -207,6 +242,7 @@ class Initiator(QMainWindow):
 
     def settings_menu(self):
         self.gui_mode = "settings_menu"
+        self.headline_label.setText("Settings")
         self.mbl_alpha_button.setStyleSheet(GSS.mbl_alpha_button())
         self.mbl_beta_button.setStyleSheet(GSS.mbl_beta_button())
         self.mbl_gamma_button.setStyleSheet(GSS.mbl_gamma_button())
@@ -218,7 +254,8 @@ class Initiator(QMainWindow):
         self.hlm_gamma_button.setStyleSheet(GSS.hlm_gamma_button())
 
     def account_menu(self):
-        self.gui_mode = "info_menu"
+        self.gui_mode = "account_menu"
+        self.headline_label.setText("Account Settings")
         self.mbl_alpha_button.setStyleSheet(GSS.mbl_alpha_button())
         self.mbl_beta_button.setStyleSheet(GSS.mbl_beta_button())
         self.mbl_gamma_button.setStyleSheet(GSS.mbl_gamma_button())
@@ -229,9 +266,9 @@ class Initiator(QMainWindow):
         self.hlm_beta_button.setStyleSheet(GSS.hlm_beta_button())
         self.hlm_gamma_button.setStyleSheet(GSS.hlm_gamma_button())
 
-
     def info_menu(self):
         self.gui_mode = "info_menu"
+        self.headline_label.setText("Version Description")
         self.mbl_alpha_button.setStyleSheet(GSS.mbl_alpha_button())
         self.mbl_beta_button.setStyleSheet(GSS.mbl_beta_button())
         self.mbl_gamma_button.setStyleSheet(GSS.mbl_gamma_button())
@@ -242,9 +279,9 @@ class Initiator(QMainWindow):
         self.hlm_beta_button.setStyleSheet(GSS.hlm_beta_button(selected=True))
         self.hlm_gamma_button.setStyleSheet(GSS.hlm_gamma_button())
 
-
     def help_menu(self):
-        self.gui_mode = "info_menu"
+        self.gui_mode = "help_menu"
+        self.headline_label.setText("Help & Instructions")
         self.mbl_alpha_button.setStyleSheet(GSS.mbl_alpha_button())
         self.mbl_beta_button.setStyleSheet(GSS.mbl_beta_button())
         self.mbl_gamma_button.setStyleSheet(GSS.mbl_gamma_button())

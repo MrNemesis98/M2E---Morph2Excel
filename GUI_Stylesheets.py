@@ -10,6 +10,19 @@ def menu_bar_label():
     return stylesheet
 
 
+def headline_label():
+    stylesheet = "color: white; background: qlineargradient" \
+                 "(x1: 0, y1: 0, x2: 1, y2: 0, " \
+                 "stop: 0 rgba(0, 0, 0, 255), stop: 1 rgba(20, 20, 20, 255));"
+    return stylesheet
+
+
+def main_labels():
+    stylesheet = "color: white; background: qlineargradient" \
+                 "(x1: 1, y1: 0, x2: 2, y2: 0, " \
+                 "stop: 0 rgba(50, 50, 50, 255), stop: 1 rgba(25, 25, 25, 255));"
+    return stylesheet
+
 # buttons **************************************************************************************************************
 
 def image_button_stylesheet(standard_link, hover_link, pressed_link, selected=False):
