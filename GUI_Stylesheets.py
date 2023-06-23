@@ -6,22 +6,32 @@ def main_background_label():
 def menu_bar_label():
     stylesheet = "background: qlineargradient" \
                  "(x1: 0, y1: 0, x2: 0, y2: 1, " \
-                 "stop: 0 rgba(50, 50, 50, 255), stop: 1 rgba(40, 40, 40, 255));"
+                 "stop: 0 rgba(25, 25, 25, 255), stop: 1 rgba(20, 20, 20, 255));"
     return stylesheet
 
 
 def headline_label():
     stylesheet = "color: white; background: qlineargradient" \
                  "(x1: 0, y1: 0, x2: 1, y2: 0, " \
-                 "stop: 0 rgba(0, 0, 0, 255), stop: 1 rgba(20, 20, 20, 255));"
+                 "stop: 0 rgba(0, 0, 0, 255), stop: 1 rgba(25, 25, 25, 255));"
     return stylesheet
 
 
-def main_labels():
+def menu_widgets_background_schema():
     stylesheet = "color: white; background: qlineargradient" \
-                 "(x1: 1, y1: 0, x2: 2, y2: 0, " \
-                 "stop: 0 rgba(50, 50, 50, 255), stop: 1 rgba(25, 25, 25, 255));"
+                 "(x1: 0, y1: 0, x2: 20, y2: 20, " \
+                 "stop: 0 rgba(30, 30, 30, 255), stop: 1 rgba(255, 0, 0, 255));" \
+                 "border-radius: 25px;"
     return stylesheet
+
+
+def menu_widgets_background_std():
+    stylesheet = "color: white; background: qlineargradient" \
+                 "(x1: 0, y1: 0, x2: 0, y2: 0, " \
+                 "stop: 0 rgba(25, 25, 25, 255), stop: 1 rgba(255, 0, 0, 255));" \
+                 "border-radius: 25px;"
+    return stylesheet
+
 
 # buttons **************************************************************************************************************
 
@@ -108,3 +118,24 @@ def hlm_gamma_button(selected=False):
     hover_link = "data/GUI_img/Help_Sel.png"
     pressed_link = "data/GUI_img/Help_Sel.png"
     return image_button_stylesheet(standard_link, hover_link, pressed_link, selected)
+
+
+def sub_alpha_button(gm, accessible=True):
+    stylesheet = ""
+    if not accessible:
+        stylesheet = "QPushButton{background-color: rgba(25, 25, 25, 255); color: rgba(0, 0, 0, 255);" \
+                     "text-align:center;border-radius:25;" \
+                     "border-bottom:2px solid rgba(0, 0, 0, 255);border-left:2px solid rgba(0, 0, 0, 255);" \
+                     "border-top:2px solid rgba(0, 0, 0, 255);border-right:2px solid rgba(0, 0, 0, 255);}"
+        return stylesheet
+    else:
+        if gm == "database_menu":
+            stylesheet = "QPushButton{background-color: rgba(25, 25, 25, 255); color: green;" \
+                         "text-align:center;border-radius:25;" \
+                         "border-bottom:1px solid dark green;border-left:1px solid dark green;" \
+                         "border-top:1px solid dark green;border-right:1px solid dark green;}" \
+                         "QPushButton::hover{color: lime;" \
+                         "border-bottom:1px solid lime;border-left:1px solid lime;" \
+                         "border-top:1px solid lime;border-right:1px solid lime;}" \
+                         "QPushButton::pressed{background-color:lime; color:black;}"
+        return stylesheet
