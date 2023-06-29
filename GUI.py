@@ -28,14 +28,26 @@ class Initiator(QMainWindow):
         self.main_background_label = None
         self.menu_bar_label = None
         self.headline_label = None
-
+        self.beta_label = None
         self.alpha_label = None
         self.alpha_headline = None
         self.alpha_info = None
+        self.alpha_widget = None
 
-        self.beta_label = None
+
+        self.beta_headline = None
+        self.beta_info = None
+        self.beta_widget = None
 
         self.gamma_label = None
+        self.gamma_headline = None
+        self.gamma_info = None
+        self.gamma_widget = None
+
+        self.delta_label = None
+        self.delta_headline = None
+        self.delta_info = None
+        self.delta_widget = None
 
         self.mbl_alpha_button = None
         self.mbl_beta_button = None
@@ -98,10 +110,19 @@ class Initiator(QMainWindow):
         self.headline_label.setAlignment(Qt.AlignVCenter)
         self.headline_label.show()
 
-        # alpha widgets
         self.alpha_label = QLabel(self)
         self.alpha_label.setStyleSheet(GSS.menu_widgets_background_std())
 
+        self.beta_label = QLabel(self)
+        self.beta_label.setStyleSheet(GSS.menu_widgets_background_std())
+
+        self.gamma_label = QLabel(self)
+        self.gamma_label.setStyleSheet(GSS.menu_widgets_background_std())
+
+        self.delta_label = QLabel(self)
+        self.delta_label.setStyleSheet(GSS.menu_widgets_background_std())
+
+        # alpha widgets
         self.alpha_headline = QLabel(self)
         self.alpha_headline.setStyleSheet(GSS.menu_widgets_background_std())
         self.alpha_headline.setFont(QFont("Times New Roman", 25))
@@ -111,13 +132,43 @@ class Initiator(QMainWindow):
         self.alpha_info.setFont(QFont("Times New Roman", 20))
         self.alpha_info.setAlignment(Qt.AlignVCenter)
 
+        self.alpha_widget = QLabel(self)
+
         # beta widgets
-        self.beta_label = QLabel(self)
-        self.beta_label.setStyleSheet(GSS.menu_widgets_background_std())
+        self.beta_headline = QLabel(self)
+        self.beta_headline.setStyleSheet(GSS.menu_widgets_background_std())
+        self.beta_headline.setFont(QFont("Times New Roman", 25))
+
+        self.beta_info = QLabel(self)
+        self.beta_info.setStyleSheet(GSS.menu_widgets_background_std())
+        self.beta_info.setFont(QFont("Times New Roman", 20))
+        self.beta_info.setAlignment(Qt.AlignVCenter)
+
+        self.beta_widget = QLabel(self)
 
         # gamma widgets
-        self.gamma_label = QLabel(self)
-        self.gamma_label.setStyleSheet(GSS.menu_widgets_background_std())
+        self.gamma_headline = QLabel(self)
+        self.gamma_headline.setStyleSheet(GSS.menu_widgets_background_std())
+        self.gamma_headline.setFont(QFont("Times New Roman", 25))
+
+        self.gamma_info = QLabel(self)
+        self.gamma_info.setStyleSheet(GSS.menu_widgets_background_std())
+        self.gamma_info.setFont(QFont("Times New Roman", 20))
+        self.gamma_info.setAlignment(Qt.AlignVCenter)
+
+        self.gamma_widget = QLabel(self)
+
+        # delta widgets
+        self.delta_headline = QLabel(self)
+        self.delta_headline.setStyleSheet(GSS.menu_widgets_background_std())
+        self.delta_headline.setFont(QFont("Times New Roman", 25))
+
+        self.delta_info = QLabel(self)
+        self.delta_info.setStyleSheet(GSS.menu_widgets_background_std())
+        self.delta_info.setFont(QFont("Times New Roman", 20))
+        self.delta_info.setAlignment(Qt.AlignVCenter)
+
+        self.delta_widget = QLabel(self)
 
         # Buttons ------------------------------------------------------------------------------------------------------
 
@@ -158,19 +209,23 @@ class Initiator(QMainWindow):
         self.hlm_gamma_button.clicked.connect(self.hlm_gamma_button_pressed)
 
         self.sub_alpha_button = QPushButton(self)
-        self.sub_alpha_button.setFont(QFont("Times New Roman", 20))
+        self.sub_alpha_button.setFont(QFont("Times New Roman", 18))
         self.sub_alpha_button.clicked.connect(self.sub_alpha_button_pressed)
 
         self.sub_beta_button = QPushButton(self)
+        self.sub_beta_button.setFont(QFont("Times New Roman", 18))
         self.sub_beta_button.clicked.connect(self.sub_beta_button_pressed)
 
         self.sub_gamma_button = QPushButton(self)
+        self.sub_gamma_button.setFont(QFont("Times New Roman", 18))
         self.sub_gamma_button.clicked.connect(self.sub_gamma_button_pressed)
 
         self.sub_delta_button = QPushButton(self)
+        self.sub_delta_button.setFont(QFont("Times New Roman", 18))
         self.sub_delta_button.clicked.connect(self.sub_delta_button_pressed)
 
         self.sub_epsilon_button = QPushButton(self)
+        self.sub_epsilon_button.setFont(QFont("Times New Roman", 20))
         self.sub_epsilon_button.clicked.connect(self.sub_epsilon_button_pressed)
         """
         self.mbl_eta_button = QPushButton(self)
@@ -231,7 +286,9 @@ class Initiator(QMainWindow):
         self.hlm_beta_button.setStyleSheet(GSS.hlm_beta_button())
         self.hlm_gamma_button.setStyleSheet(GSS.hlm_gamma_button())
 
+        # upper widget / status description / log
         self.alpha_label.setGeometry(200, 250, 1500, 100)
+
         self.alpha_headline.setGeometry(250, 250, 1400, 100)
         self.alpha_headline.setAlignment(Qt.AlignVCenter)
         self.alpha_headline.setText("Database Status: not determined")
@@ -240,10 +297,44 @@ class Initiator(QMainWindow):
         self.sub_alpha_button.setStyleSheet(GSS.sub_alpha_button(self.gui_mode))
         self.sub_alpha_button.setText("Determine Status")
 
-
+        # secondary widget / loading bar / options
         self.beta_label.setGeometry(200, 400, 1500, 550)
 
+        self.alpha_widget.setGeometry(220, 450, 350, 50)
+        self.beta_widget.setGeometry(590, 450, 350, 50)
+        self.gamma_widget.setGeometry(960, 450, 350, 50)
+        self.delta_widget.setGeometry(1330, 450, 350, 50)
 
+        self.alpha_widget.setStyleSheet(GSS.loading_bar_widget(ascending=False))
+        self.beta_widget.setStyleSheet(GSS.loading_bar_widget(ascending=True))
+        self.gamma_widget.setStyleSheet(GSS.loading_bar_widget(ascending=False, green=True))
+        self.delta_widget.setStyleSheet(GSS.loading_bar_widget(ascending=True, green=True))
+
+        self.alpha_info.setGeometry(220, 520, 350, 100)
+        self.alpha_info.setAlignment(Qt.AlignHCenter)
+        self.alpha_info.setText("Path existent")
+        self.beta_info.setGeometry(590, 520, 350, 100)
+        self.beta_info.setAlignment(Qt.AlignHCenter)
+        self.beta_info.setText("Database installed")
+        self.gamma_info.setGeometry(960, 520, 350, 100)
+        self.gamma_info.setAlignment(Qt.AlignHCenter)
+        self.gamma_info.setText("Connected to internet")
+        self.delta_info.setGeometry(1330, 520, 350, 100)
+        self.delta_info.setAlignment(Qt.AlignHCenter)
+        self.delta_info.setText("Database is up to date")
+
+        self.sub_beta_button.setGeometry(220, 640, 350, 80)
+        self.sub_beta_button.setStyleSheet(GSS.sub_alpha_button(self.gui_mode))
+        self.sub_beta_button.setText("Configure Path")
+        self.sub_gamma_button.setGeometry(590, 640, 350, 80)
+        self.sub_gamma_button.setStyleSheet(GSS.sub_alpha_button(self.gui_mode))
+        self.sub_gamma_button.setText("Reinstall Database")
+        self.sub_delta_button.setGeometry(960, 640, 350, 80)
+        self.sub_delta_button.setStyleSheet(GSS.sub_alpha_button(self.gui_mode, accessible=False))
+        self.sub_delta_button.setText("Open Internet Settings")
+        self.sub_epsilon_button.setGeometry(1330, 640, 350, 80)
+        self.sub_epsilon_button.setStyleSheet(GSS.sub_alpha_button(self.gui_mode, accessible=False))
+        self.sub_epsilon_button.setText("Update Database")
 
 
         

@@ -33,6 +33,28 @@ def menu_widgets_background_std():
     return stylesheet
 
 
+def loading_bar_widget(ascending=False, green=False):
+    if ascending:
+        if green:
+            stylesheet = "border: 5px solid black; background: qlineargradient" \
+                         "(x1: 0, y1: 0, x2: 1, y2: 0, " \
+                         "stop: 0 rgba(15, 100, 15, 255), stop: 1 rgba(0, 50, 0, 255));"
+        else:
+            stylesheet = "border: 5px solid black; background: qlineargradient" \
+                         "(x1: 0, y1: 0, x2: 1, y2: 0, " \
+                         "stop: 0 rgba(100, 15, 15, 255), stop: 1 rgba(50, 0, 0, 255));"
+    else:
+        if green:
+            stylesheet = "border: 5px solid black; background: qlineargradient" \
+                         "(x1: 0, y1: 0, x2: 1, y2: 0, " \
+                         "stop: 0 rgba(0, 50, 0, 255), stop: 1 rgba(5, 100, 15, 255));"
+        else:
+            stylesheet = "border: 5px solid black; background: qlineargradient" \
+                         "(x1: 0, y1: 0, x2: 1, y2: 0, " \
+                         "stop: 0 rgba(50, 0, 0, 255), stop: 1 rgba(100, 15, 15, 255));"
+    return stylesheet
+
+
 # buttons **************************************************************************************************************
 
 def image_button_stylesheet(standard_link, hover_link, pressed_link, selected=False):
@@ -132,10 +154,10 @@ def sub_alpha_button(gm, accessible=True):
         if gm == "database_menu":
             stylesheet = "QPushButton{background-color: rgba(25, 25, 25, 255); color: green;" \
                          "text-align:center;border-radius:25;" \
-                         "border-bottom:1px solid dark green;border-left:1px solid dark green;" \
-                         "border-top:1px solid dark green;border-right:1px solid dark green;}" \
+                         "border-bottom:2px solid dark green;border-left:2px solid dark green;" \
+                         "border-top:2px solid dark green;border-right:2px solid dark green;}" \
                          "QPushButton::hover{color: lime;" \
-                         "border-bottom:1px solid lime;border-left:1px solid lime;" \
-                         "border-top:1px solid lime;border-right:1px solid lime;}" \
+                         "border-bottom:2px solid lime;border-left:2px solid lime;" \
+                         "border-top:2px solid lime;border-right:2px solid lime;}" \
                          "QPushButton::pressed{background-color:lime; color:black;}"
         return stylesheet
