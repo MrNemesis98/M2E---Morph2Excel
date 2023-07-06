@@ -33,25 +33,46 @@ def menu_widgets_background_std():
     return stylesheet
 
 
-def loading_bar_widget(ascending=False, green=False):
-    if ascending:
+def loading_bar_widget(ascending, green=False, red=False):
+    if ascending == "false":
         if green:
             stylesheet = "border: 5px solid black; background: qlineargradient" \
                          "(x1: 0, y1: 0, x2: 1, y2: 0, " \
                          "stop: 0 rgba(15, 100, 15, 255), stop: 1 rgba(0, 50, 0, 255));"
-        else:
+        elif red:
             stylesheet = "border: 5px solid black; background: qlineargradient" \
                          "(x1: 0, y1: 0, x2: 1, y2: 0, " \
                          "stop: 0 rgba(100, 15, 15, 255), stop: 1 rgba(50, 0, 0, 255));"
+        else:
+            stylesheet = "border: 5px solid black; background: qlineargradient" \
+                         "(x1: 0, y1: 0, x2: 1, y2: 0, " \
+                         "stop: 0 rgba(100, 100, 100, 255), stop: 1 rgba(50, 50, 50, 255));"
+    elif ascending == "true":
+        if green:
+            stylesheet = "border: 5px solid black; background: qlineargradient" \
+                         "(x1: 0, y1: 0, x2: 1, y2: 0, " \
+                         "stop: 0 rgba(0, 50, 0, 255), stop: 1 rgba(15, 100, 15, 255));"
+        elif red:
+            stylesheet = "border: 5px solid black; background: qlineargradient" \
+                         "(x1: 0, y1: 0, x2: 1, y2: 0, " \
+                         "stop: 0 rgba(50, 0, 0, 255), stop: 1 rgba(100, 15, 15, 255));"
+        else:
+            stylesheet = "border: 5px solid black; background: qlineargradient" \
+                         "(x1: 0, y1: 0, x2: 1, y2: 0, " \
+                         "stop: 0 rgba(50, 50, 50, 255), stop: 1 rgba(100, 100, 100, 255));"
     else:
         if green:
             stylesheet = "border: 5px solid black; background: qlineargradient" \
                          "(x1: 0, y1: 0, x2: 1, y2: 0, " \
-                         "stop: 0 rgba(0, 50, 0, 255), stop: 1 rgba(5, 100, 15, 255));"
+                         "stop: 0 rgba(0, 50, 0, 255), stop: 1 rgba(0, 50, 0, 255));"
+        elif red:
+            stylesheet = "border: 5px solid black; background: qlineargradient" \
+                         "(x1: 0, y1: 0, x2: 1, y2: 0, " \
+                         "stop: 0 rgba(50, 0, 0, 255), stop: 1 rgba(50, 0, 0, 255));"
         else:
             stylesheet = "border: 5px solid black; background: qlineargradient" \
                          "(x1: 0, y1: 0, x2: 1, y2: 0, " \
-                         "stop: 0 rgba(50, 0, 0, 255), stop: 1 rgba(100, 15, 15, 255));"
+                         "stop: 0 rgba(50, 50, 50, 255), stop: 1 rgba(50, 50, 50, 255));"
     return stylesheet
 
 
@@ -80,69 +101,69 @@ def image_button_stylesheet(standard_link, hover_link, pressed_link, selected=Fa
 
 
 def mbl_alpha_button(selected=False):
-    standard_link = "data/GUI_img/Home_Std.png"
-    hover_link = "data/GUI_img/Home_Sel.png"
-    pressed_link = "data/GUI_img/Home_Sel.png"
+    standard_link = "src/data/GUI_img/Home_Std.png"
+    hover_link = "src/data/GUI_img/Home_Sel.png"
+    pressed_link = "src/data/GUI_img/Home_Sel.png"
     return image_button_stylesheet(standard_link, hover_link, pressed_link, selected)
 
 
 def mbl_beta_button(selected=False):
-    standard_link = "data/GUI_img/Database_Std.png"
-    hover_link = "data/GUI_img/Database_Sel.png"
-    pressed_link = "data/GUI_img/Database_Sel.png"
+    standard_link = "src/data/GUI_img/Database_Std.png"
+    hover_link = "src/data/GUI_img/Database_Sel.png"
+    pressed_link = "src/data/GUI_img/Database_Sel.png"
     return image_button_stylesheet(standard_link, hover_link, pressed_link, selected)
 
 
 def mbl_gamma_button(selected=False):
-    standard_link = "data/GUI_img/Search_Std.png"
-    hover_link = "data/GUI_img/Search_Sel.png"
-    pressed_link = "data/GUI_img/Search_Sel.png"
+    standard_link = "src/data/GUI_img/Search_Std.png"
+    hover_link = "src/data/GUI_img/Search_Sel.png"
+    pressed_link = "src/data/GUI_img/Search_Sel.png"
     return image_button_stylesheet(standard_link, hover_link, pressed_link, selected)
 
 
 def mbl_delta_button(selected=False):
-    standard_link = "data/GUI_img/Scan_Std.png"
-    hover_link = "data/GUI_img/Scan_Sel.png"
-    pressed_link = "data/GUI_img/Scan_Sel.png"
+    standard_link = "src/data/GUI_img/Scan_Std.png"
+    hover_link = "src/data/GUI_img/Scan_Sel.png"
+    pressed_link = "src/data/GUI_img/Scan_Sel.png"
     return image_button_stylesheet(standard_link, hover_link, pressed_link, selected)
 
 
 def mbl_epsilon_button(selected=False):
-    standard_link = "data/GUI_img/Output_Std.png"
-    hover_link = "data/GUI_img/Output_Sel.png"
-    pressed_link = "data/GUI_img/Output_Sel.png"
+    standard_link = "src/data/GUI_img/Output_Std.png"
+    hover_link = "src/data/GUI_img/Output_Sel.png"
+    pressed_link = "src/data/GUI_img/Output_Sel.png"
     return image_button_stylesheet(standard_link, hover_link, pressed_link, selected)
 
 
 def mbl_zeta_button(selected=False):
-    standard_link = "data/GUI_img/Settings_Std.png"
-    hover_link = "data/GUI_img/Settings_Sel.png"
-    pressed_link = "data/GUI_img/Settings_Sel.png"
+    standard_link = "src/data/GUI_img/Settings_Std.png"
+    hover_link = "src/data/GUI_img/Settings_Sel.png"
+    pressed_link = "src/data/GUI_img/Settings_Sel.png"
     return image_button_stylesheet(standard_link, hover_link, pressed_link, selected)
 
 
 def hlm_alpha_button(selected=False):
-    standard_link = "data/GUI_img/Account_Std.png"
-    hover_link = "data/GUI_img/Account_Sel.png"
-    pressed_link = "data/GUI_img/Account_Sel.png"
+    standard_link = "src/data/GUI_img/Account_Std.png"
+    hover_link = "src/data/GUI_img/Account_Sel.png"
+    pressed_link = "src/data/GUI_img/Account_Sel.png"
     return image_button_stylesheet(standard_link, hover_link, pressed_link, selected)
 
 
 def hlm_beta_button(selected=False):
-    standard_link = "data/GUI_img/Info_Std.png"
-    hover_link = "data/GUI_img/Info_Sel.png"
-    pressed_link = "data/GUI_img/Info_Sel.png"
+    standard_link = "src/data/GUI_img/Info_Std.png"
+    hover_link = "src/data/GUI_img/Info_Sel.png"
+    pressed_link = "src/data/GUI_img/Info_Sel.png"
     return image_button_stylesheet(standard_link, hover_link, pressed_link, selected)
 
 
 def hlm_gamma_button(selected=False):
-    standard_link = "data/GUI_img/Help_Std.png"
-    hover_link = "data/GUI_img/Help_Sel.png"
-    pressed_link = "data/GUI_img/Help_Sel.png"
+    standard_link = "src/data/GUI_img/Help_Std.png"
+    hover_link = "src/data/GUI_img/Help_Sel.png"
+    pressed_link = "src/data/GUI_img/Help_Sel.png"
     return image_button_stylesheet(standard_link, hover_link, pressed_link, selected)
 
 
-def sub_alpha_button(gm, accessible=True):
+def sub_alpha_button(gm, accessible=True, var1=""):
     stylesheet = ""
     if not accessible:
         stylesheet = "QPushButton{background-color: rgba(25, 25, 25, 255); color: rgba(0, 0, 0, 255);" \
@@ -152,12 +173,22 @@ def sub_alpha_button(gm, accessible=True):
         return stylesheet
     else:
         if gm == "database_menu":
-            stylesheet = "QPushButton{background-color: rgba(25, 25, 25, 255); color: green;" \
-                         "text-align:center;border-radius:25;" \
-                         "border-bottom:2px solid dark green;border-left:2px solid dark green;" \
-                         "border-top:2px solid dark green;border-right:2px solid dark green;}" \
-                         "QPushButton::hover{color: lime;" \
-                         "border-bottom:2px solid lime;border-left:2px solid lime;" \
-                         "border-top:2px solid lime;border-right:2px solid lime;}" \
-                         "QPushButton::pressed{background-color:lime; color:black;}"
+            if var1 == "gold":
+                stylesheet = "QPushButton{background-color: rgba(25, 25, 25, 255); color: olive;" \
+                             "text-align:center;border-radius:25;" \
+                             "border-bottom:2px solid olive;border-left:2px solid olive;" \
+                             "border-top:2px solid olive;border-right:2px solid olive;}" \
+                             "QPushButton::hover{color: gold;" \
+                             "border-bottom:2px solid gold;border-left:2px solid gold;" \
+                             "border-top:2px solid gold;border-right:2px solid gold;}" \
+                             "QPushButton::pressed{background-color:gold; color:black;}"
+            elif var1 == "green":
+                stylesheet = "QPushButton{background-color: rgba(25, 25, 25, 255); color: green;" \
+                             "text-align:center;border-radius:25;" \
+                             "border-bottom:2px solid dark green;border-left:2px solid dark green;" \
+                             "border-top:2px solid dark green;border-right:2px solid dark green;}" \
+                             "QPushButton::hover{color: lime;" \
+                             "border-bottom:2px solid lime;border-left:2px solid lime;" \
+                             "border-top:2px solid lime;border-right:2px solid lime;}" \
+                             "QPushButton::pressed{background-color:lime; color:black;}"
         return stylesheet

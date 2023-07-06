@@ -1,3 +1,6 @@
+import sys
+
+import requests
 from PyQt5.QtCore import QEventLoop, QTimer, pyqtSignal
 import threading
 
@@ -5,11 +8,15 @@ from PyQt5.QtGui import QIcon, QFont
 from PyQt5.QtWidgets import *
 from PyQt5 import QtCore
 from PyQt5.QtCore import Qt
+from urllib3.exceptions import NameResolutionError, MaxRetryError
 
 import GUI_Stylesheets as GSS
 import GUI_Text_Inputs as GTI
 import GUI_Special_Items as GSI
 import savedata_manager as SDM
+import time
+import os
+import console_assistance as CA
 
 
 def delay(milliseconds):
@@ -28,23 +35,24 @@ class Initiator(QMainWindow):
         self.main_background_label = None
         self.menu_bar_label = None
         self.headline_label = None
-        self.beta_label = None
+
         self.alpha_label = None
+        self.beta_label = None
+        self.gamma_label = None
+        self.delta_label = None
+
         self.alpha_headline = None
         self.alpha_info = None
         self.alpha_widget = None
-
 
         self.beta_headline = None
         self.beta_info = None
         self.beta_widget = None
 
-        self.gamma_label = None
         self.gamma_headline = None
         self.gamma_info = None
         self.gamma_widget = None
 
-        self.delta_label = None
         self.delta_headline = None
         self.delta_info = None
         self.delta_widget = None
@@ -77,6 +85,7 @@ class Initiator(QMainWindow):
     gui_mode = None
     menu_buttons_restricted = False
     entries_history = None
+    database_status = 0
 
     # get current status -----------------------------------------------------------------------------------------------
     def update_system_parameters(self):
@@ -294,7 +303,7 @@ class Initiator(QMainWindow):
         self.alpha_headline.setText("Database Status: not determined")
 
         self.sub_alpha_button.setGeometry(1290, 260, 400, 80)
-        self.sub_alpha_button.setStyleSheet(GSS.sub_alpha_button(self.gui_mode))
+        self.sub_alpha_button.setStyleSheet(GSS.sub_alpha_button(self.gui_mode, accessible=True, var1="green"))
         self.sub_alpha_button.setText("Determine Status")
 
         # secondary widget / loading bar / options
@@ -305,33 +314,53 @@ class Initiator(QMainWindow):
         self.gamma_widget.setGeometry(960, 450, 350, 50)
         self.delta_widget.setGeometry(1330, 450, 350, 50)
 
-        self.alpha_widget.setStyleSheet(GSS.loading_bar_widget(ascending=False))
-        self.beta_widget.setStyleSheet(GSS.loading_bar_widget(ascending=True))
-        self.gamma_widget.setStyleSheet(GSS.loading_bar_widget(ascending=False, green=True))
-        self.delta_widget.setStyleSheet(GSS.loading_bar_widget(ascending=True, green=True))
-
+        if self.database_status == 0:
+            self.alpha_widget.setStyleSheet(GSS.loading_bar_widget(ascending="None", green=False, red=False))
+            self.beta_widget.setStyleSheet(GSS.loading_bar_widget(ascending="None", green=False, red=False))
+            self.gamma_widget.setStyleSheet(GSS.loading_bar_widget(ascending="None", green=False, red=False))
+            self.delta_widget.setStyleSheet(GSS.loading_bar_widget(ascending="None", green=False, red=False))
+        elif self.database_status == 1:
+            self.alpha_widget.setStyleSheet(GSS.loading_bar_widget(ascending="true", green=True, red=False))
+            self.beta_widget.setStyleSheet(GSS.loading_bar_widget(ascending="None", green=False, red=False))
+            self.gamma_widget.setStyleSheet(GSS.loading_bar_widget(ascending="None", green=False, red=False))
+            self.delta_widget.setStyleSheet(GSS.loading_bar_widget(ascending="None", green=False, red=False))
+        elif self.database_status == 2:
+            self.alpha_widget.setStyleSheet(GSS.loading_bar_widget(ascending="true", green=True, red=False))
+            self.beta_widget.setStyleSheet(GSS.loading_bar_widget(ascending="false", green=True, red=False))
+            self.gamma_widget.setStyleSheet(GSS.loading_bar_widget(ascending="None", green=False, red=False))
+            self.delta_widget.setStyleSheet(GSS.loading_bar_widget(ascending="None", green=False, red=False))
+        elif self.database_status == 3:
+            self.alpha_widget.setStyleSheet(GSS.loading_bar_widget(ascending="true", green=True, red=False))
+            self.beta_widget.setStyleSheet(GSS.loading_bar_widget(ascending="false", green=True, red=False))
+            self.gamma_widget.setStyleSheet(GSS.loading_bar_widget(ascending="true", green=True, red=False))
+            self.delta_widget.setStyleSheet(GSS.loading_bar_widget(ascending="None", green=False, red=False))
+        else:
+            self.alpha_widget.setStyleSheet(GSS.loading_bar_widget(ascending="true", green=True, red=False))
+            self.beta_widget.setStyleSheet(GSS.loading_bar_widget(ascending="false", green=True, red=False))
+            self.gamma_widget.setStyleSheet(GSS.loading_bar_widget(ascending="true", green=True, red=False))
+            self.delta_widget.setStyleSheet(GSS.loading_bar_widget(ascending="false", green=True, red=False))
         self.alpha_info.setGeometry(220, 520, 350, 100)
         self.alpha_info.setAlignment(Qt.AlignHCenter)
         self.alpha_info.setText("Path existent")
         self.beta_info.setGeometry(590, 520, 350, 100)
         self.beta_info.setAlignment(Qt.AlignHCenter)
-        self.beta_info.setText("Database installed")
+        self.beta_info.setText("Connected to internet")
         self.gamma_info.setGeometry(960, 520, 350, 100)
         self.gamma_info.setAlignment(Qt.AlignHCenter)
-        self.gamma_info.setText("Connected to internet")
+        self.gamma_info.setText("Database installed")
         self.delta_info.setGeometry(1330, 520, 350, 100)
         self.delta_info.setAlignment(Qt.AlignHCenter)
         self.delta_info.setText("Database is up to date")
 
         self.sub_beta_button.setGeometry(220, 640, 350, 80)
-        self.sub_beta_button.setStyleSheet(GSS.sub_alpha_button(self.gui_mode))
+        self.sub_beta_button.setStyleSheet(GSS.sub_alpha_button(self.gui_mode, accessible=True, var1="gold"))
         self.sub_beta_button.setText("Configure Path")
         self.sub_gamma_button.setGeometry(590, 640, 350, 80)
-        self.sub_gamma_button.setStyleSheet(GSS.sub_alpha_button(self.gui_mode))
-        self.sub_gamma_button.setText("Reinstall Database")
+        self.sub_gamma_button.setStyleSheet(GSS.sub_alpha_button(self.gui_mode, accessible=True, var1="gold"))
+        self.sub_gamma_button.setText("Open Internet Settings")
         self.sub_delta_button.setGeometry(960, 640, 350, 80)
         self.sub_delta_button.setStyleSheet(GSS.sub_alpha_button(self.gui_mode, accessible=False))
-        self.sub_delta_button.setText("Open Internet Settings")
+        self.sub_delta_button.setText("Reinstall Database")
         self.sub_epsilon_button.setGeometry(1330, 640, 350, 80)
         self.sub_epsilon_button.setStyleSheet(GSS.sub_alpha_button(self.gui_mode, accessible=False))
         self.sub_epsilon_button.setText("Update Database")
@@ -467,7 +496,8 @@ class Initiator(QMainWindow):
             self.help_menu()
 
     def sub_alpha_button_pressed(self):
-        pass
+        if self.gui_mode == "database_menu":
+            threading.Thread(target=self.check_database_status).start()
 
     def sub_beta_button_pressed(self):
         pass
@@ -481,6 +511,155 @@ class Initiator(QMainWindow):
     def sub_epsilon_button_pressed(self):
         pass
 
+    # program functions ################################################################################################
+    def check_database_status(self):
+        # check paths
+        if self.database_status == 0:
 
+            self.alpha_headline.setText("Determining database status...")
+            self.sub_alpha_button.setStyleSheet(GSS.sub_alpha_button(self.gui_mode, accessible=False))
+            self.sub_beta_button.setStyleSheet(GSS.sub_alpha_button(self.gui_mode, accessible=False))
+            self.sub_gamma_button.setStyleSheet(GSS.sub_alpha_button(self.gui_mode, accessible=False))
+            self.sub_delta_button.setStyleSheet(GSS.sub_alpha_button(self.gui_mode, accessible=False))
+            self.sub_epsilon_button.setStyleSheet(GSS.sub_alpha_button(self.gui_mode, accessible=False))
+            self.alpha_widget.setStyleSheet(GSS.loading_bar_widget(ascending="true", green=False, red=True))
+            time.sleep(1)
+            self.alpha_headline.setText("Searching for path...")
+            time.sleep(1)
+
+            if not os.path.exists("src/database"):
+                SDM.set_current_size()
+                self.alpha_headline.setText("Warning: path folder does not exist!")
+                time.sleep(2)
+                self.alpha_headline.setText("Solving problem automatically...")
+                os.makedirs("src/database")
+                time.sleep(3)
+                self.alpha_widget.setStyleSheet(GSS.loading_bar_widget(ascending="true", green=True, red=False))
+                self.alpha_headline.setText('Standard path established: "src/database')
+                self.database_status = 1
+                time.sleep(3)
+
+            else:
+                self.alpha_widget.setStyleSheet(GSS.loading_bar_widget(ascending="true", green=True, red=False))
+                self.alpha_headline.setText("Standard path existent")
+                self.database_status = 1
+                time.sleep(2)
+
+        if self.database_status == 1:
+
+            self.beta_widget.setStyleSheet(GSS.loading_bar_widget(ascending="true", green=False, red=True))
+            self.alpha_headline.setText("Checking internet connection...")
+            time.sleep(1)
+            try:
+                url = "https://zenodo.org/record/5172857/files/wiki_morph.json?download=1"
+                response = requests.get(url, stream=True)
+
+                self.beta_widget.setStyleSheet(GSS.loading_bar_widget(ascending="true", green=True, red=False))
+                self.alpha_headline.setText("Your device is connected!")
+
+            except NameResolutionError or MaxRetryError:
+                self.alpha_headline.setText("Warning: Your device is not connected!")
+
+
+
+            """
+            try:
+                url = "https://zenodo.org/record/5172857/files/wiki_morph.json?download=1"
+                response = requests.get(url, stream=True)
+                remote_size = int(response.headers.get("Content-Length", 0))
+                remote_size = int(remote_size / (1024 * 1024))
+
+                os.system('cls')
+                print("\n\tWarning: wiki_morph database could not be found on your system!"
+                      "\n\tYou are free to download it automatically.")
+                if remote_size == 0:
+                    print("\tSize of file: unknown")
+                else:
+                    print("\tSize of file: " + str(remote_size) + "MB")
+                print("\tDo you want to download it now? (y/n)")
+                answer = input("\n\tanswer: ")
+
+                if answer == "y":
+
+                    SDM.set_download_size(remote_size)
+
+                    normal = CA.download_database(url=url)
+
+                    if normal:
+                        current_size = os.path.getsize("data/wiki_morph.json")
+                        current_size = int(current_size / (1024 * 1024))
+                        SDM.set_current_size(current_size)
+
+                        os.system('cls')
+                        print("\n\n\tDownload completed! (" + str(current_size) + " MB)"
+                              "\n\n\tDo you wish to search for terms now? (y/n)")
+                        answer = input("\n\tanswer: ")
+                        if answer == "n":
+                            print("\n\tProgram will now terminate.")
+                            time.sleep(3)
+                            sys.exit(0)
+                    else:
+                        sys.exit()
+
+                else:
+                    CA.print_exit_without_download()
+                time.sleep(1)
+
+            except NameResolutionError or MaxRetryError:
+                os.system('cls')
+                print("\n\tWarning: Database is not installed currently."
+                      "\n\n\tThis program offers the possibility to download the database automatically."
+                      "\n\tBut for the moment there was no internet connection recognized."
+                      "\n\tPlease make sure you are connected and restart the program."
+                      "\n\tThe program will now terminate.")
+                time.sleep(7)
+                sys.exit(0)
+
+        else:
+            os.system('cls')
+            current_size = os.path.getsize("data/wiki_morph.json")
+            current_size = int(current_size / (1024 * 1024))
+            soll_size = SDM.get_soll_size()
+
+            if current_size < soll_size:
+                print("\n\tWarning: the local database file does not cover the expected amount of information!"
+                      "\n\n\t(Expected size: min. " + str(soll_size) + " MB)"
+                      "\n\t(Local size: " + str(current_size) + " MB)"
+                      "\n\n\tThis may be due to an interruption during the last downloading process."
+                      "\n\tTo solve this problem you should reinstall the database by downloading it again."
+                      "\n\tDo you want to start the download now? (y/n)")
+                answer = input("\n\tanswer: ")
+
+                if answer == "y":
+
+                    SDM.set_current_size()
+                    url = "https://zenodo.org/record/5172857/files/wiki_morph.json?download=1"
+                    response = requests.get(url, stream=True)
+                    remote_size = int(response.headers.get("Content-Length", 0))
+                    remote_size = int(remote_size / (1024 * 1024))
+
+                    SDM.set_download_size(remote_size)
+                    CA.download_database(url=url)
+
+                    current_size = os.path.getsize("data/wiki_morph.json")
+                    current_size = int(current_size / (1024 * 1024))
+                    SDM.set_current_size(current_size)
+
+                    check_for_updates_necessary = False
+                    os.system('cls')
+                    print("\n\n\tDownload completed! (" + str(current_size) + " MB)"
+                          "\n\n\tDo you wish to search for terms now? (y/n)")
+                    answer = input("\n\tanswer: ")
+                    if answer == "n":
+                        print("\n\tProgramm will now terminate.")
+                        time.sleep(3)
+                        sys.exit(0)
+
+                else:
+                    CA.print_exit_without_download()
+            else:
+                print("\n\tDatabase installed and available.")
+            time.sleep(3)
+            """
 
 

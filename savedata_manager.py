@@ -1,4 +1,4 @@
-sd = open("data/savedata.txt", "r")
+sd = open("src/data/savedata.txt", "r")
 data = sd.readlines()
 sd.close()
 
@@ -18,13 +18,13 @@ def update_database_data():
     global soll_size
 
     # Save data from other sectors before overwriting
-    sd = open("data/savedata.txt", "r")
+    sd = open("src/data/savedata.txt", "r")
     data = sd.readlines()
     history_data = data[1]
     sd.close()
 
     # Datei neu beschreiben, nur Datenbank Information updaten
-    sd = open("data/savedata.txt", "w")
+    sd = open("src/data/savedata.txt", "w")
     text = "db:/dl:" + str(download_size) + "/c:" + str(current_size) + "/soll:" + str(soll_size) + "/" \
            + "\n" + history_data
     sd.write(text)
@@ -69,12 +69,12 @@ def update_history_data():
     global entries_list
 
     # Save data from other sectors before overwriting
-    sd = open("data/savedata.txt", "r")
+    sd = open("src/data/savedata.txt", "r")
     data = sd.readlines()
     sd.close()
 
     # Datei neu beschreiben, nur Nutzer-Trainingsdaten updaten
-    sd = open("data/savedata.txt", "w")
+    sd = open("src/data/savedata.txt", "w")
     text = data[0] + "h:"
     for entry in range(len(entries_list)):
         text += "/" + entries_list[entry]
