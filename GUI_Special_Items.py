@@ -54,6 +54,7 @@ class SpecialLabel(QLabel):
 
     def add_letter(self):
         if len(self.text) > 0:
+            print("step")
             self.current_text += self.text[0]
             self.text = self.text[1:]
             self.setText(self.current_text)
@@ -61,7 +62,10 @@ class SpecialLabel(QLabel):
             self.timer.stop()
 
     def print_text(self, text, timer=30):
+        print("yes")
         self.text = text
         self.current_text = ""
         self.setText(self.current_text)
+        print("yes1")
         self.timer.start(timer)
+        print("yes2")

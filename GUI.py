@@ -133,7 +133,7 @@ class Initiator(QMainWindow):
 
         # alpha widgets
         self.alpha_headline = QLabel(self)
-        self.alpha_headline.setStyleSheet(GSS.menu_widgets_background_std())
+        self.alpha_headline.setStyleSheet(GSS.menu_widgets_background_std("white"))
         self.alpha_headline.setFont(QFont("Times New Roman", 25))
 
         self.alpha_info = QLabel(self)
@@ -144,8 +144,7 @@ class Initiator(QMainWindow):
         self.alpha_widget = QLabel(self)
 
         # beta widgets
-        self.beta_headline = QLabel(self)
-        self.beta_headline.setStyleSheet(GSS.menu_widgets_background_std())
+        self.beta_headline = GSI.SpecialLabel(self)
         self.beta_headline.setFont(QFont("Times New Roman", 25))
 
         self.beta_info = QLabel(self)
@@ -341,15 +340,19 @@ class Initiator(QMainWindow):
             self.delta_widget.setStyleSheet(GSS.loading_bar_widget(ascending="false", green=True, red=False))
         self.alpha_info.setGeometry(220, 520, 350, 100)
         self.alpha_info.setAlignment(Qt.AlignHCenter)
+        self.alpha_info.setStyleSheet(GSS.menu_widgets_background_std())
         self.alpha_info.setText("Path existent")
         self.beta_info.setGeometry(590, 520, 350, 100)
         self.beta_info.setAlignment(Qt.AlignHCenter)
+        self.beta_info.setStyleSheet(GSS.menu_widgets_background_std())
         self.beta_info.setText("Connected to internet")
         self.gamma_info.setGeometry(960, 520, 350, 100)
         self.gamma_info.setAlignment(Qt.AlignHCenter)
+        self.gamma_info.setStyleSheet(GSS.menu_widgets_background_std())
         self.gamma_info.setText("Database installed")
         self.delta_info.setGeometry(1330, 520, 350, 100)
         self.delta_info.setAlignment(Qt.AlignHCenter)
+        self.delta_info.setStyleSheet(GSS.menu_widgets_background_std())
         self.delta_info.setText("Database is up to date")
 
         self.sub_beta_button.setGeometry(220, 640, 350, 80)
@@ -364,6 +367,9 @@ class Initiator(QMainWindow):
         self.sub_epsilon_button.setGeometry(1330, 640, 350, 80)
         self.sub_epsilon_button.setStyleSheet(GSS.sub_alpha_button(self.gui_mode, accessible=False))
         self.sub_epsilon_button.setText("Update Database")
+
+        self.beta_headline.setGeometry(230, 780, 1460, 100)
+        self.beta_headline.setStyleSheet(GSS.menu_widgets_background_std("white"))
 
 
         
@@ -523,19 +529,19 @@ class Initiator(QMainWindow):
             self.sub_delta_button.setStyleSheet(GSS.sub_alpha_button(self.gui_mode, accessible=False))
             self.sub_epsilon_button.setStyleSheet(GSS.sub_alpha_button(self.gui_mode, accessible=False))
             self.alpha_widget.setStyleSheet(GSS.loading_bar_widget(ascending="true", green=False, red=True))
+            self.alpha_info.setStyleSheet(GSS.menu_widgets_background_std(textcolor="white"))
             time.sleep(1)
             self.alpha_headline.setText("Searching for path...")
             time.sleep(1)
 
             if not os.path.exists("src/database"):
-                SDM.set_current_size()
                 self.alpha_headline.setText("Warning: path folder does not exist!")
                 time.sleep(2)
                 self.alpha_headline.setText("Solving problem automatically...")
                 os.makedirs("src/database")
                 time.sleep(3)
                 self.alpha_widget.setStyleSheet(GSS.loading_bar_widget(ascending="true", green=True, red=False))
-                self.alpha_headline.setText('Standard path established: "src/database')
+                self.alpha_headline.setText('Standard path established: "src/database/..."')
                 self.database_status = 1
                 time.sleep(3)
 
@@ -545,8 +551,9 @@ class Initiator(QMainWindow):
                 self.database_status = 1
                 time.sleep(2)
 
+        # check internet
         if self.database_status == 1:
-
+            self.beta_info.setStyleSheet(GSS.menu_widgets_background_std(textcolor="white"))
             self.beta_widget.setStyleSheet(GSS.loading_bar_widget(ascending="true", green=False, red=True))
             self.alpha_headline.setText("Checking internet connection...")
             time.sleep(1)
@@ -556,11 +563,47 @@ class Initiator(QMainWindow):
 
                 self.beta_widget.setStyleSheet(GSS.loading_bar_widget(ascending="true", green=True, red=False))
                 self.alpha_headline.setText("Your device is connected!")
+                self.database_status = 2
 
             except NameResolutionError or MaxRetryError:
                 self.alpha_headline.setText("Warning: Your device is not connected!")
+                time.sleep(1)
+                # self.beta_headline.print_text("lets go!")
+                self.beta_headline.setText("Please connect your device and restart the procedure!")
 
+        # check database installation
+        if self.database_status == 2:
 
+            self.gamma_info.setStyleSheet(GSS.menu_widgets_background_std(textcolor="white"))
+            self.gamma_widget.setStyleSheet(GSS.loading_bar_widget(ascending="true", green=False, red=True))
+            self.alpha_headline.setText("Checking database installation...")
+            time.sleep(2)
+
+            if not os.path.exists("src/database/wiki_morph.json"):
+                SDM.set_current_size()
+                self.gamma_widget.setStyleSheet(GSS.loading_bar_widget(ascending="true", green=False, red=True))
+                self.alpha_headline.setText("Warning: No installation found!")
+                time.sleep(1)
+                self.beta_headline.setText("Please download the database to continue.")
+            else:
+                current_size = os.path.getsize("data/wiki_morph.json")
+                current_size = int(current_size / (1024 * 1024))
+                soll_size = SDM.get_soll_size()
+
+                if current_size < soll_size:
+                    self.gamma_widget.setStyleSheet(GSS.loading_bar_widget(ascending="true", green=False, red=True))
+                    self.alpha_headline.setText("Warning: Installation error detected!")
+                    self.beta_headline.setText(
+                        "\nThe local database was installed incompletely!"
+                        "\nExpected size: min. " + str(soll_size) + " MB\tLocal size: " + str(current_size) + " MB")
+                    time.sleep(5)
+                    self.beta_headline.setText(
+                        "\nThis may be due to an interruption during the last downloading process."
+                        "\nTo solve this problem you should reinstall the database by downloading it again.")
+                else:
+                    self.gamma_widget.setStyleSheet(GSS.loading_bar_widget(ascending="true", green=True, red=False))
+                    self.alpha_headline.setText("Installation found!")
+                    self.database_status = 3
 
             """
             try:

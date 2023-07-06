@@ -25,11 +25,18 @@ def menu_widgets_background_schema():
     return stylesheet
 
 
-def menu_widgets_background_std():
-    stylesheet = "color: white; background: qlineargradient" \
-                 "(x1: 0, y1: 0, x2: 0, y2: 0, " \
-                 "stop: 0 rgba(25, 25, 25, 255), stop: 1 rgba(255, 0, 0, 255));" \
-                 "border-radius: 25px;"
+def menu_widgets_background_std(textcolor="grey"):
+    stylesheet = ""
+    if textcolor == "grey":
+        stylesheet = "color: grey; background: qlineargradient" \
+                     "(x1: 0, y1: 0, x2: 0, y2: 0, " \
+                     "stop: 0 rgba(25, 25, 25, 255), stop: 1 rgba(255, 0, 0, 255));" \
+                     "border-radius: 25px;"
+    elif textcolor == "white":
+        stylesheet = "color: white; background: qlineargradient" \
+                     "(x1: 0, y1: 0, x2: 0, y2: 0, " \
+                     "stop: 0 rgba(25, 25, 25, 255), stop: 1 rgba(255, 0, 0, 255));" \
+                     "border-radius: 25px;"
     return stylesheet
 
 
