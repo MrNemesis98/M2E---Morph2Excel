@@ -1,4 +1,5 @@
 import sys
+import urllib.request, urllib.error
 
 import requests
 from PyQt5.QtCore import QEventLoop, QTimer, pyqtSignal
@@ -74,7 +75,10 @@ class Initiator(QMainWindow):
         self.sub_delta_button = None
         self.sub_epsilon_button = None
 
-        self.timer = QTimer()
+        self.timer = QTimer(self)
+        self.timer.timeout.connect(self.update_progress)
+
+        self.progress_bar = None
 
         self.create_window()
 
@@ -246,6 +250,10 @@ class Initiator(QMainWindow):
         """
 
         # Special Items ------------------------------------------------------------------------------------------------
+
+        self.progress_bar = QProgressBar(self)
+        self.progress_bar.setValue(0)
+        self.progress_bar.hide()
 
         """
         self.search_bar = GSI.SpecialTextEdit(self)
@@ -512,12 +520,35 @@ class Initiator(QMainWindow):
         pass
 
     def sub_delta_button_pressed(self):
-        pass
+        if self.gui_mode == "database_menu":
+            self.menu_buttons_restricted = True
+            threading.Thread(target=self.download_database).start()
+            self.menu_buttons_restricted = False
 
     def sub_epsilon_button_pressed(self):
         pass
 
     # program functions ################################################################################################
+
+    def update_progress(self):
+        # Update the progress value (e.g., read it from a download operation)
+        self.current_progress += 10
+
+        # Update the progress bar value
+        self.progress_bar.setValue(self.current_progress)
+
+        # Adjust the progress bar color based on the progress
+        if self.current_progress < self.total_size / 3:
+            self.progress_bar.setStyleSheet("QProgressBar::chunk { background-color: green; }")
+        elif self.current_progress < 2 * self.total_size / 3:
+            self.progress_bar.setStyleSheet("QProgressBar::chunk { background-color: yellow; }")
+        else:
+            self.progress_bar.setStyleSheet("QProgressBar::chunk { background-color: red; }")
+
+        # Check if the progress is complete and stop the timer
+        if self.current_progress >= self.total_size:
+            self.timer.stop()
+
     def check_database_status(self):
         # check paths
         if self.database_status == 0:
@@ -548,6 +579,7 @@ class Initiator(QMainWindow):
             else:
                 self.alpha_widget.setStyleSheet(GSS.loading_bar_widget(ascending="true", green=True, red=False))
                 self.alpha_headline.setText("Standard path existent")
+                self.sub_beta_button.setStyleSheet(GSS.sub_alpha_button(self.gui_mode, True, "gold"))
                 self.database_status = 1
                 time.sleep(2)
 
@@ -555,6 +587,9 @@ class Initiator(QMainWindow):
         if self.database_status == 1:
             self.beta_info.setStyleSheet(GSS.menu_widgets_background_std(textcolor="white"))
             self.beta_widget.setStyleSheet(GSS.loading_bar_widget(ascending="true", green=False, red=True))
+            self.sub_beta_button.setStyleSheet(GSS.sub_alpha_button(self.gui_mode, False))
+            self.sub_gamma_button.setStyleSheet(GSS.sub_alpha_button(self.gui_mode, False))
+            self.sub_gamma_button.setStyleSheet(GSS.sub_alpha_button(self.gui_mode, False))
             self.alpha_headline.setText("Checking internet connection...")
             time.sleep(1)
             try:
@@ -562,8 +597,11 @@ class Initiator(QMainWindow):
                 response = requests.get(url, stream=True)
 
                 self.beta_widget.setStyleSheet(GSS.loading_bar_widget(ascending="true", green=True, red=False))
+                self.sub_beta_button.setStyleSheet(GSS.sub_alpha_button(self.gui_mode, True, "gold"))
+                self.sub_gamma_button.setStyleSheet(GSS.sub_alpha_button(self.gui_mode, True, "gold"))
                 self.alpha_headline.setText("Your device is connected!")
                 self.database_status = 2
+                time.sleep(2)
 
             except NameResolutionError or MaxRetryError:
                 self.alpha_headline.setText("Warning: Your device is not connected!")
@@ -584,22 +622,26 @@ class Initiator(QMainWindow):
                 self.gamma_widget.setStyleSheet(GSS.loading_bar_widget(ascending="true", green=False, red=True))
                 self.alpha_headline.setText("Warning: No installation found!")
                 time.sleep(1)
+                self.sub_delta_button.setStyleSheet(GSS.sub_alpha_button(self.gui_mode, True, var1="green"))
+                self.sub_delta_button.setText("Download Database")
                 self.beta_headline.setText("Please download the database to continue.")
             else:
-                current_size = os.path.getsize("data/wiki_morph.json")
+                current_size = os.path.getsize("src/database/wiki_morph.json")
                 current_size = int(current_size / (1024 * 1024))
                 soll_size = SDM.get_soll_size()
 
                 if current_size < soll_size:
                     self.gamma_widget.setStyleSheet(GSS.loading_bar_widget(ascending="true", green=False, red=True))
                     self.alpha_headline.setText("Warning: Installation error detected!")
-                    self.beta_headline.setText(
-                        "\nThe local database was installed incompletely!"
-                        "\nExpected size: min. " + str(soll_size) + " MB\tLocal size: " + str(current_size) + " MB")
+                    self.beta_headline.setText("The local database was installed incompletely!")
                     time.sleep(5)
-                    self.beta_headline.setText(
-                        "\nThis may be due to an interruption during the last downloading process."
-                        "\nTo solve this problem you should reinstall the database by downloading it again.")
+                    self.beta_headline.setText("Expected size: min. " + str(soll_size) +
+                                               " MB\t\tLocal size: " + str(current_size) + " MB")
+                    time.sleep(5)
+                    self.beta_headline.setText("This may be due to an interruption during the last downloading process.")
+                    time.sleep(5)
+                    self.beta_headline.setText("Please reinstall the database to solve the problem.")
+                    self.sub_delta_button.setStyleSheet(GSS.sub_alpha_button(self.gui_mode, True, "green"))
                 else:
                     self.gamma_widget.setStyleSheet(GSS.loading_bar_widget(ascending="true", green=True, red=False))
                     self.alpha_headline.setText("Installation found!")
@@ -704,5 +746,40 @@ class Initiator(QMainWindow):
                 print("\n\tDatabase installed and available.")
             time.sleep(3)
             """
+
+    def download_database(self):
+
+        self.progress_bar.setGeometry(230, 900, 1440, 25)
+
+        def progress(count, block_size, total_size):
+            self.progress_bar.setMaximum(total_size)
+            self.progress_bar.setValue(count * block_size)
+
+        url = "https://zenodo.org/record/5172857/files/wiki_morph.json?download=1"
+
+        try:
+            os.system('cls')
+            self.progress_bar.setValue(0)  # Reset the progress bar
+            self.progress_bar.setStyleSheet("QProgressBar::chunk { background-color: red; }")
+            self.progress_bar.show()  # Show the progress bar
+
+            self.alpha_headline.setText("Status: Downloading wikimorph...")
+            self.beta_headline.setText("Download in progress:")
+            urllib.request.urlretrieve(url, "src/database/wiki_morph.json", reporthook=progress)
+
+            # Download completed
+            self.progress_bar.setValue(self.progress_bar.maximum())  # Set progress to 100%
+            self.progress_bar.setStyleSheet("QProgressBar::chunk { background-color: green; }")
+            self.gamma_widget.setStyleSheet(GSS.loading_bar_widget(ascending="true", green=True, red=False))
+            self.alpha_headline.setText("Status: Download completed!")
+            self.beta_headline.setText("Database is now installed.")
+            time.sleep(3)
+            self.beta_headline.setText("The search functions are now available.")
+
+        except (urllib.error.URLError, urllib.error.HTTPError):
+            self.alpha_headline.setText("Download failed!")
+
+        # Hide the progress bar after the download
+        self.progress_bar.hide()
 
 

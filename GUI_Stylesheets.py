@@ -173,10 +173,10 @@ def hlm_gamma_button(selected=False):
 def sub_alpha_button(gm, accessible=True, var1=""):
     stylesheet = ""
     if not accessible:
-        stylesheet = "QPushButton{background-color: rgba(25, 25, 25, 255); color: rgba(0, 0, 0, 255);" \
+        stylesheet = "QPushButton{background-color: rgba(25, 25, 25, 255); color: rgba(130, 130, 130, 255);" \
                      "text-align:center;border-radius:25;" \
-                     "border-bottom:2px solid rgba(0, 0, 0, 255);border-left:2px solid rgba(0, 0, 0, 255);" \
-                     "border-top:2px solid rgba(0, 0, 0, 255);border-right:2px solid rgba(0, 0, 0, 255);}"
+                     "border-bottom:2px solid rgba(130, 130, 130, 255);border-left:2px solid rgba(130, 130, 130, 255);" \
+                     "border-top:2px solid rgba(130, 130, 130, 255);border-right:2px solid rgba(130, 130, 130, 255);}"
         return stylesheet
     else:
         if gm == "database_menu":
