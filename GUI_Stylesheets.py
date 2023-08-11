@@ -85,8 +85,22 @@ def loading_bar_widget(ascending, green=False, red=False):
 
 # buttons **************************************************************************************************************
 
-def image_button_stylesheet(standard_link, hover_link, pressed_link, selected=False):
-    if selected:
+def image_button_stylesheet(standard_link, hover_link, pressed_link, selected=False, accessable=True):
+    if not accessable:
+        locked_link_std = "src/data/GUI_img/Locked_Std.png"
+        locked_link_sel = "src/data/GUI_img/Locked_Sel.png"
+        stylesheet = "QPushButton {" \
+                     "border-radius: 40pt;" \
+                     "background-image: url(" + standard_link + ");" \
+                     "background-repeat: no-repeat;" \
+                     "background-position: center;" \
+                     "background-color: transparent;}" \
+                     "QPushButton:hover {" \
+                     "background-image: url(" + locked_link_std + ");}" \
+                     "QPushButton:pressed {" \
+                     "background-image: url(" + locked_link_sel + ");}"
+
+    elif selected:
         stylesheet = "QPushButton {" \
                      "border-radius: 40pt;" \
                      "background-image: url(" + pressed_link + ");" \
@@ -107,67 +121,67 @@ def image_button_stylesheet(standard_link, hover_link, pressed_link, selected=Fa
     return stylesheet
 
 
-def mbl_alpha_button(selected=False):
+def mbl_alpha_button(selected=False, accessable=True):
     standard_link = "src/data/GUI_img/Home_Std.png"
     hover_link = "src/data/GUI_img/Home_Sel.png"
     pressed_link = "src/data/GUI_img/Home_Sel.png"
-    return image_button_stylesheet(standard_link, hover_link, pressed_link, selected)
+    return image_button_stylesheet(standard_link, hover_link, pressed_link, selected, accessable)
 
 
-def mbl_beta_button(selected=False):
+def mbl_beta_button(selected=False, accessable=True):
     standard_link = "src/data/GUI_img/Database_Std.png"
     hover_link = "src/data/GUI_img/Database_Sel.png"
     pressed_link = "src/data/GUI_img/Database_Sel.png"
-    return image_button_stylesheet(standard_link, hover_link, pressed_link, selected)
+    return image_button_stylesheet(standard_link, hover_link, pressed_link, selected, accessable)
 
 
-def mbl_gamma_button(selected=False):
+def mbl_gamma_button(selected=False, accessable=True):
     standard_link = "src/data/GUI_img/Search_Std.png"
     hover_link = "src/data/GUI_img/Search_Sel.png"
     pressed_link = "src/data/GUI_img/Search_Sel.png"
-    return image_button_stylesheet(standard_link, hover_link, pressed_link, selected)
+    return image_button_stylesheet(standard_link, hover_link, pressed_link, selected, accessable)
 
 
-def mbl_delta_button(selected=False):
+def mbl_delta_button(selected=False, accessable=True):
     standard_link = "src/data/GUI_img/Scan_Std.png"
     hover_link = "src/data/GUI_img/Scan_Sel.png"
     pressed_link = "src/data/GUI_img/Scan_Sel.png"
-    return image_button_stylesheet(standard_link, hover_link, pressed_link, selected)
+    return image_button_stylesheet(standard_link, hover_link, pressed_link, selected, accessable)
 
 
-def mbl_epsilon_button(selected=False):
+def mbl_epsilon_button(selected=False, accessable=True):
     standard_link = "src/data/GUI_img/Output_Std.png"
     hover_link = "src/data/GUI_img/Output_Sel.png"
     pressed_link = "src/data/GUI_img/Output_Sel.png"
-    return image_button_stylesheet(standard_link, hover_link, pressed_link, selected)
+    return image_button_stylesheet(standard_link, hover_link, pressed_link, selected, accessable)
 
 
-def mbl_zeta_button(selected=False):
+def mbl_zeta_button(selected=False, accessable=True):
     standard_link = "src/data/GUI_img/Settings_Std.png"
     hover_link = "src/data/GUI_img/Settings_Sel.png"
     pressed_link = "src/data/GUI_img/Settings_Sel.png"
-    return image_button_stylesheet(standard_link, hover_link, pressed_link, selected)
+    return image_button_stylesheet(standard_link, hover_link, pressed_link, selected, accessable)
 
 
-def hlm_alpha_button(selected=False):
+def hlm_alpha_button(selected=False, accessable=True):
     standard_link = "src/data/GUI_img/Account_Std.png"
     hover_link = "src/data/GUI_img/Account_Sel.png"
     pressed_link = "src/data/GUI_img/Account_Sel.png"
-    return image_button_stylesheet(standard_link, hover_link, pressed_link, selected)
+    return image_button_stylesheet(standard_link, hover_link, pressed_link, selected, accessable)
 
 
-def hlm_beta_button(selected=False):
+def hlm_beta_button(selected=False, accessable=True):
     standard_link = "src/data/GUI_img/Info_Std.png"
     hover_link = "src/data/GUI_img/Info_Sel.png"
     pressed_link = "src/data/GUI_img/Info_Sel.png"
-    return image_button_stylesheet(standard_link, hover_link, pressed_link, selected)
+    return image_button_stylesheet(standard_link, hover_link, pressed_link, selected, accessable)
 
 
-def hlm_gamma_button(selected=False):
+def hlm_gamma_button(selected=False, accessable=True):
     standard_link = "src/data/GUI_img/Help_Std.png"
     hover_link = "src/data/GUI_img/Help_Sel.png"
     pressed_link = "src/data/GUI_img/Help_Sel.png"
-    return image_button_stylesheet(standard_link, hover_link, pressed_link, selected)
+    return image_button_stylesheet(standard_link, hover_link, pressed_link, selected, accessable)
 
 
 def sub_alpha_button(gm, accessible=True, var1=""):

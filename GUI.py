@@ -90,6 +90,7 @@ class Initiator(QMainWindow):
     menu_buttons_restricted = False
     entries_history = None
     database_status = 0
+    database_download_accessable = False
 
     # get current status -----------------------------------------------------------------------------------------------
     def update_system_parameters(self):
@@ -520,15 +521,60 @@ class Initiator(QMainWindow):
         pass
 
     def sub_delta_button_pressed(self):
-        if self.gui_mode == "database_menu":
+        if self.gui_mode == "database_menu" and self.database_download_accessable:
             self.menu_buttons_restricted = True
             threading.Thread(target=self.download_database).start()
-            self.menu_buttons_restricted = False
 
     def sub_epsilon_button_pressed(self):
         pass
 
     # program functions ################################################################################################
+
+    def proof_selected_menu_button(self):
+        if self.gui_mode == "home_menu":
+            self.mbl_alpha_button.setStyleSheet(GSS.mbl_alpha_button(selected=True, accessable=False))
+        elif self.gui_mode == "database_menu":
+            self.mbl_beta_button.setStyleSheet(GSS.mbl_beta_button(selected=True, accessable=False))
+        elif self.gui_mode == "search_menu":
+            self.mbl_gamma_button.setStyleSheet(GSS.mbl_gamma_button(selected=True, accessable=False))
+        elif self.gui_mode == "scan_menu":
+            self.mbl_delta_button.setStyleSheet(GSS.mbl_delta_button(selected=True, accessable=False))
+        elif self.gui_mode == "output_menu":
+            self.mbl_epsilon_button.setStyleSheet(GSS.mbl_epsilon_button(selected=True, accessable=False))
+        elif self.gui_mode == "settings_menu":
+            self.mbl_zeta_button.setStyleSheet(GSS.mbl_zeta_button(selected=True, accessable=False))
+        elif self.gui_mode == "account_menu":
+            self.hlm_alpha_button.setStyleSheet(GSS.hlm_alpha_button(selected=True, accessable=False))
+        elif self.gui_mode == "info_menu":
+            self.hlm_beta_button.setStyleSheet(GSS.hlm_beta_button(selected=True, accessable=False))
+        elif self.gui_mode == "help_menu":
+            self.hlm_gamma_button.setStyleSheet(GSS.hlm_gamma_button(selected=True, accessable=False))
+
+    def set_menu_buttons_restricted_access(self, engage=True):
+        if engage:
+            self.menu_buttons_restricted = True
+            self.mbl_alpha_button.setStyleSheet(GSS.mbl_alpha_button(selected=False, accessable=False))
+            self.mbl_beta_button.setStyleSheet(GSS.mbl_beta_button(selected=False, accessable=False))
+            self.mbl_gamma_button.setStyleSheet(GSS.mbl_gamma_button(selected=False, accessable=False))
+            self.mbl_delta_button.setStyleSheet(GSS.mbl_delta_button(selected=False, accessable=False))
+            self.mbl_epsilon_button.setStyleSheet(GSS.mbl_epsilon_button(selected=False, accessable=False))
+            self.mbl_zeta_button.setStyleSheet(GSS.mbl_zeta_button(selected=False, accessable=False))
+            self.hlm_alpha_button.setStyleSheet(GSS.hlm_alpha_button(selected=False, accessable=False))
+            self.hlm_beta_button.setStyleSheet(GSS.hlm_beta_button(selected=False, accessable=False))
+            self.hlm_gamma_button.setStyleSheet(GSS.hlm_gamma_button(selected=False, accessable=False))
+            self.proof_selected_menu_button()
+        else:
+            self.menu_buttons_restricted = False
+            self.mbl_alpha_button.setStyleSheet(GSS.mbl_alpha_button(selected=False, accessable=True))
+            self.mbl_beta_button.setStyleSheet(GSS.mbl_beta_button(selected=False, accessable=True))
+            self.mbl_gamma_button.setStyleSheet(GSS.mbl_gamma_button(selected=False, accessable=True))
+            self.mbl_delta_button.setStyleSheet(GSS.mbl_delta_button(selected=False, accessable=True))
+            self.mbl_epsilon_button.setStyleSheet(GSS.mbl_epsilon_button(selected=False, accessable=True))
+            self.mbl_zeta_button.setStyleSheet(GSS.mbl_zeta_button(selected=False, accessable=True))
+            self.hlm_alpha_button.setStyleSheet(GSS.hlm_alpha_button(selected=False, accessable=True))
+            self.hlm_beta_button.setStyleSheet(GSS.hlm_beta_button(selected=False, accessable=True))
+            self.hlm_gamma_button.setStyleSheet(GSS.hlm_gamma_button(selected=False, accessable=True))
+            self.proof_selected_menu_button()
 
     def update_progress(self):
         # Update the progress value (e.g., read it from a download operation)
@@ -550,7 +596,9 @@ class Initiator(QMainWindow):
             self.timer.stop()
 
     def check_database_status(self):
-        # check paths
+        self.set_menu_buttons_restricted_access()
+
+        # check paths ------------------------
         if self.database_status == 0:
 
             self.alpha_headline.setText("Determining database status...")
@@ -583,38 +631,38 @@ class Initiator(QMainWindow):
                 self.database_status = 1
                 time.sleep(2)
 
-        # check internet
+        # check internet ----------------------------
         if self.database_status == 1:
+
+            self.alpha_headline.setText("Checking internet connection...")
             self.beta_info.setStyleSheet(GSS.menu_widgets_background_std(textcolor="white"))
             self.beta_widget.setStyleSheet(GSS.loading_bar_widget(ascending="true", green=False, red=True))
             self.sub_beta_button.setStyleSheet(GSS.sub_alpha_button(self.gui_mode, False))
             self.sub_gamma_button.setStyleSheet(GSS.sub_alpha_button(self.gui_mode, False))
             self.sub_gamma_button.setStyleSheet(GSS.sub_alpha_button(self.gui_mode, False))
-            self.alpha_headline.setText("Checking internet connection...")
             time.sleep(1)
             try:
                 url = "https://zenodo.org/record/5172857/files/wiki_morph.json?download=1"
                 response = requests.get(url, stream=True)
 
+                self.alpha_headline.setText("Your device is connected!")
                 self.beta_widget.setStyleSheet(GSS.loading_bar_widget(ascending="true", green=True, red=False))
                 self.sub_beta_button.setStyleSheet(GSS.sub_alpha_button(self.gui_mode, True, "gold"))
                 self.sub_gamma_button.setStyleSheet(GSS.sub_alpha_button(self.gui_mode, True, "gold"))
-                self.alpha_headline.setText("Your device is connected!")
                 self.database_status = 2
                 time.sleep(2)
 
             except NameResolutionError or MaxRetryError:
                 self.alpha_headline.setText("Warning: Your device is not connected!")
                 time.sleep(1)
-                # self.beta_headline.print_text("lets go!")
                 self.beta_headline.setText("Please connect your device and restart the procedure!")
 
-        # check database installation
+        # check database installation -------------------------------
         if self.database_status == 2:
 
+            self.alpha_headline.setText("Checking database installation...")
             self.gamma_info.setStyleSheet(GSS.menu_widgets_background_std(textcolor="white"))
             self.gamma_widget.setStyleSheet(GSS.loading_bar_widget(ascending="true", green=False, red=True))
-            self.alpha_headline.setText("Checking database installation...")
             time.sleep(2)
 
             if not os.path.exists("src/database/wiki_morph.json"):
@@ -625,6 +673,7 @@ class Initiator(QMainWindow):
                 self.sub_delta_button.setStyleSheet(GSS.sub_alpha_button(self.gui_mode, True, var1="green"))
                 self.sub_delta_button.setText("Download Database")
                 self.beta_headline.setText("Please download the database to continue.")
+                self.database_download_accessable = True
             else:
                 current_size = os.path.getsize("src/database/wiki_morph.json")
                 current_size = int(current_size / (1024 * 1024))
@@ -642,110 +691,55 @@ class Initiator(QMainWindow):
                     time.sleep(5)
                     self.beta_headline.setText("Please reinstall the database to solve the problem.")
                     self.sub_delta_button.setStyleSheet(GSS.sub_alpha_button(self.gui_mode, True, "green"))
+                    self.database_download_accessable = True
                 else:
                     self.gamma_widget.setStyleSheet(GSS.loading_bar_widget(ascending="true", green=True, red=False))
                     self.alpha_headline.setText("Installation found!")
                     self.database_status = 3
+                    time.sleep(2)
 
-            """
+        # check for updates ----------------------------
+        if self.database_status == 3:
+
+            self.alpha_headline.setText("Checking for Updates...")
+            self.delta_info.setStyleSheet(GSS.menu_widgets_background_std(textcolor="white"))
+            self.delta_widget.setStyleSheet(GSS.loading_bar_widget(ascending="true", green=False, red=True))
+            time.sleep(2)
+
+            url = "https://zenodo.org/record/5172857/files/wiki_morph.json?download=1"
+            current_size = SDM.get_current_size()
+
             try:
-                url = "https://zenodo.org/record/5172857/files/wiki_morph.json?download=1"
                 response = requests.get(url, stream=True)
                 remote_size = int(response.headers.get("Content-Length", 0))
                 remote_size = int(remote_size / (1024 * 1024))
 
-                os.system('cls')
-                print("\n\tWarning: wiki_morph database could not be found on your system!"
-                      "\n\tYou are free to download it automatically.")
                 if remote_size == 0:
-                    print("\tSize of file: unknown")
+                    self.alpha_headline.setText("Update check not possible!")
+                    self.beta_headline.setText("The server does not provide the required information.")
+                    time.sleep(4)
+                    self.beta_headline.setText("You can just use the last recent locally installed version.")
+                    time.sleep(5)
                 else:
-                    print("\tSize of file: " + str(remote_size) + "MB")
-                print("\tDo you want to download it now? (y/n)")
-                answer = input("\n\tanswer: ")
-
-                if answer == "y":
-
-                    SDM.set_download_size(remote_size)
-
-                    normal = CA.download_database(url=url)
-
-                    if normal:
-                        current_size = os.path.getsize("data/wiki_morph.json")
-                        current_size = int(current_size / (1024 * 1024))
-                        SDM.set_current_size(current_size)
-
-                        os.system('cls')
-                        print("\n\n\tDownload completed! (" + str(current_size) + " MB)"
-                              "\n\n\tDo you wish to search for terms now? (y/n)")
-                        answer = input("\n\tanswer: ")
-                        if answer == "n":
-                            print("\n\tProgram will now terminate.")
-                            time.sleep(3)
-                            sys.exit(0)
+                    if current_size < remote_size:
+                        self.beta_headline.setText("There is a new version of wikimorph database!")
+                        time.sleep(4)
+                        self.beta_headline.setText("You can either download the update or use the installed version.")
+                        time.sleep(4)
+                        self.beta_headline.setText("Update-size: " + str(remote_size) + " MB")
                     else:
-                        sys.exit()
-
-                else:
-                    CA.print_exit_without_download()
-                time.sleep(1)
-
-            except NameResolutionError or MaxRetryError:
-                os.system('cls')
-                print("\n\tWarning: Database is not installed currently."
-                      "\n\n\tThis program offers the possibility to download the database automatically."
-                      "\n\tBut for the moment there was no internet connection recognized."
-                      "\n\tPlease make sure you are connected and restart the program."
-                      "\n\tThe program will now terminate.")
-                time.sleep(7)
-                sys.exit(0)
-
-        else:
-            os.system('cls')
-            current_size = os.path.getsize("data/wiki_morph.json")
-            current_size = int(current_size / (1024 * 1024))
-            soll_size = SDM.get_soll_size()
-
-            if current_size < soll_size:
-                print("\n\tWarning: the local database file does not cover the expected amount of information!"
-                      "\n\n\t(Expected size: min. " + str(soll_size) + " MB)"
-                      "\n\t(Local size: " + str(current_size) + " MB)"
-                      "\n\n\tThis may be due to an interruption during the last downloading process."
-                      "\n\tTo solve this problem you should reinstall the database by downloading it again."
-                      "\n\tDo you want to start the download now? (y/n)")
-                answer = input("\n\tanswer: ")
-
-                if answer == "y":
-
-                    SDM.set_current_size()
-                    url = "https://zenodo.org/record/5172857/files/wiki_morph.json?download=1"
-                    response = requests.get(url, stream=True)
-                    remote_size = int(response.headers.get("Content-Length", 0))
-                    remote_size = int(remote_size / (1024 * 1024))
-
-                    SDM.set_download_size(remote_size)
-                    CA.download_database(url=url)
-
-                    current_size = os.path.getsize("data/wiki_morph.json")
-                    current_size = int(current_size / (1024 * 1024))
-                    SDM.set_current_size(current_size)
-
-                    check_for_updates_necessary = False
-                    os.system('cls')
-                    print("\n\n\tDownload completed! (" + str(current_size) + " MB)"
-                          "\n\n\tDo you wish to search for terms now? (y/n)")
-                    answer = input("\n\tanswer: ")
-                    if answer == "n":
-                        print("\n\tProgramm will now terminate.")
+                        self.delta_widget.setStyleSheet(GSS.loading_bar_widget(ascending="true", green=True, red=False))
+                        self.alpha_headline.setText("Installation is up to date!")
+                        self.beta_headline.setText("You are using the newest version of wikimorph.")
                         time.sleep(3)
-                        sys.exit(0)
+                        self.database_status = 4
+            except NameResolutionError or MaxRetryError:
+                self.alpha_headline.setText("Update check not possible!")
+                self.beta_headline.setText("The internet connection was interrupted!")
+                time.sleep(5)
+                self.beta_headline.setText("Please recheck internet connection or use the installed wikimorph version.")
 
-                else:
-                    CA.print_exit_without_download()
-            else:
-                print("\n\tDatabase installed and available.")
-            time.sleep(3)
-            """
+        self.set_menu_buttons_restricted_access(False)
 
     def download_database(self):
 
@@ -758,13 +752,18 @@ class Initiator(QMainWindow):
         url = "https://zenodo.org/record/5172857/files/wiki_morph.json?download=1"
 
         try:
-            os.system('cls')
             self.progress_bar.setValue(0)  # Reset the progress bar
             self.progress_bar.setStyleSheet("QProgressBar::chunk { background-color: red; }")
             self.progress_bar.show()  # Show the progress bar
 
             self.alpha_headline.setText("Status: Downloading wikimorph...")
             self.beta_headline.setText("Download in progress:")
+
+            response = requests.get(url, stream=True)
+            remote_size = int(response.headers.get("Content-Length", 0))
+            remote_size = int(remote_size / (1024 * 1024))
+            SDM.set_download_size(remote_size)
+
             urllib.request.urlretrieve(url, "src/database/wiki_morph.json", reporthook=progress)
 
             # Download completed
@@ -779,7 +778,8 @@ class Initiator(QMainWindow):
         except (urllib.error.URLError, urllib.error.HTTPError):
             self.alpha_headline.setText("Download failed!")
 
-        # Hide the progress bar after the download
+        # Hide the progress bar and reset system variables after the download
         self.progress_bar.hide()
+        self.database_download_accessable = False
 
 
