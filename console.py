@@ -1,7 +1,7 @@
 import json, sys
 import time
 from openpyxl import load_workbook
-
+from playsound import playsound
 import os, requests
 
 from urllib3.exceptions import NameResolutionError, MaxRetryError
@@ -19,7 +19,7 @@ def check_paths():
     print("\n\tChecking database status...")
     time.sleep(1)
 
-    if not os.path.exists("data/wiki_morph.json"):
+    if not os.path.exists("src/database/wiki_morph.json"):
         SDM.set_current_size()
         try:
             url = "https://zenodo.org/record/5172857/files/wiki_morph.json?download=1"
@@ -44,7 +44,7 @@ def check_paths():
                 normal = CA.download_database(url=url)
 
                 if normal:
-                    current_size = os.path.getsize("data/wiki_morph.json")
+                    current_size = os.path.getsize("src/database/wiki_morph.json")
                     current_size = int(current_size / (1024 * 1024))
                     SDM.set_current_size(current_size)
 
@@ -76,7 +76,7 @@ def check_paths():
 
     else:
         os.system('cls')
-        current_size = os.path.getsize("data/wiki_morph.json")
+        current_size = os.path.getsize("src/database/wiki_morph.json")
         current_size = int(current_size / (1024 * 1024))
         soll_size = SDM.get_soll_size()
 
@@ -100,7 +100,7 @@ def check_paths():
                 SDM.set_download_size(remote_size)
                 CA.download_database(url=url)
 
-                current_size = os.path.getsize("data/wiki_morph.json")
+                current_size = os.path.getsize("src/database/wiki_morph.json")
                 current_size = int(current_size / (1024 * 1024))
                 SDM.set_current_size(current_size)
 
@@ -172,7 +172,7 @@ def search_for_terms(log_title, workbook_title):
     # loading database
     os.system('cls')
     print("\n\tLoading wiki_morph database...")
-    with open("data/wiki_morph.json", "r", encoding="utf-8") as f:
+    with open("src/database/wiki_morph.json", "r", encoding="utf-8") as f:
         entries_list = json.load(f)
     os.system('cls')
     print("\n\tCompleted!")
@@ -217,7 +217,8 @@ def search_for_terms(log_title, workbook_title):
             file = CA.select_excel_file()
             terms = CA.autoscan(file)
             number_of_terms = len(terms)
-            pos_filters = ["Noun"]
+            # pos_filters = ["Noun"]
+            pos_filters = ["Noun", "Verb", "Adverb", "Adjective", "Preposition", "Phrase"]
             status = "\n\t- Automatic scan mode -" \
                      "\n\n\tExcel file: " + file +\
                      "\n\tFound terms: " + str(number_of_terms)
@@ -233,12 +234,24 @@ def search_for_terms(log_title, workbook_title):
                 print(status)
                 print("\n\tSearching for terms..."
                       "\n\tCurrent term: " + term + "\t\tProgress: " + str(progress) + "%")
-                worksheet, excel_row, log_output = CA.search_and_output(worksheet=worksheet,
-                                                                        excel_row=excel_row,
-                                                                        pos_filters=pos_filters,
-                                                                        term=term,
-                                                                        entries_list=entries_list,
-                                                                        print_console_output=False)
+                if x == 0:
+                    worksheet, excel_row, log_output = CA.search_and_output(worksheet=worksheet,
+                                                                            excel_row=excel_row,
+                                                                            pos_filters=pos_filters,
+                                                                            term=term,
+                                                                            entries_list=entries_list,
+                                                                            print_console_output=False,
+                                                                            only_not_found_terms=False,
+                                                                            headlines_necessary=True)
+                else:
+                    worksheet, excel_row, log_output = CA.search_and_output(worksheet=worksheet,
+                                                                            excel_row=excel_row,
+                                                                            pos_filters=pos_filters,
+                                                                            term=term,
+                                                                            entries_list=entries_list,
+                                                                            print_console_output=False,
+                                                                            only_not_found_terms=False,
+                                                                            headlines_necessary=True)
                 progress = int(50*(x/number_of_terms))
                 progressbar = ("\t[" + "-" * (progress-1) + ">" + " " * (50-(progress+1)) + "]")
                 print(progressbar)
@@ -257,6 +270,121 @@ def search_for_terms(log_title, workbook_title):
 
             time.sleep(7)
             os.system('cls')
+            playsound("src/data/GUI_sound/Signal.mp3")
+
+        elif i == "c!":
+            os.system('cls')
+            status = "\n\t- Comparison mode -"
+            print(status)
+            print("\n\tPlease select two excel files you want to compare.")
+            time.sleep(3)
+            print("\n\tSelect excel file 1 now.")
+            time.sleep(3)
+            file_1 = CA.select_excel_file()
+            terms_1 = CA.autoscan(file_1)
+            number_of_terms_1 = len(terms_1)
+            print("\n\tSelected file 1: " + file_1)
+            print("\tFound terms: " + str(number_of_terms_1))
+            time.sleep(4)
+
+            os.system('cls')
+            print(status)
+            print("\n\tSelect excel file 2 now.")
+            time.sleep(3)
+            file_2 = CA.select_excel_file()
+            terms_2 = CA.autoscan(file_2)
+            number_of_terms_2 = len(terms_2)
+            print("\n\tSelected file 2: " + file_2)
+            print("\tFound terms: " + str(number_of_terms_2))
+            time.sleep(4)
+
+            os.system('cls')
+            print(status)
+            print("\n\tPreparing comparison...")
+            unique_terms_1 = []
+            unique_terms_2 = []
+            common_terms = []
+
+            for x in range(number_of_terms_1):
+                term = terms_1[x]
+                progress = format(100 * ((x+1) / number_of_terms_1), ".2f")
+                os.system('cls')
+                print(status)
+                print("\n\tScanning file 1..."
+                      "\n\tCurrent term: " + term + "\t\tProgress: " + str(progress) + "%")
+                if term not in terms_2:
+                    unique_terms_1.append(term)
+                    print("\n\tTerm not found in file 2!")
+                else:
+                    common_terms.append(term)
+                    print("\n\tTerm found in file 2!")
+
+            time.sleep(1)
+            os.system('cls')
+            print(status)
+            print("\n\tScanning of file 1 finished!"
+                  "\n\n\tThe following terms could not be found in file 2:"
+                  "\n\t" + str(unique_terms_1))
+            time.sleep(7)
+
+            for x in range(number_of_terms_2):
+                term = terms_2[x]
+                progress = format(100 * ((x+1) / number_of_terms_2), ".2f")
+                os.system('cls')
+                print(status)
+                print("\n\tScanning file 2..."
+                      "\n\tCurrent term: " + term + "\t\tProgress: " + str(progress) + "%")
+                if term not in terms_1:
+                    unique_terms_2.append(term)
+                    print("\n\tTerm not found in file 1!")
+                else:
+                    common_terms.append(term)
+                    print("\n\tTerm found in file 1!")
+
+            # eliminating duplicates in common terms list
+            common_terms = list(set(common_terms))
+
+            time.sleep(1)
+            os.system('cls')
+            print(status)
+            print("\n\tScanning of file 2 finished!"
+                  "\n\n\tThe following terms could not be found in file 1:"
+                  "\n\t" + str(unique_terms_2))
+            time.sleep(7)
+
+            os.system('cls')
+            print(status)
+            print("\n\tProcess finished!"
+                  "\n\tThe two excel files had the following terms in common:"
+                  "\n\t" + str(common_terms) +
+                  "\n\n\tThe results will now be saved in an additional excel file...")
+            time.sleep(10)
+
+            # generating new Excel file for comparison results exclusively
+            results_wb_name = CA.create_comparison_result_excel(fd=formatted_date)
+            results_workbook = load_workbook(results_wb_name)
+            results_worksheet = results_workbook.active
+
+            # saving results
+            results_worksheet = CA.write_comparison_result_excel(worksheet=results_worksheet,
+                                                                 file_1=file_1, file_2=file_2,
+                                                                 list_of_terms_1=unique_terms_1,
+                                                                 list_of_terms_2=unique_terms_2,
+                                                                 common_terms_list=common_terms)
+            results_workbook.save(results_wb_name)
+
+            log = open(log_title, "a", encoding="utf-8")
+            log_output = "\t------------------------------------------------------------\n\n\tComparion mode accessed" \
+                         "\n\tFile 1: " + file_1 + "\n\tFile 2: " + file_2 + "\n"
+            log.write("\n\n" + log_output)
+            log.close()
+
+            os.system('cls')
+            print(status)
+            print("\n\tSaving process finished!"
+                  "\n\tReturning to manual search mode...")
+            time.sleep(5)
+            playsound("src/data/GUI_sound/Signal.mp3")
 
         else:
             if ":" in i:
@@ -282,7 +410,7 @@ def search_for_terms(log_title, workbook_title):
             workbook.save(workbook_title)
 
 
-CA.print_opening(version="Version 2.0")
+CA.print_opening(version="Version 2.1")
 
 check_paths()
 
