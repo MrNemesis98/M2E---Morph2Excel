@@ -165,7 +165,7 @@ def show_version_description():
 
 
 def search_and_output(worksheet, excel_row, pos_filters, term, entries_list, print_console_output=True,
-                      only_not_found_terms=False, headlines_necessary=True):
+                      only_found_terms=False, only_not_found_terms=False, headlines_necessary=True):
 
     # Set the color for blue entries
     blue_color = "0000FF"
@@ -206,6 +206,7 @@ def search_and_output(worksheet, excel_row, pos_filters, term, entries_list, pri
         worksheet[filter_cell] = "NONE"
     else:
         worksheet[filter_cell] = str(pos_filters)
+
     found_entries = 0
 
     log_output = "\t------------------------------------------------------------\n\n\tWord: " + term
@@ -235,6 +236,7 @@ def search_and_output(worksheet, excel_row, pos_filters, term, entries_list, pri
             found_entries += 1
 
             if not only_not_found_terms:
+
                 keys = list(entry.keys())
 
                 # Data Structure Level 1 ---------------------------------------------------------------------
@@ -405,20 +407,25 @@ def search_and_output(worksheet, excel_row, pos_filters, term, entries_list, pri
                             worksheet[sub_meaning_cell] = str(cleaned_sub_meaning_values[x])
 
                 excel_row += 1
-
+            else:
+                excel_row -= 1
     if found_entries == 0 and len(pos_filters) == 6:
         final_output += "\n\tWarning: database has no entry for '" + term + "'."
         log_output += "\n\tWarning: no entry for '" + term + "'."
 
-        pos_cell = "C" + str(excel_row)
-        syll_cell = "D" + str(excel_row)
-        def_cell = "E" + str(excel_row)
-        morph_cell = "F" + str(excel_row)
-        worksheet[pos_cell] = "N/V"
-        worksheet[syll_cell] = "N/V"
-        worksheet[def_cell] = "N/V"
-        worksheet[morph_cell] = "N/V"
-        excel_row += 1
+        if not only_found_terms:
+
+            pos_cell = "C" + str(excel_row)
+            syll_cell = "D" + str(excel_row)
+            def_cell = "E" + str(excel_row)
+            morph_cell = "F" + str(excel_row)
+            worksheet[pos_cell] = "N/V"
+            worksheet[syll_cell] = "N/V"
+            worksheet[def_cell] = "N/V"
+            worksheet[morph_cell] = "N/V"
+            excel_row += 1
+        else:
+            excel_row -= 1
 
     elif found_entries == 0 and len(pos_filters) != 6:
 
@@ -433,15 +440,19 @@ def search_and_output(worksheet, excel_row, pos_filters, term, entries_list, pri
         log_output += "\n\tWarning: no results for '" + term + "' with filters '" + \
                       pos_output + "'."
 
-        pos_cell = "C" + str(excel_row)
-        syll_cell = "D" + str(excel_row)
-        def_cell = "E" + str(excel_row)
-        morph_cell = "F" + str(excel_row)
-        worksheet[pos_cell] = "N/V"
-        worksheet[syll_cell] = "N/V"
-        worksheet[def_cell] = "N/V"
-        worksheet[morph_cell] = "N/V"
-        excel_row += 1
+        if not only_found_terms:
+
+            pos_cell = "C" + str(excel_row)
+            syll_cell = "D" + str(excel_row)
+            def_cell = "E" + str(excel_row)
+            morph_cell = "F" + str(excel_row)
+            worksheet[pos_cell] = "N/V"
+            worksheet[syll_cell] = "N/V"
+            worksheet[def_cell] = "N/V"
+            worksheet[morph_cell] = "N/V"
+            excel_row += 1
+        else:
+            excel_row -= 1
 
     else:
         if len(pos_filters) == 6:

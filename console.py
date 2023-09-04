@@ -176,6 +176,7 @@ def search_for_terms(log_title, workbook_title):
         entries_list = json.load(f)
     os.system('cls')
     print("\n\tCompleted!")
+    playsound("src/data/GUI_sound/Signal.mp3")
 
     time.sleep(.5)
     print("\n\tYou can now search for terms.")
@@ -222,45 +223,132 @@ def search_for_terms(log_title, workbook_title):
             status = "\n\t- Automatic scan mode -" \
                      "\n\n\tExcel file: " + file +\
                      "\n\tFound terms: " + str(number_of_terms)
+            time.sleep(2)
             os.system('cls')
             print(status)
+            print("\n\tOutput options"
+                  "\n\tPlease state which terms shall be considered in the output excel file:"
+                  '\n\tType in "1" for all terms with an entry.'
+                  '\n\tType in "2" for all terms with no entry.'
+                  '\n\tType in "3" for all terms.')
+            output_option = input("\n\tAnswer: ")
+
             print("\n\tThe terms will now be searched in the database.")
             time.sleep(2)
 
-            for x in range(number_of_terms):
-                term = terms[x]
-                os.system('cls')
-                progress = format(100*(x/number_of_terms), ".2f")
-                print(status)
-                print("\n\tSearching for terms..."
-                      "\n\tCurrent term: " + term + "\t\tProgress: " + str(progress) + "%")
-                if x == 0:
-                    worksheet, excel_row, log_output = CA.search_and_output(worksheet=worksheet,
-                                                                            excel_row=excel_row,
-                                                                            pos_filters=pos_filters,
-                                                                            term=term,
-                                                                            entries_list=entries_list,
-                                                                            print_console_output=False,
-                                                                            only_not_found_terms=False,
-                                                                            headlines_necessary=True)
-                else:
-                    worksheet, excel_row, log_output = CA.search_and_output(worksheet=worksheet,
-                                                                            excel_row=excel_row,
-                                                                            pos_filters=pos_filters,
-                                                                            term=term,
-                                                                            entries_list=entries_list,
-                                                                            print_console_output=False,
-                                                                            only_not_found_terms=False,
-                                                                            headlines_necessary=True)
-                progress = int(50*(x/number_of_terms))
-                progressbar = ("\t[" + "-" * (progress-1) + ">" + " " * (50-(progress+1)) + "]")
-                print(progressbar)
+            if output_option == "1":
+                for x in range(number_of_terms):
+                    term = terms[x]
+                    os.system('cls')
+                    progress = format(100*(x/number_of_terms), ".2f")
+                    print(status)
+                    print("\n\tSearching for terms..."
+                          "\n\tCurrent term: " + term + "\t\tProgress: " + str(progress) + "%")
+                    if x == 0:
+                        worksheet, excel_row, log_output = CA.search_and_output(worksheet=worksheet,
+                                                                                excel_row=excel_row,
+                                                                                pos_filters=pos_filters,
+                                                                                term=term,
+                                                                                entries_list=entries_list,
+                                                                                print_console_output=False,
+                                                                                only_found_terms=True,
+                                                                                only_not_found_terms=False,
+                                                                                headlines_necessary=True)
+                    else:
+                        worksheet, excel_row, log_output = CA.search_and_output(worksheet=worksheet,
+                                                                                excel_row=excel_row,
+                                                                                pos_filters=pos_filters,
+                                                                                term=term,
+                                                                                entries_list=entries_list,
+                                                                                print_console_output=False,
+                                                                                only_found_terms=True,
+                                                                                only_not_found_terms=False,
+                                                                                headlines_necessary=True)
+                    progress = int(50*(x/number_of_terms))
+                    progressbar = ("\t[" + "-" * (progress-1) + ">" + " " * (50-(progress+1)) + "]")
+                    print(progressbar)
 
-                log = open(log_title, "a", encoding="utf-8")
-                log.write("\n\n" + log_output)
-                log.close()
+                    log = open(log_title, "a", encoding="utf-8")
+                    log.write("\n\n" + log_output)
+                    log.close()
 
-                workbook.save(workbook_title)
+                    workbook.save(workbook_title)
+
+            elif output_option == "2":
+                for x in range(number_of_terms):
+                    term = terms[x]
+                    os.system('cls')
+                    progress = format(100 * (x / number_of_terms), ".2f")
+                    print(status)
+                    print("\n\tSearching for terms..."
+                          "\n\tCurrent term: " + term + "\t\tProgress: " + str(progress) + "%")
+                    if x == 0:
+                        worksheet, excel_row, log_output = CA.search_and_output(worksheet=worksheet,
+                                                                                excel_row=excel_row,
+                                                                                pos_filters=pos_filters,
+                                                                                term=term,
+                                                                                entries_list=entries_list,
+                                                                                print_console_output=False,
+                                                                                only_found_terms=False,
+                                                                                only_not_found_terms=True,
+                                                                                headlines_necessary=True)
+                    else:
+                        worksheet, excel_row, log_output = CA.search_and_output(worksheet=worksheet,
+                                                                                excel_row=excel_row,
+                                                                                pos_filters=pos_filters,
+                                                                                term=term,
+                                                                                entries_list=entries_list,
+                                                                                print_console_output=False,
+                                                                                only_found_terms=False,
+                                                                                only_not_found_terms=True,
+                                                                                headlines_necessary=True)
+                    progress = int(50 * (x / number_of_terms))
+                    progressbar = ("\t[" + "-" * (progress - 1) + ">" + " " * (50 - (progress + 1)) + "]")
+                    print(progressbar)
+
+                    log = open(log_title, "a", encoding="utf-8")
+                    log.write("\n\n" + log_output)
+                    log.close()
+
+                    workbook.save(workbook_title)
+
+            else:
+                for x in range(number_of_terms):
+                    term = terms[x]
+                    os.system('cls')
+                    progress = format(100 * (x / number_of_terms), ".2f")
+                    print(status)
+                    print("\n\tSearching for terms..."
+                          "\n\tCurrent term: " + term + "\t\tProgress: " + str(progress) + "%")
+                    if x == 0:
+                        worksheet, excel_row, log_output = CA.search_and_output(worksheet=worksheet,
+                                                                                excel_row=excel_row,
+                                                                                pos_filters=pos_filters,
+                                                                                term=term,
+                                                                                entries_list=entries_list,
+                                                                                print_console_output=False,
+                                                                                only_found_terms=False,
+                                                                                only_not_found_terms=False,
+                                                                                headlines_necessary=True)
+                    else:
+                        worksheet, excel_row, log_output = CA.search_and_output(worksheet=worksheet,
+                                                                                excel_row=excel_row,
+                                                                                pos_filters=pos_filters,
+                                                                                term=term,
+                                                                                entries_list=entries_list,
+                                                                                print_console_output=False,
+                                                                                only_found_terms=False,
+                                                                                only_not_found_terms=False,
+                                                                                headlines_necessary=True)
+                    progress = int(50 * (x / number_of_terms))
+                    progressbar = ("\t[" + "-" * (progress - 1) + ">" + " " * (50 - (progress + 1)) + "]")
+                    print(progressbar)
+
+                    log = open(log_title, "a", encoding="utf-8")
+                    log.write("\n\n" + log_output)
+                    log.close()
+
+                    workbook.save(workbook_title)
 
             os.system('cls')
             print(status)

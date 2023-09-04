@@ -1,0 +1,33 @@
+Morph2Excel Log from 04_09_2023_(11_05_02)
+
+	------------------------------------------------------------
+
+	Word: search
+	Filters: NONE
+	Entries found: 7
+
+
+	------------------------------------------------------------
+
+	Word: africa
+	Warning: no entry for 'africa'.
+
+	------------------------------------------------------------
+
+	Word: cute
+	Filters: NONE
+	Entries found: 5
+
+
+	------------------------------------------------------------
+
+	Word: island
+	Filters: NONE
+	Entries found: 7
+
+
+	------------------------------------------------------------
+
+	Word: origin
+	Filters: NONE
+	Entries found: 6
