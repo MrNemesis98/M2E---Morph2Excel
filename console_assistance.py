@@ -175,7 +175,8 @@ def search_and_output(worksheet, excel_row, pos_filters, term, entries_list, pri
     brown_color = "6E2C00"
     brown_font = Font(color=Color(rgb=brown_color))
 
-    if headlines_necessary:
+    # Defining headline print function
+    def print_headlines(excel_row):
         term_Hcell = 'A' + str(excel_row)
         filter_Hcell = 'B' + str(excel_row)
         pos_Hcell = 'C' + str(excel_row)
@@ -198,14 +199,33 @@ def search_and_output(worksheet, excel_row, pos_filters, term, entries_list, pri
         worksheet[morph_Hcell].font = Font(bold=True, color=Color(rgb=blue_color))
 
         excel_row += 1
+        return excel_row
 
-    term_cell = "A" + str(excel_row)
-    worksheet[term_cell] = term
-    filter_cell = "B" + str(excel_row)
-    if len(pos_filters) == 6:
-        worksheet[filter_cell] = "NONE"
-    else:
-        worksheet[filter_cell] = str(pos_filters)
+    # defining term print function
+    def print_term():
+        term_cell = "A" + str(excel_row)
+        worksheet[term_cell] = term
+        filter_cell = "B" + str(excel_row)
+        if len(pos_filters) == 6:
+            worksheet[filter_cell] = "NONE"
+        else:
+            worksheet[filter_cell] = str(pos_filters)
+
+    # print control in dependency of system variables and found entries
+    found_entries = 0
+    for x in range(len(entries_list)):
+        entry = entries_list[x]
+        if entry["Word"] == term and entry["PoS"] in pos_filters:
+            found_entries += 1
+
+    if found_entries != 0 and not only_not_found_terms:
+        if headlines_necessary:
+            excel_row = print_headlines(excel_row)
+        print_term()
+    elif found_entries == 0 and not only_found_terms:
+        if headlines_necessary:
+            excel_row = print_headlines(excel_row)
+        print_term()
 
     found_entries = 0
 
@@ -407,8 +427,6 @@ def search_and_output(worksheet, excel_row, pos_filters, term, entries_list, pri
                             worksheet[sub_meaning_cell] = str(cleaned_sub_meaning_values[x])
 
                 excel_row += 1
-            else:
-                excel_row -= 1
     if found_entries == 0 and len(pos_filters) == 6:
         final_output += "\n\tWarning: database has no entry for '" + term + "'."
         log_output += "\n\tWarning: no entry for '" + term + "'."
@@ -424,8 +442,6 @@ def search_and_output(worksheet, excel_row, pos_filters, term, entries_list, pri
             worksheet[def_cell] = "N/V"
             worksheet[morph_cell] = "N/V"
             excel_row += 1
-        else:
-            excel_row -= 1
 
     elif found_entries == 0 and len(pos_filters) != 6:
 
@@ -451,8 +467,6 @@ def search_and_output(worksheet, excel_row, pos_filters, term, entries_list, pri
             worksheet[def_cell] = "N/V"
             worksheet[morph_cell] = "N/V"
             excel_row += 1
-        else:
-            excel_row -= 1
 
     else:
         if len(pos_filters) == 6:

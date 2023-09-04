@@ -99,6 +99,7 @@ def check_paths():
 
                 SDM.set_download_size(remote_size)
                 CA.download_database(url=url)
+                playsound("src/data/GUI_sound/Signal.mp3")
 
                 current_size = os.path.getsize("src/database/wiki_morph.json")
                 current_size = int(current_size / (1024 * 1024))
@@ -489,7 +490,8 @@ def search_for_terms(log_title, workbook_title):
                                                                     excel_row=excel_row,
                                                                     pos_filters=pos_filters,
                                                                     term=term,
-                                                                    entries_list=entries_list)
+                                                                    entries_list=entries_list,
+                                                                    )
 
             log = open(log_title, "a", encoding="utf-8")
             log.write("\n\n" + log_output)
