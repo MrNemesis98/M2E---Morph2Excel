@@ -12,7 +12,7 @@ from urllib3.exceptions import NameResolutionError, MaxRetryError
 
 def print_opening(version):
     os.system('cls')
-    print("\033[32m" + "\n\tWelcome to Morph2Excel - the wiki_morph API!\n\t~ " + version + " ~" + "\033[0m")
+    print("\033[32m" + "\n\tMorph2Excel ~ Version " + version + "\033[0m")
 
 
 def print_exit_without_download():
@@ -78,10 +78,12 @@ def download_database(url):
     while not stop:
         try:
             os.system('cls')
+            print_opening(version="Version 2.2c")
             print("\n\tDownloading wiki_morph...\n")
             urllib.request.urlretrieve(url, "src/database/wiki_morph.json", reporthook=progress)
             stop = True
         except NameResolutionError or MaxRetryError:
+            print_opening(version="Version 2.2c")
             print("\n\tDownload not possible: No internet connection!"
                   "\n\tYou can try again by pressing enter."
                   '\n\tAlternatively you can end the program by typing "exit!".')
@@ -164,8 +166,62 @@ def show_version_description():
     time.sleep(.25)
 
 
-def search_and_output(worksheet, excel_row, pos_filters, term, entries_list, print_console_output=True,
-                      only_found_terms=False, only_not_found_terms=False, headlines_necessary=True):
+def print_headlines(worksheet, excel_row):
+
+    blue_color = "0000FF"
+    brown_color = "6E2C00"
+
+    term_Hcell = 'A' + str(excel_row)
+    filter_Hcell = 'B' + str(excel_row)
+    pos_Hcell = 'C' + str(excel_row)
+    syll_Hcell = 'D' + str(excel_row)
+    def_Hcell = 'E' + str(excel_row)
+    affix_Hcell = 'F' + str(excel_row)
+    lang_Hcell = 'G' + str(excel_row)
+    sub_pos_Hcell = 'H' + str(excel_row)
+    mean_Hcell = 'I' + str(excel_row)
+    sub_affix_Hcell = 'J' + str(excel_row)
+    sub_lang_Hcell = 'K' + str(excel_row)
+    decoded_Hcell = 'L' + str(excel_row)
+    sub_sub_pos_Hcell = 'M' + str(excel_row)
+    sub_meaning_Hcell = 'N' + str(excel_row)
+
+    worksheet[term_Hcell] = 'Term'
+    worksheet[filter_Hcell] = 'Filter'
+    worksheet[pos_Hcell] = 'PoS'
+    worksheet[syll_Hcell] = 'Syllables'
+    worksheet[def_Hcell] = 'Definition'
+    worksheet[affix_Hcell] = 'Affix'
+    worksheet[lang_Hcell] = 'Language'
+    worksheet[sub_pos_Hcell] = 'PoS'
+    worksheet[mean_Hcell] = 'Meaning'
+    worksheet[sub_affix_Hcell] = 'Affix'
+    worksheet[sub_lang_Hcell] = 'Language'
+    worksheet[decoded_Hcell] = 'Decoded'
+    worksheet[sub_sub_pos_Hcell] = 'PoS'
+    worksheet[sub_meaning_Hcell] = 'Meanings'
+
+    worksheet[term_Hcell].font = Font(bold=True)
+    worksheet[filter_Hcell].font = Font(bold=True)
+    worksheet[pos_Hcell].font = Font(bold=True)
+    worksheet[syll_Hcell].font = Font(bold=True)
+    worksheet[def_Hcell].font = Font(bold=True)
+    worksheet[affix_Hcell].font = Font(bold=True, color=Color(rgb=blue_color))
+    worksheet[lang_Hcell].font = Font(bold=True, color=Color(rgb=blue_color))
+    worksheet[sub_pos_Hcell].font = Font(bold=True, color=Color(rgb=blue_color))
+    worksheet[mean_Hcell].font = Font(bold=True, color=Color(rgb=blue_color))
+    worksheet[sub_affix_Hcell].font = Font(bold=True, color=Color(rgb=brown_color))
+    worksheet[sub_lang_Hcell].font = Font(bold=True, color=Color(rgb=brown_color))
+    worksheet[decoded_Hcell].font = Font(bold=True, color=Color(rgb=brown_color))
+    worksheet[sub_sub_pos_Hcell].font = Font(bold=True, color=Color(rgb=brown_color))
+    worksheet[sub_meaning_Hcell].font = Font(bold=True, color=Color(rgb=brown_color))
+
+    excel_row += 1
+    return worksheet, excel_row
+
+
+def search_and_output(worksheet, excel_row, pos_filters, term, entries_list,
+                      only_found_terms=False, only_not_found_terms=False, multiline_output=True):
 
     # Set the color for blue entries
     blue_color = "0000FF"
@@ -175,33 +231,8 @@ def search_and_output(worksheet, excel_row, pos_filters, term, entries_list, pri
     brown_color = "6E2C00"
     brown_font = Font(color=Color(rgb=brown_color))
 
-    # Defining headline print function
-    def print_headlines(excel_row):
-        term_Hcell = 'A' + str(excel_row)
-        filter_Hcell = 'B' + str(excel_row)
-        pos_Hcell = 'C' + str(excel_row)
-        syll_Hcell = 'D' + str(excel_row)
-        def_Hcell = 'E' + str(excel_row)
-        morph_Hcell = 'F' + str(excel_row)
-
-        worksheet[term_Hcell] = 'Term'
-        worksheet[filter_Hcell] = 'Filter'
-        worksheet[pos_Hcell] = 'PoS'
-        worksheet[syll_Hcell] = 'Syllables'
-        worksheet[def_Hcell] = 'Definition'
-        worksheet[morph_Hcell] = 'Morphemes'
-
-        worksheet[term_Hcell].font = Font(bold=True)
-        worksheet[filter_Hcell].font = Font(bold=True)
-        worksheet[pos_Hcell].font = Font(bold=True)
-        worksheet[syll_Hcell].font = Font(bold=True)
-        worksheet[def_Hcell].font = Font(bold=True)
-        worksheet[morph_Hcell].font = Font(bold=True, color=Color(rgb=blue_color))
-
-        excel_row += 1
-        return excel_row
-
     # defining term print function
+    # only desired terms will be printed (depends on chosen 3 way output option as you can see below)
     def print_term():
         term_cell = "A" + str(excel_row)
         worksheet[term_cell] = term
@@ -211,7 +242,7 @@ def search_and_output(worksheet, excel_row, pos_filters, term, entries_list, pri
         else:
             worksheet[filter_cell] = str(pos_filters)
 
-    # print control in dependency of system variables and found entries
+    # print control in dependency of chosen 3 way output option
     found_entries = 0
     for x in range(len(entries_list)):
         entry = entries_list[x]
@@ -219,12 +250,8 @@ def search_and_output(worksheet, excel_row, pos_filters, term, entries_list, pri
             found_entries += 1
 
     if found_entries != 0 and not only_not_found_terms:
-        if headlines_necessary:
-            excel_row = print_headlines(excel_row)
         print_term()
     elif found_entries == 0 and not only_found_terms:
-        if headlines_necessary:
-            excel_row = print_headlines(excel_row)
         print_term()
 
     found_entries = 0
@@ -234,23 +261,58 @@ def search_and_output(worksheet, excel_row, pos_filters, term, entries_list, pri
     output = ""
     pos_output = ""
 
+    # preparing functions for printing the values
+    # useful to not repeat every cell definition before setting the values
+    def set_level_1_cell_data(current_excel_row, pos, syllables, definition):
+        pos_cell = "C" + str(current_excel_row)
+        syll_cell = "D" + str(current_excel_row)
+        def_cell = "E" + str(current_excel_row)
+
+        worksheet[pos_cell] = str(pos)
+        worksheet[syll_cell] = str(syllables)
+        worksheet[def_cell] = str(definition)
+
+    def set_level_2_cell_data(current_excel_row, affix, language, sub_pos, meaning):
+
+        affix_cell = "F" + str(current_excel_row)
+        lang_cell = "G" + str(current_excel_row)
+        pos_cell = "H" + str(current_excel_row)
+        mean_cell = "I" + str(current_excel_row)
+
+        worksheet[affix_cell].font = blue_font
+        worksheet[lang_cell].font = blue_font
+        worksheet[pos_cell].font = blue_font
+        worksheet[mean_cell].font = blue_font
+
+        worksheet[affix_cell] = str(affix)
+        worksheet[lang_cell] = str(language)
+        worksheet[pos_cell] = str(sub_pos)
+        worksheet[mean_cell] = str(meaning)
+
+    def set_level_3_cell_data(current_excel_row, sub_affix, sub_language, decoded, sub_sub_pos, sub_meaning):
+
+        sub_affix_cell = "J" + str(current_excel_row)
+        sub_language_cell = "K" + str(current_excel_row)
+        decoded_cell = "L" + str(current_excel_row)
+        sub_sub_pos_cell = "M" + str(current_excel_row)
+        sub_meaning_cell = "N" + str(current_excel_row)
+
+        worksheet[sub_affix_cell].font = brown_font
+        worksheet[sub_language_cell].font = brown_font
+        worksheet[decoded_cell].font = brown_font
+        worksheet[sub_sub_pos_cell].font = brown_font
+        worksheet[sub_meaning_cell].font = brown_font
+
+        worksheet[sub_affix_cell] = str(sub_affix)
+        worksheet[sub_language_cell] = str(sub_language)
+        worksheet[decoded_cell] = str(decoded)
+        worksheet[sub_sub_pos_cell] = str(sub_sub_pos)
+        worksheet[sub_meaning_cell] = str(sub_meaning)
+
+    # search term ---------------------------------------------------------------------------------------------
     for x in range(len(entries_list)):
 
         entry = entries_list[x]
-
-        # preparing level 3 information variables
-        print_etymology_compounds = False
-        etcom_value = None
-        sub_affix_values = []
-        sub_language_values = []
-        decoded_values = []
-        sub_sub_pos_values = []
-        sub_meaning_values = []
-        # cleaned_sub_affix_values = []
-        # cleaned_sub_language_values = []
-        # cleaned_decoded_values = []
-        # cleaned_sub_sub_pos_values = []
-        # cleaned_sub_meaning_values = []
 
         if entry["Word"] == term and entry["PoS"] in pos_filters:
             found_entries += 1
@@ -266,15 +328,8 @@ def search_and_output(worksheet, excel_row, pos_filters, term, entries_list, pri
                 definition_value = entry[keys[3]]
                 morphemes_value = entry[keys[4]]
 
-                pos_cell = "C" + str(excel_row)
-                syll_cell = "D" + str(excel_row)
-                def_cell = "E" + str(excel_row)
-
-                worksheet[pos_cell] = str(pos_value)
-                worksheet[syll_cell] = str(syllables_value)
-                worksheet[def_cell] = str(definition_value)
-
-                excel_row += 1
+                set_level_1_cell_data(
+                    excel_row, pos_value, syllables_value, definition_value)
 
                 output += "\n\t" + str(found_entries) + ")" + \
                           "\t" + str(keys[1]) + ": " + str(pos_value) + "\n" + \
@@ -284,29 +339,15 @@ def search_and_output(worksheet, excel_row, pos_filters, term, entries_list, pri
 
                 # Data Structure Level 2 ---------------------------------------------------------------------
 
-                if morphemes_value is not None:
-
-                    affix_Hcell = 'F' + str(excel_row)
-                    lang_Hcell = 'G' + str(excel_row)
-                    sub_pos_Hcell = 'H' + str(excel_row)
-                    mean_Hcell = 'I' + str(excel_row)
-                    etcom_Hcell = 'J' + str(excel_row)
-
-                    worksheet[affix_Hcell] = 'Affix'
-                    worksheet[lang_Hcell] = 'Language'
-                    worksheet[sub_pos_Hcell] = 'PoS'
-                    worksheet[mean_Hcell] = 'Meaning'
-                    worksheet[etcom_Hcell] = 'Etymology Compounds'
-
-                    worksheet[affix_Hcell].font = Font(bold=True, color=Color(rgb=blue_color))
-                    worksheet[lang_Hcell].font = Font(bold=True, color=Color(rgb=blue_color))
-                    worksheet[sub_pos_Hcell].font = Font(bold=True, color=Color(rgb=blue_color))
-                    worksheet[mean_Hcell].font = Font(bold=True, color=Color(rgb=blue_color))
-                    worksheet[etcom_Hcell].font = Font(bold=True, color=Color(rgb=brown_color))
-
+                if morphemes_value is None:
+                    set_level_2_cell_data(excel_row, affix="N/V", language="N/V", sub_pos="N/V", meaning="N/V")
                     excel_row += 1
 
+                else:
                     for respective_morph_dict in morphemes_value:
+
+                        if multiline_output:
+                            excel_row += 1
 
                         morphemes_sub_values = list(respective_morph_dict.values())
 
@@ -316,24 +357,25 @@ def search_and_output(worksheet, excel_row, pos_filters, term, entries_list, pri
                         meaning_value = morphemes_sub_values[3]
                         etcom_value = morphemes_sub_values[4]
 
-                        affix_cell = "F" + str(excel_row)
-                        lang_cell = "G" + str(excel_row)
-                        pos_cell = "H" + str(excel_row)
-                        mean_cell = "I" + str(excel_row)
+                        set_level_2_cell_data(
+                            excel_row, affix_value, language_value, sub_pos_value, meaning_value)
 
-                        worksheet[affix_cell] = str(affix_value)
-                        worksheet[lang_cell] = str(language_value)
-                        worksheet[pos_cell] = str(sub_pos_value)
-                        worksheet[mean_cell] = str(meaning_value)
+                        # Data Structure Level 3 -------------------------------------------------------------
+                        if multiline_output:
+                            excel_row += 1
 
-                        worksheet[affix_cell].font = blue_font
-                        worksheet[lang_cell].font = blue_font
-                        worksheet[pos_cell].font = blue_font
-                        worksheet[mean_cell].font = blue_font
+                        if etcom_value is None:
+                            set_level_3_cell_data(excel_row, sub_affix="N/V", sub_language="N/V", decoded="N/V",
+                                                  sub_sub_pos="N/V", sub_meaning="N/V")
+                            excel_row += 1
 
-                        excel_row += 1
+                        else:
 
-                        if etcom_value is not None:
+                            sub_affix_values = []
+                            sub_language_values = []
+                            decoded_values = []
+                            sub_sub_pos_values = []
+                            sub_meaning_values = []
 
                             for respective_etcom_dict in etcom_value:
                                 etcom_sub_values = list(respective_etcom_dict.values())
@@ -350,97 +392,56 @@ def search_and_output(worksheet, excel_row, pos_filters, term, entries_list, pri
                                 sub_sub_pos_values.append(sub_sub_pos_value)
                                 sub_meaning_values.append(sub_meaning_value)
 
-                            print_etymology_compounds = True
+                            # the lists with all collected information are prepared now
+                            # next step is to filter out redundant (duplicate) information over all
+                            # five information types. so we connect them in a single list:
 
-                    if print_etymology_compounds:
+                            hyper_list = []
+                            for v in range(len(sub_affix_values)):
+                                value = str(sub_affix_values[v]) + "[/]"
+                                value += str(sub_language_values[v]) + "[/]"
+                                value += str(decoded_values[v]) + "[/]"
+                                value += str(sub_sub_pos_values[v]) + "[/]"
+                                value += str(sub_meaning_values[v])
+                                hyper_list.append(value)
 
-                        # Data Structure Level 3 -------------------------------------------------------------
+                            # eliminating duplicates and sorting alphabetical ascending
+                            hyper_list = list(set(hyper_list))
+                            hyper_list = sorted(hyper_list)
 
-                        # the lists with all collected information are prepared now
-                        # next step is to filter out redundant (duplicate) information over all
-                        # five information types. so we connect them in a single list:
+                            # transforming back to separated lists
+                            cleaned_sub_affix_values = []
+                            cleaned_sub_language_values = []
+                            cleaned_decoded_values = []
+                            cleaned_sub_sub_pos_values = []
+                            cleaned_sub_meaning_values = []
 
-                        hyper_list = []
-                        for v in range(len(sub_affix_values)):
-                            value = str(sub_affix_values[v]) + "[/]"
-                            value += str(sub_language_values[v]) + "[/]"
-                            value += str(decoded_values[v]) + "[/]"
-                            value += str(sub_sub_pos_values[v]) + "[/]"
-                            value += str(sub_meaning_values[v])
-                            hyper_list.append(value)
+                            for x in range(len(hyper_list)):
+                                values = hyper_list[x].split("[/]")
+                                cleaned_sub_affix_values.append(values[0])
+                                cleaned_sub_language_values.append(values[1])
+                                cleaned_decoded_values.append(values[2])
+                                cleaned_sub_sub_pos_values.append(values[3])
+                                cleaned_sub_meaning_values.append(values[4])
 
-                        # eliminating duplicates and sorting alphabetical ascending
-                        hyper_list = list(set(hyper_list))
-                        hyper_list = sorted(hyper_list)
+                            for x in range(len(cleaned_sub_affix_values)):
 
-                        # transforming back to separated lists
-                        cleaned_sub_affix_values = []
-                        cleaned_sub_language_values = []
-                        cleaned_decoded_values = []
-                        cleaned_sub_sub_pos_values = []
-                        cleaned_sub_meaning_values = []
-                        for x in range(len(hyper_list)):
-                            values = hyper_list[x].split("[/]")
-                            cleaned_sub_affix_values.append(values[0])
-                            cleaned_sub_language_values.append(values[1])
-                            cleaned_decoded_values.append(values[2])
-                            cleaned_sub_sub_pos_values.append(values[3])
-                            cleaned_sub_meaning_values.append(values[4])
+                                set_level_3_cell_data(
+                                    excel_row, cleaned_sub_affix_values[x], cleaned_sub_language_values[x],
+                                    cleaned_decoded_values[x], cleaned_sub_sub_pos_values[x],
+                                    cleaned_sub_meaning_values[x])
 
-                        sub_affix_Hcell = 'J' + str(excel_row)
-                        sub_lang_Hcell = 'K' + str(excel_row)
-                        decoded_Hcell = 'L' + str(excel_row)
-                        sub_sub_pos_Hcell = 'M' + str(excel_row)
-                        sub_meaning_Hcell = 'N' + str(excel_row)
+                                excel_row += 1
 
-                        worksheet[sub_affix_Hcell] = 'Affix'
-                        worksheet[sub_lang_Hcell] = 'Language'
-                        worksheet[decoded_Hcell] = 'Decoded'
-                        worksheet[sub_sub_pos_Hcell] = 'PoS'
-                        worksheet[sub_meaning_Hcell] = 'Meanings'
-
-                        worksheet[sub_affix_Hcell].font = Font(bold=True, color=Color(rgb=brown_color))
-                        worksheet[sub_lang_Hcell].font = Font(bold=True, color=Color(rgb=brown_color))
-                        worksheet[decoded_Hcell].font = Font(bold=True, color=Color(rgb=brown_color))
-                        worksheet[sub_sub_pos_Hcell].font = Font(bold=True, color=Color(rgb=brown_color))
-                        worksheet[sub_meaning_Hcell].font = Font(bold=True, color=Color(rgb=brown_color))
-
-                        for x in range(len(cleaned_sub_affix_values)):
-                            excel_row += 1
-
-                            sub_affix_cell = "J" + str(excel_row)
-                            sub_language_cell = "K" + str(excel_row)
-                            decoded_cell = "L" + str(excel_row)
-                            sub_sub_pos_cell = "M" + str(excel_row)
-                            sub_meaning_cell = "N" + str(excel_row)
-
-                            worksheet[sub_affix_cell].font = brown_font
-                            worksheet[sub_language_cell].font = brown_font
-                            worksheet[decoded_cell].font = brown_font
-                            worksheet[sub_sub_pos_cell].font = brown_font
-                            worksheet[sub_meaning_cell].font = brown_font
-
-                            worksheet[sub_affix_cell] = str(cleaned_sub_affix_values[x])
-                            worksheet[sub_language_cell] = str(cleaned_sub_language_values[x])
-                            worksheet[decoded_cell] = str(cleaned_decoded_values[x])
-                            worksheet[sub_sub_pos_cell] = str(cleaned_sub_sub_pos_values[x])
-                            worksheet[sub_meaning_cell] = str(cleaned_sub_meaning_values[x])
-
-                excel_row += 1
     if found_entries == 0 and len(pos_filters) == 6:
         final_output += "\n\tWarning: database has no entry for '" + term + "'."
         log_output += "\n\tWarning: no entry for '" + term + "'."
 
         if not only_found_terms:
-
-            pos_cell = "C" + str(excel_row)
-            syll_cell = "D" + str(excel_row)
-            def_cell = "E" + str(excel_row)
-            morph_cell = "F" + str(excel_row)
-            worksheet[pos_cell] = "N/V"
-            worksheet[syll_cell] = "N/V"
-            worksheet[def_cell] = "N/V"
-            worksheet[morph_cell] = "N/V"
+            set_level_1_cell_data(excel_row, pos="N/V", syllables="N/V", definition="N/V")
+            set_level_2_cell_data(excel_row, affix="N/V", language="N/V", sub_pos="N/V", meaning="N/V")
+            set_level_3_cell_data(excel_row, sub_affix="N/V", sub_language="N/V", decoded="N/V",
+                                  sub_sub_pos="N/V", sub_meaning="N/V")
             excel_row += 1
 
     elif found_entries == 0 and len(pos_filters) != 6:
@@ -457,15 +458,10 @@ def search_and_output(worksheet, excel_row, pos_filters, term, entries_list, pri
                       pos_output + "'."
 
         if not only_found_terms:
-
-            pos_cell = "C" + str(excel_row)
-            syll_cell = "D" + str(excel_row)
-            def_cell = "E" + str(excel_row)
-            morph_cell = "F" + str(excel_row)
-            worksheet[pos_cell] = "N/V"
-            worksheet[syll_cell] = "N/V"
-            worksheet[def_cell] = "N/V"
-            worksheet[morph_cell] = "N/V"
+            set_level_1_cell_data(excel_row, pos="N/V", syllables="N/V", definition="N/V")
+            set_level_2_cell_data(excel_row, affix="N/V", language="N/V", sub_pos="N/V", meaning="N/V")
+            set_level_3_cell_data(excel_row, sub_affix="N/V", sub_language="N/V", decoded="N/V",
+                                  sub_sub_pos="N/V", sub_meaning="N/V")
             excel_row += 1
 
     else:
@@ -488,8 +484,6 @@ def search_and_output(worksheet, excel_row, pos_filters, term, entries_list, pri
             final_output += "\n\tFilters:" + str(pos_output) + \
                             "\n\tEntries found: " + str(found_entries) + "\n"
         final_output += output
-    if print_console_output:
-        print(final_output)
 
     return worksheet, excel_row, log_output
 
@@ -507,14 +501,19 @@ def select_excel_file():
     return excel_file
 
 
-def autoscan(excel_file):
+def autoscan(excel_file, duplicates=False, abc=True, abc_ascending=True):
     # Read the Excel file
     data = pd.read_excel(excel_file)
 
     # Get the values from the first column (assuming it's named 'mot_lpd')
     terms = data.iloc[:, 0].dropna().tolist()
-    terms = list(set(terms))    # eliminates duplicates
-    terms = sorted(terms)       # alphabetical order (ascending)
+    if not duplicates:
+        terms = list(set(terms))    # eliminates duplicates
+    if abc:
+        if abc_ascending:
+            terms = sorted(terms)       # alphabetical order (ascending)
+        else:
+            terms = sorted(terms, reverse=True)     # alphabetical order (descending)
 
     return terms
 

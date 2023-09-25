@@ -9,13 +9,33 @@ from urllib3.exceptions import NameResolutionError, MaxRetryError
 import savedata_manager as SDM
 import console_assistance as CA
 
-check_for_updates_necessary = True
+# system variables
+restart_program = True
+auto_update = SDM.get_auto_update()
+term_output_diplomacy = SDM.get_term_output_diplomacy()
+oneline_output_format = SDM.get_one_line_output()
+headline_printing = SDM.get_headline_printing()
+alphabetical_output, abc_output_ascending = SDM.get_alphabetical_output()
+auto_scan_filters = SDM.get_auto_scan_filters()
+output_detail_level = SDM.get_output_detail_level()
+
+
+def set_system_variables_to_default():
+
+    SDM.set_auto_update(0)
+    SDM.set_term_output_diplomacy(3)
+    SDM.set_one_line_output(1)
+    SDM.set_headline_printing(1)
+    SDM.set_alphabetical_output(True, True)
+    SDM.set_auto_scan_filters("Noun,Verb,Adverb,Adjective,Preposition,Phrase")
+    SDM.set_output_detail_level(2)
 
 
 def check_paths():
-    global check_for_updates_necessary
+    global auto_update
     time.sleep(2)
     os.system('cls')
+    CA.print_opening(version="Version 2.2c")
     print("\n\tChecking database status...")
     time.sleep(1)
 
@@ -28,6 +48,7 @@ def check_paths():
             remote_size = int(remote_size / (1024 * 1024))
 
             os.system('cls')
+            CA.print_opening(version="Version 2.2c")
             print("\n\tWarning: wiki_morph database could not be found on your system!"
                   "\n\tYou are free to download it automatically.")
             if remote_size == 0:
@@ -47,9 +68,9 @@ def check_paths():
                     current_size = os.path.getsize("src/database/wiki_morph.json")
                     current_size = int(current_size / (1024 * 1024))
                     SDM.set_current_size(current_size)
-
-                    check_for_updates_necessary = False
+                    auto_update = False
                     os.system('cls')
+                    CA.print_opening(version="Version 2.2c")
                     print("\n\n\tDownload completed! (" + str(current_size) + " MB)"
                           "\n\n\tDo you wish to search for terms now? (y/n)")
                     answer = input("\n\tanswer: ")
@@ -66,6 +87,7 @@ def check_paths():
 
         except NameResolutionError or MaxRetryError:
             os.system('cls')
+            CA.print_opening(version="Version 2.2c")
             print("\n\tWarning: Database is not installed currently."
                   "\n\n\tThis program offers the possibility to download the database automatically."
                   "\n\tBut for the moment there was no internet connection recognized."
@@ -81,6 +103,7 @@ def check_paths():
         soll_size = SDM.get_soll_size()
 
         if current_size < soll_size:
+            CA.print_opening(version="Version 2.2c")
             print("\n\tWarning: the local database file does not cover the expected amount of information!"
                   "\n\n\t(Expected size: min. " + str(soll_size) + " MB)"
                   "\n\t(Local size: " + str(current_size) + " MB)"
@@ -104,9 +127,9 @@ def check_paths():
                 current_size = os.path.getsize("src/database/wiki_morph.json")
                 current_size = int(current_size / (1024 * 1024))
                 SDM.set_current_size(current_size)
-
-                check_for_updates_necessary = False
+                auto_update = False
                 os.system('cls')
+                CA.print_opening(version="Version 2.2c")
                 print("\n\n\tDownload completed! (" + str(current_size) + " MB)"
                       "\n\n\tDo you wish to search for terms now? (y/n)")
                 answer = input("\n\tanswer: ")
@@ -118,12 +141,14 @@ def check_paths():
             else:
                 CA.print_exit_without_download()
         else:
+            CA.print_opening(version="Version 2.2c")
             print("\n\tDatabase installed and available.")
         time.sleep(3)
 
 
 def check_for_updates():
     os.system('cls')
+    CA.print_opening(version="Version 2.2c")
     print("\n\tChecking for wiki_morph updates...")
     time.sleep(3)
 
@@ -137,12 +162,14 @@ def check_for_updates():
 
         if remote_size == 0:
             os.system('cls')
+            CA.print_opening(version="Version 2.2c")
             print("\n\tUpdate check not possible: Server does not provide required information!"
                   "\n\tLast recent locally installed version will be used.")
             time.sleep(7)
         else:
             if current_size < remote_size:
                 os.system('cls')
+                CA.print_opening(version="Version 2.2c")
                 print("\n\tThere is a new version of wiki_morph available!"
                       "\n\n\tSize: " + str(remote_size) + " MB"
                       "\n\n\t Do you want to download the update now? (y/n)")
@@ -152,6 +179,7 @@ def check_for_updates():
                     CA.download_database(url=url)
 
                     os.system('cls')
+                    CA.print_opening(version="Version 2.2c")
                     print("\n\n\tUpdate completed! (" + str(current_size) + " MB)"
                           "\n\n\tDo you wish to search for terms now? (y/n)")
                     answer = input("\n\tanswer: ")
@@ -161,35 +189,52 @@ def check_for_updates():
                         sys.exit(0)
             else:
                 os.system('cls')
+                CA.print_opening(version="Version 2.2c")
                 print("\n\tThe installed database is up to date!")
                 time.sleep(3)
     except NameResolutionError or MaxRetryError:
+        CA.print_opening(version="Version 2.2c")
         print("\n\tUpdate check not possible: No internet connection!"
               "\n\tLast recent locally installed version will be used.")
         time.sleep(5)
 
 
 def search_for_terms(log_title, workbook_title):
+    global restart_program
+    open_excel_automatically = False
+
     # loading database
     os.system('cls')
+    CA.print_opening(version="Version 2.2c")
     print("\n\tLoading wiki_morph database...")
     with open("src/database/wiki_morph.json", "r", encoding="utf-8") as f:
         entries_list = json.load(f)
     os.system('cls')
+    CA.print_opening(version="Version 2.2c")
     print("\n\tCompleted!")
+    time.sleep(1)
     playsound("src/data/GUI_sound/Signal.mp3")
-
-    time.sleep(.5)
+    os.system('cls')
+    CA.print_opening(version="Version 2.2c")
+    time.sleep(.25)
     print("\n\tYou can now search for terms.")
-    time.sleep(.5)
-    print('\n\t1) For instructions type "i!".')
-    time.sleep(.5)
-    print('\t2) For version description type "v!".')
-    time.sleep(.5)
+    time.sleep(.25)
+    print('\n\t1) For searching a term type in the term.')
+    time.sleep(.25)
+    print('\t2) For searching a term with filter(s) type in the term with the respective filter(s).')
+    time.sleep(.25)
     print('\t3) For Automatic scan mode type "s!".')
-    time.sleep(.5)
-    print('\t4) For ending the program type "exit!".')
-    time.sleep(.5)
+    time.sleep(.25)
+    print('\t4) For Comparison mode type "c!".\t\t\033[32m<- New!\033[0m')
+    time.sleep(.25)
+    print('\t5) For further instructions type "i!".')
+    time.sleep(.25)
+    print('\t6) For version description type "v!".')
+    time.sleep(.25)
+    print('\t7) For Settings mode type "set!".\t\t\033[32m<- New!\033[0m')
+    time.sleep(.25)
+    print('\t8) For ending the program type "exit!".')
+    time.sleep(.25)
 
     # search function
     stop = False
@@ -204,40 +249,44 @@ def search_for_terms(log_title, workbook_title):
 
         if i == "exit!":
             print("\n\tProgram terminated!")
+            restart_program = False
             stop = True
-            os.system(f'start "" {workbook_title}')
+            if open_excel_automatically:
+                os.system(f'start "" {workbook_title}')
         elif i == "i!":
             CA.show_instructions()
         elif i == "v!":
             CA.show_version_description()
 
         elif i == "s!":
+            open_excel_automatically = True
             os.system('cls')
             print("\n\t- Automatic scan mode -"
                   "\n\n\tPlease select an excel file to scan for possible terms.")
             time.sleep(1.5)
             file = CA.select_excel_file()
-            terms = CA.autoscan(file)
+            terms = CA.autoscan(file, duplicates=False, abc=alphabetical_output, abc_ascending=abc_output_ascending)
             number_of_terms = len(terms)
-            # pos_filters = ["Noun"]
-            pos_filters = ["Noun", "Verb", "Adverb", "Adjective", "Preposition", "Phrase"]
             status = "\n\t- Automatic scan mode -" \
                      "\n\n\tExcel file: " + file +\
                      "\n\tFound terms: " + str(number_of_terms)
             time.sleep(2)
             os.system('cls')
             print(status)
-            print("\n\tOutput options"
+            """
+            print("\n\tTerm output diplomacy"
                   "\n\tPlease state which terms shall be considered in the output excel file:"
-                  '\n\tType in "1" for all terms with an entry.'
-                  '\n\tType in "2" for all terms with no entry.'
-                  '\n\tType in "3" for all terms.')
+                  '\n\tType in "1" for considering all terms with an entry.'
+                  '\n\tType in "2" for considering all terms with no entry.'
+                  '\n\tType in "3" for considering all terms in general.')
             output_option = input("\n\tAnswer: ")
-
+            """
             print("\n\tThe terms will now be searched in the database.")
             time.sleep(2)
 
-            if output_option == "1":
+            worksheet, excel_row = CA.print_headlines(worksheet, excel_row)
+
+            if term_output_diplomacy == "1":
                 for x in range(number_of_terms):
                     term = terms[x]
                     os.system('cls')
@@ -245,26 +294,15 @@ def search_for_terms(log_title, workbook_title):
                     print(status)
                     print("\n\tSearching for terms..."
                           "\n\tCurrent term: " + term + "\t\tProgress: " + str(progress) + "%")
-                    if x == 0:
-                        worksheet, excel_row, log_output = CA.search_and_output(worksheet=worksheet,
-                                                                                excel_row=excel_row,
-                                                                                pos_filters=pos_filters,
-                                                                                term=term,
-                                                                                entries_list=entries_list,
-                                                                                print_console_output=False,
-                                                                                only_found_terms=True,
-                                                                                only_not_found_terms=False,
-                                                                                headlines_necessary=True)
-                    else:
-                        worksheet, excel_row, log_output = CA.search_and_output(worksheet=worksheet,
-                                                                                excel_row=excel_row,
-                                                                                pos_filters=pos_filters,
-                                                                                term=term,
-                                                                                entries_list=entries_list,
-                                                                                print_console_output=False,
-                                                                                only_found_terms=True,
-                                                                                only_not_found_terms=False,
-                                                                                headlines_necessary=True)
+
+                    worksheet, excel_row, log_output = CA.search_and_output(worksheet=worksheet,
+                                                                            excel_row=excel_row,
+                                                                            pos_filters=auto_scan_filters,
+                                                                            term=term,
+                                                                            entries_list=entries_list,
+                                                                            only_found_terms=True,
+                                                                            only_not_found_terms=False,
+                                                                            multiline_output=oneline_output_format)
                     progress = int(50*(x/number_of_terms))
                     progressbar = ("\t[" + "-" * (progress-1) + ">" + " " * (50-(progress+1)) + "]")
                     print(progressbar)
@@ -275,7 +313,7 @@ def search_for_terms(log_title, workbook_title):
 
                     workbook.save(workbook_title)
 
-            elif output_option == "2":
+            elif term_output_diplomacy == "2":
                 for x in range(number_of_terms):
                     term = terms[x]
                     os.system('cls')
@@ -283,26 +321,15 @@ def search_for_terms(log_title, workbook_title):
                     print(status)
                     print("\n\tSearching for terms..."
                           "\n\tCurrent term: " + term + "\t\tProgress: " + str(progress) + "%")
-                    if x == 0:
-                        worksheet, excel_row, log_output = CA.search_and_output(worksheet=worksheet,
-                                                                                excel_row=excel_row,
-                                                                                pos_filters=pos_filters,
-                                                                                term=term,
-                                                                                entries_list=entries_list,
-                                                                                print_console_output=False,
-                                                                                only_found_terms=False,
-                                                                                only_not_found_terms=True,
-                                                                                headlines_necessary=True)
-                    else:
-                        worksheet, excel_row, log_output = CA.search_and_output(worksheet=worksheet,
-                                                                                excel_row=excel_row,
-                                                                                pos_filters=pos_filters,
-                                                                                term=term,
-                                                                                entries_list=entries_list,
-                                                                                print_console_output=False,
-                                                                                only_found_terms=False,
-                                                                                only_not_found_terms=True,
-                                                                                headlines_necessary=True)
+
+                    worksheet, excel_row, log_output = CA.search_and_output(worksheet=worksheet,
+                                                                            excel_row=excel_row,
+                                                                            pos_filters=auto_scan_filters,
+                                                                            term=term,
+                                                                            entries_list=entries_list,
+                                                                            only_found_terms=False,
+                                                                            only_not_found_terms=True,
+                                                                            multiline_output=oneline_output_format)
                     progress = int(50 * (x / number_of_terms))
                     progressbar = ("\t[" + "-" * (progress - 1) + ">" + " " * (50 - (progress + 1)) + "]")
                     print(progressbar)
@@ -321,26 +348,15 @@ def search_for_terms(log_title, workbook_title):
                     print(status)
                     print("\n\tSearching for terms..."
                           "\n\tCurrent term: " + term + "\t\tProgress: " + str(progress) + "%")
-                    if x == 0:
-                        worksheet, excel_row, log_output = CA.search_and_output(worksheet=worksheet,
-                                                                                excel_row=excel_row,
-                                                                                pos_filters=pos_filters,
-                                                                                term=term,
-                                                                                entries_list=entries_list,
-                                                                                print_console_output=False,
-                                                                                only_found_terms=False,
-                                                                                only_not_found_terms=False,
-                                                                                headlines_necessary=True)
-                    else:
-                        worksheet, excel_row, log_output = CA.search_and_output(worksheet=worksheet,
-                                                                                excel_row=excel_row,
-                                                                                pos_filters=pos_filters,
-                                                                                term=term,
-                                                                                entries_list=entries_list,
-                                                                                print_console_output=False,
-                                                                                only_found_terms=False,
-                                                                                only_not_found_terms=False,
-                                                                                headlines_necessary=True)
+
+                    worksheet, excel_row, log_output = CA.search_and_output(worksheet=worksheet,
+                                                                            excel_row=excel_row,
+                                                                            pos_filters=auto_scan_filters,
+                                                                            term=term,
+                                                                            entries_list=entries_list,
+                                                                            only_found_terms=False,
+                                                                            only_not_found_terms=False,
+                                                                            multiline_output=oneline_output_format)
                     progress = int(50 * (x / number_of_terms))
                     progressbar = ("\t[" + "-" * (progress - 1) + ">" + " " * (50 - (progress + 1)) + "]")
                     print(progressbar)
@@ -362,6 +378,7 @@ def search_for_terms(log_title, workbook_title):
             playsound("src/data/GUI_sound/Signal.mp3")
 
         elif i == "c!":
+            open_excel_automatically = False
             os.system('cls')
             status = "\n\t- Comparison mode -"
             print(status)
@@ -476,6 +493,7 @@ def search_for_terms(log_title, workbook_title):
             playsound("src/data/GUI_sound/Signal.mp3")
 
         else:
+            open_excel_automatically = True
             if ":" in i:
                 splitted_input = i.split(":")
                 term = splitted_input[0]
@@ -500,11 +518,9 @@ def search_for_terms(log_title, workbook_title):
             workbook.save(workbook_title)
 
 
-CA.print_opening(version="Version 2.1")
-
+CA.print_opening(version="Version 2.2c")
 check_paths()
-
-if check_for_updates_necessary:
+if auto_update == 1:
     check_for_updates()
 
 formatted_date = CA.get_datetime()
@@ -512,5 +528,7 @@ formatted_date = CA.get_datetime()
 log_name = CA.create_logfile(fd=formatted_date)
 wb_name = CA.create_excel(fd=formatted_date)
 
-search_for_terms(log_name, wb_name)
+while restart_program:
+    search_for_terms(log_name, wb_name)
+    time.sleep(.1)
 

@@ -10,3 +10,4 @@ __pycache__/GUI.cpython-39.pyc
 *.xml
 .idea/misc.xml
 .idea/Morph2Excel - Wiki_Morph_API_for_ERSaF.iml
+*.pyc
