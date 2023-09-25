@@ -3,7 +3,7 @@ import time
 from openpyxl import load_workbook
 from playsound import playsound
 import os, requests
-
+import keyboard
 from urllib3.exceptions import NameResolutionError, MaxRetryError
 
 import savedata_manager as SDM
@@ -16,8 +16,8 @@ term_output_diplomacy = SDM.get_term_output_diplomacy()
 oneline_output_format = SDM.get_one_line_output()
 headline_printing = SDM.get_headline_printing()
 alphabetical_output, abc_output_ascending = SDM.get_alphabetical_output()
-auto_scan_filters = SDM.get_auto_scan_filters()
 output_detail_level = SDM.get_output_detail_level()
+auto_scan_filters = SDM.get_auto_scan_filters()
 
 
 def set_system_variables_to_default():
@@ -201,6 +201,9 @@ def check_for_updates():
 
 def search_for_terms(log_title, workbook_title):
     global restart_program
+    global auto_update
+    global term_output_diplomacy
+    global oneline_output_format
     open_excel_automatically = False
 
     # loading database
@@ -302,7 +305,7 @@ def search_for_terms(log_title, workbook_title):
                                                                             entries_list=entries_list,
                                                                             only_found_terms=True,
                                                                             only_not_found_terms=False,
-                                                                            multiline_output=oneline_output_format)
+                                                                            multiline_output=not oneline_output_format)
                     progress = int(50*(x/number_of_terms))
                     progressbar = ("\t[" + "-" * (progress-1) + ">" + " " * (50-(progress+1)) + "]")
                     print(progressbar)
@@ -329,7 +332,7 @@ def search_for_terms(log_title, workbook_title):
                                                                             entries_list=entries_list,
                                                                             only_found_terms=False,
                                                                             only_not_found_terms=True,
-                                                                            multiline_output=oneline_output_format)
+                                                                            multiline_output=not oneline_output_format)
                     progress = int(50 * (x / number_of_terms))
                     progressbar = ("\t[" + "-" * (progress - 1) + ">" + " " * (50 - (progress + 1)) + "]")
                     print(progressbar)
@@ -356,7 +359,7 @@ def search_for_terms(log_title, workbook_title):
                                                                             entries_list=entries_list,
                                                                             only_found_terms=False,
                                                                             only_not_found_terms=False,
-                                                                            multiline_output=oneline_output_format)
+                                                                            multiline_output=not oneline_output_format)
                     progress = int(50 * (x / number_of_terms))
                     progressbar = ("\t[" + "-" * (progress - 1) + ">" + " " * (50 - (progress + 1)) + "]")
                     print(progressbar)
@@ -492,6 +495,77 @@ def search_for_terms(log_title, workbook_title):
             time.sleep(5)
             playsound("src/data/GUI_sound/Signal.mp3")
 
+        elif i == "set!":
+            time.sleep(1)
+            intro = "\t~ Settings Menu ~" \
+                     "\n\n\tThe several settings you can change will be displayed in succession." \
+                     "\n\tFor every setting there will be the respective options displayed." \
+                     "\n\tTo select an option please type in the given number." \
+                     "\n\tTo keep the currently selected option of a setting just press enter." \
+                     "\n\tTo break up and return to main menu without saving press escape." \
+                     "\n\tYou can press enter to start now."
+            os.system('cls')
+            print(intro)
+            input()
+
+            # setting 1 (auto update)
+            os.system('cls')
+            CA.display_settings(1, auto_update)
+            i = input("\n\tOption number: ")
+            if i == "1":
+                print("\n\tAutomatic update set on!")
+                SDM.set_auto_update(1)
+                auto_update = SDM.get_auto_update()
+                time.sleep(4)
+            elif i == "2":
+                print("\n\tAutomatic update set off!")
+                SDM.set_auto_update(0)
+                auto_update = SDM.get_auto_update()
+                time.sleep(4)
+            else:
+                print("\n\tPrevious setting will be kept!")
+                time.sleep(2)
+
+            # setting 2 (term output diplomacy)
+            os.system('cls')
+            CA.display_settings(2, term_output_diplomacy)
+            i = input("\n\tOption number: ")
+            if i == "1":
+                print("\n\tOnly found terms will be considered!")
+                SDM.set_term_output_diplomacy(1)
+                term_output_diplomacy = SDM.get_term_output_diplomacy()
+            elif i == "2":
+                print("\n\tOnly not found terms will be considered!")
+                time.sleep(4)
+                SDM.set_term_output_diplomacy(2)
+                term_output_diplomacy = SDM.get_term_output_diplomacy()
+            elif i == "3":
+                SDM.set_term_output_diplomacy(3)
+                term_output_diplomacy = SDM.get_term_output_diplomacy()
+                print("\n\tAll terms will be considered!")
+                time.sleep(4)
+            else:
+                print("\n\tPrevious setting will be kept!")
+                time.sleep(2)
+
+            # setting 3 (Output format)
+            os.system('cls')
+            CA.display_settings(3, oneline_output_format)
+            i = input("\n\tOption number: ")
+            if i == "1":
+                print("\n\tOutput will be printed in one-line format!")
+                SDM.set_one_line_output(True)
+                oneline_output_format = SDM.get_one_line_output()
+                time.sleep(4)
+            elif i == "2":
+                print("\n\tOutput will be printed in multi-line format!")
+                SDM.set_one_line_output(False)
+                oneline_output_format = SDM.get_one_line_output()
+                time.sleep(4)
+            else:
+                print("\n\tPrevious setting will be kept!")
+                time.sleep(2)
+
         else:
             open_excel_automatically = True
             if ":" in i:
@@ -504,12 +578,33 @@ def search_for_terms(log_title, workbook_title):
                 pos_filters = ["Noun", "Verb", "Adverb", "Adjective", "Preposition", "Phrase"]
                 term = i
 
-            worksheet, excel_row, log_output = CA.search_and_output(worksheet=worksheet,
-                                                                    excel_row=excel_row,
-                                                                    pos_filters=pos_filters,
-                                                                    term=term,
-                                                                    entries_list=entries_list,
-                                                                    )
+            if term_output_diplomacy == 1:
+                worksheet, excel_row, log_output = CA.search_and_output(worksheet=worksheet,
+                                                                        excel_row=excel_row,
+                                                                        pos_filters=pos_filters,
+                                                                        term=term,
+                                                                        entries_list=entries_list,
+                                                                        only_found_terms=True,
+                                                                        only_not_found_terms=False,
+                                                                        multiline_output=not oneline_output_format)
+            elif term_output_diplomacy == 2:
+                worksheet, excel_row, log_output = CA.search_and_output(worksheet=worksheet,
+                                                                        excel_row=excel_row,
+                                                                        pos_filters=pos_filters,
+                                                                        term=term,
+                                                                        entries_list=entries_list,
+                                                                        only_found_terms=False,
+                                                                        only_not_found_terms=True,
+                                                                        multiline_output=not oneline_output_format)
+            else:
+                worksheet, excel_row, log_output = CA.search_and_output(worksheet=worksheet,
+                                                                        excel_row=excel_row,
+                                                                        pos_filters=pos_filters,
+                                                                        term=term,
+                                                                        entries_list=entries_list,
+                                                                        only_found_terms=False,
+                                                                        only_not_found_terms=False,
+                                                                        multiline_output=not oneline_output_format)
 
             log = open(log_title, "a", encoding="utf-8")
             log.write("\n\n" + log_output)

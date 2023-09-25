@@ -1,0 +1,42 @@
+Morph2Excel Log from 25_09_2023_(16_46_43)
+
+	------------------------------------------------------------
+
+	Word: example
+	Filters: NONE
+	Entries found: 7
+
+
+	------------------------------------------------------------
+
+	Word: bad
+	Filters: NONE
+	Entries found: 34
+
+
+	------------------------------------------------------------
+
+	Word: set
+	Filters: NONE
+	Entries found: 151
+
+
+	------------------------------------------------------------
+
+	Word: ok
+	Filters: NONE
+	Entries found: 1
+
+
+	------------------------------------------------------------
+
+	Word: example
+	Filters: NONE
+	Entries found: 7
+
+
+	------------------------------------------------------------
+
+	Word: set
+	Filters: NONE
+	Entries found: 151

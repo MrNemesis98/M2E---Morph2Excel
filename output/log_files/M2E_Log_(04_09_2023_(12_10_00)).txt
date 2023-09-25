@@ -1,0 +1,6 @@
+Morph2Excel Log from 04_09_2023_(12_10_00)
+
+	------------------------------------------------------------
+
+	Word: africa
+	Warning: no entry for 'africa'.

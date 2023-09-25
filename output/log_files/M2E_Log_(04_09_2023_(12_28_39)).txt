@@ -1,0 +1,29 @@
+Morph2Excel Log from 04_09_2023_(12_28_39)
+
+	------------------------------------------------------------
+
+	Word: assimilation
+	Warning: no entry for 'assimilation'.
+
+	------------------------------------------------------------
+
+	Word: notification
+	Warning: no entry for 'notification'.
+
+	------------------------------------------------------------
+
+	Word: action
+	Filters: NONE
+	Entries found: 15
+
+
+	------------------------------------------------------------
+
+	Word: assimilate
+	Warning: no entry for 'assimilate'.
+
+	------------------------------------------------------------
+
+	Word: regeneration
+	Filters: NONE
+	Entries found: 5

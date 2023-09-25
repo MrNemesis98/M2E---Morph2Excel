@@ -221,7 +221,7 @@ def print_headlines(worksheet, excel_row):
 
 
 def search_and_output(worksheet, excel_row, pos_filters, term, entries_list,
-                      only_found_terms=False, only_not_found_terms=False, multiline_output=True):
+                      only_found_terms, only_not_found_terms, multiline_output):
 
     # Set the color for blue entries
     blue_color = "0000FF"
@@ -589,4 +589,93 @@ def write_comparison_result_excel(worksheet, file_1, file_2, list_of_terms_1, li
         excel_row += 1
 
     return worksheet
+
+
+def prepare_settings_display(auto_update, term_output_diplomacy, oneline_output_format,
+                             headline_printing, alphabetical_output, abc_output_ascending,
+                             output_detail_level):
+
+    auto_update_option = "\n\t1. Search for database updates automatically:\t\t\t\t\t"
+    term_output_diplomacy_option = "\t2. Consider following terms in output:\t\t\t\t\t\t\t"
+    oneline_output_format_option = "\t3. Output format:\t\t\t\t\t\t\t\t\t\t\t"
+    headline_printing_option = "\t4. Repeat headline printing in output:\t\t\t\t\t\t\t"
+    alphabetical_output_option = "\t5. Print output in alphabetical order (only in scan mode):\t\t"
+    output_detail_level_option = "\t6. Output detail level:\t\t\t\t\t\t\t\t\t\t"
+    # auto_scan_filters_option = "7. "
+
+    auto_update_option += "off\t(1/2)" if auto_update == 0 else "on\t(2/2)"
+    if term_output_diplomacy == 0:
+        term_output_diplomacy_option += "only found terms\t\t(1/3)"
+    elif term_output_diplomacy_option == 1:
+        term_output_diplomacy_option += "only not found terms\t(2/3)"
+    else:
+        term_output_diplomacy_option += "all searched terms\t(3/3)"
+    oneline_output_format_option += "one-line\t(1/2)" if oneline_output_format else "multi-line\t(2/2)"
+    if headline_printing == 0:
+        headline_printing_option += "off, only at beginning of output document\t(1/3)"
+    elif headline_printing_option == 1:
+        headline_printing_option += "after every scan (only in scan mode, else off)\t(2/3)"
+    else:
+        headline_printing_option += "after every term\t(3/3)"
+    if alphabetical_output and abc_output_ascending:
+        alphabetical_output_option += "on (ascending)\t(1/3)"
+    elif alphabetical_output and not abc_output_ascending:
+        alphabetical_output_option += "on (descending)\t(2/3)"
+    else:
+        alphabetical_output_option += "off\t(1/3)"
+    if output_detail_level == 0:
+        output_detail_level_option += "Level 1\n\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t" \
+                                      "only term data\t(1/3)"
+    elif output_detail_level == 1:
+        output_detail_level_option += "Level 1+2 (black,blue): term + morphology data\t(2/3)"
+    else:
+        output_detail_level_option += "Level 1+2+3 (black,blue,brown): term, morphology + etymology data\t(3/3)"
+
+    return [auto_update_option, term_output_diplomacy_option, oneline_output_format_option,
+            headline_printing_option, alphabetical_output_option, output_detail_level_option]
+
+
+def display_settings(setting, current_var):
+    if setting == 1:
+        print("\t~ Settings Menu ~"
+              "\n\n\tSetting 1/6: Automatic Database Updates"
+              "\n\t----------------------------------------------------"
+              "\n\n\tDescription: "
+              "\n\tThe program will automatically search for wiki_morph updates "
+              "\n\tbefore loading the installed version of the database. "
+              "\n\tIf there is a new version you will have the option to download it."
+              "\n\tBut the search itself may take a few seconds every time the program is started.")
+        if current_var == 0:
+            print("\n\tOptions:\n\t\t\t\t1. on\n\t\t\t\t2. off\t(currently selected)")
+        else:
+            print("\n\tOptions:\n\t\t\t\t1. on\t(currently selected)\n\t\t\t\t2. off")
+    elif setting == 2:
+        print("\t~ Settings Menu ~"
+              "\n\n\tSetting 2/6: Term Output Diplomacy"
+              "\n\t----------------------------------------------------"
+              "\n\n\tDescription: "
+              "\n\tDecide, which of the terms you searched shall be considered in the output."
+              "\n\tThis only affects the excel table. The log_file.txt cannot be changed.")
+        if current_var == 1:
+            print("\n\tOptions:\n\t\t\t\t1. only found terms\t(currently selected)"
+                  "\n\t\t\t\t2. only not found terms\n\t\t\t\t3. all searched terms")
+        elif current_var == 2:
+            print("\n\tOptions:\n\t\t\t\t1. only found terms"
+                  "\n\t\t\t\t2. only not found terms\t(currently selected)\n\t\t\t\t3. all searched terms")
+        else:
+            print("\n\tOptions:\n\t\t\t\t1. only found terms"
+                  "\n\t\t\t\t2. only not found terms\n\t\t\t\t3. all searched terms\t(currently selected)")
+    elif setting == 3:
+        print("\t~ Settings Menu ~"
+              "\n\n\tSetting 3/6: Output Format"
+              "\n\t----------------------------------------------------"
+              "\n\n\tDescription: "
+              "\n\tThe excel output can either be structured with one-line or multiline format."
+              "\n\tMulti-line format is more readable and provides a better overview for the user."
+              "\n\tOne-line format is recommended in case of further processing of the output data, "
+              "\n\tsince it is easier to access data which is covered in only one line.")
+        if current_var:
+            print("\n\tOptions:\n\t\t\t\t1. one-line\t(currently selected)\n\t\t\t\t2. multi-line")
+        else:
+            print("\n\tOptions:\n\t\t\t\t1. one-line\n\t\t\t\t2. multi-line\t(currently selected)")
 
