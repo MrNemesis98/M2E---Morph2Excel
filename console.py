@@ -204,6 +204,11 @@ def search_for_terms(log_title, workbook_title):
     global auto_update
     global term_output_diplomacy
     global oneline_output_format
+    global headline_printing
+    global alphabetical_output
+    global abc_output_ascending
+    global output_detail_level
+
     open_excel_automatically = False
 
     # loading database
@@ -305,7 +310,8 @@ def search_for_terms(log_title, workbook_title):
                                                                             entries_list=entries_list,
                                                                             only_found_terms=True,
                                                                             only_not_found_terms=False,
-                                                                            multiline_output=not oneline_output_format)
+                                                                            multiline_output=not oneline_output_format,
+                                                                            output_detail_level=output_detail_level)
                     progress = int(50*(x/number_of_terms))
                     progressbar = ("\t[" + "-" * (progress-1) + ">" + " " * (50-(progress+1)) + "]")
                     print(progressbar)
@@ -332,7 +338,8 @@ def search_for_terms(log_title, workbook_title):
                                                                             entries_list=entries_list,
                                                                             only_found_terms=False,
                                                                             only_not_found_terms=True,
-                                                                            multiline_output=not oneline_output_format)
+                                                                            multiline_output=not oneline_output_format,
+                                                                            output_detail_level=output_detail_level)
                     progress = int(50 * (x / number_of_terms))
                     progressbar = ("\t[" + "-" * (progress - 1) + ">" + " " * (50 - (progress + 1)) + "]")
                     print(progressbar)
@@ -359,7 +366,8 @@ def search_for_terms(log_title, workbook_title):
                                                                             entries_list=entries_list,
                                                                             only_found_terms=False,
                                                                             only_not_found_terms=False,
-                                                                            multiline_output=not oneline_output_format)
+                                                                            multiline_output=not oneline_output_format,
+                                                                            output_detail_level=output_detail_level)
                     progress = int(50 * (x / number_of_terms))
                     progressbar = ("\t[" + "-" * (progress - 1) + ">" + " " * (50 - (progress + 1)) + "]")
                     print(progressbar)
@@ -566,6 +574,75 @@ def search_for_terms(log_title, workbook_title):
                 print("\n\tPrevious setting will be kept!")
                 time.sleep(2)
 
+            # setting 4 (headline-printing)
+            os.system('cls')
+            CA.display_settings(4, headline_printing)
+            i = input("\n\tOption number: ")
+            if i == "1":
+                print("\n\tHeadline will be printed only at top of excel!")
+                SDM.set_headline_printing(1)
+                headline_printing = SDM.get_headline_printing()
+                time.sleep(4)
+            elif i == "2":
+                print("\n\tHeadline will be printed for every document in scan mode!")
+                SDM.set_headline_printing(2)
+                headline_printing = SDM.get_headline_printing()
+                time.sleep(4)
+            elif i == "3":
+                print("\n\tHeadline will be printed for every new term!")
+                SDM.set_headline_printing(3)
+                headline_printing = SDM.get_headline_printing()
+                time.sleep(4)
+            else:
+                print("\n\tPrevious setting will be kept!")
+                time.sleep(2)
+
+            # setting 5 (alphabetical output)
+            os.system('cls')
+            CA.display_settings(5, alphabetical_output, abc_output_ascending)
+            i = input("\n\tOption number: ")
+            if i == "1":
+                print("\n\tOutput will be structured in ascending alphabetical order!")
+                SDM.set_alphabetical_output(abc=True, asc=True)
+                alphabetical_output, abc_output_ascending = SDM.get_alphabetical_output()
+                time.sleep(4)
+            elif i == "2":
+                print("\n\tOutput will be structured in descending alphabetical order!")
+                SDM.set_alphabetical_output(abc=True, asc=False)
+                alphabetical_output, abc_output_ascending = SDM.get_alphabetical_output()
+                time.sleep(4)
+            elif i == "3":
+                print("\n\tOutput will not be structured in alphabetical order!")
+                SDM.set_alphabetical_output(abc=False, asc=False)
+                alphabetical_output, abc_output_ascending = SDM.get_alphabetical_output()
+                time.sleep(4)
+            else:
+                print("\n\tPrevious setting will be kept!")
+                time.sleep(2)
+
+            # setting 6 (output detail level)
+            os.system('cls')
+            CA.display_settings(6, output_detail_level)
+            i = input("\n\tOption number: ")
+            if i == "1":
+                print("\n\tOutput will cover term data only!")
+                SDM.set_output_detail_level(1)
+                output_detail_level = SDM.get_output_detail_level()
+                time.sleep(4)
+            elif i == "2":
+                print("\n\tOutput will cover term data and morphology data!")
+                SDM.set_output_detail_level(2)
+                output_detail_level = SDM.get_output_detail_level()
+                time.sleep(4)
+            elif i == "3":
+                print("\n\tOutput will cover all data information!")
+                SDM.set_output_detail_level(3)
+                output_detail_level = SDM.get_output_detail_level()
+                time.sleep(4)
+            else:
+                print("\n\tPrevious setting will be kept!")
+                time.sleep(2)
+
         else:
             open_excel_automatically = True
             if ":" in i:
@@ -586,7 +663,8 @@ def search_for_terms(log_title, workbook_title):
                                                                         entries_list=entries_list,
                                                                         only_found_terms=True,
                                                                         only_not_found_terms=False,
-                                                                        multiline_output=not oneline_output_format)
+                                                                        multiline_output=not oneline_output_format,
+                                                                        output_detail_level=output_detail_level)
             elif term_output_diplomacy == 2:
                 worksheet, excel_row, log_output = CA.search_and_output(worksheet=worksheet,
                                                                         excel_row=excel_row,
@@ -595,7 +673,8 @@ def search_for_terms(log_title, workbook_title):
                                                                         entries_list=entries_list,
                                                                         only_found_terms=False,
                                                                         only_not_found_terms=True,
-                                                                        multiline_output=not oneline_output_format)
+                                                                        multiline_output=not oneline_output_format,
+                                                                        output_detail_level=output_detail_level)
             else:
                 worksheet, excel_row, log_output = CA.search_and_output(worksheet=worksheet,
                                                                         excel_row=excel_row,
@@ -604,7 +683,8 @@ def search_for_terms(log_title, workbook_title):
                                                                         entries_list=entries_list,
                                                                         only_found_terms=False,
                                                                         only_not_found_terms=False,
-                                                                        multiline_output=not oneline_output_format)
+                                                                        multiline_output=not oneline_output_format,
+                                                                        output_detail_level=output_detail_level)
 
             log = open(log_title, "a", encoding="utf-8")
             log.write("\n\n" + log_output)
