@@ -7,6 +7,7 @@ import time
 import pandas as pd
 from PyQt5.QtWidgets import QApplication, QFileDialog
 from openpyxl.styles import Font, Color
+from playsound import playsound
 from urllib3.exceptions import NameResolutionError, MaxRetryError
 
 
@@ -14,6 +15,30 @@ def print_opening(version):
     os.system('cls')
     print("\033[32m" + "\n\tMorph2Excel ~ Version " + version + "\033[0m")
 
+
+def print_opening_extended(version):
+    os.system('cls')
+    print("\033[32m" + "\n\tMorph2Excel ~ Version " + version + "\033[0m")
+    playsound("src/data/GUI_sound/Signal.mp3")
+    time.sleep(.25)
+    print("\n\tYou can now search for terms.")
+    time.sleep(.25)
+    print('\n\t1) For searching a term type in the term.')
+    time.sleep(.25)
+    print('\t2) For searching a term with filter(s) type in the term with the respective filter(s).')
+    time.sleep(.25)
+    print('\t3) For Automatic scan mode type "s!".')
+    time.sleep(.25)
+    print('\t4) For Comparison mode type "c!".\t\t\033[32m<- New!\033[0m')
+    time.sleep(.25)
+    print('\t5) For further instructions type "i!".')
+    time.sleep(.25)
+    print('\t6) For version description type "v!".')
+    time.sleep(.25)
+    print('\t7) For Settings mode type "set!".\t\t\033[32m<- New!\033[0m')
+    time.sleep(.25)
+    print('\t8) For ending the program type "exit!".')
+    time.sleep(.25)
 
 def print_exit_without_download():
     os.system('cls')
@@ -436,10 +461,6 @@ def search_and_output(worksheet, excel_row, pos_filters, term, entries_list,
                                             cleaned_sub_meaning_values[x])
 
                                         excel_row += 1
-                            else:
-                                excel_row += 1
-                else:
-                    excel_row += 1
 
     if found_entries == 0 and len(pos_filters) == 6:
         final_output += "\n\tWarning: database has no entry for '" + term + "'."
@@ -645,7 +666,7 @@ def prepare_settings_display(auto_update, term_output_diplomacy, oneline_output_
 
 def display_settings(setting, current_var, current_var_2=""):
     if setting == 1:
-        print("\t~ Settings Menu ~"
+        print("\n\t~ Settings Menu ~"
               "\n\n\tSetting 1/6: Automatic Database Updates"
               "\n\t----------------------------------------------------"
               "\n\n\tDescription: "
@@ -654,27 +675,27 @@ def display_settings(setting, current_var, current_var_2=""):
               "\n\tIf there is a new version you will have the option to download it."
               "\n\tBut the search itself may take a few seconds every time the program is started.")
         if current_var == 0:
-            print("\n\tOptions:\n\t\t\t\t1. on\n\t\t\t\t2. off\t(currently selected)")
+            print("\n\tOptions:\n\t\t\t\t1. on\n\t\t\t->\t2. off")
         else:
-            print("\n\tOptions:\n\t\t\t\t1. on\t(currently selected)\n\t\t\t\t2. off")
+            print("\n\tOptions:\n\t\t\t->\t1. on\n\t\t\t\t2. off")
     elif setting == 2:
-        print("\t~ Settings Menu ~"
+        print("\n\t~ Settings Menu ~"
               "\n\n\tSetting 2/6: Term Output Diplomacy"
               "\n\t----------------------------------------------------"
               "\n\n\tDescription: "
               "\n\tDecide, which of the terms you searched shall be considered in the output."
               "\n\tThis only affects the excel table. The log_file.txt cannot be changed.")
         if current_var == 1:
-            print("\n\tOptions:\n\t\t\t\t1. only found terms\t(currently selected)"
+            print("\n\tOptions:\n\t\t\t->\t1. only found terms"
                   "\n\t\t\t\t2. only not found terms\n\t\t\t\t3. all searched terms")
         elif current_var == 2:
             print("\n\tOptions:\n\t\t\t\t1. only found terms"
-                  "\n\t\t\t\t2. only not found terms\t(currently selected)\n\t\t\t\t3. all searched terms")
+                  "\n\t\t\t->\t2. only not found terms\n\t\t\t\t3. all searched terms")
         else:
             print("\n\tOptions:\n\t\t\t\t1. only found terms"
-                  "\n\t\t\t\t2. only not found terms\n\t\t\t\t3. all searched terms\t(currently selected)")
+                  "\n\t\t\t\t2. only not found terms\n\t\t\t->\t3. all searched terms")
     elif setting == 3:
-        print("\t~ Settings Menu ~"
+        print("\n\t~ Settings Menu ~"
               "\n\n\tSetting 3/6: Output Format"
               "\n\t----------------------------------------------------"
               "\n\n\tDescription: "
@@ -683,11 +704,11 @@ def display_settings(setting, current_var, current_var_2=""):
               "\n\tOne-line format is recommended in case of further processing of the output data, "
               "\n\tsince it is easier to access data which is covered in only one line.")
         if current_var:
-            print("\n\tOptions:\n\t\t\t\t1. one-line\t(currently selected)\n\t\t\t\t2. multi-line")
+            print("\n\tOptions:\n\t\t\t->\t1. one-line\n\t\t\t\t2. multi-line")
         else:
-            print("\n\tOptions:\n\t\t\t\t1. one-line\n\t\t\t\t2. multi-line\t(currently selected)")
+            print("\n\tOptions:\n\t\t\t\t1. one-line\n\t\t\t->\t2. multi-line")
     elif setting == 4:
-        print("\t~ Settings Menu ~"
+        print("\n\t~ Settings Menu ~"
               "\n\n\tSetting 4/6: Headline Printing"
               "\n\t----------------------------------------------------"
               "\n\n\tDescription: "
@@ -695,23 +716,22 @@ def display_settings(setting, current_var, current_var_2=""):
               "\n\tresulting output excel file."
               "\n\tHere you can decide, how often a headline shall be printed.")
         if current_var == 1:
-            print("\n\tOptions:\n\t\t\t\t1. only at top of excel / no repeat"
-                  "\t(currently selected)"
+            print("\n\tOptions:\n\t\t\t->\t1. only at top of excel / no repeat"
                   "\n\t\t\t\t2. for every new document scanned in"
                   "\n\t\t\t\t\t(note: only in scan mode; for manual search option 1 will be used)"
                   "\n\t\t\t\t3. for every new term printed")
         elif current_var == 2:
             print("\n\tOptions:\n\t\t\t\t1. only at top of excel / no repeat"
-                  "\n\t\t\t\t2. for every new document scanned in\t(currently selected)"
+                  "\n\t\t\t->\t2. for every new document scanned in"
                   "\n\t\t\t\t\t(note: only in scan mode; for manual search option 1 will be used)"
                   "\n\t\t\t\t3. for every new term printed")
         else:
             print("\n\tOptions:\n\t\t\t\t1. only at top of excel / no repeat"
                   "\n\t\t\t\t2. for every new document scanned in"
                   "\n\t\t\t\t\t(note: only in scan mode; for manual search option 1 will be used)"
-                  "\n\t\t\t\t3. for every new term printed\t(currently selected)")
+                  "\n\t\t\t->\t3. for every new term printed")
     elif setting == 5:
-        print("\t~ Settings Menu ~"
+        print("\n\t~ Settings Menu ~"
               "\n\n\tSetting 5/6: Alphabetical Output Order"
               "\n\t----------------------------------------------------"
               "\n\n\tDescription: "
@@ -719,19 +739,19 @@ def display_settings(setting, current_var, current_var_2=""):
               "\n\tNote: For the moment this functionality is only available for auto scan mode."
               "\n\tManual search output will not be structured anyway.")
         if current_var and current_var_2:
-            print("\n\tOptions:\n\t\t\t\t1. alphabetical, ascending\t(currently selected)"
+            print("\n\tOptions:\n\t\t\t->\t1. alphabetical, ascending"
                   "\n\t\t\t\t2. alphabetical, descending"
                   "\n\t\t\t\t3. non-alphabetical")
         elif current_var and not current_var_2:
             print("\n\tOptions:\n\t\t\t\t1. alphabetical, ascending"
-                  "\n\t\t\t\t2. alphabetical, descending\t(currently selected)"
+                  "\n\t\t\t->\t2. alphabetical, descending"
                   "\n\t\t\t\t3. non-alphabetical")
         else:
             print("\n\tOptions:\n\t\t\t\t1. alphabetical, ascending"
                   "\n\t\t\t\t2. alphabetical, descending"
-                  "\n\t\t\t\t3. non-alphabetical\t(currently selected)")
+                  "\n\t\t\t->\t3. non-alphabetical")
     elif setting == 6:
-        print("\t~ Settings Menu ~"
+        print("\n\t~ Settings Menu ~"
               "\n\n\tSetting 6/6: Output Detail Level"
               "\n\t----------------------------------------------------"
               "\n\n\tDescription: "
@@ -741,15 +761,15 @@ def display_settings(setting, current_var, current_var_2=""):
               "\n\tetymology compound data (Level 3, output print color brown)."
               "\n\tHere you can set the depht of the output information according to these levels.")
         if current_var == 1:
-            print("\n\tOptions:\n\t\t\t\t1. Level 1: only term data\t(currently selected)"
+            print("\n\tOptions:\n\t\t\t->\t1. Level 1: only term data"
                   "\n\t\t\t\t2. Level 2: term data + morphology data"
                   "\n\t\t\t\t3. Level 3: term data + morphology data + etymology data")
         elif current_var == 2:
             print("\n\tOptions:\n\t\t\t\t1. Level 1: only term data"
-                  "\n\t\t\t\t2. Level 2: term data + morphology data\t(currently selected)"
+                  "\n\t\t\t->\t2. Level 2: term data + morphology data"
                   "\n\t\t\t\t3. Level 3: term data + morphology data + etymology data")
         else:
             print("\n\tOptions:\n\t\t\t\t1. Level 1: only term data"
                   "\n\t\t\t\t2. Level 2: term data + morphology data"
-                  "\n\t\t\t\t3. Level 3: term data + morphology data + etymology data\t(currently selected)")
+                  "\n\t\t\t->\t3. Level 3: term data + morphology data + etymology data")
 

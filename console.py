@@ -3,14 +3,14 @@ import time
 from openpyxl import load_workbook
 from playsound import playsound
 import os, requests
-import keyboard
 from urllib3.exceptions import NameResolutionError, MaxRetryError
 
 import savedata_manager as SDM
 import console_assistance as CA
 
 # system variables
-restart_program = True
+headline_already_printed = False
+
 auto_update = SDM.get_auto_update()
 term_output_diplomacy = SDM.get_term_output_diplomacy()
 oneline_output_format = SDM.get_one_line_output()
@@ -200,7 +200,9 @@ def check_for_updates():
 
 
 def search_for_terms(log_title, workbook_title):
-    global restart_program
+    global headline_already_printed
+    print_opening_again = False
+
     global auto_update
     global term_output_diplomacy
     global oneline_output_format
@@ -217,32 +219,7 @@ def search_for_terms(log_title, workbook_title):
     print("\n\tLoading wiki_morph database...")
     with open("src/database/wiki_morph.json", "r", encoding="utf-8") as f:
         entries_list = json.load(f)
-    os.system('cls')
-    CA.print_opening(version="Version 2.2c")
-    print("\n\tCompleted!")
-    time.sleep(1)
-    playsound("src/data/GUI_sound/Signal.mp3")
-    os.system('cls')
-    CA.print_opening(version="Version 2.2c")
-    time.sleep(.25)
-    print("\n\tYou can now search for terms.")
-    time.sleep(.25)
-    print('\n\t1) For searching a term type in the term.')
-    time.sleep(.25)
-    print('\t2) For searching a term with filter(s) type in the term with the respective filter(s).')
-    time.sleep(.25)
-    print('\t3) For Automatic scan mode type "s!".')
-    time.sleep(.25)
-    print('\t4) For Comparison mode type "c!".\t\t\033[32m<- New!\033[0m')
-    time.sleep(.25)
-    print('\t5) For further instructions type "i!".')
-    time.sleep(.25)
-    print('\t6) For version description type "v!".')
-    time.sleep(.25)
-    print('\t7) For Settings mode type "set!".\t\t\033[32m<- New!\033[0m')
-    time.sleep(.25)
-    print('\t8) For ending the program type "exit!".')
-    time.sleep(.25)
+    CA.print_opening_extended(version="Version 2.2c")
 
     # search function
     stop = False
@@ -252,6 +229,9 @@ def search_for_terms(log_title, workbook_title):
 
     while not stop:
 
+        if print_opening_again:
+            CA.print_opening_extended(version="Version 2.2c")
+            print_opening_again = False
         i = input("\n\tSearch term: ")
         os.system('cls')
 
@@ -292,7 +272,9 @@ def search_for_terms(log_title, workbook_title):
             print("\n\tThe terms will now be searched in the database.")
             time.sleep(2)
 
-            worksheet, excel_row = CA.print_headlines(worksheet, excel_row)
+            if (not headline_already_printed or headline_printing == 2) and not headline_printing == 3:
+                worksheet, excel_row = CA.print_headlines(worksheet, excel_row)
+                headline_already_printed = True
 
             if term_output_diplomacy == "1":
                 for x in range(number_of_terms):
@@ -302,6 +284,10 @@ def search_for_terms(log_title, workbook_title):
                     print(status)
                     print("\n\tSearching for terms..."
                           "\n\tCurrent term: " + term + "\t\tProgress: " + str(progress) + "%")
+
+                    if not headline_already_printed or headline_printing == 3:
+                        worksheet, excel_row = CA.print_headlines(worksheet, excel_row)
+                        headline_already_printed = True
 
                     worksheet, excel_row, log_output = CA.search_and_output(worksheet=worksheet,
                                                                             excel_row=excel_row,
@@ -331,6 +317,10 @@ def search_for_terms(log_title, workbook_title):
                     print("\n\tSearching for terms..."
                           "\n\tCurrent term: " + term + "\t\tProgress: " + str(progress) + "%")
 
+                    if not headline_already_printed or headline_printing == 3:
+                        worksheet, excel_row = CA.print_headlines(worksheet, excel_row)
+                        headline_already_printed = True
+
                     worksheet, excel_row, log_output = CA.search_and_output(worksheet=worksheet,
                                                                             excel_row=excel_row,
                                                                             pos_filters=auto_scan_filters,
@@ -358,6 +348,10 @@ def search_for_terms(log_title, workbook_title):
                     print(status)
                     print("\n\tSearching for terms..."
                           "\n\tCurrent term: " + term + "\t\tProgress: " + str(progress) + "%")
+
+                    if not headline_already_printed or headline_printing == 3:
+                        worksheet, excel_row = CA.print_headlines(worksheet, excel_row)
+                        headline_already_printed = True
 
                     worksheet, excel_row, log_output = CA.search_and_output(worksheet=worksheet,
                                                                             excel_row=excel_row,
@@ -505,12 +499,12 @@ def search_for_terms(log_title, workbook_title):
 
         elif i == "set!":
             time.sleep(1)
-            intro = "\t~ Settings Menu ~" \
+            intro = "\n\t~ Settings Menu ~" \
                      "\n\n\tThe several settings you can change will be displayed in succession." \
-                     "\n\tFor every setting there will be the respective options displayed." \
-                     "\n\tTo select an option please type in the given number." \
+                     "\n\tFor every setting there will be the respective options given." \
+                     "\n\tThe currently selected option will be marked with an arrow." \
                      "\n\tTo keep the currently selected option of a setting just press enter." \
-                     "\n\tTo break up and return to main menu without saving press escape." \
+                     "\n\tTo select another option please type in the given number." \
                      "\n\tYou can press enter to start now."
             os.system('cls')
             print(intro)
@@ -643,6 +637,14 @@ def search_for_terms(log_title, workbook_title):
                 print("\n\tPrevious setting will be kept!")
                 time.sleep(2)
 
+            os.system('cls')
+            outro = "\n\t~ Settings Menu ~" \
+                    "\n\n\tNew configurations saved!" \
+                    "\n\n\tReturning to main menu..."
+            print(outro)
+            time.sleep(4)
+            print_opening_again = True
+
         else:
             open_excel_automatically = True
             if ":" in i:
@@ -655,6 +657,11 @@ def search_for_terms(log_title, workbook_title):
                 pos_filters = ["Noun", "Verb", "Adverb", "Adjective", "Preposition", "Phrase"]
                 term = i
 
+            print(headline_already_printed)
+            if not headline_already_printed or headline_printing == 3:
+                worksheet, excel_row = CA.print_headlines(worksheet, excel_row)
+                headline_already_printed = True
+            print(headline_already_printed)
             if term_output_diplomacy == 1:
                 worksheet, excel_row, log_output = CA.search_and_output(worksheet=worksheet,
                                                                         excel_row=excel_row,
@@ -703,7 +710,5 @@ formatted_date = CA.get_datetime()
 log_name = CA.create_logfile(fd=formatted_date)
 wb_name = CA.create_excel(fd=formatted_date)
 
-while restart_program:
-    search_for_terms(log_name, wb_name)
-    time.sleep(.1)
+search_for_terms(log_name, wb_name)
 
