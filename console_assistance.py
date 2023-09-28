@@ -131,7 +131,7 @@ def show_instructions():
     os.system('cls')
 
     print("\033[32m" + "\n\tInstructions:" + "\033[0m")
-    time.sleep(.25)
+    time.sleep(1.5)
     print("\n\t1) Please type in the term you want to SEARCH and press ENTER.")
     time.sleep(.25)
     print("\n\t2) You are free to repeat this procedure till you end this program.")
@@ -184,7 +184,7 @@ def show_version_description():
     time.sleep(1)
     os.system('cls')
     print("\033[32m" + "\n\tWhat´s new in version 2.2c?" + "\033[0m")
-    time.sleep(.25)
+    time.sleep(1.5)
     print("\n\t1) There is a new comparison mode, "
           "\n\t\twhich allows you to select two excel files in the directory. "
           "\n\t\tThe first column of these files will be scanned and for every term, "

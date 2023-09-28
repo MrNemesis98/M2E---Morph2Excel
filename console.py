@@ -25,13 +25,13 @@ auto_scan_filters = SDM.get_auto_scan_filters()
 
 def set_system_variables_to_default():
 
-    SDM.set_auto_update(0)
+    SDM.set_auto_update(1)
     SDM.set_term_output_diplomacy(3)
     SDM.set_one_line_output(1)
     SDM.set_headline_printing(2)
     SDM.set_alphabetical_output(True, True)
     SDM.set_auto_scan_filters("Noun,Verb,Adverb,Adjective,Preposition,Phrase")
-    SDM.set_output_detail_level(2)
+    SDM.set_output_detail_level(3)
 
 
 def check_paths():
@@ -658,7 +658,8 @@ def search_for_terms(log_title, workbook_title):
             else:
                 pos_filters = ["Noun", "Verb", "Adverb", "Adjective", "Preposition", "Phrase"]
                 term = i
-
+            os.system('cls')
+            print('\n\tSearching for term "' + term + '" ...')
             if not headline_already_printed or headline_printing == 3:
                 worksheet, excel_row = CA.print_headlines(worksheet, excel_row, output_detail_level)
                 headline_already_printed = True
@@ -696,11 +697,18 @@ def search_for_terms(log_title, workbook_title):
                                                                         output_detail_level=output_detail_level,
                                                                         headline_printing=headline_printing)
 
+            print("\n\tSaving...")
+            os.system('cls')
+
             log = open(log_title, "a", encoding="utf-8")
             log.write("\n\n" + log_output)
             log.close()
+            time.sleep(.5)
 
             workbook.save(workbook_title)
+            print("\n\tDone!")
+            os.system('cls')
+            time.sleep(1)
 
 
 CA.print_opening(version="Version 2.2c")
