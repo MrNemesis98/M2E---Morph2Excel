@@ -62,7 +62,7 @@ def get_soll_size():
 system_data = data[1]
 variables_list = system_data.split('/')
 variables_list.remove(variables_list[0])
-print(variables_list)
+# print(variables_list)
 auto_update = (variables_list[0].split(":")[1])
 term_output_diplomacy = (variables_list[1].split(":")[1])
 one_line_output = (variables_list[2].split(":")[1])

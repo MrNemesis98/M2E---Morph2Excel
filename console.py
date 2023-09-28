@@ -1,12 +1,15 @@
-import json, sys
+import json
+import os
+import requests
+import sys
 import time
+
 from openpyxl import load_workbook
 from playsound import playsound
-import os, requests
 from urllib3.exceptions import NameResolutionError, MaxRetryError
 
-import savedata_manager as SDM
 import console_assistance as CA
+import savedata_manager as SDM
 
 # system variables
 headline_already_printed = False
@@ -25,7 +28,7 @@ def set_system_variables_to_default():
     SDM.set_auto_update(0)
     SDM.set_term_output_diplomacy(3)
     SDM.set_one_line_output(1)
-    SDM.set_headline_printing(1)
+    SDM.set_headline_printing(2)
     SDM.set_alphabetical_output(True, True)
     SDM.set_auto_scan_filters("Noun,Verb,Adverb,Adjective,Preposition,Phrase")
     SDM.set_output_detail_level(2)
@@ -237,15 +240,19 @@ def search_for_terms(log_title, workbook_title):
 
         if i == "exit!":
             print("\n\tProgram terminated!")
-            restart_program = False
             stop = True
             if open_excel_automatically:
                 os.system(f'start "" {workbook_title}')
         elif i == "i!":
             CA.show_instructions()
+            i = input()
+            CA.print_opening_extended(version="Version 2.2c")
         elif i == "v!":
             CA.show_version_description()
-
+            i = input()
+            CA.print_opening_extended(version="Version 2.2c")
+        elif i == "?":
+            CA.print_opening_extended(version="Version 2.2c")
         elif i == "s!":
             open_excel_automatically = True
             os.system('cls')
@@ -261,19 +268,11 @@ def search_for_terms(log_title, workbook_title):
             time.sleep(2)
             os.system('cls')
             print(status)
-            """
-            print("\n\tTerm output diplomacy"
-                  "\n\tPlease state which terms shall be considered in the output excel file:"
-                  '\n\tType in "1" for considering all terms with an entry.'
-                  '\n\tType in "2" for considering all terms with no entry.'
-                  '\n\tType in "3" for considering all terms in general.')
-            output_option = input("\n\tAnswer: ")
-            """
             print("\n\tThe terms will now be searched in the database.")
             time.sleep(2)
 
             if (not headline_already_printed or headline_printing == 2) and not headline_printing == 3:
-                worksheet, excel_row = CA.print_headlines(worksheet, excel_row)
+                worksheet, excel_row = CA.print_headlines(worksheet, excel_row, output_detail_level)
                 headline_already_printed = True
 
             if term_output_diplomacy == "1":
@@ -286,7 +285,7 @@ def search_for_terms(log_title, workbook_title):
                           "\n\tCurrent term: " + term + "\t\tProgress: " + str(progress) + "%")
 
                     if not headline_already_printed or headline_printing == 3:
-                        worksheet, excel_row = CA.print_headlines(worksheet, excel_row)
+                        worksheet, excel_row = CA.print_headlines(worksheet, excel_row, output_detail_level)
                         headline_already_printed = True
 
                     worksheet, excel_row, log_output = CA.search_and_output(worksheet=worksheet,
@@ -297,7 +296,8 @@ def search_for_terms(log_title, workbook_title):
                                                                             only_found_terms=True,
                                                                             only_not_found_terms=False,
                                                                             multiline_output=not oneline_output_format,
-                                                                            output_detail_level=output_detail_level)
+                                                                            output_detail_level=output_detail_level,
+                                                                            headline_printing=headline_printing)
                     progress = int(50*(x/number_of_terms))
                     progressbar = ("\t[" + "-" * (progress-1) + ">" + " " * (50-(progress+1)) + "]")
                     print(progressbar)
@@ -318,7 +318,7 @@ def search_for_terms(log_title, workbook_title):
                           "\n\tCurrent term: " + term + "\t\tProgress: " + str(progress) + "%")
 
                     if not headline_already_printed or headline_printing == 3:
-                        worksheet, excel_row = CA.print_headlines(worksheet, excel_row)
+                        worksheet, excel_row = CA.print_headlines(worksheet, excel_row, output_detail_level)
                         headline_already_printed = True
 
                     worksheet, excel_row, log_output = CA.search_and_output(worksheet=worksheet,
@@ -329,7 +329,8 @@ def search_for_terms(log_title, workbook_title):
                                                                             only_found_terms=False,
                                                                             only_not_found_terms=True,
                                                                             multiline_output=not oneline_output_format,
-                                                                            output_detail_level=output_detail_level)
+                                                                            output_detail_level=output_detail_level,
+                                                                            headline_printing=headline_printing)
                     progress = int(50 * (x / number_of_terms))
                     progressbar = ("\t[" + "-" * (progress - 1) + ">" + " " * (50 - (progress + 1)) + "]")
                     print(progressbar)
@@ -350,7 +351,7 @@ def search_for_terms(log_title, workbook_title):
                           "\n\tCurrent term: " + term + "\t\tProgress: " + str(progress) + "%")
 
                     if not headline_already_printed or headline_printing == 3:
-                        worksheet, excel_row = CA.print_headlines(worksheet, excel_row)
+                        worksheet, excel_row = CA.print_headlines(worksheet, excel_row, output_detail_level)
                         headline_already_printed = True
 
                     worksheet, excel_row, log_output = CA.search_and_output(worksheet=worksheet,
@@ -361,7 +362,8 @@ def search_for_terms(log_title, workbook_title):
                                                                             only_found_terms=False,
                                                                             only_not_found_terms=False,
                                                                             multiline_output=not oneline_output_format,
-                                                                            output_detail_level=output_detail_level)
+                                                                            output_detail_level=output_detail_level,
+                                                                            headline_printing=headline_printing)
                     progress = int(50 * (x / number_of_terms))
                     progressbar = ("\t[" + "-" * (progress - 1) + ">" + " " * (50 - (progress + 1)) + "]")
                     print(progressbar)
@@ -485,7 +487,7 @@ def search_for_terms(log_title, workbook_title):
             results_workbook.save(results_wb_name)
 
             log = open(log_title, "a", encoding="utf-8")
-            log_output = "\t------------------------------------------------------------\n\n\tComparion mode accessed" \
+            log_output = "\t------------------------------------------------------------\n\n\tComparison mode accessed"\
                          "\n\tFile 1: " + file_1 + "\n\tFile 2: " + file_2 + "\n"
             log.write("\n\n" + log_output)
             log.close()
@@ -657,11 +659,9 @@ def search_for_terms(log_title, workbook_title):
                 pos_filters = ["Noun", "Verb", "Adverb", "Adjective", "Preposition", "Phrase"]
                 term = i
 
-            print(headline_already_printed)
             if not headline_already_printed or headline_printing == 3:
-                worksheet, excel_row = CA.print_headlines(worksheet, excel_row)
+                worksheet, excel_row = CA.print_headlines(worksheet, excel_row, output_detail_level)
                 headline_already_printed = True
-            print(headline_already_printed)
             if term_output_diplomacy == 1:
                 worksheet, excel_row, log_output = CA.search_and_output(worksheet=worksheet,
                                                                         excel_row=excel_row,
@@ -671,7 +671,8 @@ def search_for_terms(log_title, workbook_title):
                                                                         only_found_terms=True,
                                                                         only_not_found_terms=False,
                                                                         multiline_output=not oneline_output_format,
-                                                                        output_detail_level=output_detail_level)
+                                                                        output_detail_level=output_detail_level,
+                                                                        headline_printing=headline_printing)
             elif term_output_diplomacy == 2:
                 worksheet, excel_row, log_output = CA.search_and_output(worksheet=worksheet,
                                                                         excel_row=excel_row,
@@ -681,7 +682,8 @@ def search_for_terms(log_title, workbook_title):
                                                                         only_found_terms=False,
                                                                         only_not_found_terms=True,
                                                                         multiline_output=not oneline_output_format,
-                                                                        output_detail_level=output_detail_level)
+                                                                        output_detail_level=output_detail_level,
+                                                                        headline_printing=headline_printing)
             else:
                 worksheet, excel_row, log_output = CA.search_and_output(worksheet=worksheet,
                                                                         excel_row=excel_row,
@@ -691,7 +693,8 @@ def search_for_terms(log_title, workbook_title):
                                                                         only_found_terms=False,
                                                                         only_not_found_terms=False,
                                                                         multiline_output=not oneline_output_format,
-                                                                        output_detail_level=output_detail_level)
+                                                                        output_detail_level=output_detail_level,
+                                                                        headline_printing=headline_printing)
 
             log = open(log_title, "a", encoding="utf-8")
             log.write("\n\n" + log_output)

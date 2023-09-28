@@ -19,7 +19,10 @@ def print_opening(version):
 def print_opening_extended(version):
     os.system('cls')
     print("\033[32m" + "\n\tMorph2Excel ~ Version " + version + "\033[0m")
-    playsound("src/data/GUI_sound/Signal.mp3")
+    try:
+        playsound("src/data/GUI_sound/Signal.mp3")
+    except Exception:
+        pass
     time.sleep(.25)
     print("\n\tYou can now search for terms.")
     time.sleep(.25)
@@ -39,6 +42,9 @@ def print_opening_extended(version):
     time.sleep(.25)
     print('\t8) For ending the program type "exit!".')
     time.sleep(.25)
+    print('\t9) For displaying this overview again type "?".')
+    time.sleep(.25)
+
 
 def print_exit_without_download():
     os.system('cls')
@@ -123,75 +129,101 @@ def download_database(url):
 def show_instructions():
     time.sleep(1)
     os.system('cls')
-    print("\n\tInstructions:")
+
+    print("\033[32m" + "\n\tInstructions:" + "\033[0m")
     time.sleep(.25)
-    print("\n\t1) Please type in the term you want to SEARCH and press Enter.")
+    print("\n\t1) Please type in the term you want to SEARCH and press ENTER.")
     time.sleep(.25)
-    print("\t2) You are free to repeat this procedure till you end this program.")
+    print("\n\t2) You are free to repeat this procedure till you end this program.")
     time.sleep(.25)
-    print("\t3) You can only SEARCH for one term at the same time.")
+    print("\n\t3) You can only SEARCH for one term at the same time.")
     time.sleep(.25)
-    print("\t4) To END this program you can type in 'exit!'.")
+    print("\n\t4) To END this program you can type in 'exit!'.")
     time.sleep(.25)
-    print("\t5) Results are saved into an excel file (.xlsx),"
+    print("\n\t5) Results are saved into an excel file (.xlsx),"
           " which will open automatically after the end of the program.")
     time.sleep(.25)
-    print("\t6) There is also a short logfile (.txt), which covers the search history.")
+    print("\n\t6) There is also a short logfile (.txt), which covers the search history and system information.")
     time.sleep(.25)
-    print("\t7) To FILTER your results you can define the part of speech characteristics of the term as follows:"
+    print("\n\t7) To FILTER your results you can define the part of speech characteristics of the term as follows:"
           '\n\n\t\tgeneral:     "term:PoS"'
           '\n\t\texamples:    "cool:Noun"  /  "cool:Adjective"  /  "hide:Verb"  /  "hide:Adjective:Adverb"'
           '\n\n\t\tThere are the following pos types you can filter on: '
           '(Noun, Verb, Adverb, Adjective, Preposition, Phrase).'
-          '\n\t\t\tYou can search for more than one pos type by connecting them via ":" (see last example).')
+          '\n\t\tYou can search for more than one pos type by connecting them via ":" (see last example).')
     time.sleep(.25)
-    print('\n\t8) By typing in "s!" you can enter the new scan mode. '
+    print('\n\t8) By typing in "s!" you can enter the scan mode. '
           '\n\t\tHere you are free to select an excel file in the directory, which will be scanned for possible terms. '
           '\n\t\tThese terms will automatically be searched in the wiki_morph database. '
-          '\n\t\tThe generated output contains all the morphological information as usual. '
           '\n\t\tYou can use the manual search before or after the automatic scan. '
+          '\n\t\tThese modes do not depend from each other.'
           '\n\t\tYou can also execute the automatic scan several times in a row. '
-          '\n\t\tThese ways the respective outputs are combined in one final output table. '
+          '\n\t\tBut be aware that the respective outputs are combined in one final output table!'
           '\n\t\tFor separating the outputs and getting different tables you need to end\n\t\tand restart the program'
           ' and plan the scans / manual searches respectively. '
           '\n\t\tHint: soon there will be a version update which allows outputting and cleaning the cache on the flow.')
     time.sleep(.25)
-    print('\t9) You can find the outputs in the folder "data".')
+    print('\n\t9) You can find the outputs in the folder "Output/excel_files" and the logs in "Output/log_files".')
+    time.sleep(.25)
+    print('\n\t10) There is a new mode called "Comparison mode", which allows you to scan in two excel tables'
+          '\n\t\tand compare them. The program will generate an overview which terms were found in which table'
+          '\n\t\tand which are common or unique.'
+          '\n\n\t\tAttention: This only works with excel files which contain the terms in the first column!'
+          '\n\t\tThe resulting overview is an excel file which will be saved as "M2E_Comparion_Results_[]" in'
+          '\n\t\tthe folder Output/excel_files.')
+    time.sleep(.25)
+    print("\n\t11) The settings mode is a new feature as well and allows you to influence several aspects"
+          "\n\t\tof the program, mostly regarding the output. There are always a description and the "
+          "\n\t\trespective options given for a setting for an intuitive user experience. "
+          "\n\t\tChanges are saved on the flow, so a crash of the program will not delete the progress.")
+    time.sleep(.25)
+    print("\n\n\tYou can type in any character/number now to return to main menu.")
 
 
 def show_version_description():
     time.sleep(1)
     os.system('cls')
-    print("\n\tWhat´s new in version 2.1?")
+    print("\033[32m" + "\n\tWhat´s new in version 2.2c?" + "\033[0m")
     time.sleep(.25)
-    print("\n\t1) The instructions and this version description are new features,\n\t\tseparated from the main function"
-          " of searching terms in the database.")
+    print("\n\t1) There is a new comparison mode, "
+          "\n\t\twhich allows you to select two excel files in the directory. "
+          "\n\t\tThe first column of these files will be scanned and for every term, "
+          "\n\t\tM2E will determine, in which of the files the term occurs."
+          "\n\t\tThe results of this comparison will not be saved in the standard output_excel file,"
+          "\n\t\tbut in an additional comparison_results excel file in the same folder,"
+          "\n\t\tas described in the instructions.")
     time.sleep(.25)
-    print("\t2) This version introduces Part of Speech (PoS) filters, as described in the instructions.")
+    print("\n\t2) There is also a new settings mode, "
+          "\n\t\tin which you can adjust several system variables. "
+          "\n\t\tMost of them relate to the output. Changes will be saved on the flow."
+          "\n\n\t\tIn total there are six variables to change:"
+          "\n\t\t\t1. Automatic Update Control"
+          "\n\t\t\t2. Term Output Diplomacy"
+          "\n\t\t\t3. Output Line Format"
+          "\n\t\t\t4. Headline Printing Control"
+          "\n\t\t\t5. Alphabetical Output Formation"
+          "\n\t\t\t6. Output Detail Level Control"
+          "\n\n\t\tFor every setting there are a description and the respective options given.")
     time.sleep(.25)
-    print("\t3) The excel output has got a new structure since the program is now able\n\t\tto capture morphological "
-          "information up to the database´s maximum depth \n\t\tof three levels (etymology compound level).")
+    print("\n\t3) There is a new notification sound which informs you about a finished process like: "
+          "\n\t\t\t1. Loading the database."
+          "\n\t\t\t2. Saving results from auto scan mode."
+          "\n\t\t\t3. Saving results from comparison mode."
+          "\n\t\t\t4. Saving changes in settings mode."
+          "\n\t\t\t5. ..."
+          "\n\n\t\tNote: Depending on the hardware of your system there could be compatibility problems"
+          "\n\t\twith the module used to load the sound. In this case the sound is not playing and"
+          "\n\t\tyou will get an error message during the runtime."
+          "\n\t\tBut the problem is captured by exception handling, so you don´t have to worry."
+          "\n\t\tThe Program will not crash and you can continue your work as usual.")
     time.sleep(.25)
-    print("\t4) Smaller improvements on the function for automatic updating of the database.")
+    print("\n\t4) As always: General revision of the displayed text, "
+          "\n\t\tupdate of instructions and version description.")
     time.sleep(.25)
-    print("\t5) There is a new consistency test at the beginning of the program to proof\n\t\twhether the last download"
-          " of the database was either successful or has been interrupted. "
-          "\n\t\tThis consistency data is saved to and managed "
-          "by the file 'savedata.txt' \n\t\tand an external script savedata_manager.py.")
-    time.sleep(.25)
-    print("\t6) The created excel file will now open automatically after the program terminated correctly.")
-    time.sleep(.25)
-    print("\t7) General revision of the displayed text, supplemented by the addition of data size information.")
-    time.sleep(.25)
-    print("\t8) There is a new automatic scan mode, "
-          "\n\t\twhich allows you to select an excel file in the directory. "
-          "\n\t\tThe first column of this file will be scanned and for every term it contains, "
-          "\n\t\tM2E will search for the respective etymology "
-          "\n\t\tand create an output file containing all the information automatically.")
-    time.sleep(.25)
+    print("\n\n\tYou can type in any character/number now to return to main menu.")
 
 
-def print_headlines(worksheet, excel_row):
+def print_headlines(worksheet, excel_row, output_detail_level):
 
     blue_color = "0000FF"
     brown_color = "6E2C00"
@@ -201,52 +233,55 @@ def print_headlines(worksheet, excel_row):
     pos_Hcell = 'C' + str(excel_row)
     syll_Hcell = 'D' + str(excel_row)
     def_Hcell = 'E' + str(excel_row)
-    affix_Hcell = 'F' + str(excel_row)
-    lang_Hcell = 'G' + str(excel_row)
-    sub_pos_Hcell = 'H' + str(excel_row)
-    mean_Hcell = 'I' + str(excel_row)
-    sub_affix_Hcell = 'J' + str(excel_row)
-    sub_lang_Hcell = 'K' + str(excel_row)
-    decoded_Hcell = 'L' + str(excel_row)
-    sub_sub_pos_Hcell = 'M' + str(excel_row)
-    sub_meaning_Hcell = 'N' + str(excel_row)
-
     worksheet[term_Hcell] = 'Term'
     worksheet[filter_Hcell] = 'Filter'
     worksheet[pos_Hcell] = 'PoS'
     worksheet[syll_Hcell] = 'Syllables'
     worksheet[def_Hcell] = 'Definition'
-    worksheet[affix_Hcell] = 'Affix'
-    worksheet[lang_Hcell] = 'Language'
-    worksheet[sub_pos_Hcell] = 'PoS'
-    worksheet[mean_Hcell] = 'Meaning'
-    worksheet[sub_affix_Hcell] = 'Affix'
-    worksheet[sub_lang_Hcell] = 'Language'
-    worksheet[decoded_Hcell] = 'Decoded'
-    worksheet[sub_sub_pos_Hcell] = 'PoS'
-    worksheet[sub_meaning_Hcell] = 'Meanings'
-
     worksheet[term_Hcell].font = Font(bold=True)
     worksheet[filter_Hcell].font = Font(bold=True)
     worksheet[pos_Hcell].font = Font(bold=True)
     worksheet[syll_Hcell].font = Font(bold=True)
     worksheet[def_Hcell].font = Font(bold=True)
-    worksheet[affix_Hcell].font = Font(bold=True, color=Color(rgb=blue_color))
-    worksheet[lang_Hcell].font = Font(bold=True, color=Color(rgb=blue_color))
-    worksheet[sub_pos_Hcell].font = Font(bold=True, color=Color(rgb=blue_color))
-    worksheet[mean_Hcell].font = Font(bold=True, color=Color(rgb=blue_color))
-    worksheet[sub_affix_Hcell].font = Font(bold=True, color=Color(rgb=brown_color))
-    worksheet[sub_lang_Hcell].font = Font(bold=True, color=Color(rgb=brown_color))
-    worksheet[decoded_Hcell].font = Font(bold=True, color=Color(rgb=brown_color))
-    worksheet[sub_sub_pos_Hcell].font = Font(bold=True, color=Color(rgb=brown_color))
-    worksheet[sub_meaning_Hcell].font = Font(bold=True, color=Color(rgb=brown_color))
+
+    if output_detail_level >= 2:
+        affix_Hcell = 'F' + str(excel_row)
+        lang_Hcell = 'G' + str(excel_row)
+        sub_pos_Hcell = 'H' + str(excel_row)
+        mean_Hcell = 'I' + str(excel_row)
+        worksheet[affix_Hcell] = 'Affix'
+        worksheet[lang_Hcell] = 'Language'
+        worksheet[sub_pos_Hcell] = 'PoS'
+        worksheet[mean_Hcell] = 'Meaning'
+        worksheet[affix_Hcell].font = Font(bold=True, color=Color(rgb=blue_color))
+        worksheet[lang_Hcell].font = Font(bold=True, color=Color(rgb=blue_color))
+        worksheet[sub_pos_Hcell].font = Font(bold=True, color=Color(rgb=blue_color))
+        worksheet[mean_Hcell].font = Font(bold=True, color=Color(rgb=blue_color))
+
+    if output_detail_level == 3:
+        sub_affix_Hcell = 'J' + str(excel_row)
+        sub_lang_Hcell = 'K' + str(excel_row)
+        decoded_Hcell = 'L' + str(excel_row)
+        sub_sub_pos_Hcell = 'M' + str(excel_row)
+        sub_meaning_Hcell = 'N' + str(excel_row)
+        worksheet[sub_affix_Hcell] = 'Affix'
+        worksheet[sub_lang_Hcell] = 'Language'
+        worksheet[decoded_Hcell] = 'Decoded'
+        worksheet[sub_sub_pos_Hcell] = 'PoS'
+        worksheet[sub_meaning_Hcell] = 'Meanings'
+        worksheet[sub_affix_Hcell].font = Font(bold=True, color=Color(rgb=brown_color))
+        worksheet[sub_lang_Hcell].font = Font(bold=True, color=Color(rgb=brown_color))
+        worksheet[decoded_Hcell].font = Font(bold=True, color=Color(rgb=brown_color))
+        worksheet[sub_sub_pos_Hcell].font = Font(bold=True, color=Color(rgb=brown_color))
+        worksheet[sub_meaning_Hcell].font = Font(bold=True, color=Color(rgb=brown_color))
 
     excel_row += 1
     return worksheet, excel_row
 
 
 def search_and_output(worksheet, excel_row, pos_filters, term, entries_list,
-                      only_found_terms, only_not_found_terms, multiline_output, output_detail_level):
+                      only_found_terms, only_not_found_terms, multiline_output, output_detail_level,
+                      headline_printing):
 
     # Set the color for blue entries
     blue_color = "0000FF"
@@ -338,6 +373,7 @@ def search_and_output(worksheet, excel_row, pos_filters, term, entries_list,
     for x in range(len(entries_list)):
 
         entry = entries_list[x]
+        multiline_at_level2_already_executed = False
 
         if entry["Word"] == term and entry["PoS"] in pos_filters:
             found_entries += 1
@@ -373,8 +409,9 @@ def search_and_output(worksheet, excel_row, pos_filters, term, entries_list,
                     else:
                         for respective_morph_dict in morphemes_value:
 
-                            if multiline_output:
+                            if multiline_output and not multiline_at_level2_already_executed:
                                 excel_row += 1
+                                multiline_at_level2_already_executed = True
 
                             morphemes_sub_values = list(respective_morph_dict.values())
 
@@ -461,6 +498,10 @@ def search_and_output(worksheet, excel_row, pos_filters, term, entries_list,
                                             cleaned_sub_meaning_values[x])
 
                                         excel_row += 1
+                            else:
+                                excel_row += 1
+                else:
+                    excel_row += 1
 
     if found_entries == 0 and len(pos_filters) == 6:
         final_output += "\n\tWarning: database has no entry for '" + term + "'."
@@ -468,10 +509,19 @@ def search_and_output(worksheet, excel_row, pos_filters, term, entries_list,
 
         if not only_found_terms:
             set_level_1_cell_data(excel_row, pos="N/V", syllables="N/V", definition="N/V")
-            set_level_2_cell_data(excel_row, affix="N/V", language="N/V", sub_pos="N/V", meaning="N/V")
-            set_level_3_cell_data(excel_row, sub_affix="N/V", sub_language="N/V", decoded="N/V",
-                                  sub_sub_pos="N/V", sub_meaning="N/V")
+            if output_detail_level >= 2:
+                if multiline_output:
+                    excel_row += 1
+                set_level_2_cell_data(excel_row, affix="N/V", language="N/V", sub_pos="N/V", meaning="N/V")
+            if output_detail_level == 3:
+                if multiline_output:
+                    excel_row += 1
+                set_level_3_cell_data(excel_row, sub_affix="N/V", sub_language="N/V", decoded="N/V",
+                                      sub_sub_pos="N/V", sub_meaning="N/V")
             excel_row += 1
+        else:
+            if headline_printing == 3:
+                excel_row -= 1
 
     elif found_entries == 0 and len(pos_filters) != 6:
 
@@ -488,10 +538,15 @@ def search_and_output(worksheet, excel_row, pos_filters, term, entries_list,
 
         if not only_found_terms:
             set_level_1_cell_data(excel_row, pos="N/V", syllables="N/V", definition="N/V")
-            set_level_2_cell_data(excel_row, affix="N/V", language="N/V", sub_pos="N/V", meaning="N/V")
-            set_level_3_cell_data(excel_row, sub_affix="N/V", sub_language="N/V", decoded="N/V",
-                                  sub_sub_pos="N/V", sub_meaning="N/V")
+            if output_detail_level >= 2:
+                set_level_2_cell_data(excel_row, affix="N/V", language="N/V", sub_pos="N/V", meaning="N/V")
+            if output_detail_level == 3:
+                set_level_3_cell_data(excel_row, sub_affix="N/V", sub_language="N/V", decoded="N/V",
+                                      sub_sub_pos="N/V", sub_meaning="N/V")
             excel_row += 1
+        else:
+            if headline_printing == 3:
+                excel_row -= 1
 
     else:
         if len(pos_filters) == 6:
@@ -513,6 +568,9 @@ def search_and_output(worksheet, excel_row, pos_filters, term, entries_list,
             final_output += "\n\tFilters:" + str(pos_output) + \
                             "\n\tEntries found: " + str(found_entries) + "\n"
         final_output += output
+
+        if only_not_found_terms and headline_printing == 3:
+            excel_row -= 1
 
     return worksheet, excel_row, log_output
 
@@ -618,50 +676,6 @@ def write_comparison_result_excel(worksheet, file_1, file_2, list_of_terms_1, li
         excel_row += 1
 
     return worksheet
-
-
-def prepare_settings_display(auto_update, term_output_diplomacy, oneline_output_format,
-                             headline_printing, alphabetical_output, abc_output_ascending,
-                             output_detail_level):
-
-    auto_update_option = "\n\t1. Search for database updates automatically:\t\t\t\t\t"
-    term_output_diplomacy_option = "\t2. Consider following terms in output:\t\t\t\t\t\t\t"
-    oneline_output_format_option = "\t3. Output format:\t\t\t\t\t\t\t\t\t\t\t"
-    headline_printing_option = "\t4. Repeat headline printing in output:\t\t\t\t\t\t\t"
-    alphabetical_output_option = "\t5. Print output in alphabetical order (only in scan mode):\t\t"
-    output_detail_level_option = "\t6. Output detail level:\t\t\t\t\t\t\t\t\t\t"
-    # auto_scan_filters_option = "7. "
-
-    auto_update_option += "off\t(1/2)" if auto_update == 0 else "on\t(2/2)"
-    if term_output_diplomacy == 0:
-        term_output_diplomacy_option += "only found terms\t\t(1/3)"
-    elif term_output_diplomacy_option == 1:
-        term_output_diplomacy_option += "only not found terms\t(2/3)"
-    else:
-        term_output_diplomacy_option += "all searched terms\t(3/3)"
-    oneline_output_format_option += "one-line\t(1/2)" if oneline_output_format else "multi-line\t(2/2)"
-    if headline_printing == 0:
-        headline_printing_option += "off, only at beginning of output document\t(1/3)"
-    elif headline_printing_option == 1:
-        headline_printing_option += "after every scan (only in scan mode, else off)\t(2/3)"
-    else:
-        headline_printing_option += "after every term\t(3/3)"
-    if alphabetical_output and abc_output_ascending:
-        alphabetical_output_option += "on (ascending)\t(1/3)"
-    elif alphabetical_output and not abc_output_ascending:
-        alphabetical_output_option += "on (descending)\t(2/3)"
-    else:
-        alphabetical_output_option += "off\t(1/3)"
-    if output_detail_level == 0:
-        output_detail_level_option += "Level 1\n\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t" \
-                                      "only term data\t(1/3)"
-    elif output_detail_level == 1:
-        output_detail_level_option += "Level 1+2 (black,blue): term + morphology data\t(2/3)"
-    else:
-        output_detail_level_option += "Level 1+2+3 (black,blue,brown): term, morphology + etymology data\t(3/3)"
-
-    return [auto_update_option, term_output_diplomacy_option, oneline_output_format_option,
-            headline_printing_option, alphabetical_output_option, output_detail_level_option]
 
 
 def display_settings(setting, current_var, current_var_2=""):
