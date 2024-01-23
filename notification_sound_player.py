@@ -19,3 +19,6 @@ def play_mp3(file):
 
     finally:
         pygame.mixer.quit()
+
+
+play_mp3("./src/data/GUI_sound/Signal.mp3")

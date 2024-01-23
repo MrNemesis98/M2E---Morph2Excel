@@ -3,9 +3,10 @@ import os
 import requests
 import sys
 import time
+import socket
 
 from openpyxl import load_workbook
-from urllib3.exceptions import NameResolutionError, MaxRetryError
+from urllib3.exceptions import NewConnectionError
 
 import console_assistance as CA
 import savedata_manager as SDM
@@ -88,7 +89,7 @@ def check_paths():
                 CA.print_exit_without_download()
             time.sleep(1)
 
-        except NameResolutionError or MaxRetryError:
+        except (requests.exceptions.RequestException, NewConnectionError, socket.gaierror):
             os.system('cls')
             CA.print_opening(version="Version 2.2c")
             print("\n\tWarning: Database is not installed currently."
@@ -195,7 +196,7 @@ def check_for_updates():
                 CA.print_opening(version="Version 2.2c")
                 print("\n\tThe installed database is up to date!")
                 time.sleep(3)
-    except NameResolutionError or MaxRetryError:
+    except (requests.exceptions.RequestException, NewConnectionError, socket.gaierror):
         CA.print_opening(version="Version 2.2c")
         print("\n\tUpdate check not possible: No internet connection!"
               "\n\tLast recent locally installed version will be used.")

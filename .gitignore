@@ -13,3 +13,4 @@ __pycache__/GUI.cpython-39.pyc
 *.pyc
 *.xlsx
 *.txt
+.idea/.name

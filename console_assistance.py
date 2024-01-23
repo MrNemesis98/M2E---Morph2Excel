@@ -1,3 +1,4 @@
+import socket
 import sys
 import os
 import urllib.request
@@ -5,10 +6,12 @@ import datetime
 import openpyxl
 import time
 import pandas as pd
+import requests
+
 import notification_sound_player as NSP
 from PyQt5.QtWidgets import QApplication, QFileDialog
 from openpyxl.styles import Font, Color
-from urllib3.exceptions import NameResolutionError, MaxRetryError
+from urllib3.exceptions import NewConnectionError
 
 
 def print_opening(version):
@@ -112,7 +115,7 @@ def download_database(url):
             print("\n\tDownloading wiki_morph...\n")
             urllib.request.urlretrieve(url, "src/database/wiki_morph.json", reporthook=progress)
             stop = True
-        except NameResolutionError or MaxRetryError:
+        except (requests.exceptions.RequestException, NewConnectionError, socket.gaierror):
             print_opening(version="Version 2.2c")
             print("\n\tDownload not possible: No internet connection!"
                   "\n\tYou can try again by pressing enter."
