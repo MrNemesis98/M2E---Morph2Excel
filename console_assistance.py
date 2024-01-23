@@ -5,9 +5,9 @@ import datetime
 import openpyxl
 import time
 import pandas as pd
+import notification_sound_player as NSP
 from PyQt5.QtWidgets import QApplication, QFileDialog
 from openpyxl.styles import Font, Color
-from playsound import playsound
 from urllib3.exceptions import NameResolutionError, MaxRetryError
 
 
@@ -19,10 +19,9 @@ def print_opening(version):
 def print_opening_extended(version):
     os.system('cls')
     print("\033[32m" + "\n\tMorph2Excel ~ Version " + version + "\033[0m")
-    try:
-        playsound("src/data/GUI_sound/Signal.mp3")
-    except Exception:
-        pass
+
+    NSP.play_mp3("./src/data/GUI_sound/Signal.mp3")
+
     time.sleep(.25)
     print("\n\tYou can now search for terms.")
     time.sleep(.25)

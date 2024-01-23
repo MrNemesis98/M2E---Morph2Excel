@@ -5,11 +5,11 @@ import sys
 import time
 
 from openpyxl import load_workbook
-from playsound import playsound
 from urllib3.exceptions import NameResolutionError, MaxRetryError
 
 import console_assistance as CA
 import savedata_manager as SDM
+import notification_sound_player as NSP
 
 # system variables
 headline_already_printed = False
@@ -125,7 +125,7 @@ def check_paths():
 
                 SDM.set_download_size(remote_size)
                 CA.download_database(url=url)
-                playsound("src/data/GUI_sound/Signal.mp3")
+                NSP.play_mp3("./src/data/GUI_sound/Signal.mp3")
 
                 current_size = os.path.getsize("src/database/wiki_morph.json")
                 current_size = int(current_size / (1024 * 1024))
@@ -382,7 +382,7 @@ def search_for_terms(log_title, workbook_title):
 
             time.sleep(7)
             os.system('cls')
-            playsound("src/data/GUI_sound/Signal.mp3")
+            NSP.play_mp3("./src/data/GUI_sound/Signal.mp3")
 
         elif i == "c!":
             open_excel_automatically = False
@@ -497,7 +497,7 @@ def search_for_terms(log_title, workbook_title):
             print("\n\tSaving process finished!"
                   "\n\tReturning to manual search mode...")
             time.sleep(5)
-            playsound("src/data/GUI_sound/Signal.mp3")
+            NSP.play_mp3("./src/data/GUI_sound/Signal.mp3")
 
         elif i == "set!":
             time.sleep(1)

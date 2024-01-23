@@ -1,3 +1,4 @@
-db:/dl:0/c:579/soll:579/
+db:/dl:0/c:0/soll:579/
 sys:/au:1/tod:3/onel:1/hdlp:2/abc=1:asc=1/asf:Noun,Verb,Adverb,Adjective,Preposition,Phrase/odlvl:3
-h:/enter
+
+sys:/au:1/tod:3/onel:1/hdlp:2/abc=1:asc=1/asf:Noun,Verb,Adverb,Adjective,Preposition,Phrase/odlvl:3
