@@ -20,8 +20,8 @@ term_output_diplomacy = SDM.get_term_output_diplomacy()
 oneline_output_format = SDM.get_one_line_output()
 headline_printing = SDM.get_headline_printing()
 alphabetical_output, abc_output_ascending = SDM.get_alphabetical_output()
-output_detail_level = SDM.get_output_detail_level()
 auto_scan_filters = SDM.get_auto_scan_filters()
+output_detail_level = SDM.get_output_detail_level()
 
 
 def set_system_variables_to_default():
@@ -31,15 +31,19 @@ def set_system_variables_to_default():
     SDM.set_one_line_output(1)
     SDM.set_headline_printing(2)
     SDM.set_alphabetical_output(True, True)
-    SDM.set_auto_scan_filters("Noun,Verb,Adverb,Adjective,Preposition,Phrase")
+    SDM.set_auto_scan_filters("Noun,Verb,Adjective,Adverb,Preposition,Phrase")
     SDM.set_output_detail_level(3)
 
 
 def check_paths():
     global auto_update
     time.sleep(2)
+
     os.system('cls')
-    CA.print_opening(version="Version 2.2c")
+    # For configuring M2E for other base systems:
+    # os.system('cls' if os.name == 'nt' else 'clear')
+
+    CA.print_opening(version="2.3c")
     print("\n\tChecking database status...")
     time.sleep(1)
 
@@ -52,7 +56,7 @@ def check_paths():
             remote_size = int(remote_size / (1024 * 1024))
 
             os.system('cls')
-            CA.print_opening(version="Version 2.2c")
+            CA.print_opening(version="2.3c")
             print("\n\tWarning: wiki_morph database could not be found on your system!"
                   "\n\tYou are free to download it automatically.")
             if remote_size == 0:
@@ -74,7 +78,7 @@ def check_paths():
                     SDM.set_current_size(current_size)
                     auto_update = False
                     os.system('cls')
-                    CA.print_opening(version="Version 2.2c")
+                    CA.print_opening(version="2.3c")
                     print("\n\n\tDownload completed! (" + str(current_size) + " MB)"
                           "\n\n\tDo you wish to search for terms now? (y/n)")
                     answer = input("\n\tanswer: ")
@@ -88,10 +92,10 @@ def check_paths():
             else:
                 CA.print_exit_without_download()
             time.sleep(1)
-
-        except (requests.exceptions.RequestException, NewConnectionError, socket.gaierror):
+        # (requests.exceptions.RequestException, NewConnectionError, socket.gaierror)
+        except Exception:
             os.system('cls')
-            CA.print_opening(version="Version 2.2c")
+            CA.print_opening(version="2.3c")
             print("\n\tWarning: Database is not installed currently."
                   "\n\n\tThis program offers the possibility to download the database automatically."
                   "\n\tBut for the moment there was no internet connection recognized."
@@ -107,7 +111,7 @@ def check_paths():
         soll_size = SDM.get_soll_size()
 
         if current_size < soll_size:
-            CA.print_opening(version="Version 2.2c")
+            CA.print_opening(version="2.3c")
             print("\n\tWarning: the local database file does not cover the expected amount of information!"
                   "\n\n\t(Expected size: min. " + str(soll_size) + " MB)"
                   "\n\t(Local size: " + str(current_size) + " MB)"
@@ -133,7 +137,7 @@ def check_paths():
                 SDM.set_current_size(current_size)
                 auto_update = False
                 os.system('cls')
-                CA.print_opening(version="Version 2.2c")
+                CA.print_opening(version="2.3c")
                 print("\n\n\tDownload completed! (" + str(current_size) + " MB)"
                       "\n\n\tDo you wish to search for terms now? (y/n)")
                 answer = input("\n\tanswer: ")
@@ -145,14 +149,14 @@ def check_paths():
             else:
                 CA.print_exit_without_download()
         else:
-            CA.print_opening(version="Version 2.2c")
+            CA.print_opening(version="2.3c")
             print("\n\tDatabase installed and available.")
         time.sleep(3)
 
 
 def check_for_updates():
     os.system('cls')
-    CA.print_opening(version="Version 2.2c")
+    CA.print_opening(version="2.3c")
     print("\n\tChecking for wiki_morph updates...")
     time.sleep(3)
 
@@ -166,14 +170,14 @@ def check_for_updates():
 
         if remote_size == 0:
             os.system('cls')
-            CA.print_opening(version="Version 2.2c")
+            CA.print_opening(version="2.3c")
             print("\n\tUpdate check not possible: Server does not provide required information!"
                   "\n\tLast recent locally installed version will be used.")
             time.sleep(7)
         else:
             if current_size < remote_size:
                 os.system('cls')
-                CA.print_opening(version="Version 2.2c")
+                CA.print_opening(version="2.3c")
                 print("\n\tThere is a new version of wiki_morph available!"
                       "\n\n\tSize: " + str(remote_size) + " MB"
                       "\n\n\t Do you want to download the update now? (y/n)")
@@ -183,7 +187,7 @@ def check_for_updates():
                     CA.download_database(url=url)
 
                     os.system('cls')
-                    CA.print_opening(version="Version 2.2c")
+                    CA.print_opening(version="2.3c")
                     print("\n\n\tUpdate completed! (" + str(current_size) + " MB)"
                           "\n\n\tDo you wish to search for terms now? (y/n)")
                     answer = input("\n\tanswer: ")
@@ -193,11 +197,11 @@ def check_for_updates():
                         sys.exit(0)
             else:
                 os.system('cls')
-                CA.print_opening(version="Version 2.2c")
+                CA.print_opening(version="2.3c")
                 print("\n\tThe installed database is up to date!")
                 time.sleep(3)
-    except (requests.exceptions.RequestException, NewConnectionError, socket.gaierror):
-        CA.print_opening(version="Version 2.2c")
+    except Exception:
+        CA.print_opening(version="2.3c")
         print("\n\tUpdate check not possible: No internet connection!"
               "\n\tLast recent locally installed version will be used.")
         time.sleep(5)
@@ -213,17 +217,18 @@ def search_for_terms(log_title, workbook_title):
     global headline_printing
     global alphabetical_output
     global abc_output_ascending
+    global auto_scan_filters
     global output_detail_level
 
     open_excel_automatically = False
 
     # loading database
     os.system('cls')
-    CA.print_opening(version="Version 2.2c")
+    CA.print_opening(version="2.3c")
     print("\n\tLoading wiki_morph database...")
     with open("src/database/wiki_morph.json", "r", encoding="utf-8") as f:
         entries_list = json.load(f)
-    CA.print_opening_extended(version="Version 2.2c")
+    CA.print_main_menu(version="2.3c")
 
     # search function
     stop = False
@@ -234,27 +239,36 @@ def search_for_terms(log_title, workbook_title):
     while not stop:
 
         if print_opening_again:
-            CA.print_opening_extended(version="Version 2.2c")
+            CA.print_main_menu(version="2.3c")
             print_opening_again = False
         i = input("\n\tSearch term: ")
         os.system('cls')
 
         if i == "exit!":
-            print("\n\tProgram terminated!")
+            print("\033[93m" + "\n\tProgram terminated!\033[0m")
+            time.sleep(1)
+            os.system('cls')
             stop = True
             if open_excel_automatically:
                 os.system(f'start "" {workbook_title}')
         elif i == "i!":
             CA.show_instructions()
             i = input()
-            CA.print_opening_extended(version="Version 2.2c")
+            CA.print_main_menu(version="2.3c")
         elif i == "v!":
             CA.show_version_description()
             i = input()
-            CA.print_opening_extended(version="Version 2.2c")
+            CA.print_main_menu(version="2.3c")
         elif i == "?":
-            CA.print_opening_extended(version="Version 2.2c")
+            CA.print_main_menu(version="2.3c")
+
+        # AUTOMATIC SCAN MODE ------------------------------------------------------------------------------------------
         elif i == "s!":
+
+            if excel_row == 1:
+                worksheet, excel_row = CA.print_headlines(worksheet, excel_row, output_detail_level)
+                headline_already_printed = True
+
             open_excel_automatically = True
             os.system('cls')
             print("\n\t- Automatic scan mode -"
@@ -272,11 +286,14 @@ def search_for_terms(log_title, workbook_title):
             print("\n\tThe terms will now be searched in the database.")
             time.sleep(2)
 
-            if (not headline_already_printed or headline_printing == 2) and not headline_printing == 3:
+            # for preventing double headline printing at the beginning of the Excel
+            # only executes the "for every new doc" headline printing
+            # the headline printing for every term in case hlp == 3 is defined below
+            if headline_printing == 2 and not headline_already_printed:
                 worksheet, excel_row = CA.print_headlines(worksheet, excel_row, output_detail_level)
                 headline_already_printed = True
 
-            if term_output_diplomacy == "1":
+            if term_output_diplomacy == 1:
                 for x in range(number_of_terms):
                     term = terms[x]
                     os.system('cls')
@@ -284,10 +301,6 @@ def search_for_terms(log_title, workbook_title):
                     print(status)
                     print("\n\tSearching for terms..."
                           "\n\tCurrent term: " + term + "\t\tProgress: " + str(progress) + "%")
-
-                    if not headline_already_printed or headline_printing == 3:
-                        worksheet, excel_row = CA.print_headlines(worksheet, excel_row, output_detail_level)
-                        headline_already_printed = True
 
                     worksheet, excel_row, log_output = CA.search_and_output(worksheet=worksheet,
                                                                             excel_row=excel_row,
@@ -298,7 +311,8 @@ def search_for_terms(log_title, workbook_title):
                                                                             only_not_found_terms=False,
                                                                             multiline_output=not oneline_output_format,
                                                                             output_detail_level=output_detail_level,
-                                                                            headline_printing=headline_printing)
+                                                                            headline_printing=headline_printing,
+                                                                            hap=headline_already_printed)
                     progress = int(50*(x/number_of_terms))
                     progressbar = ("\t[" + "-" * (progress-1) + ">" + " " * (50-(progress+1)) + "]")
                     print(progressbar)
@@ -308,8 +322,9 @@ def search_for_terms(log_title, workbook_title):
                     log.close()
 
                     workbook.save(workbook_title)
+                    headline_already_printed = False
 
-            elif term_output_diplomacy == "2":
+            elif term_output_diplomacy == 2:
                 for x in range(number_of_terms):
                     term = terms[x]
                     os.system('cls')
@@ -317,10 +332,6 @@ def search_for_terms(log_title, workbook_title):
                     print(status)
                     print("\n\tSearching for terms..."
                           "\n\tCurrent term: " + term + "\t\tProgress: " + str(progress) + "%")
-
-                    if not headline_already_printed or headline_printing == 3:
-                        worksheet, excel_row = CA.print_headlines(worksheet, excel_row, output_detail_level)
-                        headline_already_printed = True
 
                     worksheet, excel_row, log_output = CA.search_and_output(worksheet=worksheet,
                                                                             excel_row=excel_row,
@@ -331,7 +342,8 @@ def search_for_terms(log_title, workbook_title):
                                                                             only_not_found_terms=True,
                                                                             multiline_output=not oneline_output_format,
                                                                             output_detail_level=output_detail_level,
-                                                                            headline_printing=headline_printing)
+                                                                            headline_printing=headline_printing,
+                                                                            hap=headline_already_printed)
                     progress = int(50 * (x / number_of_terms))
                     progressbar = ("\t[" + "-" * (progress - 1) + ">" + " " * (50 - (progress + 1)) + "]")
                     print(progressbar)
@@ -341,6 +353,7 @@ def search_for_terms(log_title, workbook_title):
                     log.close()
 
                     workbook.save(workbook_title)
+                    headline_already_printed = False
 
             else:
                 for x in range(number_of_terms):
@@ -351,10 +364,6 @@ def search_for_terms(log_title, workbook_title):
                     print("\n\tSearching for terms..."
                           "\n\tCurrent term: " + term + "\t\tProgress: " + str(progress) + "%")
 
-                    if not headline_already_printed or headline_printing == 3:
-                        worksheet, excel_row = CA.print_headlines(worksheet, excel_row, output_detail_level)
-                        headline_already_printed = True
-
                     worksheet, excel_row, log_output = CA.search_and_output(worksheet=worksheet,
                                                                             excel_row=excel_row,
                                                                             pos_filters=auto_scan_filters,
@@ -364,7 +373,8 @@ def search_for_terms(log_title, workbook_title):
                                                                             only_not_found_terms=False,
                                                                             multiline_output=not oneline_output_format,
                                                                             output_detail_level=output_detail_level,
-                                                                            headline_printing=headline_printing)
+                                                                            headline_printing=headline_printing,
+                                                                            hap=headline_already_printed)
                     progress = int(50 * (x / number_of_terms))
                     progressbar = ("\t[" + "-" * (progress - 1) + ">" + " " * (50 - (progress + 1)) + "]")
                     print(progressbar)
@@ -374,6 +384,7 @@ def search_for_terms(log_title, workbook_title):
                     log.close()
 
                     workbook.save(workbook_title)
+                    headline_already_printed = False
 
             os.system('cls')
             print(status)
@@ -385,6 +396,7 @@ def search_for_terms(log_title, workbook_title):
             os.system('cls')
             NSP.play_mp3("./src/data/GUI_sound/Signal.mp3")
 
+        # COMPARISON MODE ----------------------------------------------------------------------------------------------
         elif i == "c!":
             open_excel_automatically = False
             os.system('cls')
@@ -500,15 +512,16 @@ def search_for_terms(log_title, workbook_title):
             time.sleep(5)
             NSP.play_mp3("./src/data/GUI_sound/Signal.mp3")
 
+        # SETTINGS MODE ------------------------------------------------------------------------------------------------
         elif i == "set!":
             time.sleep(1)
-            intro = "\n\t~ Settings Menu ~" \
-                     "\n\n\tThe several settings you can change will be displayed in succession." \
-                     "\n\tFor every setting there will be the respective options given." \
-                     "\n\tThe currently selected option will be marked with an arrow." \
-                     "\n\tTo keep the currently selected option of a setting just press enter." \
-                     "\n\tTo select another option please type in the given number." \
-                     "\n\tYou can press enter to start now."
+            intro = "\033[93m" + "\n\t~ Settings Menu ~" + "\033[0m" \
+                    "\n\n\tThe several settings you can change will be displayed in succession." \
+                    "\n\tFor every setting there will be the respective options given." \
+                    "\n\tThe currently selected option will be marked with an arrow." \
+                    "\n\tTo keep the currently selected option of a setting just press enter." \
+                    "\n\tTo select another option please type in the given number." \
+                    "\n\tYou can press enter to start now."
             os.system('cls')
             print(intro)
             input()
@@ -518,17 +531,21 @@ def search_for_terms(log_title, workbook_title):
             CA.display_settings(1, auto_update)
             i = input("\n\tOption number: ")
             if i == "1":
-                print("\n\tAutomatic update set on!")
                 SDM.set_auto_update(1)
                 auto_update = SDM.get_auto_update()
+                os.system('cls')
+                CA.display_settings_after_changes(1, auto_update)
+                print("\033[32m" + "\n\tAutomatic update search set on!\033[0m")
                 time.sleep(4)
             elif i == "2":
-                print("\n\tAutomatic update set off!")
                 SDM.set_auto_update(0)
                 auto_update = SDM.get_auto_update()
+                os.system('cls')
+                CA.display_settings_after_changes(1, auto_update)
+                print("\033[32m" + "\n\tAutomatic update search set off!\033[0m")
                 time.sleep(4)
             else:
-                print("\n\tPrevious setting will be kept!")
+                print("\033[32m" + "\n\tPrevious setting will be kept!\033[0m")
                 time.sleep(2)
 
             # setting 2 (term output diplomacy)
@@ -536,21 +553,28 @@ def search_for_terms(log_title, workbook_title):
             CA.display_settings(2, term_output_diplomacy)
             i = input("\n\tOption number: ")
             if i == "1":
-                print("\n\tOnly found terms will be considered!")
                 SDM.set_term_output_diplomacy(1)
                 term_output_diplomacy = SDM.get_term_output_diplomacy()
-            elif i == "2":
-                print("\n\tOnly not found terms will be considered!")
+                os.system('cls')
+                CA.display_settings_after_changes(2, term_output_diplomacy)
+                print("\033[32m" + "\n\tOnly found terms will be considered!\033[0m")
                 time.sleep(4)
+            elif i == "2":
                 SDM.set_term_output_diplomacy(2)
                 term_output_diplomacy = SDM.get_term_output_diplomacy()
+                os.system('cls')
+                CA.display_settings_after_changes(2, term_output_diplomacy)
+                print("\033[32m" + "\n\tOnly not found terms will be considered!\033[0m")
+                time.sleep(4)
             elif i == "3":
                 SDM.set_term_output_diplomacy(3)
                 term_output_diplomacy = SDM.get_term_output_diplomacy()
-                print("\n\tAll terms will be considered!")
+                os.system('cls')
+                CA.display_settings_after_changes(2, term_output_diplomacy)
+                print("\033[32m" + "\n\tAll terms will be considered!\033[0m")
                 time.sleep(4)
             else:
-                print("\n\tPrevious setting will be kept!")
+                print("\033[32m" + "\n\tPrevious setting will be kept!\033[0m")
                 time.sleep(2)
 
             # setting 3 (Output format)
@@ -558,17 +582,21 @@ def search_for_terms(log_title, workbook_title):
             CA.display_settings(3, oneline_output_format)
             i = input("\n\tOption number: ")
             if i == "1":
-                print("\n\tOutput will be printed in one-line format!")
                 SDM.set_one_line_output(True)
                 oneline_output_format = SDM.get_one_line_output()
+                os.system('cls')
+                CA.display_settings_after_changes(3, oneline_output_format)
+                print("\033[32m" + "\n\tOutput will be printed in one-line format!\033[0m")
                 time.sleep(4)
             elif i == "2":
-                print("\n\tOutput will be printed in multi-line format!")
                 SDM.set_one_line_output(False)
                 oneline_output_format = SDM.get_one_line_output()
+                os.system('cls')
+                CA.display_settings_after_changes(3, oneline_output_format)
+                print("\033[32m" + "\n\tOutput will be printed in multi-line format!\033[0m")
                 time.sleep(4)
             else:
-                print("\n\tPrevious setting will be kept!")
+                print("\033[32m" + "\n\tPrevious setting will be kept!\033[0m")
                 time.sleep(2)
 
             # setting 4 (headline-printing)
@@ -576,22 +604,28 @@ def search_for_terms(log_title, workbook_title):
             CA.display_settings(4, headline_printing)
             i = input("\n\tOption number: ")
             if i == "1":
-                print("\n\tHeadline will be printed only at top of excel!")
                 SDM.set_headline_printing(1)
                 headline_printing = SDM.get_headline_printing()
+                os.system('cls')
+                CA.display_settings_after_changes(4, headline_printing)
+                print("\033[32m" + "\n\tHeadline will be printed only at top of excel!\033[0m")
                 time.sleep(4)
             elif i == "2":
-                print("\n\tHeadline will be printed for every document in scan mode!")
                 SDM.set_headline_printing(2)
                 headline_printing = SDM.get_headline_printing()
+                os.system('cls')
+                CA.display_settings_after_changes(4, headline_printing)
+                print("\033[32m" + "\n\tHeadline will be printed for every new document in scan mode!\033[0m")
                 time.sleep(4)
             elif i == "3":
-                print("\n\tHeadline will be printed for every new term!")
                 SDM.set_headline_printing(3)
                 headline_printing = SDM.get_headline_printing()
+                os.system('cls')
+                CA.display_settings_after_changes(4, headline_printing)
+                print("\033[32m" + "\n\tHeadline will be printed for every new term!\033[0m")
                 time.sleep(4)
             else:
-                print("\n\tPrevious setting will be kept!")
+                print("\033[32m" + "\n\tPrevious setting will be kept!\033[0m")
                 time.sleep(2)
 
             # setting 5 (alphabetical output)
@@ -599,56 +633,134 @@ def search_for_terms(log_title, workbook_title):
             CA.display_settings(5, alphabetical_output, abc_output_ascending)
             i = input("\n\tOption number: ")
             if i == "1":
-                print("\n\tOutput will be structured in ascending alphabetical order!")
                 SDM.set_alphabetical_output(abc=True, asc=True)
                 alphabetical_output, abc_output_ascending = SDM.get_alphabetical_output()
+                os.system('cls')
+                CA.display_settings_after_changes(5, alphabetical_output, abc_output_ascending)
+                print("\033[32m" + "\n\tOutput will be structured in ascending alphabetical order!\033[0m")
                 time.sleep(4)
             elif i == "2":
-                print("\n\tOutput will be structured in descending alphabetical order!")
                 SDM.set_alphabetical_output(abc=True, asc=False)
                 alphabetical_output, abc_output_ascending = SDM.get_alphabetical_output()
+                os.system('cls')
+                CA.display_settings_after_changes(5, alphabetical_output, abc_output_ascending)
+                print("\033[32m" + "\n\tOutput will be structured in descending alphabetical order!\033[0m")
                 time.sleep(4)
             elif i == "3":
-                print("\n\tOutput will not be structured in alphabetical order!")
                 SDM.set_alphabetical_output(abc=False, asc=False)
                 alphabetical_output, abc_output_ascending = SDM.get_alphabetical_output()
+                os.system('cls')
+                CA.display_settings_after_changes(5, alphabetical_output, abc_output_ascending)
+                print("\033[32m" + "\n\tOutput will not be structured at all!\033[0m")
                 time.sleep(4)
             else:
-                print("\n\tPrevious setting will be kept!")
+                print("\033[32m" + "\n\tPrevious setting will be kept!\033[0m")
                 time.sleep(2)
 
-            # setting 6 (output detail level)
+            # setting 6 (auto scan filters)
             os.system('cls')
-            CA.display_settings(6, output_detail_level)
-            i = input("\n\tOption number: ")
+            print(auto_scan_filters)
+            print(type(auto_scan_filters))
+
+            CA.display_settings(6, auto_scan_filters)
+            i = input("\n\n\tOption number: ")
+
             if i == "1":
-                print("\n\tOutput will cover term data only!")
-                SDM.set_output_detail_level(1)
-                output_detail_level = SDM.get_output_detail_level()
+                SDM.set_auto_scan_filters(["Noun"])
+                auto_scan_filters = SDM.get_auto_scan_filters()
+                os.system('cls')
+                CA.display_settings_after_changes(6, auto_scan_filters)
+                print("\033[32m" + '\n\t"Noun" is set as pos filter now!\033[0m')
                 time.sleep(4)
             elif i == "2":
-                print("\n\tOutput will cover term data and morphology data!")
-                SDM.set_output_detail_level(2)
-                output_detail_level = SDM.get_output_detail_level()
+                SDM.set_auto_scan_filters(["Verb"])
+                auto_scan_filters = SDM.get_auto_scan_filters()
+                os.system('cls')
+                CA.display_settings_after_changes(6, auto_scan_filters)
+                print("\033[32m" + '\n\t"Verb" is set as pos filter now!\033[0m')
                 time.sleep(4)
             elif i == "3":
-                print("\n\tOutput will cover all data information!")
-                SDM.set_output_detail_level(3)
-                output_detail_level = SDM.get_output_detail_level()
+                SDM.set_auto_scan_filters(["Adjective"])
+                auto_scan_filters = SDM.get_auto_scan_filters()
+                os.system('cls')
+                CA.display_settings_after_changes(6, auto_scan_filters)
+                print("\033[32m" + '\n\t"Adjective" is set as pos filter now!\033[0m')
+                time.sleep(4)
+            elif i == "4":
+                SDM.set_auto_scan_filters(["Adverb"])
+                auto_scan_filters = SDM.get_auto_scan_filters()
+                os.system('cls')
+                CA.display_settings_after_changes(6, auto_scan_filters)
+                print("\033[32m" + '\n\t"Adverb" is set as pos filter now!\033[0m')
+                time.sleep(4)
+            elif i == "5":
+                SDM.set_auto_scan_filters(["Preposition"])
+                auto_scan_filters = SDM.get_auto_scan_filters()
+                os.system('cls')
+                CA.display_settings_after_changes(6, auto_scan_filters)
+                print("\033[32m" + '\n\t"Preposition" is set as pos filter now!\033[0m')
+                time.sleep(4)
+            elif i == "6":
+                SDM.set_auto_scan_filters(["Phrase"])
+                auto_scan_filters = SDM.get_auto_scan_filters()
+                os.system('cls')
+                CA.display_settings_after_changes(6, auto_scan_filters)
+                print("\033[32m" + '\n\t"Phrase" is set as pos filter now!\033[0m')
+                time.sleep(4)
+            elif i == "7":
+                SDM.set_auto_scan_filters(["Noun", "Verb", "Adverb", "Adjective", "Preposition", "Phrase"])
+                auto_scan_filters = SDM.get_auto_scan_filters()
+                os.system('cls')
+                CA.display_settings_after_changes(6, auto_scan_filters)
+                print("\033[32m" + '\n\tAll pos types will be considered now!\033[0m')
                 time.sleep(4)
             else:
-                print("\n\tPrevious setting will be kept!")
+                print("\033[32m" + "\n\tPrevious setting will be kept!\033[0m")
+                time.sleep(2)
+
+            # setting 7 (output detail level)
+            os.system('cls')
+            CA.display_settings(7, output_detail_level)
+            i = input("\n\tOption number: ")
+            if i == "1":
+                SDM.set_output_detail_level(1)
+                output_detail_level = SDM.get_output_detail_level()
+                os.system('cls')
+                CA.display_settings_after_changes(7, output_detail_level)
+                print("\033[32m" + "\n\tOutput will cover term data only!\033[0m")
+                time.sleep(4)
+            elif i == "2":
+                SDM.set_output_detail_level(2)
+                output_detail_level = SDM.get_output_detail_level()
+                os.system('cls')
+                CA.display_settings_after_changes(7, output_detail_level)
+                print("\033[32m" + "\n\tOutput will cover term data and morphology data!\033[0m")
+                time.sleep(4)
+            elif i == "3":
+                SDM.set_output_detail_level(3)
+                output_detail_level = SDM.get_output_detail_level()
+                os.system('cls')
+                CA.display_settings_after_changes(7, output_detail_level)
+                print("\033[32m" + "\n\tOutput will cover all data information!\033[0m")
+                time.sleep(4)
+            else:
+                print("\033[32m" + "\n\tPrevious setting will be kept!\033[0m")
                 time.sleep(2)
 
             os.system('cls')
-            outro = "\n\t~ Settings Menu ~" \
-                    "\n\n\tNew configurations saved!" \
+            outro = "\033[93m" + "\n\t~ Settings Menu ~" + "\033[0m" \
+                    "\033[32m" + "\n\n\tNew configurations were saved!" + "\033[0m" \
                     "\n\n\tReturning to main menu..."
             print(outro)
             time.sleep(4)
             print_opening_again = True
 
         else:
+            # BASIC SEARCH ---------------------------------------------------------------------------------------------
+            if excel_row == 1:
+                worksheet, excel_row = CA.print_headlines(worksheet, excel_row, output_detail_level)
+                headline_already_printed = True
+
             open_excel_automatically = True
             if ":" in i:
                 splitted_input = i.split(":")
@@ -661,9 +773,7 @@ def search_for_terms(log_title, workbook_title):
                 term = i
             os.system('cls')
             print('\n\tSearching for term "' + term + '" ...')
-            if not headline_already_printed or headline_printing == 3:
-                worksheet, excel_row = CA.print_headlines(worksheet, excel_row, output_detail_level)
-                headline_already_printed = True
+            time.sleep(1)
             if term_output_diplomacy == 1:
                 worksheet, excel_row, log_output = CA.search_and_output(worksheet=worksheet,
                                                                         excel_row=excel_row,
@@ -674,7 +784,8 @@ def search_for_terms(log_title, workbook_title):
                                                                         only_not_found_terms=False,
                                                                         multiline_output=not oneline_output_format,
                                                                         output_detail_level=output_detail_level,
-                                                                        headline_printing=headline_printing)
+                                                                        headline_printing=headline_printing,
+                                                                        hap=headline_already_printed)
             elif term_output_diplomacy == 2:
                 worksheet, excel_row, log_output = CA.search_and_output(worksheet=worksheet,
                                                                         excel_row=excel_row,
@@ -685,7 +796,8 @@ def search_for_terms(log_title, workbook_title):
                                                                         only_not_found_terms=True,
                                                                         multiline_output=not oneline_output_format,
                                                                         output_detail_level=output_detail_level,
-                                                                        headline_printing=headline_printing)
+                                                                        headline_printing=headline_printing,
+                                                                        hap=headline_already_printed)
             else:
                 worksheet, excel_row, log_output = CA.search_and_output(worksheet=worksheet,
                                                                         excel_row=excel_row,
@@ -696,23 +808,24 @@ def search_for_terms(log_title, workbook_title):
                                                                         only_not_found_terms=False,
                                                                         multiline_output=not oneline_output_format,
                                                                         output_detail_level=output_detail_level,
-                                                                        headline_printing=headline_printing)
+                                                                        headline_printing=headline_printing,
+                                                                        hap=headline_already_printed)
 
             print("\n\tSaving...")
+            time.sleep(1)
             os.system('cls')
 
             log = open(log_title, "a", encoding="utf-8")
             log.write("\n\n" + log_output)
             log.close()
-            time.sleep(.5)
 
             workbook.save(workbook_title)
-            print("\n\tDone!")
-            os.system('cls')
+            print("\033[32m" + "\n\tDone!" + "\033[0m")
             time.sleep(1)
+            os.system('cls')
 
 
-CA.print_opening(version="Version 2.2c")
+CA.print_opening(version="2.3c")
 check_paths()
 if auto_update == 1:
     check_for_updates()
@@ -723,4 +836,3 @@ log_name = CA.create_logfile(fd=formatted_date)
 wb_name = CA.create_excel(fd=formatted_date)
 
 search_for_terms(log_name, wb_name)
-

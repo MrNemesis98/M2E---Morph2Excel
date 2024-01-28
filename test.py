@@ -1,3 +1,4 @@
+
 import sys
 from io import StringIO
 
@@ -18,25 +19,4 @@ sys.stdout = original_stdout
 
 # Jetzt können Sie pygame normal verwenden, ohne dass die Begrüßungsnachricht angezeigt wird
 
-
-def play_mp3(file):
-    pygame.init()
-    pygame.mixer.init()
-
-    try:
-        pygame.mixer.music.load(file)
-        pygame.mixer.music.play()
-
-        while pygame.mixer.music.get_busy():
-            pygame.time.Clock().tick(10)
-
-    except pygame.error as e:
-
-        print(f"\n\tWarning: notification sound could not be played!"
-              f"\n\tDetail Message: {e}\n")
-
-    finally:
-        pygame.mixer.quit()
-
-
-play_mp3("./src/data/GUI_sound/Signal.mp3")
+print("Morph2Excel")

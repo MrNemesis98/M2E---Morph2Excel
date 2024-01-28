@@ -19,7 +19,7 @@ def print_opening(version):
     print("\033[32m" + "\n\tMorph2Excel ~ Version " + version + "\033[0m")
 
 
-def print_opening_extended(version):
+def print_main_menu(version):
     os.system('cls')
     print("\033[32m" + "\n\tMorph2Excel ~ Version " + version + "\033[0m")
 
@@ -111,12 +111,12 @@ def download_database(url):
     while not stop:
         try:
             os.system('cls')
-            print_opening(version="Version 2.2c")
-            print("\n\tDownloading wiki_morph...\n")
+            print_opening(version="2.3c")
+            print("\033[33m" + "\n\tDownloading wikimorph database...\n" + "\033[0m")
             urllib.request.urlretrieve(url, "src/database/wiki_morph.json", reporthook=progress)
             stop = True
-        except (requests.exceptions.RequestException, NewConnectionError, socket.gaierror):
-            print_opening(version="Version 2.2c")
+        except Exception:
+            print_opening(version="2.3c")
             print("\n\tDownload not possible: No internet connection!"
                   "\n\tYou can try again by pressing enter."
                   '\n\tAlternatively you can end the program by typing "exit!".')
@@ -132,7 +132,7 @@ def show_instructions():
     time.sleep(1)
     os.system('cls')
 
-    print("\033[32m" + "\n\tInstructions:" + "\033[0m")
+    print("\033[93m" + "\n\tInstructions:" + "\033[0m")
     time.sleep(1.5)
     print("\n\t1) Please type in the term you want to SEARCH and press ENTER.")
     time.sleep(.25)
@@ -185,7 +185,7 @@ def show_instructions():
 def show_version_description():
     time.sleep(1)
     os.system('cls')
-    print("\033[32m" + "\n\tWhat´s new in version 2.2c?" + "\033[0m")
+    print("\033[93m" + "\n\tWhat´s new in version 2.3c?" + "\033[0m")
     time.sleep(1.5)
     print("\n\t1) There is a new comparison mode, "
           "\n\t\twhich allows you to select two excel files in the directory. "
@@ -283,7 +283,7 @@ def print_headlines(worksheet, excel_row, output_detail_level):
 
 def search_and_output(worksheet, excel_row, pos_filters, term, entries_list,
                       only_found_terms, only_not_found_terms, multiline_output, output_detail_level,
-                      headline_printing):
+                      headline_printing, hap):
 
     # Set the color for blue entries
     blue_color = "0000FF"
@@ -304,6 +304,8 @@ def search_and_output(worksheet, excel_row, pos_filters, term, entries_list,
         else:
             worksheet[filter_cell] = str(pos_filters)
 
+    # Begin writing term to Excel file ---------------------------------------------------------------------------------
+
     # print control in dependency of chosen 3 way output option
     found_entries = 0
     for x in range(len(entries_list)):
@@ -312,8 +314,12 @@ def search_and_output(worksheet, excel_row, pos_filters, term, entries_list,
             found_entries += 1
 
     if found_entries != 0 and not only_not_found_terms:
+        if headline_printing == 3 and not hap:
+            worksheet, excel_row = print_headlines(worksheet, excel_row, output_detail_level)
         print_term()
     elif found_entries == 0 and not only_found_terms:
+        if headline_printing == 3 and not hap:
+            worksheet, excel_row = print_headlines(worksheet, excel_row, output_detail_level)
         print_term()
 
     found_entries = 0
@@ -521,9 +527,6 @@ def search_and_output(worksheet, excel_row, pos_filters, term, entries_list,
                 set_level_3_cell_data(excel_row, sub_affix="N/V", sub_language="N/V", decoded="N/V",
                                       sub_sub_pos="N/V", sub_meaning="N/V")
             excel_row += 1
-        else:
-            if headline_printing == 3:
-                excel_row -= 1
 
     elif found_entries == 0 and len(pos_filters) != 6:
 
@@ -546,9 +549,6 @@ def search_and_output(worksheet, excel_row, pos_filters, term, entries_list,
                 set_level_3_cell_data(excel_row, sub_affix="N/V", sub_language="N/V", decoded="N/V",
                                       sub_sub_pos="N/V", sub_meaning="N/V")
             excel_row += 1
-        else:
-            if headline_printing == 3:
-                excel_row -= 1
 
     else:
         if len(pos_filters) == 6:
@@ -570,9 +570,6 @@ def search_and_output(worksheet, excel_row, pos_filters, term, entries_list,
             final_output += "\n\tFilters:" + str(pos_output) + \
                             "\n\tEntries found: " + str(found_entries) + "\n"
         final_output += output
-
-        if only_not_found_terms and headline_printing == 3:
-            excel_row -= 1
 
     return worksheet, excel_row, log_output
 
@@ -682,8 +679,8 @@ def write_comparison_result_excel(worksheet, file_1, file_2, list_of_terms_1, li
 
 def display_settings(setting, current_var, current_var_2=""):
     if setting == 1:
-        print("\n\t~ Settings Menu ~"
-              "\n\n\tSetting 1/6: Automatic Database Updates"
+        print("\033[93m" + "\n\t~ Settings Menu ~" + "\033[0m"
+              "\n\n\tSetting 1/7: Automatic Database Updates"
               "\n\t----------------------------------------------------"
               "\n\n\tDescription: "
               "\n\tThe program will automatically search for wiki_morph updates "
@@ -691,28 +688,28 @@ def display_settings(setting, current_var, current_var_2=""):
               "\n\tIf there is a new version you will have the option to download it."
               "\n\tBut the search itself may take a few seconds every time the program is started.")
         if current_var == 0:
-            print("\n\tOptions:\n\t\t\t\t1. on\n\t\t\t->\t2. off")
+            print("\n\tOptions:\n\t\t\t\t1. on\n\t\t\t\033[93m" + "->" + "\033[0m\t2. off")
         else:
-            print("\n\tOptions:\n\t\t\t->\t1. on\n\t\t\t\t2. off")
+            print("\n\tOptions:\n\t\t\t\033[93m" + "->" + "\033[0m\t1. on\n\t\t\t\t2. off")
     elif setting == 2:
-        print("\n\t~ Settings Menu ~"
-              "\n\n\tSetting 2/6: Term Output Diplomacy"
+        print("\033[93m" + "\n\t~ Settings Menu ~" + "\033[0m"
+              "\n\n\tSetting 2/7: Term Output Diplomacy"
               "\n\t----------------------------------------------------"
               "\n\n\tDescription: "
               "\n\tDecide, which of the terms you searched shall be considered in the output."
               "\n\tThis only affects the excel table. The log_file.txt cannot be changed.")
         if current_var == 1:
-            print("\n\tOptions:\n\t\t\t->\t1. only found terms"
+            print("\n\tOptions:\n\t\t\t\033[93m" + "->" + "\033[0m\t1. only found terms"
                   "\n\t\t\t\t2. only not found terms\n\t\t\t\t3. all searched terms")
         elif current_var == 2:
             print("\n\tOptions:\n\t\t\t\t1. only found terms"
-                  "\n\t\t\t->\t2. only not found terms\n\t\t\t\t3. all searched terms")
+                  "\n\t\t\t\033[93m" + "->" + "\033[0m\t2. only not found terms\n\t\t\t\t3. all searched terms")
         else:
             print("\n\tOptions:\n\t\t\t\t1. only found terms"
-                  "\n\t\t\t\t2. only not found terms\n\t\t\t->\t3. all searched terms")
+                  "\n\t\t\t\t2. only not found terms\n\t\t\t\033[93m" + "->" + "\033[0m\t3. all searched terms")
     elif setting == 3:
-        print("\n\t~ Settings Menu ~"
-              "\n\n\tSetting 3/6: Output Format"
+        print("\033[93m" + "\n\t~ Settings Menu ~" + "\033[0m"
+              "\n\n\tSetting 3/7: Output Format"
               "\n\t----------------------------------------------------"
               "\n\n\tDescription: "
               "\n\tThe excel output can either be structured with one-line or multiline format."
@@ -720,72 +717,323 @@ def display_settings(setting, current_var, current_var_2=""):
               "\n\tOne-line format is recommended in case of further processing of the output data, "
               "\n\tsince it is easier to access data which is covered in only one line.")
         if current_var:
-            print("\n\tOptions:\n\t\t\t->\t1. one-line\n\t\t\t\t2. multi-line")
+            print("\n\tOptions:\n\t\t\t\033[93m" + "->" + "\033[0m\t1. one-line\n\t\t\t\t2. multi-line")
         else:
-            print("\n\tOptions:\n\t\t\t\t1. one-line\n\t\t\t->\t2. multi-line")
+            print("\n\tOptions:\n\t\t\t\t1. one-line\n\t\t\t\033[93m" + "->" + "\033[0m\t2. multi-line")
     elif setting == 4:
-        print("\n\t~ Settings Menu ~"
-              "\n\n\tSetting 4/6: Headline Printing"
+        print("\033[93m" + "\n\t~ Settings Menu ~" + "\033[0m"
+              "\n\n\tSetting 4/7: Headline Printing"
               "\n\t----------------------------------------------------"
               "\n\n\tDescription: "
               "\n\tThe program is able to repeat the printing of a standardized headline for the"
               "\n\tresulting output excel file."
               "\n\tHere you can decide, how often a headline shall be printed.")
         if current_var == 1:
-            print("\n\tOptions:\n\t\t\t->\t1. only at top of excel / no repeat"
+            print("\n\tOptions:\n\t\t\t\033[93m" + "->" + "\033[0m\t1. only at top of excel / no repeat"
                   "\n\t\t\t\t2. for every new document scanned in"
                   "\n\t\t\t\t\t(note: only in scan mode; for manual search option 1 will be used)"
                   "\n\t\t\t\t3. for every new term printed")
         elif current_var == 2:
             print("\n\tOptions:\n\t\t\t\t1. only at top of excel / no repeat"
-                  "\n\t\t\t->\t2. for every new document scanned in"
+                  "\n\t\t\t\033[93m" + "->" + "\033[0m\t2. for every new document scanned in"
                   "\n\t\t\t\t\t(note: only in scan mode; for manual search option 1 will be used)"
                   "\n\t\t\t\t3. for every new term printed")
         else:
             print("\n\tOptions:\n\t\t\t\t1. only at top of excel / no repeat"
                   "\n\t\t\t\t2. for every new document scanned in"
                   "\n\t\t\t\t\t(note: only in scan mode; for manual search option 1 will be used)"
-                  "\n\t\t\t->\t3. for every new term printed")
+                  "\n\t\t\t\033[93m" + "->" + "\033[0m\t3. for every new term printed")
     elif setting == 5:
-        print("\n\t~ Settings Menu ~"
-              "\n\n\tSetting 5/6: Alphabetical Output Order"
+        print("\033[93m" + "\n\t~ Settings Menu ~" + "\033[0m"
+              "\n\n\tSetting 5/7: Alphabetical Output Order"
               "\n\t----------------------------------------------------"
               "\n\n\tDescription: "
               "\n\tDecide, if the output shall be structured in alphabetical order."
               "\n\tNote: For the moment this functionality is only available for auto scan mode."
               "\n\tManual search output will not be structured anyway.")
         if current_var and current_var_2:
-            print("\n\tOptions:\n\t\t\t->\t1. alphabetical, ascending"
+            print("\n\tOptions:\n\t\t\t\033[93m" + "->" + "\033[0m\t1. alphabetical, ascending"
                   "\n\t\t\t\t2. alphabetical, descending"
                   "\n\t\t\t\t3. non-alphabetical")
         elif current_var and not current_var_2:
             print("\n\tOptions:\n\t\t\t\t1. alphabetical, ascending"
-                  "\n\t\t\t->\t2. alphabetical, descending"
+                  "\n\t\t\t\033[93m" + "->" + "\033[0m\t2. alphabetical, descending"
                   "\n\t\t\t\t3. non-alphabetical")
         else:
             print("\n\tOptions:\n\t\t\t\t1. alphabetical, ascending"
                   "\n\t\t\t\t2. alphabetical, descending"
-                  "\n\t\t\t->\t3. non-alphabetical")
+                  "\n\t\t\t\033[93m" + "->" + "\033[0m\t3. non-alphabetical")
     elif setting == 6:
-        print("\n\t~ Settings Menu ~"
-              "\n\n\tSetting 6/6: Output Detail Level"
+        print("\033[93m" + "\n\t~ Settings Menu ~" + "\033[0m"
+              "\n\n\tSetting 6/7: Automatic Scan Filters"
+              "\n\t----------------------------------------------------"
+              "\n\n\tDescription: "
+              "\n\tSince you are familiar with the automatic scan mode,"
+              "\n\tyou can specify the search of the scanned terms by presetting"
+              "\n\tthe pos (part of speech) filters for these terms."
+              "\n\tThis is based on the concept from the manual search mode."
+              "\n\tYou can choose the following pos filter settings:")
+        if current_var == "Noun":
+            print("\n\tOptions:\n\t\t\t\033[93m" + "->" + "\033[0m\t1. Nouns only"
+                  "\n\t\t\t\t2. Verbs only"
+                  "\n\t\t\t\t3. Adjectives only"
+                  "\n\t\t\t\t4. Adverbs only"
+                  "\n\t\t\t\t5. Prepositions only"
+                  "\n\t\t\t\t6. Phrases only"
+                  "\n\t\t\t\t7. All pos types / no restrictions")
+        elif current_var == "Verb":
+            print("\n\tOptions:\n\t\t\t\t1. Nouns only"
+                  "\n\t\t\t\033[93m" + "->" + "\033[0m\t2. Verbs only"
+                  "\n\t\t\t\t3. Adjectives only"
+                  "\n\t\t\t\t4. Adverbs only"
+                  "\n\t\t\t\t5. Prepositions only"
+                  "\n\t\t\t\t6. Phrases only"
+                  "\n\t\t\t\t7. All pos types / no restrictions")
+        elif current_var == "Adjective":
+            print("\n\tOptions:\n\t\t\t\t1. Nouns only"
+                  "\n\t\t\t\t2. Verbs only"
+                  "\n\t\t\t\033[93m" + "->" + "\033[0m\t3. Adjectives only"
+                  "\n\t\t\t\t4. Adverbs only"
+                  "\n\t\t\t\t5. Prepositions only"
+                  "\n\t\t\t\t6. Phrases only"
+                  "\n\t\t\t\t7. All pos types / no restrictions")
+        elif current_var == "Adverb":
+            print("\n\tOptions:\n\t\t\t\t1. Nouns only"
+                  "\n\t\t\t\t2. Verbs only"
+                  "\n\t\t\t\t3. Adjectives only"
+                  "\n\t\t\t\033[93m" + "->" + "\033[0m\t4. Adverbs only"
+                  "\n\t\t\t\t5. Prepositions only"
+                  "\n\t\t\t\t6. Phrases only"
+                  "\n\t\t\t\t7. All pos types / no restrictions")
+        elif current_var == "Preposition":
+            print("\n\tOptions:\n\t\t\t\t1. Nouns only"
+                  "\n\t\t\t\t2. Verbs only"
+                  "\n\t\t\t\t3. Adjectives only"
+                  "\n\t\t\t\t4. Adverbs only"
+                  "\n\t\t\t\033[93m" + "->" + "\033[0m\t5. Prepositions only"
+                  "\n\t\t\t\t6. Phrases only"
+                  "\n\t\t\t\t7. All pos types / no restrictions")
+        elif current_var == "Phrase":
+            print("\n\tOptions:\n\t\t\t\t1. Nouns only"
+                  "\n\t\t\t\t2. Verbs only"
+                  "\n\t\t\t\t3. Adjectives only"
+                  "\n\t\t\t\t4. Adverbs only"
+                  "\n\t\t\t\t5. Prepositions only"
+                  "\n\t\t\t\033[93m" + "->" + "\033[0m\t6. Phrases only"
+                  "\n\t\t\t\t7. All pos types / no restrictions")
+        elif current_var == "Noun,Verb,Adverb,Adjective,Preposition,Phrase":
+            print("\n\tOptions:\n\t\t\t\t1. Nouns only"
+                  "\n\t\t\t\t2. Verbs only"
+                  "\n\t\t\t\t3. Adjectives only"
+                  "\n\t\t\t\t4. Adverbs only"
+                  "\n\t\t\t\t5. Prepositions only"
+                  "\n\t\t\t\t6. Phrases only"
+                  "\n\t\t\t\033[93m" + "->" + "\033[0m\t7. All pos types / no restrictions")
+        print("\n\tHint: Of course not all possible combinations could be considered here."
+              "\n\tFor instance if you want to scan for Nouns and Verbs in a document,"
+              "\n\tyou can choose one of the two options, execute the automatic scan mode with this document,"
+              "\n\tchange the pos filter setting to the other option and execute the AS mode again."
+              "\n\tThe results will be saved into the same excel file as usual.")
+    elif setting == 7:
+        print("\033[93m" + "\n\t~ Settings Menu ~" + "\033[0m"
+              "\n\n\tSetting 7/7: Output Detail Level"
               "\n\t----------------------------------------------------"
               "\n\n\tDescription: "
               "\n\tFor every term entry in the database there are three levels of information:"
               "\n\tThe basic term data (Level 1, output print color: black), "
               "\n\tthe morphology data (Level 2, output print color: blue) and "
               "\n\tetymology compound data (Level 3, output print color brown)."
-              "\n\tHere you can set the depht of the output information according to these levels.")
+              "\n\tHere you can set the depth of the output information according to these levels.")
         if current_var == 1:
-            print("\n\tOptions:\n\t\t\t->\t1. Level 1: only term data"
+            print("\n\tOptions:\n\t\t\t\033[93m" + "->" + "\033[0m\t1. Level 1: only term data"
                   "\n\t\t\t\t2. Level 2: term data + morphology data"
                   "\n\t\t\t\t3. Level 3: term data + morphology data + etymology data")
         elif current_var == 2:
             print("\n\tOptions:\n\t\t\t\t1. Level 1: only term data"
-                  "\n\t\t\t->\t2. Level 2: term data + morphology data"
+                  "\n\t\t\t\033[93m" + "->" + "\033[0m\t2. Level 2: term data + morphology data"
                   "\n\t\t\t\t3. Level 3: term data + morphology data + etymology data")
         else:
             print("\n\tOptions:\n\t\t\t\t1. Level 1: only term data"
                   "\n\t\t\t\t2. Level 2: term data + morphology data"
-                  "\n\t\t\t->\t3. Level 3: term data + morphology data + etymology data")
+                  "\n\t\t\t\033[93m" + "->" + "\033[0m\t3. Level 3: term data + morphology data + etymology data")
 
+
+def display_settings_after_changes(setting, current_var, current_var_2=""):
+    if setting == 1:
+        print("\033[93m" + "\n\t~ Settings Menu ~" + "\033[0m"
+              "\n\n\tSetting 1/7: Automatic Database Updates"
+              "\n\t----------------------------------------------------"
+              "\n\n\tDescription: "
+              "\n\tThe program will automatically search for wiki_morph updates "
+              "\n\tbefore loading the installed version of the database. "
+              "\n\tIf there is a new version you will have the option to download it."
+              "\n\tBut the search itself may take a few seconds every time the program is started.")
+        if current_var == 0:
+            print("\n\tOptions:\n\t\t\t\t1. on\n\t\t\t\033[32m" + "->" + "\033[0m\t2. off")
+        else:
+            print("\n\tOptions:\n\t\t\t\033[32m" + "->" + "\033[0m\t1. on\n\t\t\t\t2. off")
+    elif setting == 2:
+        print("\033[93m" + "\n\t~ Settings Menu ~" + "\033[0m"
+              "\n\n\tSetting 2/7: Term Output Diplomacy"
+              "\n\t----------------------------------------------------"
+              "\n\n\tDescription: "
+              "\n\tDecide, which of the terms you searched shall be considered in the output."
+              "\n\tThis only affects the excel table. The log_file.txt cannot be changed.")
+        if current_var == 1:
+            print("\n\tOptions:\n\t\t\t\033[32m" + "->" + "\033[0m\t1. only found terms"
+                  "\n\t\t\t\t2. only not found terms\n\t\t\t\t3. all searched terms")
+        elif current_var == 2:
+            print("\n\tOptions:\n\t\t\t\t1. only found terms"
+                  "\n\t\t\t\033[32m" + "->" + "\033[0m\t2. only not found terms\n\t\t\t\t3. all searched terms")
+        else:
+            print("\n\tOptions:\n\t\t\t\t1. only found terms"
+                  "\n\t\t\t\t2. only not found terms\n\t\t\t\033[32m" + "->" + "\033[0m\t3. all searched terms")
+    elif setting == 3:
+        print("\033[93m" + "\n\t~ Settings Menu ~" + "\033[0m"
+              "\n\n\tSetting 3/7: Output Format"
+              "\n\t----------------------------------------------------"
+              "\n\n\tDescription: "
+              "\n\tThe excel output can either be structured with one-line or multiline format."
+              "\n\tMulti-line format is more readable and provides a better overview for the user."
+              "\n\tOne-line format is recommended in case of further processing of the output data, "
+              "\n\tsince it is easier to access data which is covered in only one line.")
+        if current_var:
+            print("\n\tOptions:\n\t\t\t\033[32m" + "->" + "\033[0m\t1. one-line\n\t\t\t\t2. multi-line")
+        else:
+            print("\n\tOptions:\n\t\t\t\t1. one-line\n\t\t\t\033[32m" + "->" + "\033[0m\t2. multi-line")
+    elif setting == 4:
+        print("\033[93m" + "\n\t~ Settings Menu ~" + "\033[0m"
+              "\n\n\tSetting 4/7: Headline Printing"
+              "\n\t----------------------------------------------------"
+              "\n\n\tDescription: "
+              "\n\tThe program is able to repeat the printing of a standardized headline for the"
+              "\n\tresulting output excel file."
+              "\n\tHere you can decide, how often a headline shall be printed.")
+        if current_var == 1:
+            print("\n\tOptions:\n\t\t\t\033[32m" + "->" + "\033[0m\t1. only at top of excel / no repeat"
+                  "\n\t\t\t\t2. for every new document scanned in"
+                  "\n\t\t\t\t\t(note: only in scan mode; for manual search option 1 will be used)"
+                  "\n\t\t\t\t3. for every new term printed")
+        elif current_var == 2:
+            print("\n\tOptions:\n\t\t\t\t1. only at top of excel / no repeat"
+                  "\n\t\t\t\033[32m" + "->" + "\033[0m\t2. for every new document scanned in"
+                  "\n\t\t\t\t\t(note: only in scan mode; for manual search option 1 will be used)"
+                  "\n\t\t\t\t3. for every new term printed")
+        else:
+            print("\n\tOptions:\n\t\t\t\t1. only at top of excel / no repeat"
+                  "\n\t\t\t\t2. for every new document scanned in"
+                  "\n\t\t\t\t\t(note: only in scan mode; for manual search option 1 will be used)"
+                  "\n\t\t\t\033[32m" + "->" + "\033[0m\t3. for every new term printed")
+    elif setting == 5:
+        print("\033[93m" + "\n\t~ Settings Menu ~" + "\033[0m"
+              "\n\n\tSetting 5/7: Alphabetical Output Order"
+              "\n\t----------------------------------------------------"
+              "\n\n\tDescription: "
+              "\n\tDecide, if the output shall be structured in alphabetical order."
+              "\n\tNote: For the moment this functionality is only available for auto scan mode."
+              "\n\tManual search output will not be structured anyway.")
+        if current_var and current_var_2:
+            print("\n\tOptions:\n\t\t\t\033[32m" + "->" + "\033[0m\t1. alphabetical, ascending"
+                  "\n\t\t\t\t2. alphabetical, descending"
+                  "\n\t\t\t\t3. non-alphabetical")
+        elif current_var and not current_var_2:
+            print("\n\tOptions:\n\t\t\t\t1. alphabetical, ascending"
+                  "\n\t\t\t\033[32m" + "->" + "\033[0m\t2. alphabetical, descending"
+                  "\n\t\t\t\t3. non-alphabetical")
+        else:
+            print("\n\tOptions:\n\t\t\t\t1. alphabetical, ascending"
+                  "\n\t\t\t\t2. alphabetical, descending"
+                  "\n\t\t\t\033[32m" + "->" + "\033[0m\t3. non-alphabetical")
+    elif setting == 6:
+        print("\033[93m" + "\n\t~ Settings Menu ~" + "\033[0m"
+              "\n\n\tSetting 6/7: Automatic Scan Filters"
+              "\n\t----------------------------------------------------"
+              "\n\n\tDescription: "
+              "\n\tSince you are familiar with the automatic scan mode,"
+              "\n\tyou can specify the search of the scanned terms by presetting"
+              "\n\tthe pos (part of speech) filters for these terms."
+              "\n\tThis is based on the concept from the manual search mode."
+              "\n\tYou can choose the following pos filter settings:")
+        if current_var == ["Noun"]:
+            print("\n\tOptions:\n\t\t\t\033[32m" + "->" + "\033[0m\t1. Nouns only"
+                  "\n\t\t\t\t2. Verbs only"
+                  "\n\t\t\t\t3. Adjectives only"
+                  "\n\t\t\t\t4. Adverbs only"
+                  "\n\t\t\t\t5. Prepositions only"
+                  "\n\t\t\t\t6. Phrases only"
+                  "\n\t\t\t\t7. All pos types / no restrictions")
+        elif current_var == ["Verb"]:
+            print("\n\tOptions:\n\t\t\t\t1. Nouns only"
+                  "\n\t\t\t\033[32m" + "->" + "\033[0m\t2. Verbs only"
+                  "\n\t\t\t\t3. Adjectives only"
+                  "\n\t\t\t\t4. Adverbs only"
+                  "\n\t\t\t\t5. Prepositions only"
+                  "\n\t\t\t\t6. Phrases only"
+                  "\n\t\t\t\t7. All pos types / no restrictions")
+        elif current_var == ["Adjective"]:
+            print("\n\tOptions:\n\t\t\t\t1. Nouns only"
+                  "\n\t\t\t\t2. Verbs only"
+                  "\n\t\t\t\033[32m" + "->" + "\033[0m\t3. Adjectives only"
+                  "\n\t\t\t\t4. Adverbs only"
+                  "\n\t\t\t\t5. Prepositions only"
+                  "\n\t\t\t\t6. Phrases only"
+                  "\n\t\t\t\t7. All pos types / no restrictions")
+        elif current_var == ["Adverb"]:
+            print("\n\tOptions:\n\t\t\t\t1. Nouns only"
+                  "\n\t\t\t\t2. Verbs only"
+                  "\n\t\t\t\t3. Adjectives only"
+                  "\n\t\t\t\033[32m" + "->" + "\033[0m\t4. Adverbs only"
+                  "\n\t\t\t\t5. Prepositions only"
+                  "\n\t\t\t\t6. Phrases only"
+                  "\n\t\t\t\t7. All pos types / no restrictions")
+        elif current_var == ["Preposition"]:
+            print("\n\tOptions:\n\t\t\t\t1. Nouns only"
+                  "\n\t\t\t\t2. Verbs only"
+                  "\n\t\t\t\t3. Adjectives only"
+                  "\n\t\t\t\t4. Adverbs only"
+                  "\n\t\t\t\033[32m" + "->" + "\033[0m\t5. Prepositions only"
+                  "\n\t\t\t\t6. Phrases only"
+                  "\n\t\t\t\t7. All pos types / no restrictions")
+        elif current_var == ["Phrase"]:
+            print("\n\tOptions:\n\t\t\t\t1. Nouns only"
+                  "\n\t\t\t\t2. Verbs only"
+                  "\n\t\t\t\t3. Adjectives only"
+                  "\n\t\t\t\t4. Adverbs only"
+                  "\n\t\t\t\t5. Prepositions only"
+                  "\n\t\t\t\033[32m" + "->" + "\033[0m\t6. Phrases only"
+                  "\n\t\t\t\t7. All pos types / no restrictions")
+        elif current_var == ["Noun", "Verb", "Adjective", "Adverb", "Preposition", "Phrase"]:
+            print("\n\tOptions:\n\t\t\t\t1. Nouns only"
+                  "\n\t\t\t\t2. Verbs only"
+                  "\n\t\t\t\t3. Adjectives only"
+                  "\n\t\t\t\t4. Adverbs only"
+                  "\n\t\t\t\t5. Prepositions only"
+                  "\n\t\t\t\t6. Phrases only"
+                  "\n\t\t\t\033[32m" + "->" + "\033[0m\t7. All pos types / no restrictions")
+        print("\n\tHint: Of course not all possible combinations could be considered here."
+              "\n\tFor instance if you want to scan for Nouns and Verbs in a document,"
+              "\n\tyou can choose one of the two options, execute the automatic scan mode with this document,"
+              "\n\tchange the pos filter setting to the other option and execute the AS mode again."
+              "\n\tThe results will be saved into the same excel file as usual.")
+    elif setting == 7:
+        print("\033[93m" + "\n\t~ Settings Menu ~" + "\033[0m"
+              "\n\n\tSetting 7/7: Output Detail Level"
+              "\n\t----------------------------------------------------"
+              "\n\n\tDescription: "
+              "\n\tFor every term entry in the database there are three levels of information:"
+              "\n\tThe basic term data (Level 1, output print color: black), "
+              "\n\tthe morphology data (Level 2, output print color: blue) and "
+              "\n\tetymology compound data (Level 3, output print color brown)."
+              "\n\tHere you can set the depth of the output information according to these levels.")
+        if current_var == 1:
+            print("\n\tOptions:\n\t\t\t\033[32m" + "->" + "\033[0m\t1. Level 1: only term data"
+                  "\n\t\t\t\t2. Level 2: term data + morphology data"
+                  "\n\t\t\t\t3. Level 3: term data + morphology data + etymology data")
+        elif current_var == 2:
+            print("\n\tOptions:\n\t\t\t\t1. Level 1: only term data"
+                  "\n\t\t\t\033[32m" + "->" + "\033[0m\t2. Level 2: term data + morphology data"
+                  "\n\t\t\t\t3. Level 3: term data + morphology data + etymology data")
+        else:
+            print("\n\tOptions:\n\t\t\t\t1. Level 1: only term data"
+                  "\n\t\t\t\t2. Level 2: term data + morphology data"
+                  "\n\t\t\t\033[32m" + "->" + "\033[0m\t3. Level 3: term data + morphology data + etymology data")

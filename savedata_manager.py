@@ -171,7 +171,7 @@ def get_auto_scan_filters():
     if "," in auto_scan_filters:
         return auto_scan_filters.split(",")
     else:
-        return auto_scan_filters
+        return list(auto_scan_filters)
 
 
 def set_auto_scan_filters(asf):
