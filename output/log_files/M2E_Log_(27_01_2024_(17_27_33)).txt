@@ -1,0 +1,135 @@
+Morph2Excel Log from 27_01_2024_(17_27_33)
+
+	------------------------------------------------------------
+
+	Word: test
+	Filters: NONE
+	Entries found: 16
+
+
+	------------------------------------------------------------
+
+	Word: africa
+	Warning: no entry for 'africa'.
+
+	------------------------------------------------------------
+
+	Word: assimilation
+	Warning: no entry for 'assimilation'.
+
+	------------------------------------------------------------
+
+	Word: cute
+	Filters: NONE
+	Entries found: 5
+
+
+	------------------------------------------------------------
+
+	Word: flash
+	Filters: NONE
+	Entries found: 41
+
+
+	------------------------------------------------------------
+
+	Word: green
+	Filters: NONE
+	Entries found: 25
+
+
+	------------------------------------------------------------
+
+	Word: island
+	Filters: NONE
+	Entries found: 7
+
+
+	------------------------------------------------------------
+
+	Word: notification
+	Warning: no entry for 'notification'.
+
+	------------------------------------------------------------
+
+	Word: origin
+	Filters: NONE
+	Entries found: 6
+
+
+	------------------------------------------------------------
+
+	Word: test
+	Filters: NONE
+	Entries found: 16
+
+
+	------------------------------------------------------------
+
+	Word: bottle
+	Filters: NONE
+	Entries found: 12
+
+
+	------------------------------------------------------------
+
+	Word: cute
+	Filters: NONE
+	Entries found: 5
+
+
+	------------------------------------------------------------
+
+	Word: destruction
+	Filters: NONE
+	Entries found: 1
+
+
+	------------------------------------------------------------
+
+	Word: flush
+	Filters: NONE
+	Entries found: 26
+
+
+	------------------------------------------------------------
+
+	Word: free
+	Filters: NONE
+	Entries found: 28
+
+
+	------------------------------------------------------------
+
+	Word: loleshe
+	Warning: no entry for 'loleshe'.
+
+	------------------------------------------------------------
+
+	Word: nice
+	Filters: NONE
+	Entries found: 13
+
+
+	------------------------------------------------------------
+
+	Word: origin
+	Filters: NONE
+	Entries found: 6
+
+
+	------------------------------------------------------------
+
+	Word: reshe
+	Warning: no entry for 'reshe'.
+
+	------------------------------------------------------------
+
+	Word: tompasify
+	Warning: no entry for 'tompasify'.
+
+	------------------------------------------------------------
+
+	Word: test
+	Filters: NONE
+	Entries found: 16

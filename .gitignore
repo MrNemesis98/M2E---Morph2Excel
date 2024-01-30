@@ -1,16 +1,5 @@
 
-data/wiki_morph.json
+.idea/vcs.xml
 *.pyc
-__pycache__/GUI_Special_Items.cpython-39.pyc
-__pycache__/GUI.cpython-39.pyc
-*.pyc
-.idea/misc.xml
-*.iml
-*.pyc
-*.xml
-.idea/misc.xml
-.idea/Morph2Excel - Wiki_Morph_API_for_ERSaF.iml
-*.pyc
-*.xlsx
-*.txt
-.idea/.name
+.idea/Morph2Excel - M2E.iml
+src/database/wiki_morph.json
