@@ -1,22 +1,44 @@
+"""
+print("\033[32m<- New!\033[0m df")  # grün
+print("\033[33m<- Old!\033[0m df")  # gelb / gold
+print("\033[91m<- Old!\033[0m df")  # (hell) rot
+print("\033[92m<- Old!\033[0m df")  # neon grün
+print("\033[93m<- Old!\033[0m df")  # neon gelb
+print("\033[94m<- Old!\033[0m df")  # hell blau
+print("\033[95m<- Old!\033[0m df")  # hell lila
+print("\033[96m<- Old!\033[0m df")  # cyan / türkis
+print("\033[38;5;130m<- Old!\033[0m df")  # cyan / türkis
+print("\033[97m<- Old!\033[0m df")  # neon weiß
+"""
+"""
+import pygetwindow as gw
 
+def set_console_window_size(width, height):
+    # Erhalte das aktive Fenster (die Konsole)
+    console_window = gw.getWindowsWithTitle("Dein Fenstertitel")
+
+    # Überprüfe, ob das Fenster gefunden wurde
+    if console_window:
+        console_window = console_window[0]
+
+        # Setze die Fenstergröße
+        console_window.resizeTo(width, height)
+
+print("Helloo World!")
+
+# Rufe die Funktion auf, um die Fenstergröße zu setzen (z.B., 800x600)
+set_console_window_size(800, 600)
+"""
+
+import time
 import sys
-from io import StringIO
 
-# Speichern Sie den ursprünglichen Standard-Output
-original_stdout = sys.stdout
+text = '\n\tI)  For \033[38;5;130mAutomatic scan mode\033[0m type \033[38;5;130ms!\033[0m instead of a term.'
 
-# Erstellen Sie einen leeren StringIO-Puffer, um die Ausgabe abzufangen
-fake_stdout = StringIO()
+for char in text:
+    sys.stdout.write(char)
+    sys.stdout.flush()
+    time.sleep(0.05)  # Füge eine kurze Verzögerung (in Sekunden) zwischen den Buchstaben ein
 
-# Leiten Sie den Standard-Output auf den Puffer um
-sys.stdout = fake_stdout
-
-# Importieren Sie pygame (die Begrüßungsnachricht wird jetzt in fake_stdout geschrieben)
-import pygame
-
-# Setzen Sie den Standard-Output wieder auf den ursprünglichen Wert zurück
-sys.stdout = original_stdout
-
-# Jetzt können Sie pygame normal verwenden, ohne dass die Begrüßungsnachricht angezeigt wird
-
-print("Morph2Excel")
+# Füge eine neue Zeile am Ende hinzu
+print()

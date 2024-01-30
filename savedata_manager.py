@@ -1,3 +1,5 @@
+import re
+
 sd = open("src/data/savedata.txt", "r")
 data = sd.readlines()
 sd.close()
@@ -108,6 +110,14 @@ def get_auto_update():
     return int(auto_update)
 
 
+def get_auto_update_as_text():
+    global auto_update
+    if auto_update == "0":
+        return "\n\t1) Automatic Update Search:\toff"
+    else:
+        return "\n\t1) Automatic Update Search:\ton"
+
+
 def set_auto_update(au):
     global auto_update
     auto_update = au
@@ -117,6 +127,16 @@ def set_auto_update(au):
 def get_term_output_diplomacy():
     global term_output_diplomacy
     return int(term_output_diplomacy)
+
+
+def get_term_output_diplomacy_as_text():
+    global term_output_diplomacy
+    if term_output_diplomacy == "1":
+        return "\n\t2) Term Output Diplomacy:\tonly found terms"
+    elif term_output_diplomacy == "2":
+        return "\n\t2) Term Output Diplomacy:\tonly not found terms"
+    else:
+        return "\n\t2) Term Output Diplomacy:\tall terms"
 
 
 def set_term_output_diplomacy(tod):
@@ -130,6 +150,14 @@ def get_one_line_output():
     return True if one_line_output == "1" else False
 
 
+def get_one_line_output_as_text():
+    global one_line_output
+    if one_line_output == "1":
+        return "\n\t3) Output Format:\t\tone-line"
+    else:
+        return "\n\t3) Output Format:\t\tmulti-line"
+
+
 def set_one_line_output(onel):
     global one_line_output
     one_line_output = "1" if onel else "0"
@@ -139,6 +167,16 @@ def set_one_line_output(onel):
 def get_headline_printing():
     global headline_printing
     return int(headline_printing)
+
+
+def get_headline_printing_as_text():
+    global headline_printing
+    if headline_printing == "1":
+        return "\n\t4) Headline Printing:\t\tonly at top of excel"
+    elif headline_printing == "2":
+        return "\n\t4) Headline Printing:\t\tfor every new document scanned in"
+    else:
+        return "\n\t4) Headline Printing:\t\tfor every new term printed"
 
 
 def set_headline_printing(hdlp):
@@ -158,6 +196,17 @@ def get_alphabetical_output():
     return alphabetical, ascending
 
 
+def get_alphabetical_output_as_text():
+    abc, asc = get_alphabetical_output()
+
+    if abc and asc:
+        return "\n\t5) Alphabetical Output:\t\talphabetical, ascending"
+    elif abc and not asc:
+        return "\n\t5) Alphabetical Output:\t\talphabetical, descending"
+    else:
+        return "\n\t5) Alphabetical Output:\t\tnon-alphabetical"
+
+
 def set_alphabetical_output(abc, asc):
     global alphabetical_output
     alphabetical_output[0] = "abc=1" if abc else "abc=0"
@@ -168,21 +217,69 @@ def set_alphabetical_output(abc, asc):
 def get_auto_scan_filters():
     global auto_scan_filters
 
-    if "," in auto_scan_filters:
-        return auto_scan_filters.split(",")
+    if re.search(".,.+", auto_scan_filters):
+        auto_scan_filters = auto_scan_filters.split(",")
+        auto_scan_filters.remove(auto_scan_filters[-1])
+        return auto_scan_filters
     else:
-        return list(auto_scan_filters)
+        if auto_scan_filters == "Noun,":
+            return ["Noun"]
+        elif auto_scan_filters == "Verb,":
+            return ["Verb"]
+        elif auto_scan_filters == "Adjective,":
+            return ["Adjective"]
+        elif auto_scan_filters == "Adverb,":
+            return ["Adverb"]
+        elif auto_scan_filters == "Phrase,":
+            return ["Phrase"]
+        else:
+            return ["Preposition"]
+
+
+def get_auto_scan_filters_as_text():
+    global auto_scan_filters
+
+    if auto_scan_filters == "Noun,":
+        return "\n\t6) Auto Scan PoS Filters:\tnouns only"
+    elif auto_scan_filters == "Verb,":
+        return "\n\t6) Auto Scan PoS Filters:\tverbs only"
+    elif auto_scan_filters == "Adjective,":
+        return "\n\t6) Auto Scan PoS Filters:\tadjectives only"
+    elif auto_scan_filters == "Adverb,":
+        return "\n\t6) Auto Scan PoS Filters:\tadverbs only"
+    elif auto_scan_filters == "Preposition,":
+        return "\n\t6) Auto Scan PoS Filters:\tprepositions only"
+    elif auto_scan_filters == "Phrases,":
+        return "\n\t6) Auto Scan PoS Filters:\tphrases only"
+    else:
+        return "\n\t6) Auto Scan PoS Filters:\tall pos types, no restrictions"
 
 
 def set_auto_scan_filters(asf):
     global auto_scan_filters
-    auto_scan_filters = asf
+    if len(asf) == 1:
+        auto_scan_filters = asf[0] + ","
+    else:
+        auto_scan_filters = ""
+        for pos in asf:
+            auto_scan_filters += pos + ","
     update_system_data()
 
 
 def get_output_detail_level():
     global output_detail_level
     return int(output_detail_level)
+
+
+def get_output_detail_level_as_text():
+    global output_detail_level
+
+    if output_detail_level == "1":
+        return "\n\t7) Output Detail Level:\t\tlevel 1, term data"
+    elif output_detail_level == "2":
+        return "\n\t7) Output Detail Level:\t\tlevel 2, morph data"
+    else:
+        return "\n\t7) Output Detail Level:\t\tlevel 3, all data"
 
 
 def set_output_detail_level(odlvl):

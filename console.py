@@ -659,9 +659,6 @@ def search_for_terms(log_title, workbook_title):
 
             # setting 6 (auto scan filters)
             os.system('cls')
-            print(auto_scan_filters)
-            print(type(auto_scan_filters))
-
             CA.display_settings(6, auto_scan_filters)
             i = input("\n\n\tOption number: ")
 
