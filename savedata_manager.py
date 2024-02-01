@@ -249,21 +249,24 @@ def get_auto_scan_filters_as_text():
         return "\n\t6) Auto Scan PoS Filters:\tadverbs only"
     elif auto_scan_filters == "Preposition,":
         return "\n\t6) Auto Scan PoS Filters:\tprepositions only"
-    elif auto_scan_filters == "Phrases,":
+    elif auto_scan_filters == "Phrase,":
         return "\n\t6) Auto Scan PoS Filters:\tphrases only"
-    else:
+    elif auto_scan_filters == "Noun,Verb,Adjective,Adverb,Preposition,Phrase":
         return "\n\t6) Auto Scan PoS Filters:\tall pos types, no restrictions"
+    else:
+        return "\n\t6) Auto Scan PoS Filters:\t" + str(auto_scan_filters)
 
 
 def set_auto_scan_filters(asf):
     global auto_scan_filters
     if len(asf) == 1:
-        auto_scan_filters = asf[0] + ","
+        auto_scan_filters = str(asf[0]) + ","
     else:
         auto_scan_filters = ""
         for pos in asf:
-            auto_scan_filters += pos + ","
+            auto_scan_filters += str(pos) + ","
     update_system_data()
+    return auto_scan_filters
 
 
 def get_output_detail_level():

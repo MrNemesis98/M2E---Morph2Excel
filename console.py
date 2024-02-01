@@ -25,13 +25,14 @@ output_detail_level = SDM.get_output_detail_level()
 
 
 def set_system_variables_to_default():
+    global auto_scan_filters
 
     SDM.set_auto_update(1)
     SDM.set_term_output_diplomacy(3)
     SDM.set_one_line_output(1)
     SDM.set_headline_printing(2)
     SDM.set_alphabetical_output(True, True)
-    SDM.set_auto_scan_filters("Noun,Verb,Adjective,Adverb,Preposition,Phrase")
+    auto_scan_filters = SDM.set_auto_scan_filters(["Noun", "Verb", "Adjective", "Adverb", "Preposition", "Phrase"])
     SDM.set_output_detail_level(3)
 
 
@@ -663,50 +664,50 @@ def search_for_terms(log_title, workbook_title):
             i = input("\n\n\tOption number: ")
 
             if i == "1":
-                SDM.set_auto_scan_filters(["Noun"])
-                auto_scan_filters = SDM.get_auto_scan_filters()
+                auto_scan_filters = SDM.set_auto_scan_filters(["Noun"])
+                # auto_scan_filters = SDM.get_auto_scan_filters()
                 os.system('cls')
                 CA.display_settings_after_changes(6, auto_scan_filters)
                 print("\033[32m" + '\n\t"Noun" is set as pos filter now!\033[0m')
                 time.sleep(4)
             elif i == "2":
-                SDM.set_auto_scan_filters(["Verb"])
-                auto_scan_filters = SDM.get_auto_scan_filters()
+                auto_scan_filters = SDM.set_auto_scan_filters(["Verb"])
+                # auto_scan_filters = SDM.get_auto_scan_filters()
                 os.system('cls')
                 CA.display_settings_after_changes(6, auto_scan_filters)
                 print("\033[32m" + '\n\t"Verb" is set as pos filter now!\033[0m')
                 time.sleep(4)
             elif i == "3":
-                SDM.set_auto_scan_filters(["Adjective"])
-                auto_scan_filters = SDM.get_auto_scan_filters()
+                auto_scan_filters = SDM.set_auto_scan_filters(["Adjective"])
+                # auto_scan_filters = SDM.get_auto_scan_filters()
                 os.system('cls')
                 CA.display_settings_after_changes(6, auto_scan_filters)
                 print("\033[32m" + '\n\t"Adjective" is set as pos filter now!\033[0m')
                 time.sleep(4)
             elif i == "4":
-                SDM.set_auto_scan_filters(["Adverb"])
-                auto_scan_filters = SDM.get_auto_scan_filters()
+                auto_scan_filters = SDM.set_auto_scan_filters(["Adverb"])
+                # auto_scan_filters = SDM.get_auto_scan_filters()
                 os.system('cls')
                 CA.display_settings_after_changes(6, auto_scan_filters)
                 print("\033[32m" + '\n\t"Adverb" is set as pos filter now!\033[0m')
                 time.sleep(4)
             elif i == "5":
-                SDM.set_auto_scan_filters(["Preposition"])
-                auto_scan_filters = SDM.get_auto_scan_filters()
+                auto_scan_filters = SDM.set_auto_scan_filters(["Preposition"])
+                # auto_scan_filters = SDM.get_auto_scan_filters()
                 os.system('cls')
                 CA.display_settings_after_changes(6, auto_scan_filters)
                 print("\033[32m" + '\n\t"Preposition" is set as pos filter now!\033[0m')
                 time.sleep(4)
             elif i == "6":
-                SDM.set_auto_scan_filters(["Phrase"])
-                auto_scan_filters = SDM.get_auto_scan_filters()
+                auto_scan_filters = SDM.set_auto_scan_filters(["Phrase"])
+                # auto_scan_filters = SDM.get_auto_scan_filters()
                 os.system('cls')
                 CA.display_settings_after_changes(6, auto_scan_filters)
                 print("\033[32m" + '\n\t"Phrase" is set as pos filter now!\033[0m')
                 time.sleep(4)
             elif i == "7":
-                SDM.set_auto_scan_filters(["Noun", "Verb", "Adverb", "Adjective", "Preposition", "Phrase"])
-                auto_scan_filters = SDM.get_auto_scan_filters()
+                auto_scan_filters = SDM.set_auto_scan_filters(["Noun", "Verb", "Adjective", "Adverb", "Preposition", "Phrase"])
+                # auto_scan_filters = SDM.get_auto_scan_filters()
                 os.system('cls')
                 CA.display_settings_after_changes(6, auto_scan_filters)
                 print("\033[32m" + '\n\tAll pos types will be considered now!\033[0m')
