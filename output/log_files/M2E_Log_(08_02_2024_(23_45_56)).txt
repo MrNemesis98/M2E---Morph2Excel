@@ -1,0 +1,23 @@
+Morph2Excel Log from 08_02_2024_(23_45_56)
+
+	------------------------------------------------------------
+
+	Word: till
+	Filters: NONE
+	Entries found: 7
+
+
+	------------------------------------------------------------
+
+	Word: till
+	Warning: no results for 'till' with filters 'noun'.
+
+	------------------------------------------------------------
+
+	Word: till
+	Warning: no results for 'till' with filters 'noun, verb, phrase'.
+
+	------------------------------------------------------------
+
+	Word: till
+	Warning: no results for 'till' with filters 'preposition'.

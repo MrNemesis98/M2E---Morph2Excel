@@ -1,0 +1,6585 @@
+Morph2Excel Log from 08_02_2024_(22_05_33)
+
+	------------------------------------------------------------
+
+	Word: calculate
+	Filters: NONE
+	Entries found: 5
+
+
+	------------------------------------------------------------
+
+	Word: calculated
+	Filters: NONE
+	Entries found: 3
+
+
+	------------------------------------------------------------
+
+	Word: calculation
+	Filters: NONE
+	Entries found: 4
+
+
+	------------------------------------------------------------
+
+	Word: calculations
+	Filters: NONE
+	Entries found: 1
+
+
+	------------------------------------------------------------
+
+	Word: calculator
+	Filters: NONE
+	Entries found: 4
+
+
+	------------------------------------------------------------
+
+	Word: calculators
+	Filters: NONE
+	Entries found: 1
+
+
+	------------------------------------------------------------
+
+	Word: calendar
+	Filters: NONE
+	Entries found: 5
+
+
+	------------------------------------------------------------
+
+	Word: calendars
+	Filters: NONE
+	Entries found: 2
+
+
+	------------------------------------------------------------
+
+	Word: calgary
+	Warning: no entry for 'calgary'.
+
+	------------------------------------------------------------
+
+	Word: calibration
+	Warning: no entry for 'calibration'.
+
+	------------------------------------------------------------
+
+	Word: calif
+	Filters: NONE
+	Entries found: 1
+
+
+	------------------------------------------------------------
+
+	Word: california
+	Warning: no entry for 'california'.
+
+	------------------------------------------------------------
+
+	Word: call
+	Filters: NONE
+	Entries found: 50
+
+
+	------------------------------------------------------------
+
+	Word: called
+	Filters: NONE
+	Entries found: 2
+
+
+	------------------------------------------------------------
+
+	Word: calling
+	Filters: NONE
+	Entries found: 3
+
+
+	------------------------------------------------------------
+
+	Word: calls
+	Filters: NONE
+	Entries found: 2
+
+
+	------------------------------------------------------------
+
+	Word: calm
+	Filters: NONE
+	Entries found: 5
+
+
+	------------------------------------------------------------
+
+	Word: calvin
+	Warning: no entry for 'calvin'.
+
+	------------------------------------------------------------
+
+	Word: cam
+	Filters: NONE
+	Entries found: 6
+
+
+	------------------------------------------------------------
+
+	Word: cambodia
+	Warning: no entry for 'cambodia'.
+
+	------------------------------------------------------------
+
+	Word: cambridge
+	Warning: no entry for 'cambridge'.
+
+	------------------------------------------------------------
+
+	Word: camcorder
+	Filters: NONE
+	Entries found: 1
+
+
+	------------------------------------------------------------
+
+	Word: camcorders
+	Filters: NONE
+	Entries found: 1
+
+
+	------------------------------------------------------------
+
+	Word: came
+	Filters: NONE
+	Entries found: 5
+
+
+	------------------------------------------------------------
+
+	Word: camel
+	Filters: NONE
+	Entries found: 1
+
+
+	------------------------------------------------------------
+
+	Word: camera
+	Filters: NONE
+	Entries found: 2
+
+
+	------------------------------------------------------------
+
+	Word: cameras
+	Filters: NONE
+	Entries found: 1
+
+
+	------------------------------------------------------------
+
+	Word: cameron
+	Warning: no entry for 'cameron'.
+
+	------------------------------------------------------------
+
+	Word: cameroon
+	Warning: no entry for 'cameroon'.
+
+	------------------------------------------------------------
+
+	Word: camp
+	Filters: NONE
+	Entries found: 20
+
+
+	------------------------------------------------------------
+
+	Word: campaign
+	Filters: NONE
+	Entries found: 5
+
+
+	------------------------------------------------------------
+
+	Word: campaigns
+	Filters: NONE
+	Entries found: 2
+
+
+	------------------------------------------------------------
+
+	Word: campbell
+	Warning: no entry for 'campbell'.
+
+	------------------------------------------------------------
+
+	Word: camping
+	Warning: no entry for 'camping'.
+
+	------------------------------------------------------------
+
+	Word: camps
+	Filters: NONE
+	Entries found: 2
+
+
+	------------------------------------------------------------
+
+	Word: campus
+	Filters: NONE
+	Entries found: 2
+
+
+	------------------------------------------------------------
+
+	Word: cams
+	Filters: NONE
+	Entries found: 1
+
+
+	------------------------------------------------------------
+
+	Word: can
+	Filters: NONE
+	Entries found: 23
+
+
+	------------------------------------------------------------
+
+	Word: canada
+	Warning: no entry for 'canada'.
+
+	------------------------------------------------------------
+
+	Word: canadian
+	Warning: no entry for 'canadian'.
+
+	------------------------------------------------------------
+
+	Word: canal
+	Filters: NONE
+	Entries found: 4
+
+
+	------------------------------------------------------------
+
+	Word: canberra
+	Warning: no entry for 'canberra'.
+
+	------------------------------------------------------------
+
+	Word: cancel
+	Filters: NONE
+	Entries found: 14
+
+
+	------------------------------------------------------------
+
+	Word: cancellation
+	Filters: NONE
+	Entries found: 4
+
+
+	------------------------------------------------------------
+
+	Word: cancelled
+	Filters: NONE
+	Entries found: 3
+
+
+	------------------------------------------------------------
+
+	Word: cancer
+	Filters: NONE
+	Entries found: 2
+
+
+	------------------------------------------------------------
+
+	Word: candidate
+	Filters: NONE
+	Entries found: 3
+
+
+	------------------------------------------------------------
+
+	Word: candidates
+	Warning: no entry for 'candidates'.
+
+	------------------------------------------------------------
+
+	Word: candle
+	Filters: NONE
+	Entries found: 7
+
+
+	------------------------------------------------------------
+
+	Word: candles
+	Filters: NONE
+	Entries found: 2
+
+
+	------------------------------------------------------------
+
+	Word: candy
+	Filters: NONE
+	Entries found: 6
+
+
+	------------------------------------------------------------
+
+	Word: cannon
+	Filters: NONE
+	Entries found: 5
+
+
+	------------------------------------------------------------
+
+	Word: canon
+	Filters: NONE
+	Entries found: 15
+
+
+	------------------------------------------------------------
+
+	Word: cant
+	Filters: NONE
+	Entries found: 29
+
+
+	------------------------------------------------------------
+
+	Word: canvas
+	Filters: NONE
+	Entries found: 6
+
+
+	------------------------------------------------------------
+
+	Word: canyon
+	Filters: NONE
+	Entries found: 1
+
+
+	------------------------------------------------------------
+
+	Word: cap
+	Filters: NONE
+	Entries found: 35
+
+
+	------------------------------------------------------------
+
+	Word: capabilities
+	Warning: no entry for 'capabilities'.
+
+	------------------------------------------------------------
+
+	Word: capability
+	Warning: no entry for 'capability'.
+
+	------------------------------------------------------------
+
+	Word: capable
+	Warning: no entry for 'capable'.
+
+	------------------------------------------------------------
+
+	Word: capacity
+	Filters: NONE
+	Entries found: 11
+
+
+	------------------------------------------------------------
+
+	Word: cape
+	Filters: NONE
+	Entries found: 8
+
+
+	------------------------------------------------------------
+
+	Word: capital
+	Filters: NONE
+	Entries found: 14
+
+
+	------------------------------------------------------------
+
+	Word: capitol
+	Filters: NONE
+	Entries found: 2
+
+
+	------------------------------------------------------------
+
+	Word: caps
+	Filters: NONE
+	Entries found: 3
+
+
+	------------------------------------------------------------
+
+	Word: captain
+	Filters: NONE
+	Entries found: 10
+
+
+	------------------------------------------------------------
+
+	Word: capture
+	Filters: NONE
+	Entries found: 9
+
+
+	------------------------------------------------------------
+
+	Word: captured
+	Filters: NONE
+	Entries found: 1
+
+
+	------------------------------------------------------------
+
+	Word: car
+	Filters: NONE
+	Entries found: 13
+
+
+	------------------------------------------------------------
+
+	Word: carb
+	Warning: no entry for 'carb'.
+
+	------------------------------------------------------------
+
+	Word: carbon
+	Filters: NONE
+	Entries found: 3
+
+
+	------------------------------------------------------------
+
+	Word: card
+	Filters: NONE
+	Entries found: 21
+
+
+	------------------------------------------------------------
+
+	Word: cardiac
+	Warning: no entry for 'cardiac'.
+
+	------------------------------------------------------------
+
+	Word: cardiff
+	Warning: no entry for 'cardiff'.
+
+	------------------------------------------------------------
+
+	Word: cardiovascular
+	Filters: NONE
+	Entries found: 1
+
+
+	------------------------------------------------------------
+
+	Word: cards
+	Filters: NONE
+	Entries found: 3
+
+
+	------------------------------------------------------------
+
+	Word: care
+	Filters: NONE
+	Entries found: 11
+
+
+	------------------------------------------------------------
+
+	Word: career
+	Filters: NONE
+	Entries found: 8
+
+
+	------------------------------------------------------------
+
+	Word: careers
+	Filters: NONE
+	Entries found: 2
+
+
+	------------------------------------------------------------
+
+	Word: careful
+	Filters: NONE
+	Entries found: 4
+
+
+	------------------------------------------------------------
+
+	Word: carefully
+	Filters: NONE
+	Entries found: 2
+
+
+	------------------------------------------------------------
+
+	Word: carey
+	Warning: no entry for 'carey'.
+
+	------------------------------------------------------------
+
+	Word: cargo
+	Filters: NONE
+	Entries found: 2
+
+
+	------------------------------------------------------------
+
+	Word: caribbean
+	Warning: no entry for 'caribbean'.
+
+	------------------------------------------------------------
+
+	Word: caring
+	Filters: NONE
+	Entries found: 3
+
+
+	------------------------------------------------------------
+
+	Word: carl
+	Filters: NONE
+	Entries found: 3
+
+
+	------------------------------------------------------------
+
+	Word: carlo
+	Warning: no entry for 'carlo'.
+
+	------------------------------------------------------------
+
+	Word: carlos
+	Warning: no entry for 'carlos'.
+
+	------------------------------------------------------------
+
+	Word: carmen
+	Filters: NONE
+	Entries found: 1
+
+
+	------------------------------------------------------------
+
+	Word: carnival
+	Filters: NONE
+	Entries found: 3
+
+
+	------------------------------------------------------------
+
+	Word: carol
+	Filters: NONE
+	Entries found: 7
+
+
+	------------------------------------------------------------
+
+	Word: carolina
+	Warning: no entry for 'carolina'.
+
+	------------------------------------------------------------
+
+	Word: caroline
+	Warning: no entry for 'caroline'.
+
+	------------------------------------------------------------
+
+	Word: carpet
+	Filters: NONE
+	Entries found: 5
+
+
+	------------------------------------------------------------
+
+	Word: carried
+	Warning: no entry for 'carried'.
+
+	------------------------------------------------------------
+
+	Word: carrier
+	Filters: NONE
+	Entries found: 12
+
+
+	------------------------------------------------------------
+
+	Word: carriers
+	Filters: NONE
+	Entries found: 1
+
+
+	------------------------------------------------------------
+
+	Word: carries
+	Filters: NONE
+	Entries found: 2
+
+
+	------------------------------------------------------------
+
+	Word: carroll
+	Filters: NONE
+	Entries found: 2
+
+
+	------------------------------------------------------------
+
+	Word: carry
+	Filters: NONE
+	Entries found: 35
+
+
+	------------------------------------------------------------
+
+	Word: carrying
+	Filters: NONE
+	Entries found: 1
+
+
+	------------------------------------------------------------
+
+	Word: cars
+	Filters: NONE
+	Entries found: 1
+
+
+	------------------------------------------------------------
+
+	Word: cart
+	Filters: NONE
+	Entries found: 5
+
+
+	------------------------------------------------------------
+
+	Word: carter
+	Filters: NONE
+	Entries found: 2
+
+
+	------------------------------------------------------------
+
+	Word: cartoon
+	Filters: NONE
+	Entries found: 6
+
+
+	------------------------------------------------------------
+
+	Word: cartoons
+	Warning: no entry for 'cartoons'.
+
+	------------------------------------------------------------
+
+	Word: cartridge
+	Filters: NONE
+	Entries found: 6
+
+
+	------------------------------------------------------------
+
+	Word: cartridges
+	Filters: NONE
+	Entries found: 1
+
+
+	------------------------------------------------------------
+
+	Word: cas
+	Filters: NONE
+	Entries found: 1
+
+
+	------------------------------------------------------------
+
+	Word: casa
+	Filters: NONE
+	Entries found: 1
+
+
+	------------------------------------------------------------
+
+	Word: case
+	Filters: NONE
+	Entries found: 25
+
+
+	------------------------------------------------------------
+
+	Word: cases
+	Filters: NONE
+	Entries found: 2
+
+
+	------------------------------------------------------------
+
+	Word: casey
+	Warning: no entry for 'casey'.
+
+	------------------------------------------------------------
+
+	Word: cash
+	Filters: NONE
+	Entries found: 9
+
+
+	------------------------------------------------------------
+
+	Word: cashiers
+	Filters: NONE
+	Entries found: 2
+
+
+	------------------------------------------------------------
+
+	Word: casino
+	Warning: no entry for 'casino'.
+
+	------------------------------------------------------------
+
+	Word: casinos
+	Filters: NONE
+	Entries found: 1
+
+
+	------------------------------------------------------------
+
+	Word: casio
+	Warning: no entry for 'casio'.
+
+	------------------------------------------------------------
+
+	Word: cassette
+	Filters: NONE
+	Entries found: 5
+
+
+	------------------------------------------------------------
+
+	Word: cast
+	Filters: NONE
+	Entries found: 46
+
+
+	------------------------------------------------------------
+
+	Word: casting
+	Filters: NONE
+	Entries found: 8
+
+
+	------------------------------------------------------------
+
+	Word: castle
+	Filters: NONE
+	Entries found: 10
+
+
+	------------------------------------------------------------
+
+	Word: casual
+	Filters: NONE
+	Entries found: 12
+
+
+	------------------------------------------------------------
+
+	Word: cat
+	Filters: NONE
+	Entries found: 30
+
+
+	------------------------------------------------------------
+
+	Word: catalog
+	Warning: no entry for 'catalog'.
+
+	------------------------------------------------------------
+
+	Word: catalogs
+	Warning: no entry for 'catalogs'.
+
+	------------------------------------------------------------
+
+	Word: catalogue
+	Filters: NONE
+	Entries found: 6
+
+
+	------------------------------------------------------------
+
+	Word: catalyst
+	Warning: no entry for 'catalyst'.
+
+	------------------------------------------------------------
+
+	Word: catch
+	Filters: NONE
+	Entries found: 65
+
+
+	------------------------------------------------------------
+
+	Word: categories
+	Filters: NONE
+	Entries found: 1
+
+
+	------------------------------------------------------------
+
+	Word: category
+	Filters: NONE
+	Entries found: 2
+
+
+	------------------------------------------------------------
+
+	Word: catering
+	Filters: NONE
+	Entries found: 4
+
+
+	------------------------------------------------------------
+
+	Word: cathedral
+	Filters: NONE
+	Entries found: 4
+
+
+	------------------------------------------------------------
+
+	Word: catherine
+	Warning: no entry for 'catherine'.
+
+	------------------------------------------------------------
+
+	Word: catholic
+	Filters: NONE
+	Entries found: 3
+
+
+	------------------------------------------------------------
+
+	Word: cats
+	Warning: no entry for 'cats'.
+
+	------------------------------------------------------------
+
+	Word: cattle
+	Filters: NONE
+	Entries found: 4
+
+
+	------------------------------------------------------------
+
+	Word: caught
+	Filters: NONE
+	Entries found: 1
+
+
+	------------------------------------------------------------
+
+	Word: cause
+	Filters: NONE
+	Entries found: 8
+
+
+	------------------------------------------------------------
+
+	Word: caused
+	Filters: NONE
+	Entries found: 1
+
+
+	------------------------------------------------------------
+
+	Word: causes
+	Filters: NONE
+	Entries found: 2
+
+
+	------------------------------------------------------------
+
+	Word: causing
+	Filters: NONE
+	Entries found: 1
+
+
+	------------------------------------------------------------
+
+	Word: caution
+	Warning: no entry for 'caution'.
+
+	------------------------------------------------------------
+
+	Word: cave
+	Filters: NONE
+	Entries found: 16
+
+
+	------------------------------------------------------------
+
+	Word: cayman
+	Warning: no entry for 'cayman'.
+
+	------------------------------------------------------------
+
+	Word: cb
+	Warning: no entry for 'cb'.
+
+	------------------------------------------------------------
+
+	Word: cbs
+	Warning: no entry for 'cbs'.
+
+	------------------------------------------------------------
+
+	Word: cc
+	Filters: NONE
+	Entries found: 6
+
+
+	------------------------------------------------------------
+
+	Word: ccd
+	Warning: no entry for 'ccd'.
+
+	------------------------------------------------------------
+
+	Word: cd
+	Warning: no entry for 'cd'.
+
+	------------------------------------------------------------
+
+	Word: cdna
+	Filters: NONE
+	Entries found: 1
+
+
+	------------------------------------------------------------
+
+	Word: cds
+	Warning: no entry for 'cds'.
+
+	------------------------------------------------------------
+
+	Word: cdt
+	Warning: no entry for 'cdt'.
+
+	------------------------------------------------------------
+
+	Word: ce
+	Warning: no entry for 'ce'.
+
+	------------------------------------------------------------
+
+	Word: cedar
+	Filters: NONE
+	Entries found: 4
+
+
+	------------------------------------------------------------
+
+	Word: ceiling
+	Filters: NONE
+	Entries found: 7
+
+
+	------------------------------------------------------------
+
+	Word: celebrate
+	Filters: NONE
+	Entries found: 4
+
+
+	------------------------------------------------------------
+
+	Word: celebration
+	Filters: NONE
+	Entries found: 4
+
+
+	------------------------------------------------------------
+
+	Word: celebrities
+	Warning: no entry for 'celebrities'.
+
+	------------------------------------------------------------
+
+	Word: celebrity
+	Warning: no entry for 'celebrity'.
+
+	------------------------------------------------------------
+
+	Word: celebs
+	Filters: NONE
+	Entries found: 1
+
+
+	------------------------------------------------------------
+
+	Word: cell
+	Filters: NONE
+	Entries found: 20
+
+
+	------------------------------------------------------------
+
+	Word: cells
+	Filters: NONE
+	Entries found: 2
+
+
+	------------------------------------------------------------
+
+	Word: cellular
+	Warning: no entry for 'cellular'.
+
+	------------------------------------------------------------
+
+	Word: celtic
+	Warning: no entry for 'celtic'.
+
+	------------------------------------------------------------
+
+	Word: cement
+	Filters: NONE
+	Entries found: 7
+
+
+	------------------------------------------------------------
+
+	Word: cemetery
+	Warning: no entry for 'cemetery'.
+
+	------------------------------------------------------------
+
+	Word: census
+	Filters: NONE
+	Entries found: 2
+
+
+	------------------------------------------------------------
+
+	Word: cent
+	Filters: NONE
+	Entries found: 8
+
+
+	------------------------------------------------------------
+
+	Word: center
+	Filters: NONE
+	Entries found: 21
+
+
+	------------------------------------------------------------
+
+	Word: centered
+	Filters: NONE
+	Entries found: 3
+
+
+	------------------------------------------------------------
+
+	Word: centers
+	Filters: NONE
+	Entries found: 2
+
+
+	------------------------------------------------------------
+
+	Word: central
+	Filters: NONE
+	Entries found: 5
+
+
+	------------------------------------------------------------
+
+	Word: centre
+	Filters: NONE
+	Entries found: 2
+
+
+	------------------------------------------------------------
+
+	Word: centres
+	Filters: NONE
+	Entries found: 2
+
+
+	------------------------------------------------------------
+
+	Word: cents
+	Filters: NONE
+	Entries found: 1
+
+
+	------------------------------------------------------------
+
+	Word: centuries
+	Filters: NONE
+	Entries found: 1
+
+
+	------------------------------------------------------------
+
+	Word: century
+	Filters: NONE
+	Entries found: 7
+
+
+	------------------------------------------------------------
+
+	Word: ceo
+	Warning: no entry for 'ceo'.
+
+	------------------------------------------------------------
+
+	Word: ceramic
+	Filters: NONE
+	Entries found: 3
+
+
+	------------------------------------------------------------
+
+	Word: ceremony
+	Warning: no entry for 'ceremony'.
+
+	------------------------------------------------------------
+
+	Word: certain
+	Filters: NONE
+	Entries found: 6
+
+
+	------------------------------------------------------------
+
+	Word: certainly
+	Filters: NONE
+	Entries found: 3
+
+
+	------------------------------------------------------------
+
+	Word: certificate
+	Warning: no entry for 'certificate'.
+
+	------------------------------------------------------------
+
+	Word: certificates
+	Warning: no entry for 'certificates'.
+
+	------------------------------------------------------------
+
+	Word: certification
+	Warning: no entry for 'certification'.
+
+	------------------------------------------------------------
+
+	Word: certified
+	Warning: no entry for 'certified'.
+
+	------------------------------------------------------------
+
+	Word: cest
+	Filters: NONE
+	Entries found: 1
+
+
+	------------------------------------------------------------
+
+	Word: cet
+	Warning: no entry for 'cet'.
+
+	------------------------------------------------------------
+
+	Word: cf
+	Filters: NONE
+	Entries found: 2
+
+
+	------------------------------------------------------------
+
+	Word: cfr
+	Warning: no entry for 'cfr'.
+
+	------------------------------------------------------------
+
+	Word: cg
+	Warning: no entry for 'cg'.
+
+	------------------------------------------------------------
+
+	Word: cgi
+	Warning: no entry for 'cgi'.
+
+	------------------------------------------------------------
+
+	Word: ch
+	Filters: NONE
+	Entries found: 2
+
+
+	------------------------------------------------------------
+
+	Word: chad
+	Filters: NONE
+	Entries found: 2
+
+
+	------------------------------------------------------------
+
+	Word: chain
+	Filters: NONE
+	Entries found: 16
+
+
+	------------------------------------------------------------
+
+	Word: chains
+	Warning: no entry for 'chains'.
+
+	------------------------------------------------------------
+
+	Word: chair
+	Filters: NONE
+	Entries found: 10
+
+
+	------------------------------------------------------------
+
+	Word: chairman
+	Filters: NONE
+	Entries found: 3
+
+
+	------------------------------------------------------------
+
+	Word: chairs
+	Filters: NONE
+	Entries found: 2
+
+
+	------------------------------------------------------------
+
+	Word: challenge
+	Filters: NONE
+	Entries found: 23
+
+
+	------------------------------------------------------------
+
+	Word: challenged
+	Filters: NONE
+	Entries found: 3
+
+
+	------------------------------------------------------------
+
+	Word: challenges
+	Filters: NONE
+	Entries found: 2
+
+
+	------------------------------------------------------------
+
+	Word: challenging
+	Filters: NONE
+	Entries found: 3
+
+
+	------------------------------------------------------------
+
+	Word: chamber
+	Filters: NONE
+	Entries found: 20
+
+
+	------------------------------------------------------------
+
+	Word: chambers
+	Filters: NONE
+	Entries found: 5
+
+
+	------------------------------------------------------------
+
+	Word: champagne
+	Filters: NONE
+	Entries found: 3
+
+
+	------------------------------------------------------------
+
+	Word: champion
+	Warning: no entry for 'champion'.
+
+	------------------------------------------------------------
+
+	Word: champions
+	Warning: no entry for 'champions'.
+
+	------------------------------------------------------------
+
+	Word: championship
+	Warning: no entry for 'championship'.
+
+	------------------------------------------------------------
+
+	Word: championships
+	Warning: no entry for 'championships'.
+
+	------------------------------------------------------------
+
+	Word: chan
+	Filters: NONE
+	Entries found: 2
+
+
+	------------------------------------------------------------
+
+	Word: chance
+	Filters: NONE
+	Entries found: 7
+
+
+	------------------------------------------------------------
+
+	Word: chancellor
+	Warning: no entry for 'chancellor'.
+
+	------------------------------------------------------------
+
+	Word: chances
+	Filters: NONE
+	Entries found: 2
+
+
+	------------------------------------------------------------
+
+	Word: change
+	Filters: NONE
+	Entries found: 14
+
+
+	------------------------------------------------------------
+
+	Word: changed
+	Filters: NONE
+	Entries found: 1
+
+
+	------------------------------------------------------------
+
+	Word: changelog
+	Filters: NONE
+	Entries found: 1
+
+
+	------------------------------------------------------------
+
+	Word: changes
+	Filters: NONE
+	Entries found: 2
+
+
+	------------------------------------------------------------
+
+	Word: changing
+	Filters: NONE
+	Entries found: 1
+
+
+	------------------------------------------------------------
+
+	Word: channel
+	Filters: NONE
+	Entries found: 22
+
+
+	------------------------------------------------------------
+
+	Word: channels
+	Filters: NONE
+	Entries found: 3
+
+
+	------------------------------------------------------------
+
+	Word: chaos
+	Filters: NONE
+	Entries found: 6
+
+
+	------------------------------------------------------------
+
+	Word: chapel
+	Warning: no entry for 'chapel'.
+
+	------------------------------------------------------------
+
+	Word: chapter
+	Filters: NONE
+	Entries found: 15
+
+
+	------------------------------------------------------------
+
+	Word: chapters
+	Filters: NONE
+	Entries found: 2
+
+
+	------------------------------------------------------------
+
+	Word: char
+	Filters: NONE
+	Entries found: 15
+
+
+	------------------------------------------------------------
+
+	Word: character
+	Filters: NONE
+	Entries found: 15
+
+
+	------------------------------------------------------------
+
+	Word: characteristic
+	Warning: no entry for 'characteristic'.
+
+	------------------------------------------------------------
+
+	Word: characteristics
+	Warning: no entry for 'characteristics'.
+
+	------------------------------------------------------------
+
+	Word: characterization
+	Filters: NONE
+	Entries found: 1
+
+
+	------------------------------------------------------------
+
+	Word: characterized
+	Filters: NONE
+	Entries found: 1
+
+
+	------------------------------------------------------------
+
+	Word: characters
+	Filters: NONE
+	Entries found: 1
+
+
+	------------------------------------------------------------
+
+	Word: charge
+	Filters: NONE
+	Entries found: 37
+
+
+	------------------------------------------------------------
+
+	Word: charged
+	Filters: NONE
+	Entries found: 4
+
+
+	------------------------------------------------------------
+
+	Word: charger
+	Filters: NONE
+	Entries found: 7
+
+
+	------------------------------------------------------------
+
+	Word: chargers
+	Filters: NONE
+	Entries found: 1
+
+
+	------------------------------------------------------------
+
+	Word: charges
+	Filters: NONE
+	Entries found: 2
+
+
+	------------------------------------------------------------
+
+	Word: charging
+	Filters: NONE
+	Entries found: 2
+
+
+	------------------------------------------------------------
+
+	Word: charitable
+	Warning: no entry for 'charitable'.
+
+	------------------------------------------------------------
+
+	Word: charity
+	Filters: NONE
+	Entries found: 5
+
+
+	------------------------------------------------------------
+
+	Word: charles
+	Warning: no entry for 'charles'.
+
+	------------------------------------------------------------
+
+	Word: charleston
+	Warning: no entry for 'charleston'.
+
+	------------------------------------------------------------
+
+	Word: charlie
+	Filters: NONE
+	Entries found: 1
+
+
+	------------------------------------------------------------
+
+	Word: charlotte
+	Filters: NONE
+	Entries found: 1
+
+
+	------------------------------------------------------------
+
+	Word: charm
+	Filters: NONE
+	Entries found: 10
+
+
+	------------------------------------------------------------
+
+	Word: charming
+	Filters: NONE
+	Entries found: 4
+
+
+	------------------------------------------------------------
+
+	Word: charms
+	Warning: no entry for 'charms'.
+
+	------------------------------------------------------------
+
+	Word: chart
+	Filters: NONE
+	Entries found: 13
+
+
+	------------------------------------------------------------
+
+	Word: charter
+	Filters: NONE
+	Entries found: 9
+
+
+	------------------------------------------------------------
+
+	Word: charts
+	Filters: NONE
+	Entries found: 2
+
+
+	------------------------------------------------------------
+
+	Word: chase
+	Filters: NONE
+	Entries found: 27
+
+
+	------------------------------------------------------------
+
+	Word: chassis
+	Filters: NONE
+	Entries found: 4
+
+
+	------------------------------------------------------------
+
+	Word: chat
+	Filters: NONE
+	Entries found: 14
+
+
+	------------------------------------------------------------
+
+	Word: cheap
+	Filters: NONE
+	Entries found: 16
+
+
+	------------------------------------------------------------
+
+	Word: cheaper
+	Filters: NONE
+	Entries found: 1
+
+
+	------------------------------------------------------------
+
+	Word: cheapest
+	Filters: NONE
+	Entries found: 1
+
+
+	------------------------------------------------------------
+
+	Word: cheat
+	Filters: NONE
+	Entries found: 8
+
+
+	------------------------------------------------------------
+
+	Word: cheats
+	Filters: NONE
+	Entries found: 2
+
+
+	------------------------------------------------------------
+
+	Word: check
+	Filters: NONE
+	Entries found: 33
+
+
+	------------------------------------------------------------
+
+	Word: checked
+	Filters: NONE
+	Entries found: 5
+
+
+	------------------------------------------------------------
+
+	Word: checking
+	Filters: NONE
+	Entries found: 2
+
+
+	------------------------------------------------------------
+
+	Word: checklist
+	Filters: NONE
+	Entries found: 2
+
+
+	------------------------------------------------------------
+
+	Word: checkout
+	Filters: NONE
+	Entries found: 5
+
+
+	------------------------------------------------------------
+
+	Word: checks
+	Filters: NONE
+	Entries found: 2
+
+
+	------------------------------------------------------------
+
+	Word: cheers
+	Warning: no entry for 'cheers'.
+
+	------------------------------------------------------------
+
+	Word: cheese
+	Filters: NONE
+	Entries found: 15
+
+
+	------------------------------------------------------------
+
+	Word: chef
+	Filters: NONE
+	Entries found: 6
+
+
+	------------------------------------------------------------
+
+	Word: chelsea
+	Warning: no entry for 'chelsea'.
+
+	------------------------------------------------------------
+
+	Word: chem
+	Filters: NONE
+	Entries found: 1
+
+
+	------------------------------------------------------------
+
+	Word: chemical
+	Warning: no entry for 'chemical'.
+
+	------------------------------------------------------------
+
+	Word: chemicals
+	Warning: no entry for 'chemicals'.
+
+	------------------------------------------------------------
+
+	Word: chemistry
+	Filters: NONE
+	Entries found: 3
+
+
+	------------------------------------------------------------
+
+	Word: chen
+	Warning: no entry for 'chen'.
+
+	------------------------------------------------------------
+
+	Word: cheque
+	Filters: NONE
+	Entries found: 1
+
+
+	------------------------------------------------------------
+
+	Word: cherry
+	Warning: no entry for 'cherry'.
+
+	------------------------------------------------------------
+
+	Word: chess
+	Filters: NONE
+	Entries found: 2
+
+
+	------------------------------------------------------------
+
+	Word: chest
+	Filters: NONE
+	Entries found: 6
+
+
+	------------------------------------------------------------
+
+	Word: chester
+	Warning: no entry for 'chester'.
+
+	------------------------------------------------------------
+
+	Word: chevrolet
+	Warning: no entry for 'chevrolet'.
+
+	------------------------------------------------------------
+
+	Word: chevy
+	Warning: no entry for 'chevy'.
+
+	------------------------------------------------------------
+
+	Word: chi
+	Filters: NONE
+	Entries found: 6
+
+
+	------------------------------------------------------------
+
+	Word: chicago
+	Warning: no entry for 'chicago'.
+
+	------------------------------------------------------------
+
+	Word: chick
+	Filters: NONE
+	Entries found: 7
+
+
+	------------------------------------------------------------
+
+	Word: chicken
+	Filters: NONE
+	Entries found: 10
+
+
+	------------------------------------------------------------
+
+	Word: chicks
+	Filters: NONE
+	Entries found: 2
+
+
+	------------------------------------------------------------
+
+	Word: chief
+	Filters: NONE
+	Entries found: 7
+
+
+	------------------------------------------------------------
+
+	Word: child
+	Filters: NONE
+	Entries found: 10
+
+
+	------------------------------------------------------------
+
+	Word: childhood
+	Filters: NONE
+	Entries found: 3
+
+
+	------------------------------------------------------------
+
+	Word: children
+	Filters: NONE
+	Entries found: 1
+
+
+	------------------------------------------------------------
+
+	Word: childrens
+	Filters: NONE
+	Entries found: 1
+
+
+	------------------------------------------------------------
+
+	Word: chile
+	Filters: NONE
+	Entries found: 6
+
+
+	------------------------------------------------------------
+
+	Word: china
+	Filters: NONE
+	Entries found: 6
+
+
+	------------------------------------------------------------
+
+	Word: chinese
+	Warning: no entry for 'chinese'.
+
+	------------------------------------------------------------
+
+	Word: chip
+	Filters: NONE
+	Entries found: 24
+
+
+	------------------------------------------------------------
+
+	Word: chips
+	Filters: NONE
+	Entries found: 3
+
+
+	------------------------------------------------------------
+
+	Word: cho
+	Warning: no entry for 'cho'.
+
+	------------------------------------------------------------
+
+	Word: chocolate
+	Filters: NONE
+	Entries found: 6
+
+
+	------------------------------------------------------------
+
+	Word: choice
+	Filters: NONE
+	Entries found: 9
+
+
+	------------------------------------------------------------
+
+	Word: choices
+	Filters: NONE
+	Entries found: 1
+
+
+	------------------------------------------------------------
+
+	Word: choir
+	Filters: NONE
+	Entries found: 3
+
+
+	------------------------------------------------------------
+
+	Word: cholesterol
+	Warning: no entry for 'cholesterol'.
+
+	------------------------------------------------------------
+
+	Word: choose
+	Filters: NONE
+	Entries found: 7
+
+
+	------------------------------------------------------------
+
+	Word: choosing
+	Filters: NONE
+	Entries found: 2
+
+
+	------------------------------------------------------------
+
+	Word: chorus
+	Filters: NONE
+	Entries found: 13
+
+
+	------------------------------------------------------------
+
+	Word: chose
+	Filters: NONE
+	Entries found: 3
+
+
+	------------------------------------------------------------
+
+	Word: chosen
+	Filters: NONE
+	Entries found: 3
+
+
+	------------------------------------------------------------
+
+	Word: chris
+	Warning: no entry for 'chris'.
+
+	------------------------------------------------------------
+
+	Word: christ
+	Filters: NONE
+	Entries found: 1
+
+
+	------------------------------------------------------------
+
+	Word: christian
+	Warning: no entry for 'christian'.
+
+	------------------------------------------------------------
+
+	Word: christianity
+	Warning: no entry for 'christianity'.
+
+	------------------------------------------------------------
+
+	Word: christians
+	Warning: no entry for 'christians'.
+
+	------------------------------------------------------------
+
+	Word: christina
+	Warning: no entry for 'christina'.
+
+	------------------------------------------------------------
+
+	Word: christine
+	Warning: no entry for 'christine'.
+
+	------------------------------------------------------------
+
+	Word: christmas
+	Warning: no entry for 'christmas'.
+
+	------------------------------------------------------------
+
+	Word: christopher
+	Warning: no entry for 'christopher'.
+
+	------------------------------------------------------------
+
+	Word: chrome
+	Filters: NONE
+	Entries found: 4
+
+
+	------------------------------------------------------------
+
+	Word: chronic
+	Filters: NONE
+	Entries found: 9
+
+
+	------------------------------------------------------------
+
+	Word: chronicle
+	Warning: no entry for 'chronicle'.
+
+	------------------------------------------------------------
+
+	Word: chronicles
+	Filters: NONE
+	Entries found: 2
+
+
+	------------------------------------------------------------
+
+	Word: chrysler
+	Warning: no entry for 'chrysler'.
+
+	------------------------------------------------------------
+
+	Word: chubby
+	Filters: NONE
+	Entries found: 4
+
+
+	------------------------------------------------------------
+
+	Word: chuck
+	Filters: NONE
+	Entries found: 24
+
+
+	------------------------------------------------------------
+
+	Word: church
+	Filters: NONE
+	Entries found: 8
+
+
+	------------------------------------------------------------
+
+	Word: churches
+	Filters: NONE
+	Entries found: 2
+
+
+	------------------------------------------------------------
+
+	Word: ci
+	Filters: NONE
+	Entries found: 1
+
+
+	------------------------------------------------------------
+
+	Word: cia
+	Warning: no entry for 'cia'.
+
+	------------------------------------------------------------
+
+	Word: cialis
+	Warning: no entry for 'cialis'.
+
+	------------------------------------------------------------
+
+	Word: ciao
+	Warning: no entry for 'ciao'.
+
+	------------------------------------------------------------
+
+	Word: cigarette
+	Filters: NONE
+	Entries found: 1
+
+
+	------------------------------------------------------------
+
+	Word: cigarettes
+	Filters: NONE
+	Entries found: 2
+
+
+	------------------------------------------------------------
+
+	Word: cincinnati
+	Warning: no entry for 'cincinnati'.
+
+	------------------------------------------------------------
+
+	Word: cindy
+	Warning: no entry for 'cindy'.
+
+	------------------------------------------------------------
+
+	Word: cinema
+	Filters: NONE
+	Entries found: 4
+
+
+	------------------------------------------------------------
+
+	Word: cingular
+	Warning: no entry for 'cingular'.
+
+	------------------------------------------------------------
+
+	Word: cio
+	Warning: no entry for 'cio'.
+
+	------------------------------------------------------------
+
+	Word: cir
+	Warning: no entry for 'cir'.
+
+	------------------------------------------------------------
+
+	Word: circle
+	Filters: NONE
+	Entries found: 16
+
+
+	------------------------------------------------------------
+
+	Word: circles
+	Warning: no entry for 'circles'.
+
+	------------------------------------------------------------
+
+	Word: circuit
+	Filters: NONE
+	Entries found: 20
+
+
+	------------------------------------------------------------
+
+	Word: circuits
+	Filters: NONE
+	Entries found: 2
+
+
+	------------------------------------------------------------
+
+	Word: circular
+	Warning: no entry for 'circular'.
+
+	------------------------------------------------------------
+
+	Word: circulation
+	Filters: NONE
+	Entries found: 1
+
+
+	------------------------------------------------------------
+
+	Word: circumstances
+	Warning: no entry for 'circumstances'.
+
+	------------------------------------------------------------
+
+	Word: circus
+	Filters: NONE
+	Entries found: 6
+
+
+	------------------------------------------------------------
+
+	Word: cisco
+	Filters: NONE
+	Entries found: 1
+
+
+	------------------------------------------------------------
+
+	Word: citation
+	Filters: NONE
+	Entries found: 9
+
+
+	------------------------------------------------------------
+
+	Word: citations
+	Filters: NONE
+	Entries found: 1
+
+
+	------------------------------------------------------------
+
+	Word: cite
+	Filters: NONE
+	Entries found: 4
+
+
+	------------------------------------------------------------
+
+	Word: cited
+	Filters: NONE
+	Entries found: 1
+
+
+	------------------------------------------------------------
+
+	Word: cities
+	Filters: NONE
+	Entries found: 2
+
+
+	------------------------------------------------------------
+
+	Word: citizen
+	Filters: NONE
+	Entries found: 8
+
+
+	------------------------------------------------------------
+
+	Word: citizens
+	Filters: NONE
+	Entries found: 1
+
+
+	------------------------------------------------------------
+
+	Word: citizenship
+	Filters: NONE
+	Entries found: 2
+
+
+	------------------------------------------------------------
+
+	Word: city
+	Filters: NONE
+	Entries found: 4
+
+
+	------------------------------------------------------------
+
+	Word: citysearch
+	Warning: no entry for 'citysearch'.
+
+	------------------------------------------------------------
+
+	Word: civic
+	Filters: NONE
+	Entries found: 2
+
+
+	------------------------------------------------------------
+
+	Word: civil
+	Filters: NONE
+	Entries found: 4
+
+
+	------------------------------------------------------------
+
+	Word: civilian
+	Warning: no entry for 'civilian'.
+
+	------------------------------------------------------------
+
+	Word: civilization
+	Filters: NONE
+	Entries found: 5
+
+
+	------------------------------------------------------------
+
+	Word: cj
+	Warning: no entry for 'cj'.
+
+	------------------------------------------------------------
+
+	Word: cl
+	Warning: no entry for 'cl'.
+
+	------------------------------------------------------------
+
+	Word: claim
+	Filters: NONE
+	Entries found: 12
+
+
+	------------------------------------------------------------
+
+	Word: claimed
+	Filters: NONE
+	Entries found: 1
+
+
+	------------------------------------------------------------
+
+	Word: claims
+	Filters: NONE
+	Entries found: 2
+
+
+	------------------------------------------------------------
+
+	Word: claire
+	Filters: NONE
+	Entries found: 1
+
+
+	------------------------------------------------------------
+
+	Word: clan
+	Filters: NONE
+	Entries found: 5
+
+
+	------------------------------------------------------------
+
+	Word: clara
+	Warning: no entry for 'clara'.
+
+	------------------------------------------------------------
+
+	Word: clarity
+	Warning: no entry for 'clarity'.
+
+	------------------------------------------------------------
+
+	Word: clark
+	Warning: no entry for 'clark'.
+
+	------------------------------------------------------------
+
+	Word: clarke
+	Warning: no entry for 'clarke'.
+
+	------------------------------------------------------------
+
+	Word: class
+	Filters: NONE
+	Entries found: 14
+
+
+	------------------------------------------------------------
+
+	Word: classes
+	Warning: no entry for 'classes'.
+
+	------------------------------------------------------------
+
+	Word: classic
+	Filters: NONE
+	Entries found: 10
+
+
+	------------------------------------------------------------
+
+	Word: classical
+	Filters: NONE
+	Entries found: 6
+
+
+	------------------------------------------------------------
+
+	Word: classics
+	Filters: NONE
+	Entries found: 2
+
+
+	------------------------------------------------------------
+
+	Word: classification
+	Filters: NONE
+	Entries found: 1
+
+
+	------------------------------------------------------------
+
+	Word: classified
+	Filters: NONE
+	Entries found: 4
+
+
+	------------------------------------------------------------
+
+	Word: classifieds
+	Warning: no entry for 'classifieds'.
+
+	------------------------------------------------------------
+
+	Word: classroom
+	Filters: NONE
+	Entries found: 1
+
+
+	------------------------------------------------------------
+
+	Word: clause
+	Filters: NONE
+	Entries found: 3
+
+
+	------------------------------------------------------------
+
+	Word: clay
+	Filters: NONE
+	Entries found: 6
+
+
+	------------------------------------------------------------
+
+	Word: clean
+	Filters: NONE
+	Entries found: 30
+
+
+	------------------------------------------------------------
+
+	Word: cleaner
+	Filters: NONE
+	Entries found: 3
+
+
+	------------------------------------------------------------
+
+	Word: cleaners
+	Filters: NONE
+	Entries found: 1
+
+
+	------------------------------------------------------------
+
+	Word: cleaning
+	Filters: NONE
+	Entries found: 3
+
+
+	------------------------------------------------------------
+
+	Word: cleanup
+	Filters: NONE
+	Entries found: 1
+
+
+	------------------------------------------------------------
+
+	Word: clear
+	Filters: NONE
+	Entries found: 40
+
+
+	------------------------------------------------------------
+
+	Word: clearance
+	Filters: NONE
+	Entries found: 14
+
+
+	------------------------------------------------------------
+
+	Word: cleared
+	Filters: NONE
+	Entries found: 1
+
+
+	------------------------------------------------------------
+
+	Word: clearing
+	Filters: NONE
+	Entries found: 8
+
+
+	------------------------------------------------------------
+
+	Word: clearly
+	Filters: NONE
+	Entries found: 2
+
+
+	------------------------------------------------------------
+
+	Word: clerk
+	Filters: NONE
+	Entries found: 5
+
+
+	------------------------------------------------------------
+
+	Word: cleveland
+	Warning: no entry for 'cleveland'.
+
+	------------------------------------------------------------
+
+	Word: click
+	Filters: NONE
+	Entries found: 22
+
+
+	------------------------------------------------------------
+
+	Word: clicking
+	Filters: NONE
+	Entries found: 1
+
+
+	------------------------------------------------------------
+
+	Word: clicks
+	Filters: NONE
+	Entries found: 2
+
+
+	------------------------------------------------------------
+
+	Word: client
+	Filters: NONE
+	Entries found: 4
+
+
+	------------------------------------------------------------
+
+	Word: clients
+	Filters: NONE
+	Entries found: 1
+
+
+	------------------------------------------------------------
+
+	Word: cliff
+	Filters: NONE
+	Entries found: 3
+
+
+	------------------------------------------------------------
+
+	Word: climate
+	Filters: NONE
+	Entries found: 4
+
+
+	------------------------------------------------------------
+
+	Word: climb
+	Filters: NONE
+	Entries found: 11
+
+
+	------------------------------------------------------------
+
+	Word: climbing
+	Filters: NONE
+	Entries found: 2
+
+
+	------------------------------------------------------------
+
+	Word: clinic
+	Filters: NONE
+	Entries found: 9
+
+
+	------------------------------------------------------------
+
+	Word: clinical
+	Filters: NONE
+	Entries found: 6
+
+
+	------------------------------------------------------------
+
+	Word: clinics
+	Filters: NONE
+	Entries found: 1
+
+
+	------------------------------------------------------------
+
+	Word: clinton
+	Warning: no entry for 'clinton'.
+
+	------------------------------------------------------------
+
+	Word: clip
+	Filters: NONE
+	Entries found: 26
+
+
+	------------------------------------------------------------
+
+	Word: clips
+	Filters: NONE
+	Entries found: 2
+
+
+	------------------------------------------------------------
+
+	Word: clock
+	Filters: NONE
+	Entries found: 16
+
+
+	------------------------------------------------------------
+
+	Word: clocks
+	Filters: NONE
+	Entries found: 2
+
+
+	------------------------------------------------------------
+
+	Word: clone
+	Filters: NONE
+	Entries found: 4
+
+
+	------------------------------------------------------------
+
+	Word: close
+	Filters: NONE
+	Entries found: 41
+
+
+	------------------------------------------------------------
+
+	Word: closed
+	Filters: NONE
+	Entries found: 7
+
+
+	------------------------------------------------------------
+
+	Word: closely
+	Filters: NONE
+	Entries found: 2
+
+
+	------------------------------------------------------------
+
+	Word: closer
+	Filters: NONE
+	Entries found: 3
+
+
+	------------------------------------------------------------
+
+	Word: closes
+	Filters: NONE
+	Entries found: 2
+
+
+	------------------------------------------------------------
+
+	Word: closest
+	Filters: NONE
+	Entries found: 2
+
+
+	------------------------------------------------------------
+
+	Word: closing
+	Filters: NONE
+	Entries found: 6
+
+
+	------------------------------------------------------------
+
+	Word: closure
+	Filters: NONE
+	Entries found: 11
+
+
+	------------------------------------------------------------
+
+	Word: cloth
+	Filters: NONE
+	Entries found: 5
+
+
+	------------------------------------------------------------
+
+	Word: clothes
+	Filters: NONE
+	Entries found: 3
+
+
+	------------------------------------------------------------
+
+	Word: clothing
+	Filters: NONE
+	Entries found: 5
+
+
+	------------------------------------------------------------
+
+	Word: cloud
+	Filters: NONE
+	Entries found: 16
+
+
+	------------------------------------------------------------
+
+	Word: clouds
+	Filters: NONE
+	Entries found: 2
+
+
+	------------------------------------------------------------
+
+	Word: cloudy
+	Filters: NONE
+	Entries found: 5
+
+
+	------------------------------------------------------------
+
+	Word: club
+	Filters: NONE
+	Entries found: 15
+
+
+	------------------------------------------------------------
+
+	Word: clubs
+	Filters: NONE
+	Entries found: 4
+
+
+	------------------------------------------------------------
+
+	Word: cluster
+	Filters: NONE
+	Entries found: 15
+
+
+	------------------------------------------------------------
+
+	Word: clusters
+	Filters: NONE
+	Entries found: 2
+
+
+	------------------------------------------------------------
+
+	Word: cm
+	Warning: no entry for 'cm'.
+
+	------------------------------------------------------------
+
+	Word: cms
+	Filters: NONE
+	Entries found: 1
+
+
+	------------------------------------------------------------
+
+	Word: cn
+	Warning: no entry for 'cn'.
+
+	------------------------------------------------------------
+
+	Word: cnet
+	Warning: no entry for 'cnet'.
+
+	------------------------------------------------------------
+
+	Word: cnetcom
+	Warning: no entry for 'cnetcom'.
+
+	------------------------------------------------------------
+
+	Word: cnn
+	Warning: no entry for 'cnn'.
+
+	------------------------------------------------------------
+
+	Word: co
+	Filters: NONE
+	Entries found: 1
+
+
+	------------------------------------------------------------
+
+	Word: coach
+	Filters: NONE
+	Entries found: 10
+
+
+	------------------------------------------------------------
+
+	Word: coaches
+	Filters: NONE
+	Entries found: 2
+
+
+	------------------------------------------------------------
+
+	Word: coaching
+	Filters: NONE
+	Entries found: 4
+
+
+	------------------------------------------------------------
+
+	Word: coal
+	Filters: NONE
+	Entries found: 1
+
+
+	------------------------------------------------------------
+
+	Word: coalition
+	Warning: no entry for 'coalition'.
+
+	------------------------------------------------------------
+
+	Word: coast
+	Filters: NONE
+	Entries found: 9
+
+
+	------------------------------------------------------------
+
+	Word: coastal
+	Warning: no entry for 'coastal'.
+
+	------------------------------------------------------------
+
+	Word: coat
+	Filters: NONE
+	Entries found: 7
+
+
+	------------------------------------------------------------
+
+	Word: coated
+	Filters: NONE
+	Entries found: 2
+
+
+	------------------------------------------------------------
+
+	Word: coating
+	Filters: NONE
+	Entries found: 4
+
+
+	------------------------------------------------------------
+
+	Word: cock
+	Filters: NONE
+	Entries found: 25
+
+
+	------------------------------------------------------------
+
+	Word: cocks
+	Filters: NONE
+	Entries found: 2
+
+
+	------------------------------------------------------------
+
+	Word: cod
+	Filters: NONE
+	Entries found: 9
+
+
+	------------------------------------------------------------
+
+	Word: code
+	Filters: NONE
+	Entries found: 13
+
+
+	------------------------------------------------------------
+
+	Word: codes
+	Filters: NONE
+	Entries found: 2
+
+
+	------------------------------------------------------------
+
+	Word: coding
+	Filters: NONE
+	Entries found: 3
+
+
+	------------------------------------------------------------
+
+	Word: coffee
+	Filters: NONE
+	Entries found: 3
+
+
+	------------------------------------------------------------
+
+	Word: cognitive
+	Filters: NONE
+	Entries found: 2
+
+
+	------------------------------------------------------------
+
+	Word: cohen
+	Warning: no entry for 'cohen'.
+
+	------------------------------------------------------------
+
+	Word: coin
+	Filters: NONE
+	Entries found: 10
+
+
+	------------------------------------------------------------
+
+	Word: coins
+	Filters: NONE
+	Entries found: 2
+
+
+	------------------------------------------------------------
+
+	Word: col
+	Filters: NONE
+	Entries found: 2
+
+
+	------------------------------------------------------------
+
+	Word: cold
+	Filters: NONE
+	Entries found: 24
+
+
+	------------------------------------------------------------
+
+	Word: cole
+	Filters: NONE
+	Entries found: 3
+
+
+	------------------------------------------------------------
+
+	Word: coleman
+	Warning: no entry for 'coleman'.
+
+	------------------------------------------------------------
+
+	Word: colin
+	Filters: NONE
+	Entries found: 1
+
+
+	------------------------------------------------------------
+
+	Word: collaboration
+	Warning: no entry for 'collaboration'.
+
+	------------------------------------------------------------
+
+	Word: collaborative
+	Warning: no entry for 'collaborative'.
+
+	------------------------------------------------------------
+
+	Word: collapse
+	Filters: NONE
+	Entries found: 1
+
+
+	------------------------------------------------------------
+
+	Word: collar
+	Filters: NONE
+	Entries found: 26
+
+
+	------------------------------------------------------------
+
+	Word: colleague
+	Filters: NONE
+	Entries found: 2
+
+
+	------------------------------------------------------------
+
+	Word: colleagues
+	Filters: NONE
+	Entries found: 1
+
+
+	------------------------------------------------------------
+
+	Word: collect
+	Filters: NONE
+	Entries found: 10
+
+
+	------------------------------------------------------------
+
+	Word: collectables
+	Filters: NONE
+	Entries found: 1
+
+
+	------------------------------------------------------------
+
+	Word: collected
+	Filters: NONE
+	Entries found: 3
+
+
+	------------------------------------------------------------
+
+	Word: collectible
+	Filters: NONE
+	Entries found: 4
+
+
+	------------------------------------------------------------
+
+	Word: collectibles
+	Filters: NONE
+	Entries found: 1
+
+
+	------------------------------------------------------------
+
+	Word: collecting
+	Filters: NONE
+	Entries found: 2
+
+
+	------------------------------------------------------------
+
+	Word: collection
+	Filters: NONE
+	Entries found: 9
+
+
+	------------------------------------------------------------
+
+	Word: collections
+	Filters: NONE
+	Entries found: 3
+
+
+	------------------------------------------------------------
+
+	Word: collective
+	Filters: NONE
+	Entries found: 5
+
+
+	------------------------------------------------------------
+
+	Word: collector
+	Filters: NONE
+	Entries found: 7
+
+
+	------------------------------------------------------------
+
+	Word: collectors
+	Filters: NONE
+	Entries found: 1
+
+
+	------------------------------------------------------------
+
+	Word: college
+	Filters: NONE
+	Entries found: 15
+
+
+	------------------------------------------------------------
+
+	Word: colleges
+	Filters: NONE
+	Entries found: 1
+
+
+	------------------------------------------------------------
+
+	Word: collins
+	Filters: NONE
+	Entries found: 1
+
+
+	------------------------------------------------------------
+
+	Word: cologne
+	Warning: no entry for 'cologne'.
+
+	------------------------------------------------------------
+
+	Word: colombia
+	Warning: no entry for 'colombia'.
+
+	------------------------------------------------------------
+
+	Word: colon
+	Filters: NONE
+	Entries found: 6
+
+
+	------------------------------------------------------------
+
+	Word: colonial
+	Filters: NONE
+	Entries found: 7
+
+
+	------------------------------------------------------------
+
+	Word: colony
+	Filters: NONE
+	Entries found: 7
+
+
+	------------------------------------------------------------
+
+	Word: color
+	Filters: NONE
+	Entries found: 24
+
+
+	------------------------------------------------------------
+
+	Word: colorado
+	Warning: no entry for 'colorado'.
+
+	------------------------------------------------------------
+
+	Word: colored
+	Filters: NONE
+	Entries found: 7
+
+
+	------------------------------------------------------------
+
+	Word: colors
+	Warning: no entry for 'colors'.
+
+	------------------------------------------------------------
+
+	Word: colour
+	Warning: no entry for 'colour'.
+
+	------------------------------------------------------------
+
+	Word: colours
+	Filters: NONE
+	Entries found: 3
+
+
+	------------------------------------------------------------
+
+	Word: columbia
+	Warning: no entry for 'columbia'.
+
+	------------------------------------------------------------
+
+	Word: columbus
+	Warning: no entry for 'columbus'.
+
+	------------------------------------------------------------
+
+	Word: column
+	Filters: NONE
+	Entries found: 5
+
+
+	------------------------------------------------------------
+
+	Word: columnists
+	Filters: NONE
+	Entries found: 1
+
+
+	------------------------------------------------------------
+
+	Word: columns
+	Filters: NONE
+	Entries found: 2
+
+
+	------------------------------------------------------------
+
+	Word: com
+	Filters: NONE
+	Entries found: 3
+
+
+	------------------------------------------------------------
+
+	Word: combat
+	Filters: NONE
+	Entries found: 4
+
+
+	------------------------------------------------------------
+
+	Word: combination
+	Filters: NONE
+	Entries found: 6
+
+
+	------------------------------------------------------------
+
+	Word: combinations
+	Filters: NONE
+	Entries found: 2
+
+
+	------------------------------------------------------------
+
+	Word: combine
+	Filters: NONE
+	Entries found: 9
+
+
+	------------------------------------------------------------
+
+	Word: combined
+	Filters: NONE
+	Entries found: 3
+
+
+	------------------------------------------------------------
+
+	Word: combines
+	Filters: NONE
+	Entries found: 2
+
+
+	------------------------------------------------------------
+
+	Word: combining
+	Filters: NONE
+	Entries found: 2
+
+
+	------------------------------------------------------------
+
+	Word: combo
+	Warning: no entry for 'combo'.
+
+	------------------------------------------------------------
+
+	Word: come
+	Filters: NONE
+	Entries found: 35
+
+
+	------------------------------------------------------------
+
+	Word: comedy
+	Filters: NONE
+	Entries found: 7
+
+
+	------------------------------------------------------------
+
+	Word: comes
+	Filters: NONE
+	Entries found: 2
+
+
+	------------------------------------------------------------
+
+	Word: comfort
+	Filters: NONE
+	Entries found: 6
+
+
+	------------------------------------------------------------
+
+	Word: comfortable
+	Filters: NONE
+	Entries found: 7
+
+
+	------------------------------------------------------------
+
+	Word: comic
+	Filters: NONE
+	Entries found: 4
+
+
+	------------------------------------------------------------
+
+	Word: comics
+	Warning: no entry for 'comics'.
+
+	------------------------------------------------------------
+
+	Word: coming
+	Filters: NONE
+	Entries found: 5
+
+
+	------------------------------------------------------------
+
+	Word: comm
+	Filters: NONE
+	Entries found: 1
+
+
+	------------------------------------------------------------
+
+	Word: command
+	Filters: NONE
+	Entries found: 17
+
+
+	------------------------------------------------------------
+
+	Word: commander
+	Filters: NONE
+	Entries found: 7
+
+
+	------------------------------------------------------------
+
+	Word: commands
+	Filters: NONE
+	Entries found: 2
+
+
+	------------------------------------------------------------
+
+	Word: comment
+	Filters: NONE
+	Entries found: 6
+
+
+	------------------------------------------------------------
+
+	Word: commentary
+	Warning: no entry for 'commentary'.
+
+	------------------------------------------------------------
+
+	Word: commented
+	Filters: NONE
+	Entries found: 1
+
+
+	------------------------------------------------------------
+
+	Word: comments
+	Filters: NONE
+	Entries found: 2
+
+
+	------------------------------------------------------------
+
+	Word: commerce
+	Filters: NONE
+	Entries found: 6
+
+
+	------------------------------------------------------------
+
+	Word: commercial
+	Filters: NONE
+	Entries found: 2
+
+
+	------------------------------------------------------------
+
+	Word: commission
+	Filters: NONE
+	Entries found: 9
+
+
+	------------------------------------------------------------
+
+	Word: commissioner
+	Warning: no entry for 'commissioner'.
+
+	------------------------------------------------------------
+
+	Word: commissioners
+	Warning: no entry for 'commissioners'.
+
+	------------------------------------------------------------
+
+	Word: commissions
+	Filters: NONE
+	Entries found: 2
+
+
+	------------------------------------------------------------
+
+	Word: commit
+	Filters: NONE
+	Entries found: 10
+
+
+	------------------------------------------------------------
+
+	Word: commitment
+	Filters: NONE
+	Entries found: 10
+
+
+	------------------------------------------------------------
+
+	Word: commitments
+	Filters: NONE
+	Entries found: 1
+
+
+	------------------------------------------------------------
+
+	Word: committed
+	Filters: NONE
+	Entries found: 5
+
+
+	------------------------------------------------------------
+
+	Word: committee
+	Filters: NONE
+	Entries found: 2
+
+
+	------------------------------------------------------------
+
+	Word: committees
+	Filters: NONE
+	Entries found: 1
+
+
+	------------------------------------------------------------
+
+	Word: commodities
+	Filters: NONE
+	Entries found: 1
+
+
+	------------------------------------------------------------
+
+	Word: commodity
+	Filters: NONE
+	Entries found: 7
+
+
+	------------------------------------------------------------
+
+	Word: common
+	Filters: NONE
+	Entries found: 13
+
+
+	------------------------------------------------------------
+
+	Word: commonly
+	Filters: NONE
+	Entries found: 2
+
+
+	------------------------------------------------------------
+
+	Word: commons
+	Filters: NONE
+	Entries found: 8
+
+
+	------------------------------------------------------------
+
+	Word: commonwealth
+	Filters: NONE
+	Entries found: 3
+
+
+	------------------------------------------------------------
+
+	Word: communicate
+	Warning: no entry for 'communicate'.
+
+	------------------------------------------------------------
+
+	Word: communication
+	Warning: no entry for 'communication'.
+
+	------------------------------------------------------------
+
+	Word: communications
+	Warning: no entry for 'communications'.
+
+	------------------------------------------------------------
+
+	Word: communist
+	Filters: NONE
+	Entries found: 3
+
+
+	------------------------------------------------------------
+
+	Word: communities
+	Warning: no entry for 'communities'.
+
+	------------------------------------------------------------
+
+	Word: community
+	Warning: no entry for 'community'.
+
+	------------------------------------------------------------
+
+	Word: comp
+	Filters: NONE
+	Entries found: 21
+
+
+	------------------------------------------------------------
+
+	Word: compact
+	Filters: NONE
+	Entries found: 13
+
+
+	------------------------------------------------------------
+
+	Word: companies
+	Filters: NONE
+	Entries found: 2
+
+
+	------------------------------------------------------------
+
+	Word: companion
+	Warning: no entry for 'companion'.
+
+	------------------------------------------------------------
+
+	Word: company
+	Filters: NONE
+	Entries found: 14
+
+
+	------------------------------------------------------------
+
+	Word: compaq
+	Warning: no entry for 'compaq'.
+
+	------------------------------------------------------------
+
+	Word: comparable
+	Filters: NONE
+	Entries found: 5
+
+
+	------------------------------------------------------------
+
+	Word: comparative
+	Filters: NONE
+	Entries found: 7
+
+
+	------------------------------------------------------------
+
+	Word: compare
+	Filters: NONE
+	Entries found: 6
+
+
+	------------------------------------------------------------
+
+	Word: compared
+	Filters: NONE
+	Entries found: 1
+
+
+	------------------------------------------------------------
+
+	Word: comparing
+	Filters: NONE
+	Entries found: 1
+
+
+	------------------------------------------------------------
+
+	Word: comparison
+	Filters: NONE
+	Entries found: 7
+
+
+	------------------------------------------------------------
+
+	Word: comparisons
+	Filters: NONE
+	Entries found: 1
+
+
+	------------------------------------------------------------
+
+	Word: compatibility
+	Warning: no entry for 'compatibility'.
+
+	------------------------------------------------------------
+
+	Word: compatible
+	Warning: no entry for 'compatible'.
+
+	------------------------------------------------------------
+
+	Word: compensation
+	Filters: NONE
+	Entries found: 3
+
+
+	------------------------------------------------------------
+
+	Word: compete
+	Filters: NONE
+	Entries found: 3
+
+
+	------------------------------------------------------------
+
+	Word: competent
+	Filters: NONE
+	Entries found: 5
+
+
+	------------------------------------------------------------
+
+	Word: competing
+	Filters: NONE
+	Entries found: 2
+
+
+	------------------------------------------------------------
+
+	Word: competition
+	Warning: no entry for 'competition'.
+
+	------------------------------------------------------------
+
+	Word: competitions
+	Warning: no entry for 'competitions'.
+
+	------------------------------------------------------------
+
+	Word: competitive
+	Filters: NONE
+	Entries found: 5
+
+
+	------------------------------------------------------------
+
+	Word: competitors
+	Filters: NONE
+	Entries found: 1
+
+
+	------------------------------------------------------------
+
+	Word: compilation
+	Filters: NONE
+	Entries found: 3
+
+
+	------------------------------------------------------------
+
+	Word: compile
+	Filters: NONE
+	Entries found: 3
+
+
+	------------------------------------------------------------
+
+	Word: compiled
+	Filters: NONE
+	Entries found: 1
+
+
+	------------------------------------------------------------
+
+	Word: compiler
+	Filters: NONE
+	Entries found: 2
+
+
+	------------------------------------------------------------
+
+	Word: complaint
+	Filters: NONE
+	Entries found: 4
+
+
+	------------------------------------------------------------
+
+	Word: complaints
+	Filters: NONE
+	Entries found: 1
+
+
+	------------------------------------------------------------
+
+	Word: complement
+	Filters: NONE
+	Entries found: 19
+
+
+	------------------------------------------------------------
+
+	Word: complete
+	Filters: NONE
+	Entries found: 11
+
+
+	------------------------------------------------------------
+
+	Word: completed
+	Filters: NONE
+	Entries found: 2
+
+
+	------------------------------------------------------------
+
+	Word: completely
+	Filters: NONE
+	Entries found: 2
+
+
+	------------------------------------------------------------
+
+	Word: completing
+	Filters: NONE
+	Entries found: 1
+
+
+	------------------------------------------------------------
+
+	Word: completion
+	Filters: NONE
+	Entries found: 5
+
+
+	------------------------------------------------------------
+
+	Word: complex
+	Filters: NONE
+	Entries found: 15
+
+
+	------------------------------------------------------------
+
+	Word: complexity
+	Filters: NONE
+	Entries found: 2
+
+
+	------------------------------------------------------------
+
+	Word: compliance
+	Filters: NONE
+	Entries found: 6
+
+
+	------------------------------------------------------------
+
+	Word: compliant
+	Filters: NONE
+	Entries found: 2
+
+
+	------------------------------------------------------------
+
+	Word: complicated
+	Filters: NONE
+	Entries found: 2
+
+
+	------------------------------------------------------------
+
+	Word: complications
+	Filters: NONE
+	Entries found: 1
+
+
+	------------------------------------------------------------
+
+	Word: complimentary
+	Filters: NONE
+	Entries found: 3
+
+
+	------------------------------------------------------------
+
+	Word: comply
+	Filters: NONE
+	Entries found: 4
+
+
+	------------------------------------------------------------
+
+	Word: component
+	Filters: NONE
+	Entries found: 1
+
+
+	------------------------------------------------------------
+
+	Word: components
+	Filters: NONE
+	Entries found: 1
+
+
+	------------------------------------------------------------
+
+	Word: composed
+	Warning: no entry for 'composed'.
+
+	------------------------------------------------------------
+
+	Word: composer
+	Warning: no entry for 'composer'.
+
+	------------------------------------------------------------
+
+	Word: composite
+	Filters: NONE
+	Entries found: 9
+
+
+	------------------------------------------------------------
+
+	Word: composition
+	Filters: NONE
+	Entries found: 16
+
+
+	------------------------------------------------------------
+
+	Word: compound
+	Filters: NONE
+	Entries found: 5
+
+
+	------------------------------------------------------------
+
+	Word: compounds
+	Filters: NONE
+	Entries found: 2
+
+
+	------------------------------------------------------------
+
+	Word: comprehensive
+	Warning: no entry for 'comprehensive'.
+
+	------------------------------------------------------------
+
+	Word: compressed
+	Filters: NONE
+	Entries found: 3
+
+
+	------------------------------------------------------------
+
+	Word: compression
+	Filters: NONE
+	Entries found: 5
+
+
+	------------------------------------------------------------
+
+	Word: compromise
+	Filters: NONE
+	Entries found: 9
+
+
+	------------------------------------------------------------
+
+	Word: computation
+	Filters: NONE
+	Entries found: 1
+
+
+	------------------------------------------------------------
+
+	Word: computational
+	Filters: NONE
+	Entries found: 1
+
+
+	------------------------------------------------------------
+
+	Word: compute
+	Filters: NONE
+	Entries found: 1
+
+
+	------------------------------------------------------------
+
+	Word: computed
+	Filters: NONE
+	Entries found: 3
+
+
+	------------------------------------------------------------
+
+	Word: computer
+	Warning: no entry for 'computer'.
+
+	------------------------------------------------------------
+
+	Word: computers
+	Filters: NONE
+	Entries found: 1
+
+
+	------------------------------------------------------------
+
+	Word: computing
+	Filters: NONE
+	Entries found: 2
+
+
+	------------------------------------------------------------
+
+	Word: con
+	Filters: NONE
+	Entries found: 12
+
+
+	------------------------------------------------------------
+
+	Word: concentrate
+	Filters: NONE
+	Entries found: 5
+
+
+	------------------------------------------------------------
+
+	Word: concentration
+	Filters: NONE
+	Entries found: 8
+
+
+	------------------------------------------------------------
+
+	Word: concentrations
+	Filters: NONE
+	Entries found: 1
+
+
+	------------------------------------------------------------
+
+	Word: concept
+	Filters: NONE
+	Entries found: 3
+
+
+	------------------------------------------------------------
+
+	Word: concepts
+	Filters: NONE
+	Entries found: 1
+
+
+	------------------------------------------------------------
+
+	Word: conceptual
+	Filters: NONE
+	Entries found: 2
+
+
+	------------------------------------------------------------
+
+	Word: concern
+	Filters: NONE
+	Entries found: 7
+
+
+	------------------------------------------------------------
+
+	Word: concerned
+	Filters: NONE
+	Entries found: 3
+
+
+	------------------------------------------------------------
+
+	Word: concerning
+	Filters: NONE
+	Entries found: 5
+
+
+	------------------------------------------------------------
+
+	Word: concerns
+	Filters: NONE
+	Entries found: 2
+
+
+	------------------------------------------------------------
+
+	Word: concert
+	Filters: NONE
+	Entries found: 5
+
+
+	------------------------------------------------------------
+
+	Word: concerts
+	Filters: NONE
+	Entries found: 1
+
+
+	------------------------------------------------------------
+
+	Word: conclude
+	Filters: NONE
+	Entries found: 6
+
+
+	------------------------------------------------------------
+
+	Word: concluded
+	Filters: NONE
+	Entries found: 1
+
+
+	------------------------------------------------------------
+
+	Word: conclusion
+	Filters: NONE
+	Entries found: 5
+
+
+	------------------------------------------------------------
+
+	Word: conclusions
+	Filters: NONE
+	Entries found: 1
+
+
+	------------------------------------------------------------
+
+	Word: concord
+	Filters: NONE
+	Entries found: 6
+
+
+	------------------------------------------------------------
+
+	Word: concrete
+	Filters: NONE
+	Entries found: 10
+
+
+	------------------------------------------------------------
+
+	Word: condition
+	Filters: NONE
+	Entries found: 16
+
+
+	------------------------------------------------------------
+
+	Word: conditional
+	Filters: NONE
+	Entries found: 6
+
+
+	------------------------------------------------------------
+
+	Word: conditioning
+	Warning: no entry for 'conditioning'.
+
+	------------------------------------------------------------
+
+	Word: conditions
+	Filters: NONE
+	Entries found: 2
+
+
+	------------------------------------------------------------
+
+	Word: condo
+	Warning: no entry for 'condo'.
+
+	------------------------------------------------------------
+
+	Word: condos
+	Warning: no entry for 'condos'.
+
+	------------------------------------------------------------
+
+	Word: conduct
+	Filters: NONE
+	Entries found: 12
+
+
+	------------------------------------------------------------
+
+	Word: conducted
+	Filters: NONE
+	Entries found: 1
+
+
+	------------------------------------------------------------
+
+	Word: conducting
+	Filters: NONE
+	Entries found: 1
+
+
+	------------------------------------------------------------
+
+	Word: conf
+	Filters: NONE
+	Entries found: 1
+
+
+	------------------------------------------------------------
+
+	Word: conference
+	Filters: NONE
+	Entries found: 10
+
+
+	------------------------------------------------------------
+
+	Word: conferences
+	Filters: NONE
+	Entries found: 2
+
+
+	------------------------------------------------------------
+
+	Word: conferencing
+	Filters: NONE
+	Entries found: 1
+
+
+	------------------------------------------------------------
+
+	Word: confidence
+	Filters: NONE
+	Entries found: 1
+
+
+	------------------------------------------------------------
+
+	Word: confident
+	Filters: NONE
+	Entries found: 2
+
+
+	------------------------------------------------------------
+
+	Word: confidential
+	Warning: no entry for 'confidential'.
+
+	------------------------------------------------------------
+
+	Word: confidentiality
+	Warning: no entry for 'confidentiality'.
+
+	------------------------------------------------------------
+
+	Word: config
+	Warning: no entry for 'config'.
+
+	------------------------------------------------------------
+
+	Word: configuration
+	Filters: NONE
+	Entries found: 5
+
+
+	------------------------------------------------------------
+
+	Word: configure
+	Filters: NONE
+	Entries found: 1
+
+
+	------------------------------------------------------------
+
+	Word: configured
+	Filters: NONE
+	Entries found: 1
+
+
+	------------------------------------------------------------
+
+	Word: configuring
+	Filters: NONE
+	Entries found: 1
+
+
+	------------------------------------------------------------
+
+	Word: confirm
+	Filters: NONE
+	Entries found: 3
+
+
+	------------------------------------------------------------
+
+	Word: confirmation
+	Filters: NONE
+	Entries found: 3
+
+
+	------------------------------------------------------------
+
+	Word: confirmed
+	Filters: NONE
+	Entries found: 4
+
+
+	------------------------------------------------------------
+
+	Word: conflict
+	Filters: NONE
+	Entries found: 2
+
+
+	------------------------------------------------------------
+
+	Word: conflicts
+	Filters: NONE
+	Entries found: 2
+
+
+	------------------------------------------------------------
+
+	Word: confused
+	Warning: no entry for 'confused'.
+
+	------------------------------------------------------------
+
+	Word: confusion
+	Warning: no entry for 'confusion'.
+
+	------------------------------------------------------------
+
+	Word: congo
+	Warning: no entry for 'congo'.
+
+	------------------------------------------------------------
+
+	Word: congratulations
+	Warning: no entry for 'congratulations'.
+
+	------------------------------------------------------------
+
+	Word: congress
+	Filters: NONE
+	Entries found: 4
+
+
+	------------------------------------------------------------
+
+	Word: congressional
+	Warning: no entry for 'congressional'.
+
+	------------------------------------------------------------
+
+	Word: conjunction
+	Filters: NONE
+	Entries found: 5
+
+
+	------------------------------------------------------------
+
+	Word: connect
+	Filters: NONE
+	Entries found: 7
+
+
+	------------------------------------------------------------
+
+	Word: connected
+	Filters: NONE
+	Entries found: 8
+
+
+	------------------------------------------------------------
+
+	Word: connecticut
+	Warning: no entry for 'connecticut'.
+
+	------------------------------------------------------------
+
+	Word: connecting
+	Filters: NONE
+	Entries found: 1
+
+
+	------------------------------------------------------------
+
+	Word: connection
+	Filters: NONE
+	Entries found: 10
+
+
+	------------------------------------------------------------
+
+	Word: connections
+	Filters: NONE
+	Entries found: 2
+
+
+	------------------------------------------------------------
+
+	Word: connectivity
+	Filters: NONE
+	Entries found: 3
+
+
+	------------------------------------------------------------
+
+	Word: connector
+	Filters: NONE
+	Entries found: 5
+
+
+	------------------------------------------------------------
+
+	Word: connectors
+	Filters: NONE
+	Entries found: 1
+
+
+	------------------------------------------------------------
+
+	Word: cons
+	Filters: NONE
+	Entries found: 3
+
+
+	------------------------------------------------------------
+
+	Word: conscious
+	Filters: NONE
+	Entries found: 6
+
+
+	------------------------------------------------------------
+
+	Word: consciousness
+	Filters: NONE
+	Entries found: 1
+
+
+	------------------------------------------------------------
+
+	Word: consecutive
+	Warning: no entry for 'consecutive'.
+
+	------------------------------------------------------------
+
+	Word: consensus
+	Filters: NONE
+	Entries found: 4
+
+
+	------------------------------------------------------------
+
+	Word: consent
+	Filters: NONE
+	Entries found: 6
+
+
+	------------------------------------------------------------
+
+	Word: consequence
+	Filters: NONE
+	Entries found: 8
+
+
+	------------------------------------------------------------
+
+	Word: consequences
+	Filters: NONE
+	Entries found: 2
+
+
+	------------------------------------------------------------
+
+	Word: consequently
+	Filters: NONE
+	Entries found: 2
+
+
+	------------------------------------------------------------
+
+	Word: conservation
+	Warning: no entry for 'conservation'.
+
+	------------------------------------------------------------
+
+	Word: conservative
+	Warning: no entry for 'conservative'.
+
+	------------------------------------------------------------
+
+	Word: consider
+	Filters: NONE
+	Entries found: 8
+
+
+	------------------------------------------------------------
+
+	Word: considerable
+	Filters: NONE
+	Entries found: 3
+
+
+	------------------------------------------------------------
+
+	Word: consideration
+	Filters: NONE
+	Entries found: 6
+
+
+	------------------------------------------------------------
+
+	Word: considerations
+	Filters: NONE
+	Entries found: 1
+
+
+	------------------------------------------------------------
+
+	Word: considered
+	Filters: NONE
+	Entries found: 2
+
+
+	------------------------------------------------------------
+
+	Word: considering
+	Filters: NONE
+	Entries found: 4
+
+
+	------------------------------------------------------------
+
+	Word: considers
+	Filters: NONE
+	Entries found: 1
+
+
+	------------------------------------------------------------
+
+	Word: consist
+	Filters: NONE
+	Entries found: 4
+
+
+	------------------------------------------------------------
+
+	Word: consistency
+	Warning: no entry for 'consistency'.
+
+	------------------------------------------------------------
+
+	Word: consistent
+	Filters: NONE
+	Entries found: 1
+
+
+	------------------------------------------------------------
+
+	Word: consistently
+	Warning: no entry for 'consistently'.
+
+	------------------------------------------------------------
+
+	Word: consisting
+	Filters: NONE
+	Entries found: 1
+
+
+	------------------------------------------------------------
+
+	Word: consists
+	Filters: NONE
+	Entries found: 2
+
+
+	------------------------------------------------------------
+
+	Word: console
+	Filters: NONE
+	Entries found: 8
+
+
+	------------------------------------------------------------
+
+	Word: consoles
+	Filters: NONE
+	Entries found: 2
+
+
+	------------------------------------------------------------
+
+	Word: consolidated
+	Warning: no entry for 'consolidated'.
+
+	------------------------------------------------------------
+
+	Word: consolidation
+	Warning: no entry for 'consolidation'.
+
+	------------------------------------------------------------
+
+	Word: consortium
+	Warning: no entry for 'consortium'.
+
+	------------------------------------------------------------
+
+	Word: conspiracy
+	Filters: NONE
+	Entries found: 6
+
+
+	------------------------------------------------------------
+
+	Word: const
+	Filters: NONE
+	Entries found: 3
+
+
+	------------------------------------------------------------
+
+	Word: constant
+	Filters: NONE
+	Entries found: 9
+
+
+	------------------------------------------------------------
+
+	Word: constantly
+	Filters: NONE
+	Entries found: 4
+
+
+	------------------------------------------------------------
+
+	Word: constitute
+	Filters: NONE
+	Entries found: 3
+
+
+	------------------------------------------------------------
+
+	Word: constitutes
+	Warning: no entry for 'constitutes'.
+
+	------------------------------------------------------------
+
+	Word: constitution
+	Filters: NONE
+	Entries found: 4
+
+
+	------------------------------------------------------------
+
+	Word: constitutional
+	Filters: NONE
+	Entries found: 7
+
+
+	------------------------------------------------------------
+
+	Word: constraint
+	Filters: NONE
+	Entries found: 5
+
+
+	------------------------------------------------------------
+
+	Word: constraints
+	Filters: NONE
+	Entries found: 1
+
+
+	------------------------------------------------------------
+
+	Word: construct
+	Filters: NONE
+	Entries found: 6
+
+
+	------------------------------------------------------------
+
+	Word: constructed
+	Filters: NONE
+	Entries found: 1
+
+
+	------------------------------------------------------------
+
+	Word: construction
+	Filters: NONE
+	Entries found: 10
+
+
+	------------------------------------------------------------
+
+	Word: consult
+	Filters: NONE
+	Entries found: 12
+
+
+	------------------------------------------------------------
+
+	Word: consultancy
+	Filters: NONE
+	Entries found: 2
+
+
+	------------------------------------------------------------
+
+	Word: consultant
+	Filters: NONE
+	Entries found: 2
+
+
+	------------------------------------------------------------
+
+	Word: consultants
+	Filters: NONE
+	Entries found: 1
+
+
+	------------------------------------------------------------
+
+	Word: consultation
+	Filters: NONE
+	Entries found: 3
+
+
+	------------------------------------------------------------
+
+	Word: consulting
+	Filters: NONE
+	Entries found: 1
+
+
+	------------------------------------------------------------
+
+	Word: consumer
+	Warning: no entry for 'consumer'.
+
+	------------------------------------------------------------
+
+	Word: consumers
+	Filters: NONE
+	Entries found: 1
+
+
+	------------------------------------------------------------
+
+	Word: consumption
+	Filters: NONE
+	Entries found: 3
+
+
+	------------------------------------------------------------
+
+	Word: contact
+	Filters: NONE
+	Entries found: 8
+
+
+	------------------------------------------------------------
+
+	Word: contacted
+	Filters: NONE
+	Entries found: 1
+
+
+	------------------------------------------------------------
+
+	Word: contacting
+	Filters: NONE
+	Entries found: 1
+
+
+	------------------------------------------------------------
+
+	Word: contacts
+	Filters: NONE
+	Entries found: 2
+
+
+	------------------------------------------------------------
+
+	Word: contain
+	Filters: NONE
+	Entries found: 5
+
+
+	------------------------------------------------------------
+
+	Word: contained
+	Filters: NONE
+	Entries found: 2
+
+
+	------------------------------------------------------------
+
+	Word: container
+	Filters: NONE
+	Entries found: 8
+
+
+	------------------------------------------------------------
+
+	Word: containers
+	Filters: NONE
+	Entries found: 1
+
+
+	------------------------------------------------------------
+
+	Word: containing
+	Filters: NONE
+	Entries found: 2
+
+
+	------------------------------------------------------------
+
+	Word: contains
+	Filters: NONE
+	Entries found: 1
+
+
+	------------------------------------------------------------
+
+	Word: contamination
+	Warning: no entry for 'contamination'.
+
+	------------------------------------------------------------
+
+	Word: contemporary
+	Filters: NONE
+	Entries found: 4
+
+
+	------------------------------------------------------------
+
+	Word: content
+	Filters: NONE
+	Entries found: 15
+
+
+	------------------------------------------------------------
+
+	Word: contents
+	Filters: NONE
+	Entries found: 3
+
+
+	------------------------------------------------------------
+
+	Word: contest
+	Filters: NONE
+	Entries found: 7
+
+
+	------------------------------------------------------------
+
+	Word: contests
+	Filters: NONE
+	Entries found: 2
+
+
+	------------------------------------------------------------
+
+	Word: context
+	Filters: NONE
+	Entries found: 7
+
+
+	------------------------------------------------------------
+
+	Word: continent
+	Filters: NONE
+	Entries found: 5
+
+
+	------------------------------------------------------------
+
+	Word: continental
+	Filters: NONE
+	Entries found: 6
+
+
+	------------------------------------------------------------
+
+	Word: continually
+	Warning: no entry for 'continually'.
+
+	------------------------------------------------------------
+
+	Word: continue
+	Filters: NONE
+	Entries found: 3
+
+
+	------------------------------------------------------------
+
+	Word: continued
+	Warning: no entry for 'continued'.
+
+	------------------------------------------------------------
+
+	Word: continues
+	Warning: no entry for 'continues'.
+
+	------------------------------------------------------------
+
+	Word: continuing
+	Warning: no entry for 'continuing'.
+
+	------------------------------------------------------------
+
+	Word: continuity
+	Warning: no entry for 'continuity'.
+
+	------------------------------------------------------------
+
+	Word: continuous
+	Filters: NONE
+	Entries found: 2
+
+
+	------------------------------------------------------------
+
+	Word: continuously
+	Warning: no entry for 'continuously'.
+
+	------------------------------------------------------------
+
+	Word: contract
+	Filters: NONE
+	Entries found: 13
+
+
+	------------------------------------------------------------
+
+	Word: contracting
+	Filters: NONE
+	Entries found: 4
+
+
+	------------------------------------------------------------
+
+	Word: contractor
+	Filters: NONE
+	Entries found: 4
+
+
+	------------------------------------------------------------
+
+	Word: contractors
+	Filters: NONE
+	Entries found: 1
+
+
+	------------------------------------------------------------
+
+	Word: contracts
+	Filters: NONE
+	Entries found: 2
+
+
+	------------------------------------------------------------
+
+	Word: contrary
+	Filters: NONE
+	Entries found: 12
+
+
+	------------------------------------------------------------
+
+	Word: contrast
+	Filters: NONE
+	Entries found: 5
+
+
+	------------------------------------------------------------
+
+	Word: contribute
+	Filters: NONE
+	Entries found: 1
+
+
+	------------------------------------------------------------
+
+	Word: contributed
+	Filters: NONE
+	Entries found: 1
+
+
+	------------------------------------------------------------
+
+	Word: contributing
+	Filters: NONE
+	Entries found: 1
+
+
+	------------------------------------------------------------
+
+	Word: contribution
+	Filters: NONE
+	Entries found: 4
+
+
+	------------------------------------------------------------
+
+	Word: contributions
+	Filters: NONE
+	Entries found: 1
+
+
+	------------------------------------------------------------
+
+	Word: contributor
+	Filters: NONE
+	Entries found: 4
+
+
+	------------------------------------------------------------
+
+	Word: contributors
+	Filters: NONE
+	Entries found: 1
+
+
+	------------------------------------------------------------
+
+	Word: control
+	Filters: NONE
+	Entries found: 14
+
+
+	------------------------------------------------------------
+
+	Word: controlled
+	Filters: NONE
+	Entries found: 4
+
+
+	------------------------------------------------------------
+
+	Word: controller
+	Filters: NONE
+	Entries found: 8
+
+
+	------------------------------------------------------------
+
+	Word: controllers
+	Filters: NONE
+	Entries found: 1
+
+
+	------------------------------------------------------------
+
+	Word: controlling
+	Filters: NONE
+	Entries found: 3
+
+
+	------------------------------------------------------------
+
+	Word: controls
+	Warning: no entry for 'controls'.
+
+	------------------------------------------------------------
+
+	Word: controversial
+	Filters: NONE
+	Entries found: 1
+
+
+	------------------------------------------------------------
+
+	Word: controversy
+	Filters: NONE
+	Entries found: 1
+
+
+	------------------------------------------------------------
+
+	Word: convenience
+	Filters: NONE
+	Entries found: 5
+
+
+	------------------------------------------------------------
+
+	Word: convenient
+	Filters: NONE
+	Entries found: 2
+
+
+	------------------------------------------------------------
+
+	Word: convention
+	Filters: NONE
+	Entries found: 6
+
+
+	------------------------------------------------------------
+
+	Word: conventional
+	Filters: NONE
+	Entries found: 6
+
+
+	------------------------------------------------------------
+
+	Word: conventions
+	Filters: NONE
+	Entries found: 1
+
+
+	------------------------------------------------------------
+
+	Word: convergence
+	Filters: NONE
+	Entries found: 8
+
+
+	------------------------------------------------------------
+
+	Word: conversation
+	Filters: NONE
+	Entries found: 7
+
+
+	------------------------------------------------------------
+
+	Word: conversations
+	Filters: NONE
+	Entries found: 2
+
+
+	------------------------------------------------------------
+
+	Word: conversion
+	Filters: NONE
+	Entries found: 10
+
+
+	------------------------------------------------------------
+
+	Word: convert
+	Filters: NONE
+	Entries found: 20
+
+
+	------------------------------------------------------------
+
+	Word: converted
+	Filters: NONE
+	Entries found: 1
+
+
+	------------------------------------------------------------
+
+	Word: converter
+	Filters: NONE
+	Entries found: 5
+
+
+	------------------------------------------------------------
+
+	Word: convertible
+	Filters: NONE
+	Entries found: 15
+
+
+	------------------------------------------------------------
+
+	Word: convicted
+	Warning: no entry for 'convicted'.
+
+	------------------------------------------------------------
+
+	Word: conviction
+	Filters: NONE
+	Entries found: 4
+
+
+	------------------------------------------------------------
+
+	Word: convinced
+	Filters: NONE
+	Entries found: 1
+
+
+	------------------------------------------------------------
+
+	Word: cook
+	Filters: NONE
+	Entries found: 15
+
+
+	------------------------------------------------------------
+
+	Word: cookbook
+	Filters: NONE
+	Entries found: 2
+
+
+	------------------------------------------------------------
+
+	Word: cooked
+	Filters: NONE
+	Entries found: 6
+
+
+	------------------------------------------------------------
+
+	Word: cookie
+	Filters: NONE
+	Entries found: 1
+
+
+	------------------------------------------------------------
+
+	Word: cookies
+	Filters: NONE
+	Entries found: 1
+
+
+	------------------------------------------------------------
+
+	Word: cooking
+	Filters: NONE
+	Entries found: 7
+
+
+	------------------------------------------------------------
+
+	Word: cool
+	Filters: NONE
+	Entries found: 19
+
+
+	------------------------------------------------------------
+
+	Word: cooler
+	Filters: NONE
+	Entries found: 7
+
+
+	------------------------------------------------------------
+
+	Word: cooling
+	Filters: NONE
+	Entries found: 5
+
+
+	------------------------------------------------------------
+
+	Word: cooper
+	Filters: NONE
+	Entries found: 3
+
+
+	------------------------------------------------------------
+
+	Word: cooperation
+	Filters: NONE
+	Entries found: 3
+
+
+	------------------------------------------------------------
+
+	Word: cooperative
+	Filters: NONE
+	Entries found: 3
+
+
+	------------------------------------------------------------
+
+	Word: coordinate
+	Warning: no entry for 'coordinate'.
+
+	------------------------------------------------------------
+
+	Word: coordinated
+	Warning: no entry for 'coordinated'.
+
+	------------------------------------------------------------
+
+	Word: coordinates
+	Warning: no entry for 'coordinates'.
+
+	------------------------------------------------------------
+
+	Word: coordination
+	Warning: no entry for 'coordination'.
+
+	------------------------------------------------------------
+
+	Word: coordinator
+	Warning: no entry for 'coordinator'.
+
+	------------------------------------------------------------
+
+	Word: cop
+	Filters: NONE
+	Entries found: 15
+
+
+	------------------------------------------------------------
+
+	Word: cope
+	Filters: NONE
+	Entries found: 15
+
+
+	------------------------------------------------------------
+
+	Word: copied
+	Warning: no entry for 'copied'.
+
+	------------------------------------------------------------
+
+	Word: copies
+	Filters: NONE
+	Entries found: 2
+
+
+	------------------------------------------------------------
+
+	Word: copper
+	Filters: NONE
+	Entries found: 3
+
+
+	------------------------------------------------------------
+
+	Word: copy
+	Filters: NONE
+	Entries found: 13
+
+
+	------------------------------------------------------------
+
+	Word: copying
+	Filters: NONE
+	Entries found: 3
+
+
+	------------------------------------------------------------
+
+	Word: copyright
+	Filters: NONE
+	Entries found: 2
+
+
+	------------------------------------------------------------
+
+	Word: copyrighted
+	Filters: NONE
+	Entries found: 2
+
+
+	------------------------------------------------------------
+
+	Word: copyrights
+	Filters: NONE
+	Entries found: 2
+
+
+	------------------------------------------------------------
+
+	Word: coral
+	Filters: NONE
+	Entries found: 3
+
+
+	------------------------------------------------------------
+
+	Word: cord
+	Filters: NONE
+	Entries found: 7
+
+
+	------------------------------------------------------------
+
+	Word: cordless
+	Filters: NONE
+	Entries found: 1
+
+
+	------------------------------------------------------------
+
+	Word: core
+	Filters: NONE
+	Entries found: 27
+
+
+	------------------------------------------------------------
+
+	Word: cork
+	Filters: NONE
+	Entries found: 7
+
+
+	------------------------------------------------------------
+
+	Word: corn
+	Filters: NONE
+	Entries found: 11
+
+
+	------------------------------------------------------------
+
+	Word: cornell
+	Warning: no entry for 'cornell'.
+
+	------------------------------------------------------------
+
+	Word: corner
+	Filters: NONE
+	Entries found: 19
+
+
+	------------------------------------------------------------
+
+	Word: corners
+	Filters: NONE
+	Entries found: 2
+
+
+	------------------------------------------------------------
+
+	Word: cornwall
+	Warning: no entry for 'cornwall'.
+
+	------------------------------------------------------------
+
+	Word: corp
+	Filters: NONE
+	Entries found: 2
+
+
+	------------------------------------------------------------
+
+	Word: corporate
+	Filters: NONE
+	Entries found: 8
+
+
+	------------------------------------------------------------
+
+	Word: corporation
+	Filters: NONE
+	Entries found: 4
+
+
+	------------------------------------------------------------
+
+	Word: corporations
+	Filters: NONE
+	Entries found: 1
+
+
+	------------------------------------------------------------
+
+	Word: corps
+	Filters: NONE
+	Entries found: 3
+
+
+	------------------------------------------------------------
+
+	Word: corpus
+	Filters: NONE
+	Entries found: 3
+
+
+	------------------------------------------------------------
+
+	Word: correct
+	Filters: NONE
+	Entries found: 6
+
+
+	------------------------------------------------------------
+
+	Word: corrected
+	Filters: NONE
+	Entries found: 1
+
+
+	------------------------------------------------------------
+
+	Word: correction
+	Filters: NONE
+	Entries found: 6
+
+
+	------------------------------------------------------------
+
+	Word: corrections
+	Filters: NONE
+	Entries found: 1
+
+
+	------------------------------------------------------------
+
+	Word: correctly
+	Filters: NONE
+	Entries found: 1
+
+
+	------------------------------------------------------------
+
+	Word: correlation
+	Warning: no entry for 'correlation'.
+
+	------------------------------------------------------------
+
+	Word: correspondence
+	Filters: NONE
+	Entries found: 1
+
+
+	------------------------------------------------------------
+
+	Word: corresponding
+	Warning: no entry for 'corresponding'.
+
+	------------------------------------------------------------
+
+	Word: corruption
+	Filters: NONE
+	Entries found: 8
+
+
+	------------------------------------------------------------
+
+	Word: cos
+	Filters: NONE
+	Entries found: 3
+
+
+	------------------------------------------------------------
+
+	Word: cosmetic
+	Filters: NONE
+	Entries found: 4
+
+
+	------------------------------------------------------------
+
+	Word: cosmetics
+	Filters: NONE
+	Entries found: 2
+
+
+	------------------------------------------------------------
+
+	Word: cost
+	Filters: NONE
+	Entries found: 10
+
+
+	------------------------------------------------------------
+
+	Word: costa
+	Filters: NONE
+	Entries found: 3
+
+
+	------------------------------------------------------------
+
+	Word: costs
+	Filters: NONE
+	Entries found: 2
+
+
+	------------------------------------------------------------
+
+	Word: costume
+	Filters: NONE
+	Entries found: 3
+
+
+	------------------------------------------------------------
+
+	Word: costumes
+	Filters: NONE
+	Entries found: 2
+
+
+	------------------------------------------------------------
+
+	Word: cottage
+	Filters: NONE
+	Entries found: 6
+
+
+	------------------------------------------------------------
+
+	Word: cottages
+	Filters: NONE
+	Entries found: 2
+
+
+	------------------------------------------------------------
+
+	Word: cotton
+	Filters: NONE
+	Entries found: 9
+
+
+	------------------------------------------------------------
+
+	Word: could
+	Filters: NONE
+	Entries found: 6
+
+
+	------------------------------------------------------------
+
+	Word: council
+	Filters: NONE
+	Entries found: 2
+
+
+	------------------------------------------------------------
+
+	Word: councils
+	Filters: NONE
+	Entries found: 1
+
+
+	------------------------------------------------------------
+
+	Word: counsel
+	Filters: NONE
+	Entries found: 8
+
+
+	------------------------------------------------------------
+
+	Word: counseling
+	Warning: no entry for 'counseling'.
+
+	------------------------------------------------------------
+
+	Word: count
+	Filters: NONE
+	Entries found: 14
+
+
+	------------------------------------------------------------
+
+	Word: counted
+	Warning: no entry for 'counted'.
+
+	------------------------------------------------------------
+
+	Word: counter
+	Filters: NONE
+	Entries found: 33
+
+
+	------------------------------------------------------------
+
+	Word: counters
+	Filters: NONE
+	Entries found: 2
+
+
+	------------------------------------------------------------
+
+	Word: counties
+	Filters: NONE
+	Entries found: 1
+
+
+	------------------------------------------------------------
+
+	Word: counting
+	Filters: NONE
+	Entries found: 2
+
+
+	------------------------------------------------------------
+
+	Word: countries
+	Filters: NONE
+	Entries found: 1
+
+
+	------------------------------------------------------------
+
+	Word: country
+	Filters: NONE
+	Entries found: 6
+
+
+	------------------------------------------------------------
+
+	Word: counts
+	Filters: NONE
+	Entries found: 3
+
+
+	------------------------------------------------------------
+
+	Word: county
+	Filters: NONE
+	Entries found: 3
+
+
+	------------------------------------------------------------
+
+	Word: couple
+	Filters: NONE
+	Entries found: 10
+
+
+	------------------------------------------------------------
+
+	Word: coupled
+	Filters: NONE
+	Entries found: 1
+
+
+	------------------------------------------------------------
+
+	Word: couples
+	Filters: NONE
+	Entries found: 2
+
+
+	------------------------------------------------------------
+
+	Word: coupon
+	Filters: NONE
+	Entries found: 7
+
+
+	------------------------------------------------------------
+
+	Word: coupons
+	Filters: NONE
+	Entries found: 1
+
+
+	------------------------------------------------------------
+
+	Word: courage
+	Filters: NONE
+	Entries found: 3
+
+
+	------------------------------------------------------------
+
+	Word: courier
+	Warning: no entry for 'courier'.
+
+	------------------------------------------------------------
+
+	Word: course
+	Filters: NONE
+	Entries found: 23
+
+
+	------------------------------------------------------------
+
+	Word: courses
+	Filters: NONE
+	Entries found: 3
+
+
+	------------------------------------------------------------
+
+	Word: court
+	Filters: NONE
+	Entries found: 22
+
+
+	------------------------------------------------------------
+
+	Word: courtesy
+	Warning: no entry for 'courtesy'.
+
+	------------------------------------------------------------
+
+	Word: courts
+	Filters: NONE
+	Entries found: 2
+
+
+	------------------------------------------------------------
+
+	Word: cove
+	Filters: NONE
+	Entries found: 10
+
+
+	------------------------------------------------------------
+
+	Word: cover
+	Filters: NONE
+	Entries found: 31
+
+
+	------------------------------------------------------------
+
+	Word: coverage
+	Filters: NONE
+	Entries found: 7
+
+
+	------------------------------------------------------------
+
+	Word: covered
+	Filters: NONE
+	Entries found: 4
+
+
+	------------------------------------------------------------
+
+	Word: covering
+	Filters: NONE
+	Entries found: 2
+
+
+	------------------------------------------------------------
+
+	Word: covers
+	Filters: NONE
+	Entries found: 5
+
+
+	------------------------------------------------------------
+
+	Word: cow
+	Filters: NONE
+	Entries found: 9
+
+
+	------------------------------------------------------------
+
+	Word: cowboy
+	Filters: NONE
+	Entries found: 3
+
+
+	------------------------------------------------------------
+
+	Word: cox
+	Filters: NONE
+	Entries found: 2
+
+
+	------------------------------------------------------------
+
+	Word: cp
+	Filters: NONE
+	Entries found: 2
+
+
+	------------------------------------------------------------
+
+	Word: cpu
+	Warning: no entry for 'cpu'.
+
+	------------------------------------------------------------
+
+	Word: cr
+	Filters: NONE
+	Entries found: 1
+
+
+	------------------------------------------------------------
+
+	Word: crack
+	Filters: NONE
+	Entries found: 44
+
+
+	------------------------------------------------------------
+
+	Word: cradle
+	Filters: NONE
+	Entries found: 21
+
+
+	------------------------------------------------------------
+
+	Word: craft
+	Filters: NONE
+	Entries found: 19
+
+
+	------------------------------------------------------------
+
+	Word: crafts
+	Filters: NONE
+	Entries found: 2
+
+
+	------------------------------------------------------------
+
+	Word: craig
+	Filters: NONE
+	Entries found: 1
+
+
+	------------------------------------------------------------
+
+	Word: crap
+	Filters: NONE
+	Entries found: 10
+
+
+	------------------------------------------------------------
+
+	Word: craps
+	Filters: NONE
+	Entries found: 4
+
+
+	------------------------------------------------------------
+
+	Word: crash
+	Filters: NONE
+	Entries found: 20
+
+
+	------------------------------------------------------------
+
+	Word: crawford
+	Warning: no entry for 'crawford'.
+
+	------------------------------------------------------------
+
+	Word: crazy
+	Filters: NONE
+	Entries found: 10
+
+
+	------------------------------------------------------------
+
+	Word: cream
+	Filters: NONE
+	Entries found: 14
+
+
+	------------------------------------------------------------
+
+	Word: create
+	Filters: NONE
+	Entries found: 9
+
+
+	------------------------------------------------------------
+
+	Word: created
+	Filters: NONE
+	Entries found: 1
+
+
+	------------------------------------------------------------
+
+	Word: creates
+	Filters: NONE
+	Entries found: 1
+
+
+	------------------------------------------------------------
+
+	Word: creating
+	Filters: NONE
+	Entries found: 2
+
+
+	------------------------------------------------------------
+
+	Word: creation
+	Filters: NONE
+	Entries found: 3
+
+
+	------------------------------------------------------------
+
+	Word: creations
+	Filters: NONE
+	Entries found: 1
+
+
+	------------------------------------------------------------
+
+	Word: creative
+	Filters: NONE
+	Entries found: 5
+
+
+	------------------------------------------------------------
+
+	Word: creativity
+	Filters: NONE
+	Entries found: 1
+
+
+	------------------------------------------------------------
+
+	Word: creator
+	Filters: NONE
+	Entries found: 3
+
+
+	------------------------------------------------------------
+
+	Word: creature
+	Filters: NONE
+	Entries found: 4
+
+
+	------------------------------------------------------------
+
+	Word: creatures
+	Filters: NONE
+	Entries found: 1
+
+
+	------------------------------------------------------------
+
+	Word: credit
+	Filters: NONE
+	Entries found: 14
+
+
+	------------------------------------------------------------
+
+	Word: credits
+	Filters: NONE
+	Entries found: 2
+
+
+	------------------------------------------------------------
+
+	Word: creek
+	Filters: NONE
+	Entries found: 3
+
+
+	------------------------------------------------------------
+
+	Word: crest
+	Filters: NONE
+	Entries found: 14
+
+
+	------------------------------------------------------------
+
+	Word: crew
+	Filters: NONE
+	Entries found: 16
+
+
+	------------------------------------------------------------
+
+	Word: cricket
+	Filters: NONE
+	Entries found: 7
+
+
+	------------------------------------------------------------
+
+	Word: crime
+	Filters: NONE
+	Entries found: 6
+
+
+	------------------------------------------------------------
+
+	Word: crimes
+	Filters: NONE
+	Entries found: 1
+
+
+	------------------------------------------------------------
+
+	Word: criminal
+	Filters: NONE
+	Entries found: 5
+
+
+	------------------------------------------------------------
+
+	Word: crisis
+	Filters: NONE
+	Entries found: 5
+
+
+	------------------------------------------------------------
+
+	Word: criteria
+	Warning: no entry for 'criteria'.
+
+	------------------------------------------------------------
+
+	Word: criterion
+	Warning: no entry for 'criterion'.
+
+	------------------------------------------------------------
+
+	Word: critical
+	Filters: NONE
+	Entries found: 7
+
+
+	------------------------------------------------------------
+
+	Word: criticism
+	Filters: NONE
+	Entries found: 2
+
+
+	------------------------------------------------------------
+
+	Word: critics
+	Filters: NONE
+	Entries found: 1
+
+
+	------------------------------------------------------------
+
+	Word: crm
+	Warning: no entry for 'crm'.
+
+	------------------------------------------------------------
+
+	Word: croatia
+	Warning: no entry for 'croatia'.
+
+	------------------------------------------------------------
+
+	Word: crop
+	Filters: NONE
+	Entries found: 18
+
+
+	------------------------------------------------------------
+
+	Word: crops
+	Warning: no entry for 'crops'.
+
+	------------------------------------------------------------
+
+	Word: cross
+	Filters: NONE
+	Entries found: 31
+
+
+	------------------------------------------------------------
+
+	Word: crossing
+	Filters: NONE
+	Entries found: 10
+
+
+	------------------------------------------------------------
+
+	Word: crossword
+	Filters: NONE
+	Entries found: 1
+
+
+	------------------------------------------------------------
+
+	Word: crowd
+	Filters: NONE
+	Entries found: 14
+
+
+	------------------------------------------------------------
+
+	Word: crown
+	Filters: NONE
+	Entries found: 50
+
+
+	------------------------------------------------------------
+
+	Word: crucial
+	Filters: NONE
+	Entries found: 3
+
+
+	------------------------------------------------------------
+
+	Word: crude
+	Filters: NONE
+	Entries found: 8
+
+
+	------------------------------------------------------------
+
+	Word: cruise
+	Filters: NONE
+	Entries found: 10
+
+
+	------------------------------------------------------------
+
+	Word: cruises
+	Filters: NONE
+	Entries found: 2
+
+
+	------------------------------------------------------------
+
+	Word: cruz
+	Warning: no entry for 'cruz'.
+
+	------------------------------------------------------------
+
+	Word: cry
+	Filters: NONE
+	Entries found: 14
+
+
+	------------------------------------------------------------
+
+	Word: crystal
+	Filters: NONE
+	Entries found: 6
+
+
+	------------------------------------------------------------
+
+	Word: cs
+	Filters: NONE
+	Entries found: 1
+
+
+	------------------------------------------------------------
+
+	Word: css
+	Warning: no entry for 'css'.
+
+	------------------------------------------------------------
+
+	Word: cst
+	Warning: no entry for 'cst'.
+
+	------------------------------------------------------------
+
+	Word: ct
+	Warning: no entry for 'ct'.
+
+	------------------------------------------------------------
+
+	Word: cu
+	Warning: no entry for 'cu'.
+
+	------------------------------------------------------------
+
+	Word: cuba
+	Warning: no entry for 'cuba'.
+
+	------------------------------------------------------------
+
+	Word: cube
+	Filters: NONE
+	Entries found: 5
+
+
+	------------------------------------------------------------
+
+	Word: cubic
+	Filters: NONE
+	Entries found: 3
+
+
+	------------------------------------------------------------
+
+	Word: cuisine
+	Filters: NONE
+	Entries found: 3
+
+
+	------------------------------------------------------------
+
+	Word: cult
+	Filters: NONE
+	Entries found: 6
+
+
+	------------------------------------------------------------
+
+	Word: cultural
+	Filters: NONE
+	Entries found: 1
+
+
+	------------------------------------------------------------
+
+	Word: culture
+	Filters: NONE
+	Entries found: 11
+
+
+	------------------------------------------------------------
+
+	Word: cultures
+	Filters: NONE
+	Entries found: 2
+
+
+	------------------------------------------------------------
+
+	Word: cum
+	Filters: NONE
+	Entries found: 8
+
+
+	------------------------------------------------------------
+
+	Word: cumshot
+	Filters: NONE
+	Entries found: 3
+
+
+	------------------------------------------------------------
+
+	Word: cumshots
+	Filters: NONE
+	Entries found: 1
+
+
+	------------------------------------------------------------
+
+	Word: cumulative
+	Filters: NONE
+	Entries found: 6
+
+
+	------------------------------------------------------------
+
+	Word: cunt
+	Filters: NONE
+	Entries found: 6
+
+
+	------------------------------------------------------------
+
+	Word: cup
+	Filters: NONE
+	Entries found: 20
+
+
+	------------------------------------------------------------
+
+	Word: cups
+	Filters: NONE
+	Entries found: 3
+
+
+	------------------------------------------------------------
+
+	Word: cure
+	Filters: NONE
+	Entries found: 18
+
+
+	------------------------------------------------------------
+
+	Word: curious
+	Filters: NONE
+	Entries found: 6
+
+
+	------------------------------------------------------------
+
+	Word: currencies
+	Filters: NONE
+	Entries found: 1
+
+
+	------------------------------------------------------------
+
+	Word: currency
+	Filters: NONE
+	Entries found: 5
+
+
+	------------------------------------------------------------
+
+	Word: current
+	Filters: NONE
+	Entries found: 7
+
+
+	------------------------------------------------------------
+
+	Word: currently
+	Filters: NONE
+	Entries found: 1
+
+
+	------------------------------------------------------------
+
+	Word: curriculum
+	Warning: no entry for 'curriculum'.
+
+	------------------------------------------------------------
+
+	Word: cursor
+	Filters: NONE
+	Entries found: 5
+
+
+	------------------------------------------------------------
+
+	Word: curtis
+	Warning: no entry for 'curtis'.
+
+	------------------------------------------------------------
+
+	Word: curve
+	Filters: NONE
+	Entries found: 11
+
+
+	------------------------------------------------------------
+
+	Word: curves
+	Warning: no entry for 'curves'.
+
+	------------------------------------------------------------
+
+	Word: custody
+	Filters: NONE
+	Entries found: 4
+
+
+	------------------------------------------------------------
+
+	Word: custom
+	Filters: NONE
+	Entries found: 11
+
+
+	------------------------------------------------------------
+
+	Word: customer
+	Filters: NONE
+	Entries found: 2
+
+
+	------------------------------------------------------------
+
+	Word: customers
+	Filters: NONE
+	Entries found: 1
+
+
+	------------------------------------------------------------
+
+	Word: customise
+	Warning: no entry for 'customise'.
+
+	------------------------------------------------------------
+
+	Word: customize
+	Filters: NONE
+	Entries found: 1
+
+
+	------------------------------------------------------------
+
+	Word: customized
+	Filters: NONE
+	Entries found: 1
+
+
+	------------------------------------------------------------
+
+	Word: customs
+	Filters: NONE
+	Entries found: 4
+
+
+	------------------------------------------------------------
+
+	Word: cut
+	Filters: NONE
+	Entries found: 69
+
+
+	------------------------------------------------------------
+
+	Word: cute
+	Filters: NONE
+	Entries found: 5
+
+
+	------------------------------------------------------------
+
+	Word: cuts
+	Filters: NONE
+	Entries found: 3
+
+
+	------------------------------------------------------------
+
+	Word: cutting
+	Filters: NONE
+	Entries found: 11
+
+
+	------------------------------------------------------------
+
+	Word: cv
+	Warning: no entry for 'cv'.
+
+	------------------------------------------------------------
+
+	Word: cvs
+	Warning: no entry for 'cvs'.
+
+	------------------------------------------------------------
+
+	Word: cw
+	Warning: no entry for 'cw'.
+
+	------------------------------------------------------------
+
+	Word: cyber
+	Warning: no entry for 'cyber'.
+
+	------------------------------------------------------------
+
+	Word: cycle
+	Filters: NONE
+	Entries found: 16
+
+
+	------------------------------------------------------------
+
+	Word: cycles
+	Filters: NONE
+	Entries found: 2
+
+
+	------------------------------------------------------------
+
+	Word: cycling
+	Filters: NONE
+	Entries found: 5
+
+
+	------------------------------------------------------------
+
+	Word: cylinder
+	Filters: NONE
+	Entries found: 6
+
+
+	------------------------------------------------------------
+
+	Word: cyprus
+	Warning: no entry for 'cyprus'.
+
+	------------------------------------------------------------
+
+	Word: czech
+	Warning: no entry for 'czech'.
+
+	------------------------------------------------------------
+
+	Word: daddy
+	Filters: NONE
+	Entries found: 5
+
+
+	------------------------------------------------------------
+
+	Word: dakota
+	Warning: no entry for 'dakota'.
+
+	------------------------------------------------------------
+
+	Word: damage
+	Filters: NONE
+	Entries found: 3
+
+
+	------------------------------------------------------------
+
+	Word: assistance
+	Filters: NONE
+	Entries found: 1
+
+
+	------------------------------------------------------------
+
+	Word: assistant
+	Filters: NONE
+	Entries found: 5
+
+
+	------------------------------------------------------------
+
+	Word: assisted
+	Filters: NONE
+	Entries found: 1
+
+
+	------------------------------------------------------------
+
+	Word: assists
+	Filters: NONE
+	Entries found: 2
+
+
+	------------------------------------------------------------
+
+	Word: associate
+	Warning: no entry for 'associate'.
+
+	------------------------------------------------------------
+
+	Word: associated
+	Warning: no entry for 'associated'.
+
+	------------------------------------------------------------
+
+	Word: associates
+	Warning: no entry for 'associates'.

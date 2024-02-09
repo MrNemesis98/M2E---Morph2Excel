@@ -1,0 +1,13 @@
+Morph2Excel Log from 08_02_2024_(23_59_49)
+
+	------------------------------------------------------------
+
+	Word: feeling
+	Filters: NONE
+	Entries found: 6
+
+
+	------------------------------------------------------------
+
+	Word: graet
+	Warning: no entry for 'graet'.

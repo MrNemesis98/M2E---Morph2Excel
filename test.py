@@ -29,7 +29,7 @@ print("Helloo World!")
 # Rufe die Funktion auf, um die Fenstergröße zu setzen (z.B., 800x600)
 set_console_window_size(800, 600)
 """
-
+"""
 import time
 import sys
 
@@ -42,3 +42,25 @@ for char in text:
 
 # Füge eine neue Zeile am Ende hinzu
 print()
+"""
+import time
+
+# Vor der Suche
+start_time = time.time()
+
+# Dein Suchprozess hier
+
+# Nach der Suche
+end_time = time.time()
+
+# Zeitdifferenz in Minuten und Sekunden berechnen
+elapsed_time_seconds = end_time - start_time
+elapsed_minutes = int(elapsed_time_seconds // 60)
+elapsed_seconds = int(elapsed_time_seconds % 60)
+elapsed_seconds_formatted = "{:02d}".format(elapsed_seconds)
+print(f"Die Suche dauerte {elapsed_minutes} Minuten und {elapsed_seconds} Sekunden.")
+
+
+
+
+

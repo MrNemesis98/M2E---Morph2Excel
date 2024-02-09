@@ -1,4 +1,3 @@
-import socket
 import sys
 import os
 import urllib.request
@@ -6,14 +5,68 @@ import datetime
 import openpyxl
 import time
 import pandas as pd
-import requests
+import re
 
 import notification_sound_player as NSP
 from PyQt5.QtWidgets import QApplication, QFileDialog
 from openpyxl.styles import Font, Color
-from urllib3.exceptions import NewConnectionError
 
 import savedata_manager as SDM
+
+
+def is_valid_input(i):
+    if i == "":
+        return False
+    pos = []
+    if ":" in i:
+        pos = i.split(":")
+        i = pos[0]
+        pos.pop(0)
+
+    allowed_inputs = ['exit!', 'set!', 's!', 'i!', 'v!', 'c!', '?', ]
+    for char in i:
+        if not (char.isalpha() or i in allowed_inputs):
+            print("\n\t\033[91mWarning:\033[0m Invalid input!"
+                  "\n\n\tFor typing in the term please use standard characters only. No numbers."
+                  "\n\tSpecial signs are only allowed as described in the instructions.")
+            time.sleep(8)
+            return False
+
+    allowed_pos_filters = ['noun', 'verb', 'adjective', 'adverb', 'preposition', 'phrase']
+    for filter in pos:
+        if not filter in allowed_pos_filters:
+            print("\n\t\033[91mWarning:\033[0m Invalid input!"
+                  "\n\n\tPlease use valid pos filters only."
+                  "\n\tMore information can be found in the instructions.")
+            time.sleep(8)
+            return False
+
+    return True
+
+
+def is_valid_scan(i):
+    if i == "":
+        return False
+
+    for char in i:
+        if not char.isalpha():
+            return False
+
+    return True
+
+
+def measure_time(start, end, search=True):
+    # Zeitdifferenz in Minuten und Sekunden berechnen
+    elapsed_time_seconds = end - start
+    elapsed_minutes = int(elapsed_time_seconds // 60)
+    elapsed_seconds = int(elapsed_time_seconds % 60)
+    elapsed_seconds_formatted = "{:02d}".format(elapsed_seconds)
+    if search:
+        return (f"\t\033[92mTime needed for search:\033[0m {elapsed_minutes} minutes and "
+                f"{elapsed_seconds_formatted} seconds.")
+    else:
+        return (f"\t\033[92mTime needed for scan:\033[0m "
+                f"{elapsed_minutes} minutes and {elapsed_seconds_formatted} seconds.")
 
 
 def print_opening(version):
@@ -24,7 +77,7 @@ def print_opening(version):
 def print_main_menu(version):
     os.system('cls')
     print("\033[92m" + "\n\tMorph2Excel ~ Version " + version + "\033[0m"
-          "\n\n\t\033[92mMain Menu\033[0m"
+          "\n\n\t\033[92m\t\tMain Menu\033[0m"
           "\n\t\033[92m----------------------------------------------------------------\033[0m")
 
     NSP.play_mp3("./src/data/GUI_sound/Signal.mp3")
@@ -79,7 +132,7 @@ def print_main_menu(version):
         '\n\n\t\033[97mFurther options:\033[0m'
         '\n\tA) For an \033[32minstructions\033[0m overview type \033[32mi!\033[0m instead of a term.'
         '\n\tB) For a \033[95mversion description\033[0m type \033[95mv!\033[0m instead of a term.'
-        '\n\tC) For \033[93msettings\033[0m type \033[93ms!\033[0m instead of a term.\t\t\t\033[93m<- New!\033[0m'
+        '\n\tC) For \033[93msettings\033[0m type \033[93mset!\033[0m instead of a term.\t\t\t\033[93m<- New!\033[0m'
         '\n\tD) For \033[91mending the program\033[0m type \033[91mexit!\033[0m instead of a term.'
 
         '\n\n\t\033[97mCurrent settings:\033[0m',
@@ -164,7 +217,7 @@ def download_database(url):
             stop = True
         except Exception:
             print_opening(version="2.3c")
-            print("\n\tDownload not possible: No internet connection!"
+            print("\n\tDownload not possible: \033[91mNo internet connection!\033[0m"
                   "\n\tYou can try again by pressing enter."
                   '\n\tAlternatively you can end the program by typing "exit!".')
             normal = False
@@ -332,6 +385,8 @@ def search_and_output(worksheet, excel_row, pos_filters, term, entries_list,
                       only_found_terms, only_not_found_terms, multiline_output, output_detail_level,
                       headline_printing, hap):
 
+    pos_filters = pos_filters.split(",")
+
     # Set the color for blue entries
     blue_color = "0000FF"
     blue_font = Font(color=Color(rgb=blue_color))
@@ -349,7 +404,7 @@ def search_and_output(worksheet, excel_row, pos_filters, term, entries_list,
         if len(pos_filters) == 6:
             worksheet[filter_cell] = "NONE"
         else:
-            worksheet[filter_cell] = str(pos_filters)
+            worksheet[filter_cell] = str(pos_filters[0])
 
     # Begin writing term to Excel file ---------------------------------------------------------------------------------
 
@@ -648,7 +703,15 @@ def autoscan(excel_file, duplicates=False, abc=True, abc_ascending=True):
         else:
             terms = sorted(terms, reverse=True)     # alphabetical order (descending)
 
-    return terms
+    invalid_terms = []
+    for term in terms:
+        if not is_valid_scan(term):
+            terms.pop(terms.index(term))
+            invalid_terms.append(term)
+
+    terms = [term.lower() for term in terms]
+
+    return terms, invalid_terms
 
 
 def write_comparison_result_excel(worksheet, file_1, file_2, list_of_terms_1, list_of_terms_2, common_terms_list):
@@ -826,7 +889,7 @@ def display_settings(setting, current_var, current_var_2=""):
               "\n\tthe pos (part of speech) filters for these terms."
               "\n\tThis is based on the concept from the manual search mode."
               "\n\tYou can choose the following pos filter settings:")
-        if current_var == ["Noun"]:
+        if current_var == "Noun":
             print("\n\tOptions:\n\t\t\t\033[93m" + "->" + "\033[0m\t1. Nouns only"
                   "\n\t\t\t\t2. Verbs only"
                   "\n\t\t\t\t3. Adjectives only"
@@ -834,7 +897,7 @@ def display_settings(setting, current_var, current_var_2=""):
                   "\n\t\t\t\t5. Prepositions only"
                   "\n\t\t\t\t6. Phrases only"
                   "\n\t\t\t\t7. All pos types / no restrictions")
-        elif current_var == ["Verb"]:
+        elif current_var == "Verb":
             print("\n\tOptions:\n\t\t\t\t1. Nouns only"
                   "\n\t\t\t\033[93m" + "->" + "\033[0m\t2. Verbs only"
                   "\n\t\t\t\t3. Adjectives only"
@@ -842,7 +905,7 @@ def display_settings(setting, current_var, current_var_2=""):
                   "\n\t\t\t\t5. Prepositions only"
                   "\n\t\t\t\t6. Phrases only"
                   "\n\t\t\t\t7. All pos types / no restrictions")
-        elif current_var == ["Adjective"]:
+        elif current_var == "Adjective":
             print("\n\tOptions:\n\t\t\t\t1. Nouns only"
                   "\n\t\t\t\t2. Verbs only"
                   "\n\t\t\t\033[93m" + "->" + "\033[0m\t3. Adjectives only"
@@ -850,7 +913,7 @@ def display_settings(setting, current_var, current_var_2=""):
                   "\n\t\t\t\t5. Prepositions only"
                   "\n\t\t\t\t6. Phrases only"
                   "\n\t\t\t\t7. All pos types / no restrictions")
-        elif current_var == ["Adverb"]:
+        elif current_var == "Adverb":
             print("\n\tOptions:\n\t\t\t\t1. Nouns only"
                   "\n\t\t\t\t2. Verbs only"
                   "\n\t\t\t\t3. Adjectives only"
@@ -858,7 +921,7 @@ def display_settings(setting, current_var, current_var_2=""):
                   "\n\t\t\t\t5. Prepositions only"
                   "\n\t\t\t\t6. Phrases only"
                   "\n\t\t\t\t7. All pos types / no restrictions")
-        elif current_var == ["Preposition"]:
+        elif current_var == "Preposition":
             print("\n\tOptions:\n\t\t\t\t1. Nouns only"
                   "\n\t\t\t\t2. Verbs only"
                   "\n\t\t\t\t3. Adjectives only"
@@ -866,7 +929,7 @@ def display_settings(setting, current_var, current_var_2=""):
                   "\n\t\t\t\033[93m" + "->" + "\033[0m\t5. Prepositions only"
                   "\n\t\t\t\t6. Phrases only"
                   "\n\t\t\t\t7. All pos types / no restrictions")
-        elif current_var == ["Phrase"]:
+        elif current_var == "Phrase":
             print("\n\tOptions:\n\t\t\t\t1. Nouns only"
                   "\n\t\t\t\t2. Verbs only"
                   "\n\t\t\t\t3. Adjectives only"
@@ -1014,7 +1077,7 @@ def display_settings_after_changes(setting, current_var, current_var_2=""):
               "\n\tthe pos (part of speech) filters for these terms."
               "\n\tThis is based on the concept from the manual search mode."
               "\n\tYou can choose the following pos filter settings:")
-        if current_var == ["Noun"]:
+        if current_var == "Noun":
             print("\n\tOptions:\n\t\t\t\033[92m" + "->" + "\033[0m\t1. Nouns only"
                   "\n\t\t\t\t2. Verbs only"
                   "\n\t\t\t\t3. Adjectives only"
@@ -1022,7 +1085,7 @@ def display_settings_after_changes(setting, current_var, current_var_2=""):
                   "\n\t\t\t\t5. Prepositions only"
                   "\n\t\t\t\t6. Phrases only"
                   "\n\t\t\t\t7. All pos types / no restrictions")
-        elif current_var == ["Verb"]:
+        elif current_var == "Verb":
             print("\n\tOptions:\n\t\t\t\t1. Nouns only"
                   "\n\t\t\t\033[92m" + "->" + "\033[0m\t2. Verbs only"
                   "\n\t\t\t\t3. Adjectives only"
@@ -1030,7 +1093,7 @@ def display_settings_after_changes(setting, current_var, current_var_2=""):
                   "\n\t\t\t\t5. Prepositions only"
                   "\n\t\t\t\t6. Phrases only"
                   "\n\t\t\t\t7. All pos types / no restrictions")
-        elif current_var == ["Adjective"]:
+        elif current_var == "Adjective":
             print("\n\tOptions:\n\t\t\t\t1. Nouns only"
                   "\n\t\t\t\t2. Verbs only"
                   "\n\t\t\t\033[92m" + "->" + "\033[0m\t3. Adjectives only"
@@ -1038,7 +1101,7 @@ def display_settings_after_changes(setting, current_var, current_var_2=""):
                   "\n\t\t\t\t5. Prepositions only"
                   "\n\t\t\t\t6. Phrases only"
                   "\n\t\t\t\t7. All pos types / no restrictions")
-        elif current_var == ["Adverb"]:
+        elif current_var == "Adverb":
             print("\n\tOptions:\n\t\t\t\t1. Nouns only"
                   "\n\t\t\t\t2. Verbs only"
                   "\n\t\t\t\t3. Adjectives only"
@@ -1046,7 +1109,7 @@ def display_settings_after_changes(setting, current_var, current_var_2=""):
                   "\n\t\t\t\t5. Prepositions only"
                   "\n\t\t\t\t6. Phrases only"
                   "\n\t\t\t\t7. All pos types / no restrictions")
-        elif current_var == ["Preposition"]:
+        elif current_var == "Preposition":
             print("\n\tOptions:\n\t\t\t\t1. Nouns only"
                   "\n\t\t\t\t2. Verbs only"
                   "\n\t\t\t\t3. Adjectives only"
@@ -1054,7 +1117,7 @@ def display_settings_after_changes(setting, current_var, current_var_2=""):
                   "\n\t\t\t\033[92m" + "->" + "\033[0m\t5. Prepositions only"
                   "\n\t\t\t\t6. Phrases only"
                   "\n\t\t\t\t7. All pos types / no restrictions")
-        elif current_var == ["Phrase"]:
+        elif current_var == "Phrase":
             print("\n\tOptions:\n\t\t\t\t1. Nouns only"
                   "\n\t\t\t\t2. Verbs only"
                   "\n\t\t\t\t3. Adjectives only"

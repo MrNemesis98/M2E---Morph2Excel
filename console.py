@@ -32,7 +32,7 @@ def set_system_variables_to_default():
     SDM.set_one_line_output(1)
     SDM.set_headline_printing(2)
     SDM.set_alphabetical_output(True, True)
-    auto_scan_filters = SDM.set_auto_scan_filters(["Noun", "Verb", "Adjective", "Adverb", "Preposition", "Phrase"])
+    SDM.set_auto_scan_filters("Noun,Verb,Adjective,Adverb,Preposition,Phrase")
     SDM.set_output_detail_level(3)
 
 
@@ -80,7 +80,7 @@ def check_paths():
                     auto_update = False
                     os.system('cls')
                     CA.print_opening(version="2.3c")
-                    print("\n\n\tDownload completed! (" + str(current_size) + " MB)"
+                    print("\n\n\t\033[32mDownload completed!\033[0m (" + str(current_size) + " MB)"
                           "\n\n\tDo you wish to search for terms now? (y/n)")
                     answer = input("\n\tanswer: ")
                     if answer == "n":
@@ -97,7 +97,7 @@ def check_paths():
         except Exception:
             os.system('cls')
             CA.print_opening(version="2.3c")
-            print("\n\tWarning: Database is not installed currently."
+            print("\n\t\033[91mWarning:\033[0m Database is not installed currently."
                   "\n\n\tThis program offers the possibility to download the database automatically."
                   "\n\tBut for the moment there was no internet connection recognized."
                   "\n\tPlease make sure you are connected and restart the program."
@@ -113,7 +113,8 @@ def check_paths():
 
         if current_size < soll_size:
             CA.print_opening(version="2.3c")
-            print("\n\tWarning: the local database file does not cover the expected amount of information!"
+            print("\n\t\033[91mWarning:\033[0m the local database file does not cover the expected amount of "
+                  "information!"
                   "\n\n\t(Expected size: min. " + str(soll_size) + " MB)"
                   "\n\t(Local size: " + str(current_size) + " MB)"
                   "\n\n\tThis may be due to an interruption during the last downloading process."
@@ -139,7 +140,7 @@ def check_paths():
                 auto_update = False
                 os.system('cls')
                 CA.print_opening(version="2.3c")
-                print("\n\n\tDownload completed! (" + str(current_size) + " MB)"
+                print("\n\n\t\033[32mDownload completed!\033[0m (" + str(current_size) + " MB)"
                       "\n\n\tDo you wish to search for terms now? (y/n)")
                 answer = input("\n\tanswer: ")
                 if answer == "n":
@@ -151,7 +152,7 @@ def check_paths():
                 CA.print_exit_without_download()
         else:
             CA.print_opening(version="2.3c")
-            print("\n\tDatabase installed and available.")
+            print("\n\t\033[32mDatabase installed and available.\033[0m")
         time.sleep(3)
 
 
@@ -165,14 +166,22 @@ def check_for_updates():
 
     try:
         url = "https://zenodo.org/record/5172857/files/wiki_morph.json?download=1"
-        response = requests.get(url, stream=True)
+
+        headers = {
+            'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) '
+            'AppleWebKit/537.36 (KHTML, like Gecko) Chrome/58.0.3029.110 Safari/537.3'}
+
+        response = requests.get(url, stream=True, headers=headers, allow_redirects=True)
         remote_size = int(response.headers.get("Content-Length", 0))
         remote_size = int(remote_size / (1024 * 1024))
+        print("\tResponse Status Code:", "\033[91m", response.status_code, "\033[0m")
+        time.sleep(2)
+
 
         if remote_size == 0:
             os.system('cls')
             CA.print_opening(version="2.3c")
-            print("\n\tUpdate check not possible: Server does not provide required information!"
+            print("\n\tUpdate check not possible: \033[91mServer does not provide required information!\033[0m"
                   "\n\tLast recent locally installed version will be used.")
             time.sleep(7)
         else:
@@ -201,10 +210,11 @@ def check_for_updates():
                 CA.print_opening(version="2.3c")
                 print("\n\tThe installed database is up to date!")
                 time.sleep(3)
-    except Exception:
+    except Exception as e:
         CA.print_opening(version="2.3c")
         print("\n\tUpdate check not possible: No internet connection!"
               "\n\tLast recent locally installed version will be used.")
+        print("Exception:", e)
         time.sleep(5)
 
 
@@ -242,7 +252,7 @@ def search_for_terms(log_title, workbook_title):
         if print_opening_again:
             CA.print_main_menu(version="2.3c")
             print_opening_again = False
-        i = input("\n\tSearch term: ")
+        i = input("\n\tSearch term: ").lower()
         os.system('cls')
 
         if i == "exit!":
@@ -272,20 +282,33 @@ def search_for_terms(log_title, workbook_title):
 
             open_excel_automatically = True
             os.system('cls')
-            print("\n\t- Automatic scan mode -"
+            print("\n\t\033[38;5;130m- Automatic scan mode -\033[0m"
                   "\n\n\tPlease select an excel file to scan for possible terms.")
             time.sleep(1.5)
             file = CA.select_excel_file()
-            terms = CA.autoscan(file, duplicates=False, abc=alphabetical_output, abc_ascending=abc_output_ascending)
-            number_of_terms = len(terms)
-            status = "\n\t- Automatic scan mode -" \
+            start_time = time.time()
+            terms, invalid_cases = CA.autoscan(file, duplicates=True, abc=alphabetical_output, abc_ascending=abc_output_ascending)
+            end_time = time.time()
+            number_of_terms = len(terms) + len(invalid_cases)
+            number_of_valid_cases = len(terms)
+            status = "\n\t\033[38;5;130m- Automatic scan mode -\033[0m" \
                      "\n\n\tExcel file: " + file +\
-                     "\n\tFound terms: " + str(number_of_terms)
-            time.sleep(2)
+                     "\n\tFound terms: " + str(number_of_terms) +\
+                     "\n\tValid cases: " + str(number_of_valid_cases) +\
+                     "\n\tPos filters: " + str(auto_scan_filters)
+
+            time.sleep(1)
             os.system('cls')
             print(status)
-            print("\n\tThe terms will now be searched in the database.")
-            time.sleep(2)
+            print("\n\t", CA.measure_time(start_time, end_time, search=False))
+            time.sleep(3)
+            if not invalid_cases == []:
+                print("\n\t\033[91mWarning:\033[0m Scanned file contains terms that are invalid inputs!"
+                      "\n\n\tFor searching within the wikimorph database the following terms will be ignored:"
+                      "\n\t\t", str(invalid_cases))
+                input("\n\tType in anything to start the search: ")
+            print("\n\t\033[92mThe valid terms will now be searched in the database.\033[0m")
+            time.sleep(3)
 
             # for preventing double headline printing at the beginning of the Excel
             # only executes the "for every new doc" headline printing
@@ -294,13 +317,15 @@ def search_for_terms(log_title, workbook_title):
                 worksheet, excel_row = CA.print_headlines(worksheet, excel_row, output_detail_level)
                 headline_already_printed = True
 
+            start_time = time.time()
+            log = open(log_title, "a", encoding="utf-8")
             if term_output_diplomacy == 1:
-                for x in range(number_of_terms):
+                for x in range(number_of_valid_cases):
                     term = terms[x]
                     os.system('cls')
-                    progress = format(100*(x/number_of_terms), ".2f")
+                    progress = format(100*(x/number_of_valid_cases), ".2f")
                     print(status)
-                    print("\n\tSearching for terms..."
+                    print("\n\t\033[38;5;130mSearching for terms...\033[0m"
                           "\n\tCurrent term: " + term + "\t\tProgress: " + str(progress) + "%")
 
                     worksheet, excel_row, log_output = CA.search_and_output(worksheet=worksheet,
@@ -314,24 +339,20 @@ def search_for_terms(log_title, workbook_title):
                                                                             output_detail_level=output_detail_level,
                                                                             headline_printing=headline_printing,
                                                                             hap=headline_already_printed)
-                    progress = int(50*(x/number_of_terms))
+                    progress = int(50*(x/number_of_valid_cases))
                     progressbar = ("\t[" + "-" * (progress-1) + ">" + " " * (50-(progress+1)) + "]")
                     print(progressbar)
 
-                    log = open(log_title, "a", encoding="utf-8")
                     log.write("\n\n" + log_output)
-                    log.close()
-
-                    workbook.save(workbook_title)
                     headline_already_printed = False
 
             elif term_output_diplomacy == 2:
-                for x in range(number_of_terms):
+                for x in range(number_of_valid_cases):
                     term = terms[x]
                     os.system('cls')
-                    progress = format(100 * (x / number_of_terms), ".2f")
+                    progress = format(100 * (x / number_of_valid_cases), ".2f")
                     print(status)
-                    print("\n\tSearching for terms..."
+                    print("\n\t\033[38;5;130mSearching for terms...\033[0m"
                           "\n\tCurrent term: " + term + "\t\tProgress: " + str(progress) + "%")
 
                     worksheet, excel_row, log_output = CA.search_and_output(worksheet=worksheet,
@@ -345,24 +366,20 @@ def search_for_terms(log_title, workbook_title):
                                                                             output_detail_level=output_detail_level,
                                                                             headline_printing=headline_printing,
                                                                             hap=headline_already_printed)
-                    progress = int(50 * (x / number_of_terms))
+                    progress = int(50 * (x / number_of_valid_cases))
                     progressbar = ("\t[" + "-" * (progress - 1) + ">" + " " * (50 - (progress + 1)) + "]")
                     print(progressbar)
 
-                    log = open(log_title, "a", encoding="utf-8")
                     log.write("\n\n" + log_output)
-                    log.close()
-
-                    workbook.save(workbook_title)
                     headline_already_printed = False
 
             else:
-                for x in range(number_of_terms):
+                for x in range(number_of_valid_cases):
                     term = terms[x]
                     os.system('cls')
-                    progress = format(100 * (x / number_of_terms), ".2f")
+                    progress = format(100 * (x / number_of_valid_cases), ".2f")
                     print(status)
-                    print("\n\tSearching for terms..."
+                    print("\n\t\033[38;5;130mSearching for terms...\033[0m"
                           "\n\tCurrent term: " + term + "\t\tProgress: " + str(progress) + "%")
 
                     worksheet, excel_row, log_output = CA.search_and_output(worksheet=worksheet,
@@ -376,24 +393,28 @@ def search_for_terms(log_title, workbook_title):
                                                                             output_detail_level=output_detail_level,
                                                                             headline_printing=headline_printing,
                                                                             hap=headline_already_printed)
-                    progress = int(50 * (x / number_of_terms))
+                    progress = int(50 * (x / number_of_valid_cases))
                     progressbar = ("\t[" + "-" * (progress - 1) + ">" + " " * (50 - (progress + 1)) + "]")
                     print(progressbar)
 
-                    log = open(log_title, "a", encoding="utf-8")
                     log.write("\n\n" + log_output)
-                    log.close()
-
-                    workbook.save(workbook_title)
                     headline_already_printed = False
 
+            log.close()
+            workbook.save(workbook_title)
+            end_time = time.time()
             os.system('cls')
             print(status)
-            print("\n\tProcess finished!"
-                  "\n\n\tResults will be saved to output when the program ends."
+            print("\n\t\033[92mProcess finished!\033[0m"
+                  "\n\n\t", CA.measure_time(start_time, end_time))
+            time.sleep(6)
+            os.system('cls')
+            print(status)
+            print("\n\t\033[92mProcess finished!\033[0m"
+                  "\n\n\t", CA.measure_time(start_time, end_time),
+                  "\n\n\tResults were saved."
                   "\n\tReturning to manual search mode...")
-
-            time.sleep(7)
+            time.sleep(4)
             os.system('cls')
             NSP.play_mp3("./src/data/GUI_sound/Signal.mp3")
 
@@ -664,50 +685,50 @@ def search_for_terms(log_title, workbook_title):
             i = input("\n\n\tOption number: ")
 
             if i == "1":
-                auto_scan_filters = SDM.set_auto_scan_filters(["Noun"])
-                # auto_scan_filters = SDM.get_auto_scan_filters()
+                SDM.set_auto_scan_filters("Noun")
+                auto_scan_filters = SDM.get_auto_scan_filters()
                 os.system('cls')
                 CA.display_settings_after_changes(6, auto_scan_filters)
                 print("\033[32m" + '\n\t"Noun" is set as pos filter now!\033[0m')
                 time.sleep(4)
             elif i == "2":
-                auto_scan_filters = SDM.set_auto_scan_filters(["Verb"])
-                # auto_scan_filters = SDM.get_auto_scan_filters()
+                SDM.set_auto_scan_filters("Verb")
+                auto_scan_filters = SDM.get_auto_scan_filters()
                 os.system('cls')
                 CA.display_settings_after_changes(6, auto_scan_filters)
                 print("\033[32m" + '\n\t"Verb" is set as pos filter now!\033[0m')
                 time.sleep(4)
             elif i == "3":
-                auto_scan_filters = SDM.set_auto_scan_filters(["Adjective"])
-                # auto_scan_filters = SDM.get_auto_scan_filters()
+                SDM.set_auto_scan_filters("Adjective")
+                auto_scan_filters = SDM.get_auto_scan_filters()
                 os.system('cls')
                 CA.display_settings_after_changes(6, auto_scan_filters)
                 print("\033[32m" + '\n\t"Adjective" is set as pos filter now!\033[0m')
                 time.sleep(4)
             elif i == "4":
-                auto_scan_filters = SDM.set_auto_scan_filters(["Adverb"])
-                # auto_scan_filters = SDM.get_auto_scan_filters()
+                SDM.set_auto_scan_filters("Adverb")
+                auto_scan_filters = SDM.get_auto_scan_filters()
                 os.system('cls')
                 CA.display_settings_after_changes(6, auto_scan_filters)
                 print("\033[32m" + '\n\t"Adverb" is set as pos filter now!\033[0m')
                 time.sleep(4)
             elif i == "5":
-                auto_scan_filters = SDM.set_auto_scan_filters(["Preposition"])
-                # auto_scan_filters = SDM.get_auto_scan_filters()
+                SDM.set_auto_scan_filters("Preposition")
+                auto_scan_filters = SDM.get_auto_scan_filters()
                 os.system('cls')
                 CA.display_settings_after_changes(6, auto_scan_filters)
                 print("\033[32m" + '\n\t"Preposition" is set as pos filter now!\033[0m')
                 time.sleep(4)
             elif i == "6":
-                auto_scan_filters = SDM.set_auto_scan_filters(["Phrase"])
-                # auto_scan_filters = SDM.get_auto_scan_filters()
+                SDM.set_auto_scan_filters("Phrase")
+                auto_scan_filters = SDM.get_auto_scan_filters()
                 os.system('cls')
                 CA.display_settings_after_changes(6, auto_scan_filters)
                 print("\033[32m" + '\n\t"Phrase" is set as pos filter now!\033[0m')
                 time.sleep(4)
             elif i == "7":
-                auto_scan_filters = SDM.set_auto_scan_filters(["Noun", "Verb", "Adjective", "Adverb", "Preposition", "Phrase"])
-                # auto_scan_filters = SDM.get_auto_scan_filters()
+                SDM.set_auto_scan_filters("Noun,Verb,Adjective,Adverb,Preposition,Phrase")
+                auto_scan_filters = SDM.get_auto_scan_filters()
                 os.system('cls')
                 CA.display_settings_after_changes(6, auto_scan_filters)
                 print("\033[32m" + '\n\tAll pos types will be considered now!\033[0m')
@@ -755,72 +776,82 @@ def search_for_terms(log_title, workbook_title):
 
         else:
             # BASIC SEARCH ---------------------------------------------------------------------------------------------
-            if excel_row == 1:
-                worksheet, excel_row = CA.print_headlines(worksheet, excel_row, output_detail_level)
-                headline_already_printed = True
+            if CA.is_valid_input(i):
 
-            open_excel_automatically = True
-            if ":" in i:
-                splitted_input = i.split(":")
-                term = splitted_input[0]
-                pos_filters = []
-                for x in range(1, len(splitted_input)):
-                    pos_filters.append(splitted_input[x])
+                if excel_row == 1:
+                    worksheet, excel_row = CA.print_headlines(worksheet, excel_row, output_detail_level)
+                    headline_already_printed = True
+
+                open_excel_automatically = True
+                if ":" in i:
+                    splitted_input = i.split(":")
+                    term = splitted_input[0]
+                    pos_filters = ""
+                    for x in range(1, len(splitted_input)):
+                        pos_filters += str(splitted_input[x])
+                        if not x == len(splitted_input) - 1:
+                            pos_filters += ","
+                    os.system('cls')
+                    print('\n\tSearching for term "' + term + '" with pos tag (' + pos_filters + ')...')
+                    time.sleep(2)
+                else:
+                    pos_filters = "Noun, Verb, Adjective, Adverb, Preposition, Phrase"
+                    term = i
+                    os.system('cls')
+                    print('\n\tSearching for term "' + term + '" ...')
+                    time.sleep(1)
+                if term_output_diplomacy == 1:
+                    worksheet, excel_row, log_output = CA.search_and_output(worksheet=worksheet,
+                                                                            excel_row=excel_row,
+                                                                            pos_filters=pos_filters,
+                                                                            term=term,
+                                                                            entries_list=entries_list,
+                                                                            only_found_terms=True,
+                                                                            only_not_found_terms=False,
+                                                                            multiline_output=not oneline_output_format,
+                                                                            output_detail_level=output_detail_level,
+                                                                            headline_printing=headline_printing,
+                                                                            hap=headline_already_printed)
+                elif term_output_diplomacy == 2:
+                    worksheet, excel_row, log_output = CA.search_and_output(worksheet=worksheet,
+                                                                            excel_row=excel_row,
+                                                                            pos_filters=pos_filters,
+                                                                            term=term,
+                                                                            entries_list=entries_list,
+                                                                            only_found_terms=False,
+                                                                            only_not_found_terms=True,
+                                                                            multiline_output=not oneline_output_format,
+                                                                            output_detail_level=output_detail_level,
+                                                                            headline_printing=headline_printing,
+                                                                            hap=headline_already_printed)
+                else:
+                    worksheet, excel_row, log_output = CA.search_and_output(worksheet=worksheet,
+                                                                            excel_row=excel_row,
+                                                                            pos_filters=pos_filters,
+                                                                            term=term,
+                                                                            entries_list=entries_list,
+                                                                            only_found_terms=False,
+                                                                            only_not_found_terms=False,
+                                                                            multiline_output=not oneline_output_format,
+                                                                            output_detail_level=output_detail_level,
+                                                                            headline_printing=headline_printing,
+                                                                            hap=headline_already_printed)
+
+                print("\n\tSaving...")
+                time.sleep(1)
+
+                log = open(log_title, "a", encoding="utf-8")
+                log.write("\n\n" + log_output)
+                log.close()
+
+                workbook.save(workbook_title)
+
+                os.system('cls')
+                print("\033[32m" + "\n\tDone!" + "\033[0m")
+                time.sleep(1)
+                os.system('cls')
             else:
-                pos_filters = ["Noun", "Verb", "Adverb", "Adjective", "Preposition", "Phrase"]
-                term = i
-            os.system('cls')
-            print('\n\tSearching for term "' + term + '" ...')
-            time.sleep(1)
-            if term_output_diplomacy == 1:
-                worksheet, excel_row, log_output = CA.search_and_output(worksheet=worksheet,
-                                                                        excel_row=excel_row,
-                                                                        pos_filters=pos_filters,
-                                                                        term=term,
-                                                                        entries_list=entries_list,
-                                                                        only_found_terms=True,
-                                                                        only_not_found_terms=False,
-                                                                        multiline_output=not oneline_output_format,
-                                                                        output_detail_level=output_detail_level,
-                                                                        headline_printing=headline_printing,
-                                                                        hap=headline_already_printed)
-            elif term_output_diplomacy == 2:
-                worksheet, excel_row, log_output = CA.search_and_output(worksheet=worksheet,
-                                                                        excel_row=excel_row,
-                                                                        pos_filters=pos_filters,
-                                                                        term=term,
-                                                                        entries_list=entries_list,
-                                                                        only_found_terms=False,
-                                                                        only_not_found_terms=True,
-                                                                        multiline_output=not oneline_output_format,
-                                                                        output_detail_level=output_detail_level,
-                                                                        headline_printing=headline_printing,
-                                                                        hap=headline_already_printed)
-            else:
-                worksheet, excel_row, log_output = CA.search_and_output(worksheet=worksheet,
-                                                                        excel_row=excel_row,
-                                                                        pos_filters=pos_filters,
-                                                                        term=term,
-                                                                        entries_list=entries_list,
-                                                                        only_found_terms=False,
-                                                                        only_not_found_terms=False,
-                                                                        multiline_output=not oneline_output_format,
-                                                                        output_detail_level=output_detail_level,
-                                                                        headline_printing=headline_printing,
-                                                                        hap=headline_already_printed)
-
-            print("\n\tSaving...")
-            time.sleep(1)
-            os.system('cls')
-
-            log = open(log_title, "a", encoding="utf-8")
-            log.write("\n\n" + log_output)
-            log.close()
-
-            workbook.save(workbook_title)
-            print("\033[32m" + "\n\tDone!" + "\033[0m")
-            time.sleep(1)
-            os.system('cls')
+                print_opening_again = True
 
 
 CA.print_opening(version="2.3c")

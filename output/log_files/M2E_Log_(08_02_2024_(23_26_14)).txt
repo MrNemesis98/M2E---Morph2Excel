@@ -1,0 +1,23 @@
+Morph2Excel Log from 08_02_2024_(23_26_14)
+
+	------------------------------------------------------------
+
+	Word: filter
+	Filters: NONE
+	Entries found: 5
+
+
+	------------------------------------------------------------
+
+	Word: filter
+	Warning: no results for 'filter' with filters 'verb'.
+
+	------------------------------------------------------------
+
+	Word: filter
+	Warning: no results for 'filter' with filters 'noun, verb'.
+
+	------------------------------------------------------------
+
+	Word: filter
+	Warning: no results for 'filter' with filters 'verb323'.

@@ -1,0 +1,505 @@
+Morph2Excel Log from 09_02_2024_(00_36_21)
+
+	------------------------------------------------------------
+
+	Word: Astral
+	Warning: no entry for 'Astral'.
+
+	------------------------------------------------------------
+
+	Word: Astral
+	Warning: no entry for 'Astral'.
+
+	------------------------------------------------------------
+
+	Word: Bliss
+	Warning: no entry for 'Bliss'.
+
+	------------------------------------------------------------
+
+	Word: Bliss
+	Warning: no entry for 'Bliss'.
+
+	------------------------------------------------------------
+
+	Word: Cascade
+	Warning: no entry for 'Cascade'.
+
+	------------------------------------------------------------
+
+	Word: Cascade
+	Warning: no entry for 'Cascade'.
+
+	------------------------------------------------------------
+
+	Word: Cascade
+	Warning: no entry for 'Cascade'.
+
+	------------------------------------------------------------
+
+	Word: Celestial
+	Warning: no entry for 'Celestial'.
+
+	------------------------------------------------------------
+
+	Word: Celestial
+	Warning: no entry for 'Celestial'.
+
+	------------------------------------------------------------
+
+	Word: Celestial
+	Warning: no entry for 'Celestial'.
+
+	------------------------------------------------------------
+
+	Word: Echo
+	Filters: NONE
+	Entries found: 1
+
+
+	------------------------------------------------------------
+
+	Word: Echo
+	Filters: NONE
+	Entries found: 1
+
+
+	------------------------------------------------------------
+
+	Word: Elysium
+	Warning: no entry for 'Elysium'.
+
+	------------------------------------------------------------
+
+	Word: Empyrean
+	Warning: no entry for 'Empyrean'.
+
+	------------------------------------------------------------
+
+	Word: Empyrean
+	Warning: no entry for 'Empyrean'.
+
+	------------------------------------------------------------
+
+	Word: Enchant
+	Warning: no entry for 'Enchant'.
+
+	------------------------------------------------------------
+
+	Word: Enchant
+	Warning: no entry for 'Enchant'.
+
+	------------------------------------------------------------
+
+	Word: Enigma
+	Warning: no entry for 'Enigma'.
+
+	------------------------------------------------------------
+
+	Word: Enigma
+	Warning: no entry for 'Enigma'.
+
+	------------------------------------------------------------
+
+	Word: Eon
+	Warning: no entry for 'Eon'.
+
+	------------------------------------------------------------
+
+	Word: Eon
+	Warning: no entry for 'Eon'.
+
+	------------------------------------------------------------
+
+	Word: Ephemeral
+	Warning: no entry for 'Ephemeral'.
+
+	------------------------------------------------------------
+
+	Word: Ephemeral
+	Warning: no entry for 'Ephemeral'.
+
+	------------------------------------------------------------
+
+	Word: Essence
+	Warning: no entry for 'Essence'.
+
+	------------------------------------------------------------
+
+	Word: Ethereal
+	Warning: no entry for 'Ethereal'.
+
+	------------------------------------------------------------
+
+	Word: Ethereal
+	Warning: no entry for 'Ethereal'.
+
+	------------------------------------------------------------
+
+	Word: Ethereal
+	Warning: no entry for 'Ethereal'.
+
+	------------------------------------------------------------
+
+	Word: Galactic
+	Warning: no entry for 'Galactic'.
+
+	------------------------------------------------------------
+
+	Word: Harmony
+	Warning: no entry for 'Harmony'.
+
+	------------------------------------------------------------
+
+	Word: Harmony
+	Warning: no entry for 'Harmony'.
+
+	------------------------------------------------------------
+
+	Word: Harmony
+	Warning: no entry for 'Harmony'.
+
+	------------------------------------------------------------
+
+	Word: Ineffable
+	Warning: no entry for 'Ineffable'.
+
+	------------------------------------------------------------
+
+	Word: Infinity
+	Warning: no entry for 'Infinity'.
+
+	------------------------------------------------------------
+
+	Word: Infinity
+	Warning: no entry for 'Infinity'.
+
+	------------------------------------------------------------
+
+	Word: Kaleidoscope
+	Warning: no entry for 'Kaleidoscope'.
+
+	------------------------------------------------------------
+
+	Word: Luminary
+	Warning: no entry for 'Luminary'.
+
+	------------------------------------------------------------
+
+	Word: Luminescent
+	Warning: no entry for 'Luminescent'.
+
+	------------------------------------------------------------
+
+	Word: Luminescent
+	Warning: no entry for 'Luminescent'.
+
+	------------------------------------------------------------
+
+	Word: Luminous
+	Warning: no entry for 'Luminous'.
+
+	------------------------------------------------------------
+
+	Word: Melody
+	Warning: no entry for 'Melody'.
+
+	------------------------------------------------------------
+
+	Word: Melody
+	Warning: no entry for 'Melody'.
+
+	------------------------------------------------------------
+
+	Word: Mirage
+	Warning: no entry for 'Mirage'.
+
+	------------------------------------------------------------
+
+	Word: Nebula
+	Warning: no entry for 'Nebula'.
+
+	------------------------------------------------------------
+
+	Word: Nebula
+	Warning: no entry for 'Nebula'.
+
+	------------------------------------------------------------
+
+	Word: Nebula
+	Warning: no entry for 'Nebula'.
+
+	------------------------------------------------------------
+
+	Word: Nebula
+	Warning: no entry for 'Nebula'.
+
+	------------------------------------------------------------
+
+	Word: Nebulous
+	Warning: no entry for 'Nebulous'.
+
+	------------------------------------------------------------
+
+	Word: Nebulous
+	Warning: no entry for 'Nebulous'.
+
+	------------------------------------------------------------
+
+	Word: Nexus
+	Warning: no entry for 'Nexus'.
+
+	------------------------------------------------------------
+
+	Word: Nimbus
+	Warning: no entry for 'Nimbus'.
+
+	------------------------------------------------------------
+
+	Word: Nimbus
+	Warning: no entry for 'Nimbus'.
+
+	------------------------------------------------------------
+
+	Word: Odyssey
+	Warning: no entry for 'Odyssey'.
+
+	------------------------------------------------------------
+
+	Word: Odyssey
+	Warning: no entry for 'Odyssey'.
+
+	------------------------------------------------------------
+
+	Word: Odyssey
+	Warning: no entry for 'Odyssey'.
+
+	------------------------------------------------------------
+
+	Word: Paradigm
+	Warning: no entry for 'Paradigm'.
+
+	------------------------------------------------------------
+
+	Word: Paradigm
+	Warning: no entry for 'Paradigm'.
+
+	------------------------------------------------------------
+
+	Word: Pinnacle
+	Warning: no entry for 'Pinnacle'.
+
+	------------------------------------------------------------
+
+	Word: Purity
+	Warning: no entry for 'Purity'.
+
+	------------------------------------------------------------
+
+	Word: Quantum
+	Warning: no entry for 'Quantum'.
+
+	------------------------------------------------------------
+
+	Word: Quasar
+	Warning: no entry for 'Quasar'.
+
+	------------------------------------------------------------
+
+	Word: Quasar
+	Warning: no entry for 'Quasar'.
+
+	------------------------------------------------------------
+
+	Word: Quasar
+	Warning: no entry for 'Quasar'.
+
+	------------------------------------------------------------
+
+	Word: Quest
+	Warning: no entry for 'Quest'.
+
+	------------------------------------------------------------
+
+	Word: Radiance
+	Warning: no entry for 'Radiance'.
+
+	------------------------------------------------------------
+
+	Word: Radiance
+	Warning: no entry for 'Radiance'.
+
+	------------------------------------------------------------
+
+	Word: Radiant
+	Warning: no entry for 'Radiant'.
+
+	------------------------------------------------------------
+
+	Word: Radiant
+	Warning: no entry for 'Radiant'.
+
+	------------------------------------------------------------
+
+	Word: Reflection
+	Warning: no entry for 'Reflection'.
+
+	------------------------------------------------------------
+
+	Word: Reflection
+	Warning: no entry for 'Reflection'.
+
+	------------------------------------------------------------
+
+	Word: Resonance
+	Warning: no entry for 'Resonance'.
+
+	------------------------------------------------------------
+
+	Word: Resonance
+	Warning: no entry for 'Resonance'.
+
+	------------------------------------------------------------
+
+	Word: Resonance
+	Warning: no entry for 'Resonance'.
+
+	------------------------------------------------------------
+
+	Word: Reverie
+	Warning: no entry for 'Reverie'.
+
+	------------------------------------------------------------
+
+	Word: Reverie
+	Warning: no entry for 'Reverie'.
+
+	------------------------------------------------------------
+
+	Word: Serendipity
+	Warning: no entry for 'Serendipity'.
+
+	------------------------------------------------------------
+
+	Word: Serendipity
+	Warning: no entry for 'Serendipity'.
+
+	------------------------------------------------------------
+
+	Word: Serenity
+	Warning: no entry for 'Serenity'.
+
+	------------------------------------------------------------
+
+	Word: Serenity
+	Warning: no entry for 'Serenity'.
+
+	------------------------------------------------------------
+
+	Word: Solace
+	Warning: no entry for 'Solace'.
+
+	------------------------------------------------------------
+
+	Word: Solitude
+	Warning: no entry for 'Solitude'.
+
+	------------------------------------------------------------
+
+	Word: Solitude
+	Warning: no entry for 'Solitude'.
+
+	------------------------------------------------------------
+
+	Word: Surreal
+	Warning: no entry for 'Surreal'.
+
+	------------------------------------------------------------
+
+	Word: Symphony
+	Warning: no entry for 'Symphony'.
+
+	------------------------------------------------------------
+
+	Word: Symphony
+	Warning: no entry for 'Symphony'.
+
+	------------------------------------------------------------
+
+	Word: Tranquil
+	Warning: no entry for 'Tranquil'.
+
+	------------------------------------------------------------
+
+	Word: Tranquil
+	Warning: no entry for 'Tranquil'.
+
+	------------------------------------------------------------
+
+	Word: Tranquil
+	Warning: no entry for 'Tranquil'.
+
+	------------------------------------------------------------
+
+	Word: Unity
+	Warning: no entry for 'Unity'.
+
+	------------------------------------------------------------
+
+	Word: Utopia
+	Warning: no entry for 'Utopia'.
+
+	------------------------------------------------------------
+
+	Word: Utopia
+	Warning: no entry for 'Utopia'.
+
+	------------------------------------------------------------
+
+	Word: Utopia
+	Warning: no entry for 'Utopia'.
+
+	------------------------------------------------------------
+
+	Word: Velocity
+	Warning: no entry for 'Velocity'.
+
+	------------------------------------------------------------
+
+	Word: Vibrant
+	Warning: no entry for 'Vibrant'.
+
+	------------------------------------------------------------
+
+	Word: Vibrant
+	Warning: no entry for 'Vibrant'.
+
+	------------------------------------------------------------
+
+	Word: Whisper
+	Warning: no entry for 'Whisper'.
+
+	------------------------------------------------------------
+
+	Word: Zen
+	Warning: no entry for 'Zen'.
+
+	------------------------------------------------------------
+
+	Word: Zen
+	Warning: no entry for 'Zen'.
+
+	------------------------------------------------------------
+
+	Word: Zenith
+	Warning: no entry for 'Zenith'.
+
+	------------------------------------------------------------
+
+	Word: Zenith
+	Warning: no entry for 'Zenith'.
+
+	------------------------------------------------------------
+
+	Word: Zenith
+	Warning: no entry for 'Zenith'.

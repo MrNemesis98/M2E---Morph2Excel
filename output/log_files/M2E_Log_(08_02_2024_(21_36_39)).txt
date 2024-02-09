@@ -1,0 +1,50 @@
+Morph2Excel Log from 08_02_2024_(21_36_39)
+
+	------------------------------------------------------------
+
+	Word: africa
+	Warning: no entry for 'africa'.
+
+	------------------------------------------------------------
+
+	Word: assimilation
+	Warning: no entry for 'assimilation'.
+
+	------------------------------------------------------------
+
+	Word: cute
+	Filters: NONE
+	Entries found: 5
+
+
+	------------------------------------------------------------
+
+	Word: flash
+	Filters: NONE
+	Entries found: 41
+
+
+	------------------------------------------------------------
+
+	Word: green
+	Filters: NONE
+	Entries found: 25
+
+
+	------------------------------------------------------------
+
+	Word: island
+	Filters: NONE
+	Entries found: 7
+
+
+	------------------------------------------------------------
+
+	Word: notification
+	Warning: no entry for 'notification'.
+
+	------------------------------------------------------------
+
+	Word: origin
+	Filters: NONE
+	Entries found: 6

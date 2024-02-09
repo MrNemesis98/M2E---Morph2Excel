@@ -216,40 +216,23 @@ def set_alphabetical_output(abc, asc):
 
 def get_auto_scan_filters():
     global auto_scan_filters
-
-    if re.search(".,.+", auto_scan_filters):
-        auto_scan_filters = auto_scan_filters.split(",")
-        auto_scan_filters.remove(auto_scan_filters[-1])
-        return auto_scan_filters
-    else:
-        if auto_scan_filters == "Noun,":
-            return ["Noun"]
-        elif auto_scan_filters == "Verb,":
-            return ["Verb"]
-        elif auto_scan_filters == "Adjective,":
-            return ["Adjective"]
-        elif auto_scan_filters == "Adverb,":
-            return ["Adverb"]
-        elif auto_scan_filters == "Phrase,":
-            return ["Phrase"]
-        else:
-            return ["Preposition"]
+    return auto_scan_filters
 
 
 def get_auto_scan_filters_as_text():
     global auto_scan_filters
 
-    if auto_scan_filters == "Noun,":
+    if auto_scan_filters == "Noun":
         return "\n\t6) Auto Scan PoS Filters:\tnouns only"
-    elif auto_scan_filters == "Verb,":
+    elif auto_scan_filters == "Verb":
         return "\n\t6) Auto Scan PoS Filters:\tverbs only"
-    elif auto_scan_filters == "Adjective,":
+    elif auto_scan_filters == "Adjective":
         return "\n\t6) Auto Scan PoS Filters:\tadjectives only"
-    elif auto_scan_filters == "Adverb,":
+    elif auto_scan_filters == "Adverb":
         return "\n\t6) Auto Scan PoS Filters:\tadverbs only"
-    elif auto_scan_filters == "Preposition,":
+    elif auto_scan_filters == "Preposition":
         return "\n\t6) Auto Scan PoS Filters:\tprepositions only"
-    elif auto_scan_filters == "Phrase,":
+    elif auto_scan_filters == "Phrase":
         return "\n\t6) Auto Scan PoS Filters:\tphrases only"
     elif auto_scan_filters == "Noun,Verb,Adjective,Adverb,Preposition,Phrase":
         return "\n\t6) Auto Scan PoS Filters:\tall pos types, no restrictions"
@@ -259,14 +242,8 @@ def get_auto_scan_filters_as_text():
 
 def set_auto_scan_filters(asf):
     global auto_scan_filters
-    if len(asf) == 1:
-        auto_scan_filters = str(asf[0]) + ","
-    else:
-        auto_scan_filters = ""
-        for pos in asf:
-            auto_scan_filters += str(pos) + ","
+    auto_scan_filters = asf
     update_system_data()
-    return auto_scan_filters
 
 
 def get_output_detail_level():
