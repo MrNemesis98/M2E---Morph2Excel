@@ -3,10 +3,8 @@ import os
 import requests
 import sys
 import time
-import socket
 
 from openpyxl import load_workbook
-from urllib3.exceptions import NewConnectionError
 
 import console_assistance as CA
 import savedata_manager as SDM
@@ -58,10 +56,10 @@ def check_paths():
 
             os.system('cls')
             CA.print_opening(version="2.3c")
-            print("\n\tWarning: wiki_morph database could not be found on your system!"
-                  "\n\tYou are free to download it automatically.")
+            print("\n\t\033[91mWarning:\033[0m wiki_morph database could not be found on your system!"
+                  "\n\tYou have the option to download it automatically.")
             if remote_size == 0:
-                print("\tSize of file: unknown")
+                print("\n\tSize of file: unknown")
             else:
                 print("\tSize of file: " + str(remote_size) + "MB")
             print("\tDo you want to download it now? (y/n)")
@@ -86,6 +84,7 @@ def check_paths():
                     if answer == "n":
                         print("\n\tProgram will now terminate.")
                         time.sleep(3)
+                        os.system('cls')
                         sys.exit(0)
                 else:
                     sys.exit()
@@ -93,16 +92,16 @@ def check_paths():
             else:
                 CA.print_exit_without_download()
             time.sleep(1)
-        # (requests.exceptions.RequestException, NewConnectionError, socket.gaierror)
         except Exception:
             os.system('cls')
             CA.print_opening(version="2.3c")
             print("\n\t\033[91mWarning:\033[0m Database is not installed currently."
                   "\n\n\tThis program offers the possibility to download the database automatically."
-                  "\n\tBut for the moment there was no internet connection recognized."
+                  "\n\tBut for the moment there was \033[91mno internet connection\033[0m recognized."
                   "\n\tPlease make sure you are connected and restart the program."
                   "\n\tThe program will now terminate.")
-            time.sleep(7)
+            time.sleep(15)
+            os.system('cls')
             sys.exit(0)
 
     else:
@@ -176,7 +175,6 @@ def check_for_updates():
         remote_size = int(remote_size / (1024 * 1024))
         print("\tResponse Status Code:", "\033[91m", response.status_code, "\033[0m")
         time.sleep(2)
-
 
         if remote_size == 0:
             os.system('cls')

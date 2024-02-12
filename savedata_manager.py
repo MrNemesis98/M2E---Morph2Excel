@@ -22,13 +22,13 @@ def update_database_data():
     # Save data from other sectors before overwriting
     sd = open("src/data/savedata.txt", "r")
     data = sd.readlines()
-    history_data = data[1]
+    system_data = data[1]
     sd.close()
 
     # Datei neu beschreiben, nur Datenbank Information updaten
     sd = open("src/data/savedata.txt", "w")
     text = "db:/dl:" + str(download_size) + "/c:" + str(current_size) + "/soll:" + str(soll_size) + "/" \
-           + "\n" + system_data + "\n" + history_data
+           + "\n" + system_data
     sd.write(text)
     sd.close()
 
@@ -98,10 +98,8 @@ def update_system_data():
            "/hdlp:" + str(headline_printing) + \
            "/" + str(alphabetical_output[0]) + ":" + alphabetical_output[1] + \
            "/asf:" + str(auto_scan_filters) + \
-           "/odlvl:" + str(output_detail_level) + "\n" + \
-           history_data
+           "/odlvl:" + str(output_detail_level)
     sd.write(text)
-    # sd.write(text + "\n" + data[1] + data[2] + data[3] + data[4])
     sd.close()
 
 
@@ -266,45 +264,3 @@ def set_output_detail_level(odlvl):
     global output_detail_level
     output_detail_level = odlvl
     update_system_data()
-
-
-# Sector 3: Manage history of search entries ---------------------------------------------------------------------------
-history_data = data[2]
-entries_list = history_data.split('/')
-entries_list.remove(entries_list[0])
-
-
-def update_history_data():
-    global data
-    global entries_list
-
-    # Save data from other sectors before overwriting
-    sd = open("src/data/savedata.txt", "r")
-    data = sd.readlines()
-    sd.close()
-
-    # Datei neu beschreiben, nur Nutzer-Trainingsdaten updaten
-    sd = open("src/data/savedata.txt", "w")
-    text = database_data + system_data + "h:"
-    for entry in range(len(entries_list)):
-        text += "/" + entries_list[entry]
-    sd.write(text)
-    # sd.write(text + "\n" + data[1] + data[2] + data[3] + data[4])
-    sd.close()
-
-
-def get_entry_history():
-    global entries_list
-    return entries_list
-
-
-def add_entry_to_history(entry):
-    global entries_list
-    entries_list.insert(0, entry)
-    update_history_data()
-
-
-def delete_entry_history():
-    global entries_list
-    entries_list = []
-    update_history_data()

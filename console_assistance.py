@@ -77,7 +77,7 @@ def print_opening(version):
 def print_main_menu(version):
     os.system('cls')
     print("\033[92m" + "\n\tMorph2Excel ~ Version " + version + "\033[0m"
-          "\n\n\t\033[92m\t\tMain Menu\033[0m"
+          "\n\n\t\033[92mMain Menu\033[0m"
           "\n\t\033[92m----------------------------------------------------------------\033[0m")
 
     NSP.play_mp3("./src/data/GUI_sound/Signal.mp3")
@@ -150,14 +150,15 @@ def print_main_menu(version):
 
 def print_exit_without_download():
     os.system('cls')
-    print("\n\tDownload will not start.")
-    time.sleep(1.5)
+    print("\n\tDownload will \033[91mnot\033[0m start.")
+    time.sleep(2.5)
     os.system('cls')
-    print("\n\tNotice: You have to download the database another time to use this program.")
-    time.sleep(5)
+    print("\n\t\033[93mNotice:\033[0m You have to download the database another time to use this program.")
+    time.sleep(6)
     os.system('cls')
-    print("\n\tProgram will now terminate. For downloading wiki_morph you can start it again.")
-    time.sleep(5)
+    print("\n\tThe Program will now terminate. \n\tFor downloading wiki_morph you can start it again.")
+    time.sleep(7)
+    os.system('cls')
     sys.exit(0)
 
 
