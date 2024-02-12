@@ -61,21 +61,16 @@ elapsed_seconds = int(elapsed_time_seconds % 60)
 elapsed_seconds_formatted = "{:02d}".format(elapsed_seconds)
 print(f"Die Suche dauerte {elapsed_minutes} Minuten und {elapsed_seconds} Sekunden.")
 """
-import speedtest
+import subprocess
+import webbrowser
+import os
 
-def check_speed():
-    st = speedtest.Speedtest()
+# subprocess.Popen(["r'file:./src/data/Externals/MEDEL_Report.pdf"], shell=True)
+# webbrowser.open_new("./src/data/Externals/MEDEL_Report.pdf")
+import os
 
-    # Get the best server
-    st.get_best_server()
-
-    # Download speed in bits per second
-    download_speed = st.download()
-
-    # Convert download speed to megabits per second
-    download_speed_mbps = download_speed / 1_000_000
-
-    # Display the results
-    print(f"Download Speed: {download_speed_mbps:.2f} Mbps")
-
-check_speed()
+# Get the current working directory
+current_directory = os.getcwd()
+instructions_pdf_path = "src/data/Externals/MEDEL_Report.pdf"
+path = os.path.join(os.getcwd(), instructions_pdf_path)
+os.system(path)

@@ -1,3 +1,4 @@
+import subprocess
 import sys
 import os
 import urllib.request
@@ -5,7 +6,6 @@ import datetime
 import openpyxl
 import time
 import pandas as pd
-import re
 
 import notification_sound_player as NSP
 from PyQt5.QtWidgets import QApplication, QFileDialog
@@ -212,12 +212,12 @@ def download_database(url):
     while not stop:
         try:
             os.system('cls')
-            print_opening(version="2.3c")
+            print_opening(version="3.0c")
             print("\033[93m" + "\n\tDownloading wikimorph database...\n" + "\033[0m")
             urllib.request.urlretrieve(url, "src/database/wiki_morph.json", reporthook=progress)
             stop = True
         except Exception:
-            print_opening(version="2.3c")
+            print_opening(version="3.0c")
             print("\n\tDownload not possible: \033[91mNo internet connection!\033[0m"
                   "\n\tYou can try again by pressing enter."
                   '\n\tAlternatively you can end the program by typing "exit!".')
@@ -232,21 +232,34 @@ def download_database(url):
 def show_instructions():
     time.sleep(1)
     os.system('cls')
+    print("\n\t\033[92m" + "\n\tOpening instructions file...\n" + "\033[0m")
+    time.sleep(1)
+    subprocess.Popen("./src/data/Externals/MEDEL_Report.pdf")
 
-    print("\033[91m" + "\n\tInstructions:" + "\033[0m")
+
+"""
+def show_instructions():
+    time.sleep(1)
+    os.system('cls')
+
+    print("\033[92m" + "\n\tInstructions:" + "\033[0m")
     time.sleep(1.5)
-    print("\n\t1) Please type in the term you want to SEARCH and press ENTER.")
+    print("\n\t1) Searching a term (manually)")
     time.sleep(.25)
-    print("\n\t2) You are free to repeat this procedure till you end this program.")
+    print("\n\t\t- You can search a term be typing it in and pressing enter.")
     time.sleep(.25)
-    print("\n\t3) You can only SEARCH for one term at the same time.")
+    print("\n\t\t- This procedure can be repeated till you end this program.")
     time.sleep(.25)
-    print("\n\t4) To END this program you can type in 'exit!'.")
+    print("\n\t\t- You can only SEARCH for one term at the same time.")
     time.sleep(.25)
-    print("\n\t5) Results are saved into an excel file (.xlsx),"
-          " which will open automatically after the end of the program.")
+    print("\n\t\t- Results are saved into an excel file (.xlsx).")
     time.sleep(.25)
-    print("\n\t6) There is also a short logfile (.txt), which covers the search history and system information.")
+    print("\n\t\t- This excel output will open automatically after the end of the program"
+          "\n\t\t  if you searched at least one term.")
+    time.sleep(.25)
+    print("\n\t\t- There is also a short logfile (.txt), which covers the search history and system information.")
+    time.sleep(.25)
+    print("\n\t\t- This file is useful for development purposes and does not belong to the search results.")
     time.sleep(.25)
     print("\n\t7) To FILTER your results you can define the part of speech characteristics of the term as follows:"
           '\n\n\t\tgeneral:     "term:PoS"'
@@ -281,12 +294,13 @@ def show_instructions():
           "\n\t\tChanges are saved on the flow, so a crash of the program will not delete the progress.")
     time.sleep(.25)
     print("\n\n\tYou can type in any character/number now to return to main menu.")
+"""
 
 
 def show_version_description():
     time.sleep(1)
     os.system('cls')
-    print("\033[91m" + "\n\tWhat´s new in version 2.3c?" + "\033[0m")
+    print("\033[91m" + "\n\tWhat´s new in version 3.0c?" + "\033[0m")
     time.sleep(1.5)
     print("\n\t1) There is a new comparison mode, "
           "\n\t\twhich allows you to select two excel files in the directory. "
@@ -294,34 +308,34 @@ def show_version_description():
           "\n\t\tM2E will determine, in which of the files the term occurs."
           "\n\t\tThe results of this comparison will not be saved in the standard output_excel file,"
           "\n\t\tbut in an additional comparison_results excel file in the same folder,"
-          "\n\t\tas described in the instructions.")
+          "\n\t\tas described in the instructions."
+          "\n\t\t\033[93m" + "Note:" + "\033[0m The program will ignore the first column of your excel files, "
+          "\n\t\tsince headlines should not be taken into account."
+          "\n\t\tAccordingly please take care if your terms do not start with the second row!")
     time.sleep(.25)
     print("\n\t2) There is also a new settings mode, "
           "\n\t\tin which you can adjust several system variables. "
           "\n\t\tMost of them relate to the output. Changes will be saved on the flow."
-          "\n\n\t\tIn total there are six variables to change:"
+          "\n\n\t\tIn total there are seven variables to change:"
           "\n\t\t\t1. Automatic Update Control"
           "\n\t\t\t2. Term Output Diplomacy"
           "\n\t\t\t3. Output Line Format"
           "\n\t\t\t4. Headline Printing Control"
           "\n\t\t\t5. Alphabetical Output Formation"
-          "\n\t\t\t6. Output Detail Level Control"
+          "\n\t\t\t6. Automatic Scan Filters"
+          "\n\t\t\t7. Output Detail Level Control"
           "\n\n\t\tFor every setting there are a description and the respective options given.")
     time.sleep(.25)
     print("\n\t3) There is a new notification sound which informs you about a finished process like: "
-          "\n\t\t\t1. Loading the database."
+          "\n\t\t\t1. Loading the database or the main menu."
           "\n\t\t\t2. Saving results from auto scan mode."
           "\n\t\t\t3. Saving results from comparison mode."
           "\n\t\t\t4. Saving changes in settings mode."
-          "\n\t\t\t5. ..."
-          "\n\n\t\tNote: Depending on the hardware of your system there could be compatibility problems"
-          "\n\t\twith the module used to load the sound. In this case the sound is not playing and"
-          "\n\t\tyou will get an error message during the runtime."
-          "\n\t\tBut the problem is captured by exception handling, so you don´t have to worry."
-          "\n\t\tThe Program will not crash and you can continue your work as usual.")
+          "\n\t\t\t5. ...")
     time.sleep(.25)
-    print("\n\t4) As always: General revision of the displayed text, "
-          "\n\t\tupdate of instructions and version description.")
+    print("\n\t4) The main menu was revised."
+          "\n\t\t\t1. Better structure and new color schemes."
+          "\n\t\t\t2. A new overview of the current system settings was added.")
     time.sleep(.25)
     print("\n\n\tYou can type in any character/number now to return to main menu.")
 

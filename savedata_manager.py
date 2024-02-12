@@ -98,7 +98,7 @@ def update_system_data():
            "/hdlp:" + str(headline_printing) + \
            "/" + str(alphabetical_output[0]) + ":" + alphabetical_output[1] + \
            "/asf:" + str(auto_scan_filters) + \
-           "/odlvl:" + str(output_detail_level)
+           "/odlvl:" + str(output_detail_level) + "\n"
     sd.write(text)
     sd.close()
 

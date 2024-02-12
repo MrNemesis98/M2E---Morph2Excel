@@ -42,7 +42,7 @@ def check_paths():
     # For configuring M2E for other base systems:
     # os.system('cls' if os.name == 'nt' else 'clear')
 
-    CA.print_opening(version="2.3c")
+    CA.print_opening(version="3.0c")
     print("\n\tChecking database status...")
     time.sleep(1)
 
@@ -55,7 +55,7 @@ def check_paths():
             remote_size = int(remote_size / (1024 * 1024))
 
             os.system('cls')
-            CA.print_opening(version="2.3c")
+            CA.print_opening(version="3.0c")
             print("\n\t\033[91mWarning:\033[0m wiki_morph database could not be found on your system!"
                   "\n\tYou have the option to download it automatically.")
             if remote_size == 0:
@@ -77,7 +77,7 @@ def check_paths():
                     SDM.set_current_size(current_size)
                     auto_update = False
                     os.system('cls')
-                    CA.print_opening(version="2.3c")
+                    CA.print_opening(version="3.0c")
                     print("\n\n\t\033[32mDownload completed!\033[0m (" + str(current_size) + " MB)"
                           "\n\n\tDo you wish to search for terms now? (y/n)")
                     answer = input("\n\tanswer: ")
@@ -94,7 +94,7 @@ def check_paths():
             time.sleep(1)
         except Exception:
             os.system('cls')
-            CA.print_opening(version="2.3c")
+            CA.print_opening(version="3.0c")
             print("\n\t\033[91mWarning:\033[0m Database is not installed currently."
                   "\n\n\tThis program offers the possibility to download the database automatically."
                   "\n\tBut for the moment there was \033[91mno internet connection\033[0m recognized."
@@ -111,7 +111,7 @@ def check_paths():
         soll_size = SDM.get_soll_size()
 
         if current_size < soll_size:
-            CA.print_opening(version="2.3c")
+            CA.print_opening(version="3.0c")
             print("\n\t\033[91mWarning:\033[0m the local database file does not cover the expected amount of "
                   "information!"
                   "\n\n\t(Expected size: min. " + str(soll_size) + " MB)"
@@ -138,7 +138,7 @@ def check_paths():
                 SDM.set_current_size(current_size)
                 auto_update = False
                 os.system('cls')
-                CA.print_opening(version="2.3c")
+                CA.print_opening(version="3.0c")
                 print("\n\n\t\033[32mDownload completed!\033[0m (" + str(current_size) + " MB)"
                       "\n\n\tDo you wish to search for terms now? (y/n)")
                 answer = input("\n\tanswer: ")
@@ -150,14 +150,14 @@ def check_paths():
             else:
                 CA.print_exit_without_download()
         else:
-            CA.print_opening(version="2.3c")
+            CA.print_opening(version="3.0c")
             print("\n\t\033[32mDatabase installed and available.\033[0m")
         time.sleep(3)
 
 
 def check_for_updates():
     os.system('cls')
-    CA.print_opening(version="2.3c")
+    CA.print_opening(version="3.0c")
     print("\n\tChecking for wiki_morph updates...")
     time.sleep(3)
 
@@ -178,14 +178,14 @@ def check_for_updates():
 
         if remote_size == 0:
             os.system('cls')
-            CA.print_opening(version="2.3c")
+            CA.print_opening(version="3.0c")
             print("\n\tUpdate check not possible: \033[91mServer does not provide required information!\033[0m"
                   "\n\tLast recent locally installed version will be used.")
             time.sleep(7)
         else:
             if current_size < remote_size:
                 os.system('cls')
-                CA.print_opening(version="2.3c")
+                CA.print_opening(version="3.0c")
                 print("\n\tThere is a new version of wiki_morph available!"
                       "\n\n\tSize: " + str(remote_size) + " MB"
                       "\n\n\t Do you want to download the update now? (y/n)")
@@ -195,7 +195,7 @@ def check_for_updates():
                     CA.download_database(url=url)
 
                     os.system('cls')
-                    CA.print_opening(version="2.3c")
+                    CA.print_opening(version="3.0c")
                     print("\n\n\tUpdate completed! (" + str(current_size) + " MB)"
                           "\n\n\tDo you wish to search for terms now? (y/n)")
                     answer = input("\n\tanswer: ")
@@ -205,11 +205,11 @@ def check_for_updates():
                         sys.exit(0)
             else:
                 os.system('cls')
-                CA.print_opening(version="2.3c")
+                CA.print_opening(version="3.0c")
                 print("\n\tThe installed database is up to date!")
                 time.sleep(3)
     except Exception as e:
-        CA.print_opening(version="2.3c")
+        CA.print_opening(version="3.0c")
         print("\n\tUpdate check not possible: No internet connection!"
               "\n\tLast recent locally installed version will be used.")
         print("Exception:", e)
@@ -233,11 +233,11 @@ def search_for_terms(log_title, workbook_title):
 
     # loading database
     os.system('cls')
-    CA.print_opening(version="2.3c")
+    CA.print_opening(version="3.0c")
     print("\n\tLoading wiki_morph database...")
     with open("src/database/wiki_morph.json", "r", encoding="utf-8") as f:
         entries_list = json.load(f)
-    CA.print_main_menu(version="2.3c")
+    CA.print_main_menu(version="3.0c")
 
     # search function
     stop = False
@@ -248,7 +248,7 @@ def search_for_terms(log_title, workbook_title):
     while not stop:
 
         if print_opening_again:
-            CA.print_main_menu(version="2.3c")
+            CA.print_main_menu(version="3.0c")
             print_opening_again = False
         i = input("\n\tSearch term: ").lower()
         os.system('cls')
@@ -262,14 +262,14 @@ def search_for_terms(log_title, workbook_title):
                 os.system(f'start "" {workbook_title}')
         elif i == "i!":
             CA.show_instructions()
-            i = input()
-            CA.print_main_menu(version="2.3c")
+            time.sleep(3)
+            CA.print_main_menu(version="3.0c")
         elif i == "v!":
             CA.show_version_description()
             i = input()
-            CA.print_main_menu(version="2.3c")
+            CA.print_main_menu(version="3.0c")
         elif i == "?":
-            CA.print_main_menu(version="2.3c")
+            CA.print_main_menu(version="3.0c")
 
         # AUTOMATIC SCAN MODE ------------------------------------------------------------------------------------------
         elif i == "s!":
@@ -852,7 +852,7 @@ def search_for_terms(log_title, workbook_title):
                 print_opening_again = True
 
 
-CA.print_opening(version="2.3c")
+CA.print_opening(version="3.0c")
 check_paths()
 if auto_update == 1:
     check_for_updates()
