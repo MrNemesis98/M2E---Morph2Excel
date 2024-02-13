@@ -420,17 +420,22 @@ def search_for_terms(log_title, workbook_title):
         elif i == "c!":
             open_excel_automatically = False
             os.system('cls')
-            status = "\n\t- Comparison mode -"
+            status = "\n\t\033[94m- Comparison mode -\033[0m"
             print(status)
             print("\n\tPlease select two excel files you want to compare.")
             time.sleep(3)
             print("\n\tSelect excel file 1 now.")
             time.sleep(3)
             file_1 = CA.select_excel_file()
-            terms_1 = CA.autoscan(file_1)
+            terms_1, invalid_terms_1 = CA.autoscan(file_1)
             number_of_terms_1 = len(terms_1)
             print("\n\tSelected file 1: " + file_1)
             print("\tFound terms: " + str(number_of_terms_1))
+            if not invalid_terms_1 == []:
+                print("\n\t\033[91mWarning:\033[0m Scanned file contains terms that are invalid inputs!"
+                      "\n\n\tFor searching within the wikimorph database the following terms will be ignored:"
+                      "\n\t\t", str(invalid_terms_1))
+                input("\n\tType in anything to continue: ")
             time.sleep(4)
 
             os.system('cls')
@@ -438,10 +443,15 @@ def search_for_terms(log_title, workbook_title):
             print("\n\tSelect excel file 2 now.")
             time.sleep(3)
             file_2 = CA.select_excel_file()
-            terms_2 = CA.autoscan(file_2)
+            terms_2, invalid_terms_2 = CA.autoscan(file_2)
             number_of_terms_2 = len(terms_2)
             print("\n\tSelected file 2: " + file_2)
             print("\tFound terms: " + str(number_of_terms_2))
+            if not invalid_terms_2 == []:
+                print("\n\t\033[91mWarning:\033[0m Scanned file contains terms that are invalid inputs!"
+                      "\n\n\tFor searching within the wikimorph database the following terms will be ignored:"
+                      "\n\t\t", str(invalid_terms_2))
+                input("\n\tType in anything to continue: ")
             time.sleep(4)
 
             os.system('cls')
@@ -456,36 +466,26 @@ def search_for_terms(log_title, workbook_title):
                 progress = format(100 * ((x+1) / number_of_terms_1), ".2f")
                 os.system('cls')
                 print(status)
-                print("\n\tScanning file 1..."
-                      "\n\tCurrent term: " + term + "\t\tProgress: " + str(progress) + "%")
-                if term not in terms_2:
-                    unique_terms_1.append(term)
-                    print("\n\tTerm not found in file 2!")
-                else:
-                    common_terms.append(term)
-                    print("\n\tTerm found in file 2!")
+                print("\n\tComparing terms from file 1..."
+                      "\n\tCurrent term: " + str(term) + "\t\tProgress: " + str(progress) + "%")
+                time.sleep(.1)
 
             time.sleep(1)
             os.system('cls')
             print(status)
-            print("\n\tScanning of file 1 finished!"
+            print("\n\t\033[92mComparison of terms from file 1 finished!\033[0m"
                   "\n\n\tThe following terms could not be found in file 2:"
                   "\n\t" + str(unique_terms_1))
-            time.sleep(7)
+            input("\n\tType in anything to continue: ")
 
             for x in range(number_of_terms_2):
                 term = terms_2[x]
                 progress = format(100 * ((x+1) / number_of_terms_2), ".2f")
                 os.system('cls')
                 print(status)
-                print("\n\tScanning file 2..."
-                      "\n\tCurrent term: " + term + "\t\tProgress: " + str(progress) + "%")
-                if term not in terms_1:
-                    unique_terms_2.append(term)
-                    print("\n\tTerm not found in file 1!")
-                else:
-                    common_terms.append(term)
-                    print("\n\tTerm found in file 1!")
+                print("\n\t\33[93mComparing terms from file 2...\33[0m"
+                      "\n\tCurrent term: " + str(term) + "\t\tProgress: " + str(progress) + "%")
+                time.sleep(.1)
 
             # eliminating duplicates in common terms list
             common_terms = list(set(common_terms))
@@ -493,18 +493,18 @@ def search_for_terms(log_title, workbook_title):
             time.sleep(1)
             os.system('cls')
             print(status)
-            print("\n\tScanning of file 2 finished!"
+            print("\n\t\033[92mComparison of terms from file 2 finished!\033[0m"
                   "\n\n\tThe following terms could not be found in file 1:"
                   "\n\t" + str(unique_terms_2))
-            time.sleep(7)
+            input("\n\tType in anything to continue: ")
 
             os.system('cls')
             print(status)
-            print("\n\tProcess finished!"
+            print("\n\t\033[92mProcess finished!\033[0m"
                   "\n\tThe two excel files had the following terms in common:"
                   "\n\t" + str(common_terms) +
-                  "\n\n\tThe results will now be saved in an additional excel file...")
-            time.sleep(10)
+                  "\n\n\t\033[92mThe results were saved as an additional comparison excel file!\033[0m")
+            input("\n\tType in anything to continue: ")
 
             # generating new Excel file for comparison results exclusively
             results_wb_name = CA.create_comparison_result_excel(fd=formatted_date)
@@ -527,8 +527,7 @@ def search_for_terms(log_title, workbook_title):
 
             os.system('cls')
             print(status)
-            print("\n\tSaving process finished!"
-                  "\n\tReturning to manual search mode...")
+            print("\n\tReturning to manual search mode...")
             time.sleep(5)
             NSP.play_mp3("./src/data/GUI_sound/Signal.mp3")
 

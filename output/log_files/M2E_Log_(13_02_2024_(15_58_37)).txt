@@ -1,0 +1,7 @@
+Morph2Excel Log from 13_02_2024_(15_58_37)
+
+	------------------------------------------------------------
+
+	Comparison mode accessed
+	File 1: G:/.shortcut-targets-by-id/1-AU1nOJtJNR9ZCNnjRwudCbr7PcH6pcF/8. HIWI-Job Anglistik/Z - Morph2Excel Software/Software BETA Version (2.2c) + Test Series/Test_Input/M2E_betatest_data_1.xlsx
+	File 2: G:/.shortcut-targets-by-id/1-AU1nOJtJNR9ZCNnjRwudCbr7PcH6pcF/8. HIWI-Job Anglistik/Z - Morph2Excel Software/Software BETA Version (2.2c) + Test Series/Test_Input/M2E_betatest_data_1.xlsx
