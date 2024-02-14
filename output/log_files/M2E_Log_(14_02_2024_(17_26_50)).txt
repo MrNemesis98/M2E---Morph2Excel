@@ -1,0 +1,581 @@
+Morph2Excel Log from 14_02_2024_(17_26_50)
+
+	------------------------------------------------------------
+
+	Word: astral
+	Filters: NONE
+	Entries found: 3
+
+
+	------------------------------------------------------------
+
+	Word: bliss
+	Filters: NONE
+	Entries found: 1
+
+
+	------------------------------------------------------------
+
+	Word: bliss
+	Filters: NONE
+	Entries found: 1
+
+
+	------------------------------------------------------------
+
+	Word: cascade
+	Filters: NONE
+	Entries found: 2
+
+
+	------------------------------------------------------------
+
+	Word: cascade
+	Filters: NONE
+	Entries found: 2
+
+
+	------------------------------------------------------------
+
+	Word: celestial
+	Filters: NONE
+	Entries found: 4
+
+
+	------------------------------------------------------------
+
+	Word: celestial
+	Filters: NONE
+	Entries found: 4
+
+
+	------------------------------------------------------------
+
+	Word: celestial
+	Filters: NONE
+	Entries found: 4
+
+
+	------------------------------------------------------------
+
+	Word: echo
+	Filters: NONE
+	Entries found: 14
+
+
+	------------------------------------------------------------
+
+	Word: empyrean
+	Warning: no entry for 'empyrean'.
+
+	------------------------------------------------------------
+
+	Word: empyrean
+	Warning: no entry for 'empyrean'.
+
+	------------------------------------------------------------
+
+	Word: enchant
+	Filters: NONE
+	Entries found: 3
+
+
+	------------------------------------------------------------
+
+	Word: enchant
+	Filters: NONE
+	Entries found: 3
+
+
+	------------------------------------------------------------
+
+	Word: enigma
+	Filters: NONE
+	Entries found: 2
+
+
+	------------------------------------------------------------
+
+	Word: enigma
+	Filters: NONE
+	Entries found: 2
+
+
+	------------------------------------------------------------
+
+	Word: eon
+	Filters: NONE
+	Entries found: 5
+
+
+	------------------------------------------------------------
+
+	Word: eon
+	Filters: NONE
+	Entries found: 5
+
+
+	------------------------------------------------------------
+
+	Word: ephemeral
+	Warning: no entry for 'ephemeral'.
+
+	------------------------------------------------------------
+
+	Word: essence
+	Filters: NONE
+	Entries found: 8
+
+
+	------------------------------------------------------------
+
+	Word: ethereal
+	Warning: no entry for 'ethereal'.
+
+	------------------------------------------------------------
+
+	Word: ethereal
+	Warning: no entry for 'ethereal'.
+
+	------------------------------------------------------------
+
+	Word: ethereal
+	Warning: no entry for 'ethereal'.
+
+	------------------------------------------------------------
+
+	Word: galactic
+	Filters: NONE
+	Entries found: 4
+
+
+	------------------------------------------------------------
+
+	Word: harmony
+	Filters: NONE
+	Entries found: 6
+
+
+	------------------------------------------------------------
+
+	Word: harmony
+	Filters: NONE
+	Entries found: 6
+
+
+	------------------------------------------------------------
+
+	Word: harmony
+	Filters: NONE
+	Entries found: 6
+
+
+	------------------------------------------------------------
+
+	Word: ineffable
+	Filters: NONE
+	Entries found: 2
+
+
+	------------------------------------------------------------
+
+	Word: infinity
+	Filters: NONE
+	Entries found: 4
+
+
+	------------------------------------------------------------
+
+	Word: infinity
+	Filters: NONE
+	Entries found: 4
+
+
+	------------------------------------------------------------
+
+	Word: kaleidoscope
+	Warning: no entry for 'kaleidoscope'.
+
+	------------------------------------------------------------
+
+	Word: luminary
+	Warning: no entry for 'luminary'.
+
+	------------------------------------------------------------
+
+	Word: luminescent
+	Warning: no entry for 'luminescent'.
+
+	------------------------------------------------------------
+
+	Word: luminescent
+	Warning: no entry for 'luminescent'.
+
+	------------------------------------------------------------
+
+	Word: melody
+	Filters: NONE
+	Entries found: 1
+
+
+	------------------------------------------------------------
+
+	Word: melody
+	Filters: NONE
+	Entries found: 1
+
+
+	------------------------------------------------------------
+
+	Word: mirage
+	Filters: NONE
+	Entries found: 2
+
+
+	------------------------------------------------------------
+
+	Word: nebula
+	Filters: NONE
+	Entries found: 3
+
+
+	------------------------------------------------------------
+
+	Word: nebula
+	Filters: NONE
+	Entries found: 3
+
+
+	------------------------------------------------------------
+
+	Word: nebula
+	Filters: NONE
+	Entries found: 3
+
+
+	------------------------------------------------------------
+
+	Word: nebula
+	Filters: NONE
+	Entries found: 3
+
+
+	------------------------------------------------------------
+
+	Word: nebulous
+	Filters: NONE
+	Entries found: 3
+
+
+	------------------------------------------------------------
+
+	Word: nebulous
+	Filters: NONE
+	Entries found: 3
+
+
+	------------------------------------------------------------
+
+	Word: nexus
+	Filters: NONE
+	Entries found: 6
+
+
+	------------------------------------------------------------
+
+	Word: nimbus
+	Filters: NONE
+	Entries found: 2
+
+
+	------------------------------------------------------------
+
+	Word: odyssey
+	Filters: NONE
+	Entries found: 2
+
+
+	------------------------------------------------------------
+
+	Word: odyssey
+	Filters: NONE
+	Entries found: 2
+
+
+	------------------------------------------------------------
+
+	Word: odyssey
+	Filters: NONE
+	Entries found: 2
+
+
+	------------------------------------------------------------
+
+	Word: paradigm
+	Filters: NONE
+	Entries found: 3
+
+
+	------------------------------------------------------------
+
+	Word: paradigm
+	Filters: NONE
+	Entries found: 3
+
+
+	------------------------------------------------------------
+
+	Word: pinnacle
+	Warning: no entry for 'pinnacle'.
+
+	------------------------------------------------------------
+
+	Word: purity
+	Filters: NONE
+	Entries found: 1
+
+
+	------------------------------------------------------------
+
+	Word: quantum
+	Filters: NONE
+	Entries found: 9
+
+
+	------------------------------------------------------------
+
+	Word: quasar
+	Filters: NONE
+	Entries found: 1
+
+
+	------------------------------------------------------------
+
+	Word: quasar
+	Filters: NONE
+	Entries found: 1
+
+
+	------------------------------------------------------------
+
+	Word: quasar
+	Filters: NONE
+	Entries found: 1
+
+
+	------------------------------------------------------------
+
+	Word: radiance
+	Warning: no entry for 'radiance'.
+
+	------------------------------------------------------------
+
+	Word: radiance
+	Warning: no entry for 'radiance'.
+
+	------------------------------------------------------------
+
+	Word: radiant
+	Warning: no entry for 'radiant'.
+
+	------------------------------------------------------------
+
+	Word: re6sonance
+	Warning: no entry for 're6sonance'.
+
+	------------------------------------------------------------
+
+	Word: reflection
+	Filters: NONE
+	Entries found: 7
+
+
+	------------------------------------------------------------
+
+	Word: reflection
+	Filters: NONE
+	Entries found: 7
+
+
+	------------------------------------------------------------
+
+	Word: resonance
+	Filters: NONE
+	Entries found: 9
+
+
+	------------------------------------------------------------
+
+	Word: resonance
+	Filters: NONE
+	Entries found: 9
+
+
+	------------------------------------------------------------
+
+	Word: reverie
+	Filters: NONE
+	Entries found: 2
+
+
+	------------------------------------------------------------
+
+	Word: se5renity
+	Warning: no entry for 'se5renity'.
+
+	------------------------------------------------------------
+
+	Word: serendipity
+	Warning: no entry for 'serendipity'.
+
+	------------------------------------------------------------
+
+	Word: serendipity
+	Warning: no entry for 'serendipity'.
+
+	------------------------------------------------------------
+
+	Word: serenity
+	Filters: NONE
+	Entries found: 3
+
+
+	------------------------------------------------------------
+
+	Word: solace
+	Filters: NONE
+	Entries found: 4
+
+
+	------------------------------------------------------------
+
+	Word: solitude
+	Filters: NONE
+	Entries found: 2
+
+
+	------------------------------------------------------------
+
+	Word: solitude
+	Filters: NONE
+	Entries found: 2
+
+
+	------------------------------------------------------------
+
+	Word: surreal
+	Warning: no entry for 'surreal'.
+
+	------------------------------------------------------------
+
+	Word: symphony
+	Filters: NONE
+	Entries found: 3
+
+
+	------------------------------------------------------------
+
+	Word: symphony
+	Filters: NONE
+	Entries found: 3
+
+
+	------------------------------------------------------------
+
+	Word: tranquil
+	Filters: NONE
+	Entries found: 2
+
+
+	------------------------------------------------------------
+
+	Word: tranquil
+	Filters: NONE
+	Entries found: 2
+
+
+	------------------------------------------------------------
+
+	Word: tranquil
+	Filters: NONE
+	Entries found: 2
+
+
+	------------------------------------------------------------
+
+	Word: unity
+	Filters: NONE
+	Entries found: 5
+
+
+	------------------------------------------------------------
+
+	Word: utopia
+	Filters: NONE
+	Entries found: 1
+
+
+	------------------------------------------------------------
+
+	Word: utopia
+	Filters: NONE
+	Entries found: 1
+
+
+	------------------------------------------------------------
+
+	Word: velocity
+	Warning: no entry for 'velocity'.
+
+	------------------------------------------------------------
+
+	Word: vibrant
+	Filters: NONE
+	Entries found: 4
+
+
+	------------------------------------------------------------
+
+	Word: vibrant
+	Filters: NONE
+	Entries found: 4
+
+
+	------------------------------------------------------------
+
+	Word: whisper
+	Filters: NONE
+	Entries found: 9
+
+
+	------------------------------------------------------------
+
+	Word: zen
+	Filters: NONE
+	Entries found: 5
+
+
+	------------------------------------------------------------
+
+	Word: zen
+	Filters: NONE
+	Entries found: 5
+
+
+	------------------------------------------------------------
+
+	Word: zeni54th
+	Warning: no entry for 'zeni54th'.
+
+	------------------------------------------------------------
+
+	Word: zenith
+	Filters: NONE
+	Entries found: 3
+
+
+	------------------------------------------------------------
+
+	Comparison mode accessed
+	File 1: C:/Users/NEMESIS/Downloads/500 Words.xlsx
+	File 2: C:/Users/NEMESIS/Downloads/100 Words.xlsx

@@ -1,7 +1,0 @@
-Morph2Excel Log from 13_02_2024_(15_55_22)
-
-	------------------------------------------------------------
-
-	Comparison mode accessed
-	File 1: C:/Users/tillp/Downloads/500 words (batch 17) CS.xlsx
-	File 2: C:/Users/tillp/Downloads/500 words (batch 17) CS.xlsx

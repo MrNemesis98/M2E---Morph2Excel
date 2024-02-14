@@ -7,7 +7,7 @@ print("\033[93m<- Old!\033[0m df")  # neon gelb
 print("\033[94m<- Old!\033[0m df")  # hell blau
 print("\033[95m<- Old!\033[0m df")  # hell lila
 print("\033[96m<- Old!\033[0m df")  # cyan / türkis
-print("\033[38;5;130m<- Old!\033[0m df")  # cyan / türkis
+print("\033[38;5;130m<- Old!\033[0m df")  # braun
 print("\033[97m<- Old!\033[0m df")  # neon weiß
 """
 """
@@ -68,9 +68,24 @@ import os
 # subprocess.Popen(["r'file:./src/data/Externals/MEDEL_Report.pdf"], shell=True)
 # webbrowser.open_new("./src/data/Externals/MEDEL_Report.pdf")
 import os
-
+"""
 # Get the current working directory
 current_directory = os.getcwd()
-instructions_pdf_path = "src/data/Externals/MEDEL_Report.pdf"
+print(current_directory)
+instructions_pdf_path = "src\data\Externals\M2E_v3.0c_EAP_Handbook.pdf"
 path = os.path.join(os.getcwd(), instructions_pdf_path)
+print(path)
 os.system(path)
+"""
+import os
+
+current_directory = os.getcwd()
+print(current_directory)
+
+instructions_pdf_path = "src\data\Externals\M2E_v3.0c_EAP_Handbook.pdf"
+path = os.path.join(current_directory, instructions_pdf_path)
+print(path)
+
+# Fügen Sie doppelte Anführungszeichen um den Dateipfad hinzu
+command = f'"{path}"'
+os.system(command)

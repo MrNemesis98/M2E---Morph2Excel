@@ -1,4 +1,3 @@
-import subprocess
 import sys
 import os
 import urllib.request
@@ -7,11 +6,11 @@ import openpyxl
 import time
 import pandas as pd
 
-import notification_sound_player as NSP
 from PyQt5.QtWidgets import QApplication, QFileDialog
 from openpyxl.styles import Font, Color
 
 import savedata_manager as SDM
+import notification_sound_player as NSP
 
 
 def is_valid_input(i):
@@ -26,15 +25,17 @@ def is_valid_input(i):
     allowed_inputs = ['exit!', 'set!', 's!', 'i!', 'v!', 'c!', '?', ]
     for char in i:
         if not (char.isalpha() or i in allowed_inputs):
+            print_opening(version="3.0c")
             print("\n\t\033[91mWarning:\033[0m Invalid input!"
                   "\n\n\tFor typing in the term please use standard characters only. No numbers."
-                  "\n\tSpecial signs are only allowed as described in the instructions.")
+                  "\n\tSpecial signs are only allowed as described in the main menu.")
             time.sleep(8)
             return False
 
     allowed_pos_filters = ['noun', 'verb', 'adjective', 'adverb', 'preposition', 'phrase']
     for filter in pos:
         if not filter in allowed_pos_filters:
+            print_opening(version="3.0c")
             print("\n\t\033[91mWarning:\033[0m Invalid input!"
                   "\n\n\tPlease use valid pos filters only."
                   "\n\tMore information can be found in the instructions.")
@@ -55,12 +56,15 @@ def is_valid_scan(i):
     return True
 
 
-def measure_time(start, end, search=True):
+def measure_time(start, end, search=True, comparison=False):
     # Zeitdifferenz in Minuten und Sekunden berechnen
     elapsed_time_seconds = end - start
     elapsed_minutes = int(elapsed_time_seconds // 60)
     elapsed_seconds = int(elapsed_time_seconds % 60)
     elapsed_seconds_formatted = "{:02d}".format(elapsed_seconds)
+    if comparison:
+        return (f"\t\033[92mTime needed for comparison:\033[0m {elapsed_minutes} minutes and "
+                f"{elapsed_seconds_formatted} seconds.")
     if search:
         return (f"\t\033[92mTime needed for search:\033[0m {elapsed_minutes} minutes and "
                 f"{elapsed_seconds_formatted} seconds.")
@@ -74,68 +78,53 @@ def print_opening(version):
     print("\033[92m" + "\n\tMorph2Excel ~ Version " + version + "\033[0m")
 
 
+def print_manual_search_headline(tip=False):
+    print("\n\t\033[97mManual term search\033[0m"
+          "\n\t\033[97m----------------------------------------------------------------\033[0m")
+    if tip:
+        print('\n\t\33[92mTip:\33[0m If you want to display the\033[92m main menu\033[0m again '
+              'type \033[92m?\033[0m instead of a term.')
+
+
 def print_main_menu(version):
-    os.system('cls')
-    print("\033[92m" + "\n\tMorph2Excel ~ Version " + version + "\033[0m"
-          "\n\n\t\033[92mMain Menu\033[0m"
-          "\n\t\033[92m----------------------------------------------------------------\033[0m")
 
-    NSP.play_mp3("./src/data/GUI_sound/Signal.mp3")
-
-    print(
-        "\n\tManual search mode is prepared."
-        "\n\tYou can now search for terms."
-    )
-    time.sleep(.5)
-    os.system('cls')
-    print("\033[92m" + "\n\tMorph2Excel ~ Version " + version + "\033[0m"
-          "\n\n\t\033[92mMain Menu\033[0m"
-          "\n\t\033[92m----------------------------------------------------------------\033[0m")
-    print(
-        "\n\tManual search mode is prepared."
-        "\n\tYou can now search for terms."
-
-        '\n\n\t\033[97mAlternative search modes:\033[0m'
-        '\n'
-        '\n'
-
-        '\n\n\t\033[97mFurther options:\033[0m'
-        '\n'
-        '\n'
-        '\n'
-        '\n'
-
-        '\n\n\t\033[97mCurrent settings:\033[0m',
-        '\n'
-        '\n'
-        '\n'
-        '\n'
-        '\n'
-        '\n'
-        '\n'
-
-        '\n\n\tHint: If you want to \033[92mdisplay this overview again\033[0m type \033[92m?\033[0m instead of a term.'
-    )
-    time.sleep(1)
-    os.system('cls')
-    print("\033[92m" + "\n\tMorph2Excel ~ Version " + version + "\033[0m"
-          "\n\n\t\033[92mMain Menu\033[0m"
-          "\n\t\033[92m----------------------------------------------------------------\033[0m")
-    print(
-        "\n\tManual search mode is prepared."
-        "\n\tYou can now search for terms."
-
-        '\n\n\t\033[97mAlternative search modes:\033[0m'
-        '\n\tI)  For \033[38;5;130mAutomatic scan mode\033[0m type \033[38;5;130ms!\033[0m instead of a term.'
-        '\n\tII) For \033[94mComparison mode\033[0m type \033[94mc!\033[0m instead of a term.\t\t\033[94m<- New!\033[0m'
-
-        '\n\n\t\033[97mFurther options:\033[0m'
-        '\n\tA) For an \033[32minstructions\033[0m overview type \033[32mi!\033[0m instead of a term.'
-        '\n\tB) For a \033[95mversion description\033[0m type \033[95mv!\033[0m instead of a term.'
-        '\n\tC) For \033[93msettings\033[0m type \033[93mset!\033[0m instead of a term.\t\t\t\033[93m<- New!\033[0m'
-        '\n\tD) For \033[91mending the program\033[0m type \033[91mexit!\033[0m instead of a term.'
-
-        '\n\n\t\033[97mCurrent settings:\033[0m',
+    # preparing displays ------------------------------------------------------
+    headline = "\033[92m" + "\n\tMorph2Excel ~ Version " + version + "\033[0m"\
+               "\n\n\t\033[92mMain Menu\033[0m"
+    progress = [
+        "\t\033[92m----------------------------------------------------------------\033[0m",
+        "\t\033[92m[---]-----------------------------------------------------------\033[0m",
+        "\t\033[92m---[---]--------------------------------------------------------\033[0m",
+        "\t\033[92m------[---]-----------------------------------------------------\033[0m",
+        "\t\033[92m---------[---]--------------------------------------------------\033[0m",
+        "\t\033[92m--------------[---]---------------------------------------------\033[0m",
+        "\t\033[92m-----------------[---]------------------------------------------\033[0m",
+        "\t\033[92m---------------------[---]--------------------------------------\033[0m",
+        "\t\033[92m------------------------[---]-----------------------------------\033[0m",
+        "\t\033[92m---------------------------[---]--------------------------------\033[0m",
+        "\t\033[92m------------------------------[---]-----------------------------\033[0m",
+        "\t\033[92m----------------------------------[---]-------------------------\033[0m",
+        "\t\033[92m-------------------------------------[---]----------------------\033[0m",
+        "\t\033[92m----------------------------------------[---]-------------------\033[0m",
+        "\t\033[92m--------------------------------------------[---]---------------\033[0m",
+        "\t\033[92m-----------------------------------------------[---]------------\033[0m",
+        "\t\033[92m----------------------------------------------------[---]-------\033[0m",
+        "\t\033[92m--------------------------------------------------------[---]---\033[0m",
+        "\t\033[92m-----------------------------------------------------------[---]\033[0m",
+        "\t\033[92m[--------------------------------------------------------------]\033[0m",
+        ]
+    menu_monochrom_display = [
+        "\n\tManual search mode is prepared.",
+        "\tYou can now search for terms.",
+        '\n\tAlternative search modes:',
+        '\tI)  For Automatic scan mode type s! instead of a term.',
+        '\tII) For Comparison mode type c! instead of a term.',
+        '\n\tFurther options:',
+        '\tA) For an instructions overview type i! instead of a term.',
+        '\tB) For a version description type v! instead of a term.',
+        '\tC) For settings type set! instead of a term.',
+        '\tD) For ending the program type exit! instead of a term.',
+        '\n\tCurrent settings:',
         SDM.get_auto_update_as_text(),
         SDM.get_term_output_diplomacy_as_text(),
         SDM.get_one_line_output_as_text(),
@@ -143,9 +132,53 @@ def print_main_menu(version):
         SDM.get_alphabetical_output_as_text(),
         SDM.get_auto_scan_filters_as_text(),
         SDM.get_output_detail_level_as_text(),
+        '\n\tHint: If you want to display this menu again type ? instead of a term.'
+    ]
+    menu_color_display = [
+        "\n\t\33[97mManual search mode is prepared.",
+        "\tYou can now search for terms.\33[0m",
+        '\n\t\033[97mAlternative search modes:\033[0m',
+        '\tI)  For \033[38;5;130mAutomatic scan mode\033[0m type \033[38;5;130ms!\033[0m instead of a term.',
+        '\tII) For \033[94mComparison mode\033[0m type \033[94mc!\033[0m instead of a term.\t\t\033[94m<- New!\033[0m',
+        '\n\t\033[97mFurther options:\033[0m',
+        '\tA) For an \033[92minstructions\033[0m overview type \033[92mi!\033[0m instead of a term.',
+        '\tB) For a \033[95mversion description\033[0m type \033[95mv!\033[0m instead of a term.',
+        '\tC) For \033[93msettings\033[0m type \033[93mset!\033[0m instead of a term.\t\t\t\033[93m<- New!\033[0m',
+        '\tD) For \033[91mending the program\033[0m type \033[91mexit!\033[0m instead of a term.',
+        '\n\t\033[97mCurrent settings:\033[0m',
+        SDM.get_auto_update_as_text(),
+        SDM.get_term_output_diplomacy_as_text(),
+        SDM.get_one_line_output_as_text(),
+        SDM.get_headline_printing_as_text(),
+        SDM.get_alphabetical_output_as_text(),
+        SDM.get_auto_scan_filters_as_text(),
+        SDM.get_output_detail_level_as_text(),
+        '\n\tHint: If you want to \033[92mdisplay this menu again\033[0m type \033[92m?\033[0m instead of a term.'
+    ]
 
-        '\n\n\tHint: If you want to \033[92mdisplay this overview again\033[0m type \033[92m?\033[0m instead of a term.'
-    )
+    # printing main menu ------------------------------------------------------
+    os.system('cls')
+    print(headline)
+    print(progress[0])
+
+    NSP.play_mp3("./src/data/GUI_sound/Signal.mp3")
+    time.sleep(.5)
+
+    for lines in range(len(menu_monochrom_display)):
+
+        os.system('cls')
+        print(headline)
+        print(progress[lines+1])
+        for l in range(0, lines):
+            print(menu_monochrom_display[l])
+        time.sleep(.05)
+
+    time.sleep(.4)
+    os.system('cls')
+    print(headline)
+    print(progress[0])
+    for line in range(len(menu_color_display)):
+        print(menu_color_display[line])
 
 
 def print_exit_without_download():
@@ -189,9 +222,9 @@ def create_excel(fd):
     return workbook_title
 
 
-def create_comparison_result_excel(fd):
+def create_comparison_result_excel(fd, counter):
 
-    workbook_title = "output/excel_files/M2E_Comparison_Results_(" + str(fd) + ").xlsx"
+    workbook_title = "output/excel_files/M2E_Comparison_Results_" + str(counter) + "_(" + str(fd) + ").xlsx"
     # Eine neue Excel-Datei erstellen
     workbook = openpyxl.Workbook()
 
@@ -232,88 +265,52 @@ def download_database(url):
 def show_instructions():
     time.sleep(1)
     os.system('cls')
-    print("\n\t\033[92m" + "\n\tOpening instructions file...\n" + "\033[0m")
-    time.sleep(1)
-    subprocess.Popen("./src/data/Externals/MEDEL_Report.pdf")
-
-
-"""
-def show_instructions():
-    time.sleep(1)
+    print_opening(version="3.0c")
+    print("\n\t\033[92mInstructions\033[0m"
+          "\n\t\033[92m[--------------------------------------------------------------]\033[0m")
+    time.sleep(.5)
+    print("\n\t\033[93m" + "\n\tOpening PDF Handbook...\n" + "\033[0m")
+    time.sleep(2)
+    try:
+        current_directory = os.getcwd()
+        instructions_pdf_path = "src\data\Externals\M2E_v3.0c_EAP_Handbook.pdf"
+        path = os.path.join(current_directory, instructions_pdf_path)
+        command = f'"{path}"'
+        os.system(command)
+    except Exception:
+        print("\n\t\033[91mWarning:\033[0m The program was not able to open the handbook file"
+              "due to problems with the source path!"
+              'You can find the respective file under '
+              '\033[93msrc/data/Externals/M2E_v3.0c_EAP_Handbook.pdf\033[0m and open it manually.')
+        input("\n\n\tType in any character to return to main menu: ")
+        os.system('cls')
     os.system('cls')
-
-    print("\033[92m" + "\n\tInstructions:" + "\033[0m")
-    time.sleep(1.5)
-    print("\n\t1) Searching a term (manually)")
-    time.sleep(.25)
-    print("\n\t\t- You can search a term be typing it in and pressing enter.")
-    time.sleep(.25)
-    print("\n\t\t- This procedure can be repeated till you end this program.")
-    time.sleep(.25)
-    print("\n\t\t- You can only SEARCH for one term at the same time.")
-    time.sleep(.25)
-    print("\n\t\t- Results are saved into an excel file (.xlsx).")
-    time.sleep(.25)
-    print("\n\t\t- This excel output will open automatically after the end of the program"
-          "\n\t\t  if you searched at least one term.")
-    time.sleep(.25)
-    print("\n\t\t- There is also a short logfile (.txt), which covers the search history and system information.")
-    time.sleep(.25)
-    print("\n\t\t- This file is useful for development purposes and does not belong to the search results.")
-    time.sleep(.25)
-    print("\n\t7) To FILTER your results you can define the part of speech characteristics of the term as follows:"
-          '\n\n\t\tgeneral:     "term:PoS"'
-          '\n\t\texamples:    "cool:Noun"  /  "cool:Adjective"  /  "hide:Verb"  /  "hide:Adjective:Adverb"'
-          '\n\n\t\tThere are the following pos types you can filter on: '
-          '(Noun, Verb, Adverb, Adjective, Preposition, Phrase).'
-          '\n\t\tYou can search for more than one pos type by connecting them via ":" (see last example).')
-    time.sleep(.25)
-    print('\n\t8) By typing in "s!" you can enter the scan mode. '
-          '\n\t\tHere you are free to select an excel file in the directory, which will be scanned for possible terms. '
-          '\n\t\tThese terms will automatically be searched in the wiki_morph database. '
-          '\n\t\tYou can use the manual search before or after the automatic scan. '
-          '\n\t\tThese modes do not depend from each other.'
-          '\n\t\tYou can also execute the automatic scan several times in a row. '
-          '\n\t\tBut be aware that the respective outputs are combined in one final output table!'
-          '\n\t\tFor separating the outputs and getting different tables you need to end\n\t\tand restart the program'
-          ' and plan the scans / manual searches respectively. '
-          '\n\t\tHint: soon there will be a version update which allows outputting and cleaning the cache on the flow.')
-    time.sleep(.25)
-    print('\n\t9) You can find the outputs in the folder "Output/excel_files" and the logs in "Output/log_files".')
-    time.sleep(.25)
-    print('\n\t10) There is a new mode called "Comparison mode", which allows you to scan in two excel tables'
-          '\n\t\tand compare them. The program will generate an overview which terms were found in which table'
-          '\n\t\tand which are common or unique.'
-          '\n\n\t\tAttention: This only works with excel files which contain the terms in the first column!'
-          '\n\t\tThe resulting overview is an excel file which will be saved as "M2E_Comparion_Results_[]" in'
-          '\n\t\tthe folder Output/excel_files.')
-    time.sleep(.25)
-    print("\n\t11) The settings mode is a new feature as well and allows you to influence several aspects"
-          "\n\t\tof the program, mostly regarding the output. There are always a description and the "
-          "\n\t\trespective options given for a setting for an intuitive user experience. "
-          "\n\t\tChanges are saved on the flow, so a crash of the program will not delete the progress.")
-    time.sleep(.25)
-    print("\n\n\tYou can type in any character/number now to return to main menu.")
-"""
+    print_opening(version="3.0c")
+    print("\n\t\033[92mInstructions\033[0m"
+          "\n\t\033[92m[--------------------------------------------------------------]\033[0m")
+    print("\n\tReturning to main menu...")
+    time.sleep(1)
 
 
 def show_version_description():
     time.sleep(1)
     os.system('cls')
-    print("\033[91m" + "\n\tWhat´s new in version 3.0c?" + "\033[0m")
+    print_opening(version="3.0c")
+    print("\033[95m" + "\n\tWhat´s new in version 3.0c?" + "\033[0m"
+          "\n\t\033[95m[--------------------------------------------------------------]\033[0m")
     time.sleep(1.5)
-    print("\n\t1) There is a new comparison mode, "
+    print("\n\t\33[95m1)\33[0m There is a new comparison mode, "
           "\n\t\twhich allows you to select two excel files in the directory. "
           "\n\t\tThe first column of these files will be scanned and for every term, "
           "\n\t\tM2E will determine, in which of the files the term occurs."
           "\n\t\tThe results of this comparison will not be saved in the standard output_excel file,"
           "\n\t\tbut in an additional comparison_results excel file in the same folder,"
           "\n\t\tas described in the instructions."
-          "\n\t\t\033[93m" + "Note:" + "\033[0m The program will ignore the first column of your excel files, "
+          "\n\n\t\t\033[93m" + "Note:" + "\033[0m The program will ignore the first column of your excel files, "
           "\n\t\tsince headlines should not be taken into account."
           "\n\t\tAccordingly please take care if your terms do not start with the second row!")
     time.sleep(.25)
-    print("\n\t2) There is also a new settings mode, "
+    print("\n\t\33[95m2)\33[0m There is also a new settings mode, "
           "\n\t\tin which you can adjust several system variables. "
           "\n\t\tMost of them relate to the output. Changes will be saved on the flow."
           "\n\n\t\tIn total there are seven variables to change:"
@@ -326,18 +323,18 @@ def show_version_description():
           "\n\t\t\t7. Output Detail Level Control"
           "\n\n\t\tFor every setting there are a description and the respective options given.")
     time.sleep(.25)
-    print("\n\t3) There is a new notification sound which informs you about a finished process like: "
-          "\n\t\t\t1. Loading the database or the main menu."
-          "\n\t\t\t2. Saving results from auto scan mode."
-          "\n\t\t\t3. Saving results from comparison mode."
-          "\n\t\t\t4. Saving changes in settings mode."
-          "\n\t\t\t5. ...")
+    print("\n\t\33[95m3)\33[0m There is a new notification sound which informs you about a finished process like: "
+          "\n\t\t1. Loading the database or the main menu."
+          "\n\t\t2. Saving results from auto scan mode."
+          "\n\t\t3. Saving results from comparison mode."
+          "\n\t\t4. Saving changes in settings mode."
+          "\n\t\t5. ...")
     time.sleep(.25)
-    print("\n\t4) The main menu was revised."
-          "\n\t\t\t1. Better structure and new color schemes."
-          "\n\t\t\t2. A new overview of the current system settings was added.")
+    print("\n\t\33[95m4)\33[0m The system menus were revised."
+          "\n\t\t1. Better structure and new color schemes."
+          "\n\t\t2. A new overview of the current system settings for the main menu was added.")
     time.sleep(.25)
-    print("\n\n\tYou can type in any character/number now to return to main menu.")
+    print("\n\n\tYou can type in any character to return to main menu.")
 
 
 def print_headlines(worksheet, excel_row, output_detail_level):
@@ -704,7 +701,7 @@ def select_excel_file():
     return excel_file
 
 
-def autoscan(excel_file, duplicates=False, abc=True, abc_ascending=True):
+def autoscan(excel_file, duplicates=False, abc=True, abc_ascending=True, test_for_invalides=True):
     # Read the Excel file
     data = pd.read_excel(excel_file)
 
@@ -719,10 +716,11 @@ def autoscan(excel_file, duplicates=False, abc=True, abc_ascending=True):
             terms = sorted(terms, reverse=True)     # alphabetical order (descending)
 
     invalid_terms = []
-    for term in terms:
-        if not is_valid_scan(term):
-            terms.pop(terms.index(term))
-            invalid_terms.append(term)
+    if test_for_invalides:
+        for term in terms:
+            if not is_valid_scan(term):
+                terms.pop(terms.index(term))
+                invalid_terms.append(term)
 
     terms = [term.lower() for term in terms]
 
@@ -805,9 +803,11 @@ def write_comparison_result_excel(worksheet, file_1, file_2, list_of_terms_1, li
 def display_settings(setting, current_var, current_var_2=""):
 
     if setting == 1:
-        print("\033[93m" + "\n\t~ Settings Menu ~" + "\033[0m"
+        print_opening(version="3.0c")
+        print("\033[93m\n\t~ Settings Menu ~"
+              "\n\t----------------------------------------------------------------\033[0m"
               "\n\n\tSetting 1/7: Automatic Database Updates"
-              "\n\t----------------------------------------------------"
+              "\n\t[-------]-------------------------------------------------------"
               "\n\n\tDescription: "
               "\n\tThe program will automatically search for wiki_morph updates "
               "\n\tbefore loading the installed version of the database. "
@@ -819,9 +819,11 @@ def display_settings(setting, current_var, current_var_2=""):
             print("\n\tOptions:\n\t\t\t\033[93m" + "->" + "\033[0m\t1. on\n\t\t\t\t2. off")
 
     elif setting == 2:
-        print("\033[93m" + "\n\t~ Settings Menu ~" + "\033[0m"
+        print_opening(version="3.0c")
+        print("\033[93m\n\t~ Settings Menu ~"
+              "\n\t----------------------------------------------------------------\033[0m"
               "\n\n\tSetting 2/7: Term Output Diplomacy"
-              "\n\t----------------------------------------------------"
+              "\n\t---------[-------]----------------------------------------------"
               "\n\n\tDescription: "
               "\n\tDecide, which of the terms you searched shall be considered in the output."
               "\n\tThis only affects the excel table. The log_file.txt cannot be changed.")
@@ -836,9 +838,11 @@ def display_settings(setting, current_var, current_var_2=""):
                   "\n\t\t\t\t2. only not found terms\n\t\t\t\033[93m" + "->" + "\033[0m\t3. all searched terms")
 
     elif setting == 3:
-        print("\033[93m" + "\n\t~ Settings Menu ~" + "\033[0m"
+        print_opening(version="3.0c")
+        print("\033[93m\n\t~ Settings Menu ~"
+              "\n\t----------------------------------------------------------------\033[0m"
               "\n\n\tSetting 3/7: Output Format"
-              "\n\t----------------------------------------------------"
+              "\n\t------------------[-------]-------------------------------------"
               "\n\n\tDescription: "
               "\n\tThe excel output can either be structured with one-line or multiline format."
               "\n\tMulti-line format is more readable and provides a better overview for the user."
@@ -850,9 +854,11 @@ def display_settings(setting, current_var, current_var_2=""):
             print("\n\tOptions:\n\t\t\t\t1. one-line\n\t\t\t\033[93m" + "->" + "\033[0m\t2. multi-line")
 
     elif setting == 4:
-        print("\033[93m" + "\n\t~ Settings Menu ~" + "\033[0m"
+        print_opening(version="3.0c")
+        print("\033[93m\n\t~ Settings Menu ~"
+              "\n\t----------------------------------------------------------------\033[0m"
               "\n\n\tSetting 4/7: Headline Printing"
-              "\n\t----------------------------------------------------"
+              "\n\t---------------------------[-------]----------------------------"
               "\n\n\tDescription: "
               "\n\tThe program is able to repeat the printing of a standardized headline for the"
               "\n\tresulting output excel file."
@@ -874,9 +880,11 @@ def display_settings(setting, current_var, current_var_2=""):
                   "\n\t\t\t\033[93m" + "->" + "\033[0m\t3. for every new term printed")
 
     elif setting == 5:
-        print("\033[93m" + "\n\t~ Settings Menu ~" + "\033[0m"
+        print_opening(version="3.0c")
+        print("\033[93m\n\t~ Settings Menu ~"
+              "\n\t----------------------------------------------------------------\033[0m"
               "\n\n\tSetting 5/7: Alphabetical Output Order"
-              "\n\t----------------------------------------------------"
+              "\n\t------------------------------------[--------]------------------"
               "\n\n\tDescription: "
               "\n\tDecide, if the output shall be structured in alphabetical order."
               "\n\tNote: For the moment this functionality is only available for auto scan mode."
@@ -895,9 +903,11 @@ def display_settings(setting, current_var, current_var_2=""):
                   "\n\t\t\t\033[93m" + "->" + "\033[0m\t3. non-alphabetical")
 
     elif setting == 6:
-        print("\033[93m" + "\n\t~ Settings Menu ~" + "\033[0m"
+        print_opening(version="3.0c")
+        print("\033[93m\n\t~ Settings Menu ~"
+              "\n\t----------------------------------------------------------------\033[0m"
               "\n\n\tSetting 6/7: Automatic Scan Filters"
-              "\n\t----------------------------------------------------"
+              "\n\t----------------------------------------------[-------]---------"
               "\n\n\tDescription: "
               "\n\tSince you are familiar with the automatic scan mode,"
               "\n\tyou can specify the search of the scanned terms by presetting"
@@ -967,9 +977,11 @@ def display_settings(setting, current_var, current_var_2=""):
               "\n\tThe results will be saved into the same excel file as usual.")
 
     elif setting == 7:
-        print("\033[93m" + "\n\t~ Settings Menu ~" + "\033[0m"
+        print_opening(version="3.0c")
+        print("\033[93m\n\t~ Settings Menu ~"
+              "\n\t----------------------------------------------------------------\033[0m"
               "\n\n\tSetting 7/7: Output Detail Level"
-              "\n\t----------------------------------------------------"
+              "\n\t-------------------------------------------------------[-------]"
               "\n\n\tDescription: "
               "\n\tFor every term entry in the database there are three levels of information:"
               "\n\tThe basic term data (Level 1, output print color: black), "
@@ -993,9 +1005,11 @@ def display_settings(setting, current_var, current_var_2=""):
 def display_settings_after_changes(setting, current_var, current_var_2=""):
 
     if setting == 1:
-        print("\033[93m" + "\n\t~ Settings Menu ~" + "\033[0m"
+        print_opening(version="3.0c")
+        print("\033[93m\n\t~ Settings Menu ~"
+              "\n\t----------------------------------------------------------------\033[0m"
               "\n\n\tSetting 1/7: Automatic Database Updates"
-              "\n\t----------------------------------------------------"
+              "\n\t[-------]-------------------------------------------------------"
               "\n\n\tDescription: "
               "\n\tThe program will automatically search for wiki_morph updates "
               "\n\tbefore loading the installed version of the database. "
@@ -1007,9 +1021,11 @@ def display_settings_after_changes(setting, current_var, current_var_2=""):
             print("\n\tOptions:\n\t\t\t\033[92m" + "->" + "\033[0m\t1. on\n\t\t\t\t2. off")
 
     elif setting == 2:
-        print("\033[93m" + "\n\t~ Settings Menu ~" + "\033[0m"
+        print_opening(version="3.0c")
+        print("\033[93m\n\t~ Settings Menu ~"
+              "\n\t----------------------------------------------------------------\033[0m"
               "\n\n\tSetting 2/7: Term Output Diplomacy"
-              "\n\t----------------------------------------------------"
+              "\n\t---------[-------]----------------------------------------------"
               "\n\n\tDescription: "
               "\n\tDecide, which of the terms you searched shall be considered in the output."
               "\n\tThis only affects the excel table. The log_file.txt cannot be changed.")
@@ -1024,9 +1040,11 @@ def display_settings_after_changes(setting, current_var, current_var_2=""):
                   "\n\t\t\t\t2. only not found terms\n\t\t\t\033[92m" + "->" + "\033[0m\t3. all searched terms")
 
     elif setting == 3:
-        print("\033[93m" + "\n\t~ Settings Menu ~" + "\033[0m"
+        print_opening(version="3.0c")
+        print("\033[93m\n\t~ Settings Menu ~"
+              "\n\t----------------------------------------------------------------\033[0m"
               "\n\n\tSetting 3/7: Output Format"
-              "\n\t----------------------------------------------------"
+              "\n\t------------------[-------]-------------------------------------"
               "\n\n\tDescription: "
               "\n\tThe excel output can either be structured with one-line or multiline format."
               "\n\tMulti-line format is more readable and provides a better overview for the user."
@@ -1038,9 +1056,11 @@ def display_settings_after_changes(setting, current_var, current_var_2=""):
             print("\n\tOptions:\n\t\t\t\t1. one-line\n\t\t\t\033[92m" + "->" + "\033[0m\t2. multi-line")
 
     elif setting == 4:
-        print("\033[93m" + "\n\t~ Settings Menu ~" + "\033[0m"
+        print_opening(version="3.0c")
+        print("\033[93m\n\t~ Settings Menu ~"
+              "\n\t----------------------------------------------------------------\033[0m"
               "\n\n\tSetting 4/7: Headline Printing"
-              "\n\t----------------------------------------------------"
+              "\n\t---------------------------[-------]----------------------------"
               "\n\n\tDescription: "
               "\n\tThe program is able to repeat the printing of a standardized headline for the"
               "\n\tresulting output excel file."
@@ -1062,9 +1082,11 @@ def display_settings_after_changes(setting, current_var, current_var_2=""):
                   "\n\t\t\t\033[92m" + "->" + "\033[0m\t3. for every new term printed")
 
     elif setting == 5:
-        print("\033[93m" + "\n\t~ Settings Menu ~" + "\033[0m"
+        print_opening(version="3.0c")
+        print("\033[93m\n\t~ Settings Menu ~"
+              "\n\t----------------------------------------------------------------\033[0m"
               "\n\n\tSetting 5/7: Alphabetical Output Order"
-              "\n\t----------------------------------------------------"
+              "\n\t------------------------------------[--------]------------------"
               "\n\n\tDescription: "
               "\n\tDecide, if the output shall be structured in alphabetical order."
               "\n\tNote: For the moment this functionality is only available for auto scan mode."
@@ -1083,9 +1105,11 @@ def display_settings_after_changes(setting, current_var, current_var_2=""):
                   "\n\t\t\t\033[92m" + "->" + "\033[0m\t3. non-alphabetical")
 
     elif setting == 6:
-        print("\033[93m" + "\n\t~ Settings Menu ~" + "\033[0m"
+        print_opening(version="3.0c")
+        print("\033[93m\n\t~ Settings Menu ~"
+              "\n\t----------------------------------------------------------------\033[0m"
               "\n\n\tSetting 6/7: Automatic Scan Filters"
-              "\n\t----------------------------------------------------"
+              "\n\t----------------------------------------------[-------]---------"
               "\n\n\tDescription: "
               "\n\tSince you are familiar with the automatic scan mode,"
               "\n\tyou can specify the search of the scanned terms by presetting"
@@ -1155,9 +1179,11 @@ def display_settings_after_changes(setting, current_var, current_var_2=""):
               "\n\tThe results will be saved into the same excel file as usual.")
 
     elif setting == 7:
-        print("\033[93m" + "\n\t~ Settings Menu ~" + "\033[0m"
+        print_opening(version="3.0c")
+        print("\033[93m\n\t~ Settings Menu ~"
+              "\n\t----------------------------------------------------------------\033[0m"
               "\n\n\tSetting 7/7: Output Detail Level"
-              "\n\t----------------------------------------------------"
+              "\n\t-------------------------------------------------------[-------]"
               "\n\n\tDescription: "
               "\n\tFor every term entry in the database there are three levels of information:"
               "\n\tThe basic term data (Level 1, output print color: black), "
