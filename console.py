@@ -274,7 +274,7 @@ def search_for_terms(log_title, workbook_title):
             time.sleep(2)
             stop = True
             if open_excel_automatically:
-                print("\033[93m" + "\n\tOpening search results...\033[0m")
+                print("\033[33m" + "\n\tOpening search results...\033[0m")
                 time.sleep(2)
                 os.system(f'start "" {workbook_title}')
             if comparison_counter != 1:
@@ -285,7 +285,7 @@ def search_for_terms(log_title, workbook_title):
                     time.sleep(2)
             time.sleep(2)
             os.system('cls')
-        elif i == "i!":
+        elif i == "i!" or i == "?":
             CA.show_instructions()
             time.sleep(3)
             print_main_menu_again = True
@@ -293,7 +293,7 @@ def search_for_terms(log_title, workbook_title):
             CA.show_version_description()
             i = input()
             print_main_menu_again = True
-        elif i == "?":
+        elif i == "":
             print_main_menu_again = True
 
         # AUTOMATIC SCAN MODE ------------------------------------------------------------------------------------------
@@ -306,19 +306,19 @@ def search_for_terms(log_title, workbook_title):
             open_excel_automatically = True
             os.system('cls')
             CA.print_opening(version="3.0c")
-            print("\n\t\033[38;5;130m- Automatic scan mode -\033[0m"
+            print("\n\t\033[38;5;130m- Automatic Scan Mode -\033[0m"
                   "\n\t\033[38;5;130m----------------------------------------------------------------\033[0m")
             time.sleep(1)
-            print("\n\t\33[93mPlease select an excel file to scan for possible terms.\33[0m")
+            print("\n\t\33[33mPlease select an excel file to scan for possible terms.\33[0m")
             time.sleep(1.5)
             file = CA.select_excel_file()
             start_time = time.time()
-            terms, invalid_cases = CA.autoscan(file, duplicates=True,
+            terms, invalid_cases = CA.autoscan(file, duplicates=False,
                                                abc=alphabetical_output, abc_ascending=abc_output_ascending)
             end_time = time.time()
             number_of_terms = len(terms) + len(invalid_cases)
             number_of_valid_cases = len(terms)
-            status = "\n\t\033[38;5;130m- Automatic scan mode -\033[0m" \
+            status = "\n\t\033[38;5;130m- Automatic Scan Mode -\033[0m" \
                      "\n\t\033[38;5;130m----------------------------------------------------------------\033[0m"\
                      "\n\n\tExcel file: " + file +\
                      "\n\tFound terms: " + str(number_of_terms) +\
@@ -359,8 +359,8 @@ def search_for_terms(log_title, workbook_title):
                     progress = format(100*(x/number_of_valid_cases), ".2f")
                     CA.print_opening(version="3.0c")
                     print(status)
-                    print("\n\t\033[93mSearching for terms...\033[0m"
-                          "\n\tCurrent term: " + term + "\t\tProgress: " + str(progress) + "%")
+                    print("\n\t\033[38;5;130mSearching for terms...\033[0m"
+                          "\n\tCurrent term: " + term + "\t\tProgress: \33[38;5;130m" + str(progress) + "%\33[0m")
 
                     worksheet, excel_row, log_output = CA.search_and_output(worksheet=worksheet,
                                                                             excel_row=excel_row,
@@ -384,8 +384,8 @@ def search_for_terms(log_title, workbook_title):
                     progress = format(100 * (x / number_of_valid_cases), ".2f")
                     CA.print_opening(version="3.0c")
                     print(status)
-                    print("\n\t\033[93mSearching for terms...\033[0m"
-                          "\n\tCurrent term: " + term + "\t\tProgress: " + str(progress) + "%")
+                    print("\n\t\033[38;5;130mSearching for terms...\033[0m"
+                          "\n\tCurrent term: " + term + "\t\tProgress: \33[38;5;130m" + str(progress) + "%\33[0m")
 
                     worksheet, excel_row, log_output = CA.search_and_output(worksheet=worksheet,
                                                                             excel_row=excel_row,
@@ -409,8 +409,8 @@ def search_for_terms(log_title, workbook_title):
                     progress = format(100 * (x / number_of_valid_cases), ".2f")
                     CA.print_opening(version="3.0c")
                     print(status)
-                    print("\n\t\033[93mSearching for terms...\033[0m"
-                          "\n\tCurrent term: " + term + "\t\tProgress: " + str(progress) + "%")
+                    print("\n\t\033[38;5;130mSearching for terms...\033[0m"
+                          "\n\tCurrent term: " + term + "\t\tProgress: \33[38;5;130m" + str(progress) + "%\33[0m")
 
                     worksheet, excel_row, log_output = CA.search_and_output(worksheet=worksheet,
                                                                             excel_row=excel_row,
@@ -451,13 +451,13 @@ def search_for_terms(log_title, workbook_title):
         elif i == "c!":
             os.system('cls')
             CA.print_opening(version="3.0c")
-            status = "\n\t\033[94m- Comparison mode -\033[0m"\
+            status = "\n\t\033[94m- Comparison Mode -\033[0m"\
                      "\n\t\033[94m----------------------------------------------------------------\033[0m"
             print(status)
             print("\n\tPlease select two excel files you want to compare.")
-            time.sleep(3)
-            print("\n\t\33[93mSelect excel file 1 now.\33[0m")
-            time.sleep(3)
+            time.sleep(2)
+            print("\n\t\33[33mSelect excel file 1 now.\33[0m")
+            time.sleep(2)
             file_1 = CA.select_excel_file()
             terms_1, invalid_terms_1 = CA.autoscan(file_1, test_for_invalides=False)
             number_of_terms_1 = len(terms_1)
@@ -473,8 +473,8 @@ def search_for_terms(log_title, workbook_title):
             os.system('cls')
             CA.print_opening(version="3.0c")
             print(status)
-            print("\n\t\33[93mSelect excel file 2 now.\33[0m")
-            time.sleep(3)
+            print("\n\t\33[33mSelect excel file 2 now.\33[0m")
+            time.sleep(2)
             file_2 = CA.select_excel_file()
             terms_2, invalid_terms_2 = CA.autoscan(file_2, test_for_invalides=False)
             number_of_terms_2 = len(terms_2)
@@ -503,8 +503,8 @@ def search_for_terms(log_title, workbook_title):
                 os.system('cls')
                 CA.print_opening(version="3.0c")
                 print(status)
-                print("\n\tComparing terms from file 1..."
-                      "\n\tCurrent term: " + str(term) + "\t\tProgress: " + str(progress) + "%")
+                print("\n\t\33[94mComparing terms from file 1...\33[0m"
+                      "\n\tCurrent term: " + str(term) + "\t\tProgress: \33[94m" + str(progress) + "%\33[0m")
                 if term in terms_2:
                     common_terms.append(term)
                 else:
@@ -519,7 +519,8 @@ def search_for_terms(log_title, workbook_title):
             NSP.play_mp3("./src/data/GUI_sound/Signal.mp3")
             print("\n\t\033[92mComparison of terms from file 1 finished!\033[0m")
             print("\n\t", CA.measure_time(start_time, end_time, search=False, comparison=True))
-            input("\n\tType in anything to continue: ")
+            input("\n\tType in anything to compare terms of file 2: ")
+            time.sleep(1)
 
             start_time = time.time()
             for x in range(number_of_terms_2):
@@ -528,8 +529,8 @@ def search_for_terms(log_title, workbook_title):
                 os.system('cls')
                 CA.print_opening(version="3.0c")
                 print(status)
-                print("\n\t\33[93mComparing terms from file 2...\33[0m"
-                      "\n\tCurrent term: " + str(term) + "\t\tProgress: " + str(progress) + "%")
+                print("\n\t\33[94mComparing terms from file 2...\33[0m"
+                      "\n\tCurrent term: " + str(term) + "\t\tProgress: \33[94m" + str(progress) + "%\33[0m")
                 if term in terms_1:
                     common_terms.append(term)
                 else:
@@ -587,7 +588,7 @@ def search_for_terms(log_title, workbook_title):
         # SETTINGS MODE ------------------------------------------------------------------------------------------------
         elif i == "set!":
             time.sleep(1)
-            intro = "\033[93m\n\t~ Settings Menu ~" \
+            intro = "\033[33m\n\t~ Settings Menu ~" \
                     "\n\t----------------------------------------------------------------\033[0m" \
                     "\n\n\tThe several settings you can change will be displayed in succession." \
                     "\n\tFor every setting there will be the respective options given." \
@@ -820,7 +821,7 @@ def search_for_terms(log_title, workbook_title):
 
             os.system('cls')
             CA.print_opening(version="3.0c")
-            outro = "\033[93m\n\t~ Settings Menu ~" \
+            outro = "\033[33m\n\t~ Settings Menu ~" \
                     "\n\t----------------------------------------------------------------\033[0m" \
                     "\033[92m" + "\n\n\tNew configurations were saved!" + "\033[0m" \
                     "\n\n\tReturning to main menu..."
@@ -848,8 +849,8 @@ def search_for_terms(log_title, workbook_title):
                     os.system('cls')
                     CA.print_opening(version="3.0c")
                     CA.print_manual_search_headline()
-                    print('\n\tSearching for term \33[93m' + term + '\33[0m '
-                          'with pos tag \33[93m(' + pos_filters + ')\33[0m...')
+                    print('\n\tSearching for term \33[33m' + term + '\33[0m '
+                          'with pos tag \33[33m(' + pos_filters + ')\33[0m...')
                     time.sleep(2)
                 else:
                     pos_filters = "Noun, Verb, Adjective, Adverb, Preposition, Phrase"
@@ -857,7 +858,7 @@ def search_for_terms(log_title, workbook_title):
                     os.system('cls')
                     CA.print_opening(version="3.0c")
                     CA.print_manual_search_headline()
-                    print('\n\tSearching for term \33[93m' + term + '\33[0m ...')
+                    print('\n\tSearching for term \33[33m' + term + '\33[0m ...')
                     time.sleep(2)
                 if term_output_diplomacy == 1:
                     worksheet, excel_row, log_output = CA.search_and_output(worksheet=worksheet,
@@ -896,7 +897,7 @@ def search_for_terms(log_title, workbook_title):
                                                                             headline_printing=headline_printing,
                                                                             hap=headline_already_printed)
 
-                print("\n\t\33[93mSaving results...\33[0m")
+                print("\n\t\33[33mSaving results...\33[0m")
                 time.sleep(1)
 
                 log = open(log_title, "a", encoding="utf-8")

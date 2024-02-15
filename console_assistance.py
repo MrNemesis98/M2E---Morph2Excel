@@ -22,7 +22,7 @@ def is_valid_input(i):
         i = pos[0]
         pos.pop(0)
 
-    allowed_inputs = ['exit!', 'set!', 's!', 'i!', 'v!', 'c!', '?', ]
+    allowed_inputs = ['exit!', 'set!', 's!', 'i!', 'v!', 'c!', '?', '']
     for char in i:
         if not (char.isalpha() or i in allowed_inputs):
             print_opening(version="3.0c")
@@ -63,14 +63,14 @@ def measure_time(start, end, search=True, comparison=False):
     elapsed_seconds = int(elapsed_time_seconds % 60)
     elapsed_seconds_formatted = "{:02d}".format(elapsed_seconds)
     if comparison:
-        return (f"\t\033[92mTime needed for comparison:\033[0m {elapsed_minutes} minutes and "
-                f"{elapsed_seconds_formatted} seconds.")
+        return (f"\tTime needed for comparison:\033[94m {elapsed_minutes} minutes and "
+                f"{elapsed_seconds_formatted} seconds.\33[0m")
     if search:
-        return (f"\t\033[92mTime needed for search:\033[0m {elapsed_minutes} minutes and "
-                f"{elapsed_seconds_formatted} seconds.")
+        return (f"\tTime needed for search:\33[92m {elapsed_minutes} minutes and "
+                f"{elapsed_seconds_formatted} seconds.\33[0m")
     else:
-        return (f"\t\033[92mTime needed for scan:\033[0m "
-                f"{elapsed_minutes} minutes and {elapsed_seconds_formatted} seconds.")
+        return (f"\tTime needed for scan: "
+                f"\33[38;5;130m{elapsed_minutes} minutes and {elapsed_seconds_formatted} seconds.\33[0m")
 
 
 def print_opening(version):
@@ -83,7 +83,7 @@ def print_manual_search_headline(tip=False):
           "\n\t\033[97m----------------------------------------------------------------\033[0m")
     if tip:
         print('\n\t\33[92mTip:\33[0m If you want to display the\033[92m main menu\033[0m again '
-              'type \033[92m?\033[0m instead of a term.')
+              'just press \033[92menter\033[0m.')
 
 
 def print_main_menu(version):
@@ -117,10 +117,10 @@ def print_main_menu(version):
         "\n\tManual search mode is prepared.",
         "\tYou can now search for terms.",
         '\n\tAlternative search modes:',
-        '\tI)  For Automatic scan mode type s! instead of a term.',
-        '\tII) For Comparison mode type c! instead of a term.',
+        '\tI)  For Automatic Scan Mode type s! instead of a term.',
+        '\tII) For Comparison Mode type c! instead of a term.',
         '\n\tFurther options:',
-        '\tA) For an instructions overview type i! instead of a term.',
+        '\tA) For an instructions overview type i! or ? instead of a term.',
         '\tB) For a version description type v! instead of a term.',
         '\tC) For settings type set! instead of a term.',
         '\tD) For ending the program type exit! instead of a term.',
@@ -132,18 +132,18 @@ def print_main_menu(version):
         SDM.get_alphabetical_output_as_text(),
         SDM.get_auto_scan_filters_as_text(),
         SDM.get_output_detail_level_as_text(),
-        '\n\tHint: If you want to display this menu again type ? instead of a term.'
+        '\n\tHint: If you want to display this menu again just press enter.'
     ]
     menu_color_display = [
         "\n\t\33[97mManual search mode is prepared.",
         "\tYou can now search for terms.\33[0m",
         '\n\t\033[97mAlternative search modes:\033[0m',
-        '\tI)  For \033[38;5;130mAutomatic scan mode\033[0m type \033[38;5;130ms!\033[0m instead of a term.',
-        '\tII) For \033[94mComparison mode\033[0m type \033[94mc!\033[0m instead of a term.\t\t\033[94m<- New!\033[0m',
+        '\tI)  For \033[38;5;130mAutomatic Scan Mode\033[0m type \033[38;5;130ms!\033[0m instead of a term.',
+        '\tII) For \033[94mComparison Mode\033[0m type \033[94mc!\033[0m instead of a term.\t\t\033[94m<- New!\033[0m',
         '\n\t\033[97mFurther options:\033[0m',
-        '\tA) For an \033[92minstructions\033[0m overview type \033[92mi!\033[0m instead of a term.',
+        '\tA) For an \033[92minstructions\033[0m overview type \033[92mi!\033[0m or \033[92m?\033[0m instead of a term.',
         '\tB) For a \033[95mversion description\033[0m type \033[95mv!\033[0m instead of a term.',
-        '\tC) For \033[93msettings\033[0m type \033[93mset!\033[0m instead of a term.\t\t\t\033[93m<- New!\033[0m',
+        '\tC) For \033[33msettings\033[0m type \033[33mset!\033[0m instead of a term.\t\t\t\033[33m<- New!\033[0m',
         '\tD) For \033[91mending the program\033[0m type \033[91mexit!\033[0m instead of a term.',
         '\n\t\033[97mCurrent settings:\033[0m',
         SDM.get_auto_update_as_text(),
@@ -153,14 +153,13 @@ def print_main_menu(version):
         SDM.get_alphabetical_output_as_text(),
         SDM.get_auto_scan_filters_as_text(),
         SDM.get_output_detail_level_as_text(),
-        '\n\tHint: If you want to \033[92mdisplay this menu again\033[0m type \033[92m?\033[0m instead of a term.'
+        '\n\tHint: If you want to \033[92mdisplay this menu again\033[0m just press \033[92menter\033[0m.'
     ]
 
     # printing main menu ------------------------------------------------------
     os.system('cls')
     print(headline)
     print(progress[0])
-
     NSP.play_mp3("./src/data/GUI_sound/Signal.mp3")
     time.sleep(.5)
 
@@ -169,11 +168,10 @@ def print_main_menu(version):
         os.system('cls')
         print(headline)
         print(progress[lines+1])
-        for l in range(0, lines):
+        for l in range(0, lines+1):
             print(menu_monochrom_display[l])
         time.sleep(.05)
 
-    time.sleep(.4)
     os.system('cls')
     print(headline)
     print(progress[0])
@@ -186,7 +184,7 @@ def print_exit_without_download():
     print("\n\tDownload will \033[91mnot\033[0m start.")
     time.sleep(2.5)
     os.system('cls')
-    print("\n\t\033[93mNotice:\033[0m You have to download the database another time to use this program.")
+    print("\n\t\033[33mNotice:\033[0m You have to download the database another time to use this program.")
     time.sleep(6)
     os.system('cls')
     print("\n\tThe Program will now terminate. \n\tFor downloading wiki_morph you can start it again.")
@@ -246,7 +244,7 @@ def download_database(url):
         try:
             os.system('cls')
             print_opening(version="3.0c")
-            print("\033[93m" + "\n\tDownloading wikimorph database...\n" + "\033[0m")
+            print("\033[33m" + "\n\tDownloading wikimorph database...\n" + "\033[0m")
             urllib.request.urlretrieve(url, "src/database/wiki_morph.json", reporthook=progress)
             stop = True
         except Exception:
@@ -263,14 +261,13 @@ def download_database(url):
 
 
 def show_instructions():
-    time.sleep(1)
     os.system('cls')
     print_opening(version="3.0c")
     print("\n\t\033[92mInstructions\033[0m"
-          "\n\t\033[92m[--------------------------------------------------------------]\033[0m")
+          "\n\t\033[92m---------------------------------------------------------------]\033[0m")
     time.sleep(.5)
-    print("\n\t\033[93m" + "\n\tOpening PDF Handbook...\n" + "\033[0m")
-    time.sleep(2)
+    print("\n\t\033[33m" + "\n\tOpening PDF Handbook...\n" + "\033[0m")
+    time.sleep(1)
     try:
         current_directory = os.getcwd()
         instructions_pdf_path = "src\data\Externals\M2E_v3.0c_EAP_Handbook.pdf"
@@ -281,7 +278,7 @@ def show_instructions():
         print("\n\t\033[91mWarning:\033[0m The program was not able to open the handbook file"
               "due to problems with the source path!"
               'You can find the respective file under '
-              '\033[93msrc/data/Externals/M2E_v3.0c_EAP_Handbook.pdf\033[0m and open it manually.')
+              '\033[33msrc/data/Externals/M2E_v3.0c_EAP_Handbook.pdf\033[0m and open it manually.')
         input("\n\n\tType in any character to return to main menu: ")
         os.system('cls')
     os.system('cls')
@@ -306,7 +303,7 @@ def show_version_description():
           "\n\t\tThe results of this comparison will not be saved in the standard output_excel file,"
           "\n\t\tbut in an additional comparison_results excel file in the same folder,"
           "\n\t\tas described in the instructions."
-          "\n\n\t\t\033[93m" + "Note:" + "\033[0m The program will ignore the first column of your excel files, "
+          "\n\n\t\t\033[33m" + "Note:" + "\033[0m The program will ignore the first column of your excel files, "
           "\n\t\tsince headlines should not be taken into account."
           "\n\t\tAccordingly please take care if your terms do not start with the second row!")
     time.sleep(.25)
@@ -804,7 +801,7 @@ def display_settings(setting, current_var, current_var_2=""):
 
     if setting == 1:
         print_opening(version="3.0c")
-        print("\033[93m\n\t~ Settings Menu ~"
+        print("\033[33m\n\t~ Settings Menu ~"
               "\n\t----------------------------------------------------------------\033[0m"
               "\n\n\tSetting 1/7: Automatic Database Updates"
               "\n\t[-------]-------------------------------------------------------"
@@ -814,13 +811,13 @@ def display_settings(setting, current_var, current_var_2=""):
               "\n\tIf there is a new version you will have the option to download it."
               "\n\tBut the search itself may take a few seconds every time the program is started.")
         if current_var == 0:
-            print("\n\tOptions:\n\t\t\t\t1. on\n\t\t\t\033[93m" + "->" + "\033[0m\t2. off")
+            print("\n\tOptions:\n\t\t\t\t1. on\n\t\t\t\033[33m" + "->" + "\033[0m\t2. off")
         else:
-            print("\n\tOptions:\n\t\t\t\033[93m" + "->" + "\033[0m\t1. on\n\t\t\t\t2. off")
+            print("\n\tOptions:\n\t\t\t\033[33m" + "->" + "\033[0m\t1. on\n\t\t\t\t2. off")
 
     elif setting == 2:
         print_opening(version="3.0c")
-        print("\033[93m\n\t~ Settings Menu ~"
+        print("\033[33m\n\t~ Settings Menu ~"
               "\n\t----------------------------------------------------------------\033[0m"
               "\n\n\tSetting 2/7: Term Output Diplomacy"
               "\n\t---------[-------]----------------------------------------------"
@@ -828,18 +825,18 @@ def display_settings(setting, current_var, current_var_2=""):
               "\n\tDecide, which of the terms you searched shall be considered in the output."
               "\n\tThis only affects the excel table. The log_file.txt cannot be changed.")
         if current_var == 1:
-            print("\n\tOptions:\n\t\t\t\033[93m" + "->" + "\033[0m\t1. only found terms"
+            print("\n\tOptions:\n\t\t\t\033[33m" + "->" + "\033[0m\t1. only found terms"
                   "\n\t\t\t\t2. only not found terms\n\t\t\t\t3. all searched terms")
         elif current_var == 2:
             print("\n\tOptions:\n\t\t\t\t1. only found terms"
-                  "\n\t\t\t\033[93m" + "->" + "\033[0m\t2. only not found terms\n\t\t\t\t3. all searched terms")
+                  "\n\t\t\t\033[33m" + "->" + "\033[0m\t2. only not found terms\n\t\t\t\t3. all searched terms")
         else:
             print("\n\tOptions:\n\t\t\t\t1. only found terms"
-                  "\n\t\t\t\t2. only not found terms\n\t\t\t\033[93m" + "->" + "\033[0m\t3. all searched terms")
+                  "\n\t\t\t\t2. only not found terms\n\t\t\t\033[33m" + "->" + "\033[0m\t3. all searched terms")
 
     elif setting == 3:
         print_opening(version="3.0c")
-        print("\033[93m\n\t~ Settings Menu ~"
+        print("\033[33m\n\t~ Settings Menu ~"
               "\n\t----------------------------------------------------------------\033[0m"
               "\n\n\tSetting 3/7: Output Format"
               "\n\t------------------[-------]-------------------------------------"
@@ -849,13 +846,13 @@ def display_settings(setting, current_var, current_var_2=""):
               "\n\tOne-line format is recommended in case of further processing of the output data, "
               "\n\tsince it is easier to access data which is covered in only one line.")
         if current_var:
-            print("\n\tOptions:\n\t\t\t\033[93m" + "->" + "\033[0m\t1. one-line\n\t\t\t\t2. multi-line")
+            print("\n\tOptions:\n\t\t\t\033[33m" + "->" + "\033[0m\t1. one-line\n\t\t\t\t2. multi-line")
         else:
-            print("\n\tOptions:\n\t\t\t\t1. one-line\n\t\t\t\033[93m" + "->" + "\033[0m\t2. multi-line")
+            print("\n\tOptions:\n\t\t\t\t1. one-line\n\t\t\t\033[33m" + "->" + "\033[0m\t2. multi-line")
 
     elif setting == 4:
         print_opening(version="3.0c")
-        print("\033[93m\n\t~ Settings Menu ~"
+        print("\033[33m\n\t~ Settings Menu ~"
               "\n\t----------------------------------------------------------------\033[0m"
               "\n\n\tSetting 4/7: Headline Printing"
               "\n\t---------------------------[-------]----------------------------"
@@ -864,24 +861,24 @@ def display_settings(setting, current_var, current_var_2=""):
               "\n\tresulting output excel file."
               "\n\tHere you can decide, how often a headline shall be printed.")
         if current_var == 1:
-            print("\n\tOptions:\n\t\t\t\033[93m" + "->" + "\033[0m\t1. only at top of excel / no repeat"
+            print("\n\tOptions:\n\t\t\t\033[33m" + "->" + "\033[0m\t1. only at top of excel / no repeat"
                   "\n\t\t\t\t2. for every new document scanned in"
                   "\n\t\t\t\t\t(note: only in scan mode; for manual search option 1 will be used)"
                   "\n\t\t\t\t3. for every new term printed")
         elif current_var == 2:
             print("\n\tOptions:\n\t\t\t\t1. only at top of excel / no repeat"
-                  "\n\t\t\t\033[93m" + "->" + "\033[0m\t2. for every new document scanned in"
+                  "\n\t\t\t\033[33m" + "->" + "\033[0m\t2. for every new document scanned in"
                   "\n\t\t\t\t\t(note: only in scan mode; for manual search option 1 will be used)"
                   "\n\t\t\t\t3. for every new term printed")
         else:
             print("\n\tOptions:\n\t\t\t\t1. only at top of excel / no repeat"
                   "\n\t\t\t\t2. for every new document scanned in"
                   "\n\t\t\t\t\t(note: only in scan mode; for manual search option 1 will be used)"
-                  "\n\t\t\t\033[93m" + "->" + "\033[0m\t3. for every new term printed")
+                  "\n\t\t\t\033[33m" + "->" + "\033[0m\t3. for every new term printed")
 
     elif setting == 5:
         print_opening(version="3.0c")
-        print("\033[93m\n\t~ Settings Menu ~"
+        print("\033[33m\n\t~ Settings Menu ~"
               "\n\t----------------------------------------------------------------\033[0m"
               "\n\n\tSetting 5/7: Alphabetical Output Order"
               "\n\t------------------------------------[--------]------------------"
@@ -890,21 +887,21 @@ def display_settings(setting, current_var, current_var_2=""):
               "\n\tNote: For the moment this functionality is only available for auto scan mode."
               "\n\tManual search output will not be structured anyway.")
         if current_var and current_var_2:
-            print("\n\tOptions:\n\t\t\t\033[93m" + "->" + "\033[0m\t1. alphabetical, ascending"
+            print("\n\tOptions:\n\t\t\t\033[33m" + "->" + "\033[0m\t1. alphabetical, ascending"
                   "\n\t\t\t\t2. alphabetical, descending"
                   "\n\t\t\t\t3. non-alphabetical")
         elif current_var and not current_var_2:
             print("\n\tOptions:\n\t\t\t\t1. alphabetical, ascending"
-                  "\n\t\t\t\033[93m" + "->" + "\033[0m\t2. alphabetical, descending"
+                  "\n\t\t\t\033[33m" + "->" + "\033[0m\t2. alphabetical, descending"
                   "\n\t\t\t\t3. non-alphabetical")
         else:
             print("\n\tOptions:\n\t\t\t\t1. alphabetical, ascending"
                   "\n\t\t\t\t2. alphabetical, descending"
-                  "\n\t\t\t\033[93m" + "->" + "\033[0m\t3. non-alphabetical")
+                  "\n\t\t\t\033[33m" + "->" + "\033[0m\t3. non-alphabetical")
 
     elif setting == 6:
         print_opening(version="3.0c")
-        print("\033[93m\n\t~ Settings Menu ~"
+        print("\033[33m\n\t~ Settings Menu ~"
               "\n\t----------------------------------------------------------------\033[0m"
               "\n\n\tSetting 6/7: Automatic Scan Filters"
               "\n\t----------------------------------------------[-------]---------"
@@ -915,7 +912,7 @@ def display_settings(setting, current_var, current_var_2=""):
               "\n\tThis is based on the concept from the manual search mode."
               "\n\tYou can choose the following pos filter settings:")
         if current_var == "Noun":
-            print("\n\tOptions:\n\t\t\t\033[93m" + "->" + "\033[0m\t1. Nouns only"
+            print("\n\tOptions:\n\t\t\t\033[33m" + "->" + "\033[0m\t1. Nouns only"
                   "\n\t\t\t\t2. Verbs only"
                   "\n\t\t\t\t3. Adjectives only"
                   "\n\t\t\t\t4. Adverbs only"
@@ -924,7 +921,7 @@ def display_settings(setting, current_var, current_var_2=""):
                   "\n\t\t\t\t7. All pos types / no restrictions")
         elif current_var == "Verb":
             print("\n\tOptions:\n\t\t\t\t1. Nouns only"
-                  "\n\t\t\t\033[93m" + "->" + "\033[0m\t2. Verbs only"
+                  "\n\t\t\t\033[33m" + "->" + "\033[0m\t2. Verbs only"
                   "\n\t\t\t\t3. Adjectives only"
                   "\n\t\t\t\t4. Adverbs only"
                   "\n\t\t\t\t5. Prepositions only"
@@ -933,7 +930,7 @@ def display_settings(setting, current_var, current_var_2=""):
         elif current_var == "Adjective":
             print("\n\tOptions:\n\t\t\t\t1. Nouns only"
                   "\n\t\t\t\t2. Verbs only"
-                  "\n\t\t\t\033[93m" + "->" + "\033[0m\t3. Adjectives only"
+                  "\n\t\t\t\033[33m" + "->" + "\033[0m\t3. Adjectives only"
                   "\n\t\t\t\t4. Adverbs only"
                   "\n\t\t\t\t5. Prepositions only"
                   "\n\t\t\t\t6. Phrases only"
@@ -942,7 +939,7 @@ def display_settings(setting, current_var, current_var_2=""):
             print("\n\tOptions:\n\t\t\t\t1. Nouns only"
                   "\n\t\t\t\t2. Verbs only"
                   "\n\t\t\t\t3. Adjectives only"
-                  "\n\t\t\t\033[93m" + "->" + "\033[0m\t4. Adverbs only"
+                  "\n\t\t\t\033[33m" + "->" + "\033[0m\t4. Adverbs only"
                   "\n\t\t\t\t5. Prepositions only"
                   "\n\t\t\t\t6. Phrases only"
                   "\n\t\t\t\t7. All pos types / no restrictions")
@@ -951,7 +948,7 @@ def display_settings(setting, current_var, current_var_2=""):
                   "\n\t\t\t\t2. Verbs only"
                   "\n\t\t\t\t3. Adjectives only"
                   "\n\t\t\t\t4. Adverbs only"
-                  "\n\t\t\t\033[93m" + "->" + "\033[0m\t5. Prepositions only"
+                  "\n\t\t\t\033[33m" + "->" + "\033[0m\t5. Prepositions only"
                   "\n\t\t\t\t6. Phrases only"
                   "\n\t\t\t\t7. All pos types / no restrictions")
         elif current_var == "Phrase":
@@ -960,7 +957,7 @@ def display_settings(setting, current_var, current_var_2=""):
                   "\n\t\t\t\t3. Adjectives only"
                   "\n\t\t\t\t4. Adverbs only"
                   "\n\t\t\t\t5. Prepositions only"
-                  "\n\t\t\t\033[93m" + "->" + "\033[0m\t6. Phrases only"
+                  "\n\t\t\t\033[33m" + "->" + "\033[0m\t6. Phrases only"
                   "\n\t\t\t\t7. All pos types / no restrictions")
         else:
             print("\n\tOptions:\n\t\t\t\t1. Nouns only"
@@ -969,8 +966,8 @@ def display_settings(setting, current_var, current_var_2=""):
                   "\n\t\t\t\t4. Adverbs only"
                   "\n\t\t\t\t5. Prepositions only"
                   "\n\t\t\t\t6. Phrases only"
-                  "\n\t\t\t\033[93m" + "->" + "\033[0m\t7. All pos types / no restrictions")
-        print("\n\t\033[93m" + "Hint:" + "\033[0m Of course not all possible combinations could be considered here."
+                  "\n\t\t\t\033[33m" + "->" + "\033[0m\t7. All pos types / no restrictions")
+        print("\n\t\033[33m" + "Hint:" + "\033[0m Of course not all possible combinations could be considered here."
               "\n\tFor instance if you want to scan for Nouns and Verbs in a document,"
               "\n\tyou can choose one of the two options, execute the automatic scan mode with this document,"
               "\n\tchange the pos filter setting to the other option and execute the AS mode again."
@@ -978,7 +975,7 @@ def display_settings(setting, current_var, current_var_2=""):
 
     elif setting == 7:
         print_opening(version="3.0c")
-        print("\033[93m\n\t~ Settings Menu ~"
+        print("\033[33m\n\t~ Settings Menu ~"
               "\n\t----------------------------------------------------------------\033[0m"
               "\n\n\tSetting 7/7: Output Detail Level"
               "\n\t-------------------------------------------------------[-------]"
@@ -989,24 +986,24 @@ def display_settings(setting, current_var, current_var_2=""):
               "\n\tetymology compound data (Level 3, output print color brown)."
               "\n\tHere you can set the depth of the output information according to these levels.")
         if current_var == 1:
-            print("\n\tOptions:\n\t\t\t\033[93m" + "->" + "\033[0m\t1. Level 1: only term data"
+            print("\n\tOptions:\n\t\t\t\033[33m" + "->" + "\033[0m\t1. Level 1: only term data"
                   "\n\t\t\t\t2. Level 2: term data + morphology data"
                   "\n\t\t\t\t3. Level 3: term data + morphology data + etymology data")
         elif current_var == 2:
             print("\n\tOptions:\n\t\t\t\t1. Level 1: only term data"
-                  "\n\t\t\t\033[93m" + "->" + "\033[0m\t2. Level 2: term data + morphology data"
+                  "\n\t\t\t\033[33m" + "->" + "\033[0m\t2. Level 2: term data + morphology data"
                   "\n\t\t\t\t3. Level 3: term data + morphology data + etymology data")
         else:
             print("\n\tOptions:\n\t\t\t\t1. Level 1: only term data"
                   "\n\t\t\t\t2. Level 2: term data + morphology data"
-                  "\n\t\t\t\033[93m" + "->" + "\033[0m\t3. Level 3: term data + morphology data + etymology data")
+                  "\n\t\t\t\033[33m" + "->" + "\033[0m\t3. Level 3: term data + morphology data + etymology data")
 
 
 def display_settings_after_changes(setting, current_var, current_var_2=""):
 
     if setting == 1:
         print_opening(version="3.0c")
-        print("\033[93m\n\t~ Settings Menu ~"
+        print("\033[33m\n\t~ Settings Menu ~"
               "\n\t----------------------------------------------------------------\033[0m"
               "\n\n\tSetting 1/7: Automatic Database Updates"
               "\n\t[-------]-------------------------------------------------------"
@@ -1022,7 +1019,7 @@ def display_settings_after_changes(setting, current_var, current_var_2=""):
 
     elif setting == 2:
         print_opening(version="3.0c")
-        print("\033[93m\n\t~ Settings Menu ~"
+        print("\033[33m\n\t~ Settings Menu ~"
               "\n\t----------------------------------------------------------------\033[0m"
               "\n\n\tSetting 2/7: Term Output Diplomacy"
               "\n\t---------[-------]----------------------------------------------"
@@ -1041,7 +1038,7 @@ def display_settings_after_changes(setting, current_var, current_var_2=""):
 
     elif setting == 3:
         print_opening(version="3.0c")
-        print("\033[93m\n\t~ Settings Menu ~"
+        print("\033[33m\n\t~ Settings Menu ~"
               "\n\t----------------------------------------------------------------\033[0m"
               "\n\n\tSetting 3/7: Output Format"
               "\n\t------------------[-------]-------------------------------------"
@@ -1057,7 +1054,7 @@ def display_settings_after_changes(setting, current_var, current_var_2=""):
 
     elif setting == 4:
         print_opening(version="3.0c")
-        print("\033[93m\n\t~ Settings Menu ~"
+        print("\033[33m\n\t~ Settings Menu ~"
               "\n\t----------------------------------------------------------------\033[0m"
               "\n\n\tSetting 4/7: Headline Printing"
               "\n\t---------------------------[-------]----------------------------"
@@ -1083,7 +1080,7 @@ def display_settings_after_changes(setting, current_var, current_var_2=""):
 
     elif setting == 5:
         print_opening(version="3.0c")
-        print("\033[93m\n\t~ Settings Menu ~"
+        print("\033[33m\n\t~ Settings Menu ~"
               "\n\t----------------------------------------------------------------\033[0m"
               "\n\n\tSetting 5/7: Alphabetical Output Order"
               "\n\t------------------------------------[--------]------------------"
@@ -1106,7 +1103,7 @@ def display_settings_after_changes(setting, current_var, current_var_2=""):
 
     elif setting == 6:
         print_opening(version="3.0c")
-        print("\033[93m\n\t~ Settings Menu ~"
+        print("\033[33m\n\t~ Settings Menu ~"
               "\n\t----------------------------------------------------------------\033[0m"
               "\n\n\tSetting 6/7: Automatic Scan Filters"
               "\n\t----------------------------------------------[-------]---------"
@@ -1172,7 +1169,7 @@ def display_settings_after_changes(setting, current_var, current_var_2=""):
                   "\n\t\t\t\t5. Prepositions only"
                   "\n\t\t\t\t6. Phrases only"
                   "\n\t\t\t\033[92m" + "->" + "\033[0m\t7. All pos types / no restrictions")
-        print("\n\t\033[93m" + "Hint:" + "\033[0m Of course not all possible combinations could be considered here."
+        print("\n\t\033[33m" + "Hint:" + "\033[0m Of course not all possible combinations could be considered here."
               "\n\tFor instance if you want to scan for Nouns and Verbs in a document,"
               "\n\tyou can choose one of the two options, execute the automatic scan mode with this document,"
               "\n\tchange the pos filter setting to the other option and execute the AS mode again."
@@ -1180,7 +1177,7 @@ def display_settings_after_changes(setting, current_var, current_var_2=""):
 
     elif setting == 7:
         print_opening(version="3.0c")
-        print("\033[93m\n\t~ Settings Menu ~"
+        print("\033[33m\n\t~ Settings Menu ~"
               "\n\t----------------------------------------------------------------\033[0m"
               "\n\n\tSetting 7/7: Output Detail Level"
               "\n\t-------------------------------------------------------[-------]"
