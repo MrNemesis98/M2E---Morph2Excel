@@ -4,6 +4,7 @@ import urllib.request
 import datetime
 import openpyxl
 import time
+import subprocess
 import pandas as pd
 
 from PyQt5.QtWidgets import QApplication, QFileDialog
@@ -269,13 +270,9 @@ def show_instructions():
     print("\n\t\033[33m" + "\n\tOpening PDF Handbook...\n" + "\033[0m")
     time.sleep(1)
     try:
-        current_directory = os.getcwd()
-        instructions_pdf_path = "src\data\Externals\M2E_v3.0c_EAP_Handbook.pdf"
-        path = os.path.join(current_directory, instructions_pdf_path)
-        command = f'"{path}"'
-        os.system(command)
+        pass
     except Exception:
-        print("\n\t\033[91mWarning:\033[0m The program was not able to open the handbook file"
+        print("\n\t\033[91mWarning:\033[0m The program was not able to open the handbook file "
               "due to problems with the source path!"
               'You can find the respective file under '
               '\033[33msrc/data/Externals/M2E_v3.0c_EAP_Handbook.pdf\033[0m and open it manually.')
