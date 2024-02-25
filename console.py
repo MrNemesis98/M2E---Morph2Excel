@@ -22,10 +22,18 @@ headline_printing = SDM.get_headline_printing()
 alphabetical_output, abc_output_ascending = SDM.get_alphabetical_output()
 auto_scan_filters = SDM.get_auto_scan_filters()
 output_detail_level = SDM.get_output_detail_level()
+system_sound_level = SDM.get_system_sound_level()
 
 
 def set_system_variables_to_default():
+    global auto_update
+    global term_output_diplomacy
+    global oneline_output_format
+    global headline_printing
+    global alphabetical_output, abc_output_ascending
     global auto_scan_filters
+    global output_detail_level
+    global system_sound_level
 
     SDM.set_auto_update(1)
     SDM.set_term_output_diplomacy(3)
@@ -34,10 +42,21 @@ def set_system_variables_to_default():
     SDM.set_alphabetical_output(True, True)
     SDM.set_auto_scan_filters("Noun,Verb,Adjective,Adverb,Preposition,Phrase")
     SDM.set_output_detail_level(3)
+    SDM.set_system_sound_level(3)
+
+    auto_update = SDM.get_auto_update()
+    term_output_diplomacy = SDM.get_term_output_diplomacy()
+    oneline_output_format = SDM.get_one_line_output()
+    headline_printing = SDM.get_headline_printing()
+    alphabetical_output, abc_output_ascending = SDM.get_alphabetical_output()
+    auto_scan_filters = SDM.get_auto_scan_filters()
+    output_detail_level = SDM.get_output_detail_level()
+    system_sound_level = SDM.get_system_sound_level()
 
 
 def check_paths():
     global auto_update
+    global system_sound_level
     time.sleep(2)
 
     os.system('cls')
@@ -64,11 +83,12 @@ def check_paths():
                 print("\n\tSize of file: unknown")
             else:
                 print("\tSize of file: " + str(remote_size) + "MB")
+            NSP.play_request_sound() if system_sound_level == 3 else None
             print("\tDo you want to download it now? (y/n)")
             answer = input("\n\tanswer: ")
 
             if answer == "y":
-
+                NSP.play_accept_sound() if system_sound_level == 3 else None
                 SDM.set_download_size(remote_size)
 
                 normal = CA.download_database(url=url)
@@ -82,17 +102,24 @@ def check_paths():
                     CA.print_opening(version="3.0c")
                     print("\n\n\t\033[92mDownload completed!\033[0m (" + str(current_size) + " MB)"
                           "\n\n\tDo you wish to search for terms now? (y/n)")
+                    NSP.play_request_sound() if system_sound_level >= 2 else None
                     answer = input("\n\tanswer: ")
                     if answer == "n":
                         print("\n\tProgram will now terminate.")
+                        NSP.play_deny_sound() if system_sound_level == 3 else None
                         time.sleep(3)
                         os.system('cls')
                         sys.exit(0)
+                    else:
+                        NSP.play_accept_sound() if system_sound_level == 3 else None
                 else:
+                    NSP.play_deny_sound() if system_sound_level == 3 else None
                     sys.exit()
 
             else:
-                CA.print_exit_without_download()
+                NSP.play_deny_sound()
+                CA.print_exit_without_download() if system_sound_level == 3 else None
+
             time.sleep(1)
         except Exception:
             os.system('cls')
@@ -102,6 +129,7 @@ def check_paths():
                   "\n\tBut for the moment there was \033[91mno internet connection\033[0m recognized."
                   "\n\tPlease make sure you are connected and restart the program."
                   "\n\tThe program will now terminate.")
+            NSP.play_deny_sound() if system_sound_level >= 2 else None
             time.sleep(15)
             os.system('cls')
             sys.exit(0)
@@ -121,6 +149,7 @@ def check_paths():
                   "\n\n\tThis may be due to an interruption during the last downloading process."
                   "\n\tTo solve this problem you should reinstall the database by downloading it again."
                   "\n\tDo you want to start the download now? (y/n)")
+            NSP.play_request_sound() if system_sound_level >= 2 else None
             answer = input("\n\tanswer: ")
 
             if answer == "y":
@@ -133,7 +162,7 @@ def check_paths():
 
                 SDM.set_download_size(remote_size)
                 CA.download_database(url=url)
-                NSP.play_mp3("./src/data/GUI_sound/Signal.mp3")
+                NSP.play_accept_sound() if system_sound_level == 3 else None
 
                 current_size = os.path.getsize("src/database/wiki_morph.json")
                 current_size = int(current_size / (1024 * 1024))
@@ -143,6 +172,7 @@ def check_paths():
                 CA.print_opening(version="3.0c")
                 print("\n\n\t\033[92mDownload completed!\033[0m (" + str(current_size) + " MB)"
                       "\n\n\tDo you wish to search for terms now? (y/n)")
+                NSP.play_request_sound() if system_sound_level >= 2 else None
                 answer = input("\n\tanswer: ")
                 if answer == "n":
                     print("\n\tProgramm will now terminate.")
@@ -150,6 +180,7 @@ def check_paths():
                     sys.exit(0)
 
             else:
+                NSP.play_deny_sound() if system_sound_level == 3 else None
                 CA.print_exit_without_download()
         else:
             CA.print_opening(version="3.0c")
@@ -183,6 +214,7 @@ def check_for_updates():
             CA.print_opening(version="3.0c")
             print("\n\tUpdate check not possible: \033[91mServer does not provide required information!\033[0m"
                   "\n\tLast recent locally installed version will be used.")
+            NSP.play_deny_sound() if system_sound_level >= 2 else None
             time.sleep(7)
         else:
             if current_size < remote_size:
@@ -193,6 +225,7 @@ def check_for_updates():
                       "\n\n\t Do you want to download the update now? (y/n)")
                 answer = input("\n\tanswer: ")
                 if answer == "y":
+                    NSP.play_accept_sound() if system_sound_level == 3 else None
                     SDM.set_download_size(remote_size)
                     CA.download_database(url=url)
 
@@ -200,11 +233,17 @@ def check_for_updates():
                     CA.print_opening(version="3.0c")
                     print("\n\n\tUpdate completed! (" + str(current_size) + " MB)"
                           "\n\n\tDo you wish to search for terms now? (y/n)")
+                    NSP.play_request_sound() if system_sound_level >= 2 else None
                     answer = input("\n\tanswer: ")
                     if answer == "n":
+                        NSP.play_deny_sound() if system_sound_level == 3 else None
                         print("\n\tProgramm will now terminate.")
                         time.sleep(3)
                         sys.exit(0)
+                    else:
+                        NSP.play_accept_sound() if system_sound_level == 3 else None
+                else:
+                    NSP.play_deny_sound() if system_sound_level == 3 else None
             else:
                 os.system('cls')
                 CA.print_opening(version="3.0c")
@@ -215,6 +254,7 @@ def check_for_updates():
         print("\n\tUpdate check not possible: No internet connection!"
               "\n\tLast recent locally installed version will be used.")
         print("Exception:", e)
+        NSP.play_deny_sound() if system_sound_level >= 2 else None
         time.sleep(5)
 
 
@@ -232,6 +272,7 @@ def search_for_terms(log_title, workbook_title):
     global abc_output_ascending
     global auto_scan_filters
     global output_detail_level
+    global system_sound_level
 
     open_excel_automatically = False
     comparison_workbooks = []
@@ -271,7 +312,8 @@ def search_for_terms(log_title, workbook_title):
         if i == "exit!":
             CA.print_opening(version="3.0c")
             print("\033[91m" + "\n\tProgram terminated!\033[0m")
-            time.sleep(2)
+            NSP.play_accept_sound() if system_sound_level == 3 else None
+            time.sleep(1)
             stop = True
             if open_excel_automatically:
                 print("\033[33m" + "\n\tOpening search results...\033[0m")
@@ -307,143 +349,189 @@ def search_for_terms(log_title, workbook_title):
             os.system('cls')
             CA.print_opening(version="3.0c")
             print("\n\t\033[38;5;130m- Automatic Scan Mode -\033[0m"
-                  "\n\t\033[38;5;130m----------------------------------------------------------------\033[0m")
-            time.sleep(1)
-            print("\n\t\33[33mPlease select an excel file to scan for possible terms.\33[0m")
-            time.sleep(1.5)
-            file = CA.select_excel_file()
-            start_time = time.time()
-            terms, invalid_cases = CA.autoscan(file, duplicates=False,
-                                               abc=alphabetical_output, abc_ascending=abc_output_ascending)
-            end_time = time.time()
-            number_of_terms = len(terms) + len(invalid_cases)
-            number_of_valid_cases = len(terms)
-            status = "\n\t\033[38;5;130m- Automatic Scan Mode -\033[0m" \
-                     "\n\t\033[38;5;130m----------------------------------------------------------------\033[0m"\
-                     "\n\n\tExcel file: " + file +\
-                     "\n\tFound terms: " + str(number_of_terms) +\
-                     "\n\tValid cases: " + str(number_of_valid_cases) +\
-                     "\n\tPos filters: " + str(auto_scan_filters)
+                  "\n\t\033[38;5;130m------------------------------------------------------------------------\033[0m")
+            NSP.play_accept_sound() if system_sound_level == 3 else None
 
-            time.sleep(1)
-            os.system('cls')
-            CA.print_opening(version="3.0c")
-            print(status)
-            print("\n\t", CA.measure_time(start_time, end_time, search=False))
-            time.sleep(3)
-            if not invalid_cases == [] and len(invalid_cases) <= 10:
-                print("\n\t\033[91mWarning:\033[0m Scanned file contains terms that are invalid inputs!"
-                      "\n\n\tFor searching within the wikimorph database the following terms will be ignored:"
-                      "\n\t\t", str(invalid_cases))
-            elif not invalid_cases == [] and len(invalid_cases) > 10:
-                print("\n\t\033[91mWarning:\033[0m Scanned file contains terms that are invalid inputs!"
-                      "\n\n\tThese terms will be ignored for searching within the wikimorph database."
-                      "\n\tThe amount of invalid terms is too large to be displayed here.")
-            input("\n\tType in anything to start the search: ")
-            print("\n\t\033[92mThe valid terms will now be searched in the database.\033[0m")
-            time.sleep(3)
+            excel_file_selected = False
+            breakoff = False
+            while not excel_file_selected:
+                time.sleep(1)
+                print("\n\t\33[33mPlease select an excel file to scan for possible terms.\33[0m")
+                time.sleep(1.5)
+                try:
+                    file = CA.select_excel_file()
+                    NSP.play_accept_sound() if system_sound_level == 3 else None
 
-            # for preventing double headline printing at the beginning of the Excel
-            # only executes the "for every new doc" headline printing
-            # the headline printing for every term in case hlp == 3 is defined below
-            if headline_printing == 2 and not headline_already_printed:
-                worksheet, excel_row = CA.print_headlines(worksheet, excel_row, output_detail_level)
-                headline_already_printed = True
+                    start_time = time.time()
+                    terms, invalid_cases = CA.autoscan(file, duplicates=False,
+                                                       abc=alphabetical_output, abc_ascending=abc_output_ascending)
+                    end_time = time.time()
+                    number_of_terms = len(terms) + len(invalid_cases)
+                    number_of_valid_cases = len(terms)
+                    status = "\n\t\033[38;5;130m- Automatic Scan Mode -\033[0m" \
+                             "\n\t\033[38;5;130m------------------------------------------------------------------------\033[0m" \
+                             "\n\n\tExcel file: " + file + \
+                             "\n\tFound terms: " + str(number_of_terms) + \
+                             "\n\tValid cases: " + str(number_of_valid_cases) + \
+                             "\n\tPos filters: " + str(auto_scan_filters)
 
-            start_time = time.time()
-            log = open(log_title, "a", encoding="utf-8")
-            if term_output_diplomacy == 1:
-                for x in range(number_of_valid_cases):
-                    term = terms[x]
+                    time.sleep(1)
                     os.system('cls')
-                    progress = format(100*(x/number_of_valid_cases), ".2f")
                     CA.print_opening(version="3.0c")
                     print(status)
-                    print("\n\t\033[38;5;130mSearching for terms...\033[0m"
-                          "\n\tCurrent term: " + term + "\t\tProgress: \33[38;5;130m" + str(progress) + "%\33[0m")
+                    print("\n\t", CA.measure_time(start_time, end_time, search=False))
+                    time.sleep(3)
+                    if not invalid_cases == [] and len(invalid_cases) <= 10:
+                        print("\n\t\033[91mWarning:\033[0m Scanned file contains terms that are invalid inputs!"
+                              "\n\n\tFor searching within the wikimorph database the following terms will be ignored:"
+                              "\n\t\t", str(invalid_cases))
+                        NSP.play_deny_sound() if system_sound_level >= 2 else None
+                    elif not invalid_cases == [] and len(invalid_cases) > 10:
+                        print("\n\t\033[91mWarning:\033[0m Scanned file contains terms that are invalid inputs!"
+                              "\n\n\tThese terms will be ignored for searching within the wikimorph database."
+                              "\n\tThe amount of invalid terms is too large to be displayed here.")
+                        NSP.play_deny_sound() if system_sound_level >= 2 else None
+                    i = input("\n\tPress \033[92menter\033[0m or type in anything to \033[92mstart\033[0m the search. "
+                              '\n\tType in \033[33mfile!\033[0m to select a different file.'
+                              '\n\tType in \033[91mexit!\033[0m to cancel the automatic search.'
+                              '\n\n\t')
+                    if i == "exit!":
+                        excel_file_selected = True
+                        breakoff = True
+                    elif i == "file!":
+                        os.system('cls')
+                        CA.print_opening(version="3.0c")
+                        print("\n\t\033[38;5;130m- Automatic Scan Mode -\033[0m"
+                              "\n\t\033[38;5;130m--------"
+                              "----------------------------------------------------------------\033[0m")
+                        NSP.play_accept_sound() if system_sound_level == 3 else None
+                    else:
+                        excel_file_selected = True
 
-                    worksheet, excel_row, log_output = CA.search_and_output(worksheet=worksheet,
-                                                                            excel_row=excel_row,
-                                                                            pos_filters=auto_scan_filters,
-                                                                            term=term,
-                                                                            entries_list=entries_list,
-                                                                            only_found_terms=True,
-                                                                            only_not_found_terms=False,
-                                                                            multiline_output=not oneline_output_format,
-                                                                            output_detail_level=output_detail_level,
-                                                                            headline_printing=headline_printing,
-                                                                            hap=headline_already_printed)
-                    log.write("\n\n" + log_output)
-                    headline_already_printed = False
-                    time.sleep(.1)
-
-            elif term_output_diplomacy == 2:
-                for x in range(number_of_valid_cases):
-                    term = terms[x]
+                except Exception:
                     os.system('cls')
-                    progress = format(100 * (x / number_of_valid_cases), ".2f")
                     CA.print_opening(version="3.0c")
-                    print(status)
-                    print("\n\t\033[38;5;130mSearching for terms...\033[0m"
-                          "\n\tCurrent term: " + term + "\t\tProgress: \33[38;5;130m" + str(progress) + "%\33[0m")
+                    print("\n\t\033[38;5;130m- Automatic Scan Mode -\033[0m"
+                          "\n\t\033[38;5;130m-----"
+                          "-------------------------------------------------------------------\033[0m")
+                    print("\n\t\033[91mWarning:\033[0m No file selected!")
+                    NSP.play_deny_sound() if system_sound_level >= 2 else None
 
-                    worksheet, excel_row, log_output = CA.search_and_output(worksheet=worksheet,
-                                                                            excel_row=excel_row,
-                                                                            pos_filters=auto_scan_filters,
-                                                                            term=term,
-                                                                            entries_list=entries_list,
-                                                                            only_found_terms=False,
-                                                                            only_not_found_terms=True,
-                                                                            multiline_output=not oneline_output_format,
-                                                                            output_detail_level=output_detail_level,
-                                                                            headline_printing=headline_printing,
-                                                                            hap=headline_already_printed)
-                    log.write("\n\n" + log_output)
-                    headline_already_printed = False
-                    time.sleep(.1)
+            if not breakoff:
+                print("\n\t\033[92mThe valid terms will now be searched in the database.\033[0m")
+                NSP.play_accept_sound() if system_sound_level == 3 else None
+                time.sleep(3)
 
+                # for preventing double headline printing at the beginning of the Excel
+                # only executes the "for every new doc" headline printing
+                # the headline printing for every term in case hlp == 3 is defined below
+                if headline_printing == 2 and not headline_already_printed:
+                    worksheet, excel_row = CA.print_headlines(worksheet, excel_row, output_detail_level)
+                    headline_already_printed = True
+
+                start_time = time.time()
+                log = open(log_title, "a", encoding="utf-8")
+                if term_output_diplomacy == 1:
+                    for x in range(number_of_valid_cases):
+                        term = terms[x]
+                        os.system('cls')
+                        progress = format(100*(x/number_of_valid_cases), ".2f")
+                        CA.print_opening(version="3.0c")
+                        print(status)
+                        print("\n\t\033[38;5;130mSearching for terms...\033[0m"
+                              "\n\tCurrent term: " + term + "\t\tProgress: \33[38;5;130m" + str(progress) + "%\33[0m")
+
+                        worksheet, excel_row, log_output = CA.search_and_output(worksheet=worksheet,
+                                                                                excel_row=excel_row,
+                                                                                pos_filters=auto_scan_filters,
+                                                                                term=term,
+                                                                                entries_list=entries_list,
+                                                                                only_found_terms=True,
+                                                                                only_not_found_terms=False,
+                                                                                multiline_output=not oneline_output_format,
+                                                                                output_detail_level=output_detail_level,
+                                                                                headline_printing=headline_printing,
+                                                                                hap=headline_already_printed)
+                        log.write("\n\n" + log_output)
+                        headline_already_printed = False
+                        time.sleep(.1)
+
+                elif term_output_diplomacy == 2:
+                    for x in range(number_of_valid_cases):
+                        term = terms[x]
+                        os.system('cls')
+                        progress = format(100 * (x / number_of_valid_cases), ".2f")
+                        CA.print_opening(version="3.0c")
+                        print(status)
+                        print("\n\t\033[38;5;130mSearching for terms...\033[0m"
+                              "\n\tCurrent term: " + term + "\t\tProgress: \33[38;5;130m" + str(progress) + "%\33[0m")
+
+                        worksheet, excel_row, log_output = CA.search_and_output(worksheet=worksheet,
+                                                                                excel_row=excel_row,
+                                                                                pos_filters=auto_scan_filters,
+                                                                                term=term,
+                                                                                entries_list=entries_list,
+                                                                                only_found_terms=False,
+                                                                                only_not_found_terms=True,
+                                                                                multiline_output=not oneline_output_format,
+                                                                                output_detail_level=output_detail_level,
+                                                                                headline_printing=headline_printing,
+                                                                                hap=headline_already_printed)
+                        log.write("\n\n" + log_output)
+                        headline_already_printed = False
+                        time.sleep(.1)
+
+                else:
+                    for x in range(number_of_valid_cases):
+                        term = terms[x]
+                        os.system('cls')
+                        progress = format(100 * (x / number_of_valid_cases), ".2f")
+                        CA.print_opening(version="3.0c")
+                        print(status)
+                        print("\n\t\033[38;5;130mSearching for terms...\033[0m"
+                              "\n\tCurrent term: " + term + "\t\tProgress: \33[38;5;130m" + str(progress) + "%\33[0m")
+
+                        worksheet, excel_row, log_output = CA.search_and_output(worksheet=worksheet,
+                                                                                excel_row=excel_row,
+                                                                                pos_filters=auto_scan_filters,
+                                                                                term=term,
+                                                                                entries_list=entries_list,
+                                                                                only_found_terms=False,
+                                                                                only_not_found_terms=False,
+                                                                                multiline_output=not oneline_output_format,
+                                                                                output_detail_level=output_detail_level,
+                                                                                headline_printing=headline_printing,
+                                                                                hap=headline_already_printed)
+                        log.write("\n\n" + log_output)
+                        headline_already_printed = False
+                        time.sleep(.1)
+
+                log.close()
+                workbook.save(workbook_title)
+                end_time = time.time()
+                os.system('cls')
+                CA.print_opening(version="3.0c")
+                print(status)
+                print("\n\t\033[92mProcess finished!\033[0m"
+                      "\n\n\t", CA.measure_time(start_time, end_time))
+                NSP.play_accept_sound() if system_sound_level >= 2 else None
+                time.sleep(6)
+                os.system('cls')
+                CA.print_opening(version="3.0c")
+                print(status)
+                print("\n\t\033[92mProcess finished!\033[0m"
+                      "\n\n\t", CA.measure_time(start_time, end_time),
+                      "\n\n\t\33[92mResults were saved.\33[0m"
+                      "\n\tReturning to main menu...")
             else:
-                for x in range(number_of_valid_cases):
-                    term = terms[x]
-                    os.system('cls')
-                    progress = format(100 * (x / number_of_valid_cases), ".2f")
-                    CA.print_opening(version="3.0c")
-                    print(status)
-                    print("\n\t\033[38;5;130mSearching for terms...\033[0m"
-                          "\n\tCurrent term: " + term + "\t\tProgress: \33[38;5;130m" + str(progress) + "%\33[0m")
-
-                    worksheet, excel_row, log_output = CA.search_and_output(worksheet=worksheet,
-                                                                            excel_row=excel_row,
-                                                                            pos_filters=auto_scan_filters,
-                                                                            term=term,
-                                                                            entries_list=entries_list,
-                                                                            only_found_terms=False,
-                                                                            only_not_found_terms=False,
-                                                                            multiline_output=not oneline_output_format,
-                                                                            output_detail_level=output_detail_level,
-                                                                            headline_printing=headline_printing,
-                                                                            hap=headline_already_printed)
-                    log.write("\n\n" + log_output)
-                    headline_already_printed = False
-                    time.sleep(.1)
-
-            log.close()
-            workbook.save(workbook_title)
-            end_time = time.time()
-            os.system('cls')
-            CA.print_opening(version="3.0c")
-            print(status)
-            print("\n\t\033[92mProcess finished!\033[0m"
-                  "\n\n\t", CA.measure_time(start_time, end_time))
-            NSP.play_mp3("./src/data/GUI_sound/Signal.mp3")
-            time.sleep(6)
-            os.system('cls')
-            CA.print_opening(version="3.0c")
-            print(status)
-            print("\n\t\033[92mProcess finished!\033[0m"
-                  "\n\n\t", CA.measure_time(start_time, end_time),
-                  "\n\n\t\33[92mResults were saved.\33[0m"
-                  "\n\tReturning to main menu...")
+                os.system('cls')
+                CA.print_opening(version="3.0c")
+                print("\n\t\033[38;5;130m- Automatic Scan Mode -\033[0m"
+                      "\n\t\033[38;5;130m--------"
+                      "----------------------------------------------------------------\033[0m")
+                print("\n\t\033[91mProcess cancelled!\033[0m"
+                      "\n\tReturning to main menu...")
+                NSP.play_deny_sound() if system_sound_level == 3 else None
             print_main_menu_again = True
             time.sleep(4)
 
@@ -452,13 +540,15 @@ def search_for_terms(log_title, workbook_title):
             os.system('cls')
             CA.print_opening(version="3.0c")
             status = "\n\t\033[94m- Comparison Mode -\033[0m"\
-                     "\n\t\033[94m----------------------------------------------------------------\033[0m"
+                     "\n\t\033[94m------------------------------------------------------------------------\033[0m"
             print(status)
+            NSP.play_accept_sound() if system_sound_level == 3 else None
             print("\n\tPlease select two excel files you want to compare.")
             time.sleep(2)
             print("\n\t\33[33mSelect excel file 1 now.\33[0m")
             time.sleep(2)
             file_1 = CA.select_excel_file()
+            NSP.play_accept_sound() if system_sound_level == 3 else None
             terms_1, invalid_terms_1 = CA.autoscan(file_1, test_for_invalides=False)
             number_of_terms_1 = len(terms_1)
             print("\n\tSelected file 1: " + file_1)
@@ -467,7 +557,9 @@ def search_for_terms(log_title, workbook_title):
                 print("\n\t\033[91mWarning:\033[0m Scanned file contains terms that are invalid inputs!"
                       "\n\n\tFor searching within the wikimorph database the following terms will be ignored:"
                       "\n\t\t", str(invalid_terms_1))
+                NSP.play_deny_sound() if system_sound_level >= 2 else None
                 input("\n\tType in anything to continue: ")
+
             time.sleep(4)
 
             os.system('cls')
@@ -476,6 +568,7 @@ def search_for_terms(log_title, workbook_title):
             print("\n\t\33[33mSelect excel file 2 now.\33[0m")
             time.sleep(2)
             file_2 = CA.select_excel_file()
+            NSP.play_accept_sound() if system_sound_level == 3 else None
             terms_2, invalid_terms_2 = CA.autoscan(file_2, test_for_invalides=False)
             number_of_terms_2 = len(terms_2)
             print("\n\tSelected file 2: " + file_2)
@@ -484,6 +577,7 @@ def search_for_terms(log_title, workbook_title):
                 print("\n\t\033[91mWarning:\033[0m Scanned file contains terms that are invalid inputs!"
                       "\n\n\tFor searching within the wikimorph database the following terms will be ignored:"
                       "\n\t\t", str(invalid_terms_2))
+                NSP.play_deny_sound() if system_sound_level >= 2 else None
                 input("\n\tType in anything to continue: ")
             time.sleep(4)
 
@@ -497,6 +591,7 @@ def search_for_terms(log_title, workbook_title):
             time.sleep(2)
 
             start_time = time.time()
+            NSP.play_deny_sound() if system_sound_level >= 2 else None
             for x in range(number_of_terms_1):
                 term = terms_1[x]
                 progress = format(100 * ((x+1) / number_of_terms_1), ".2f")
@@ -516,13 +611,14 @@ def search_for_terms(log_title, workbook_title):
             os.system('cls')
             CA.print_opening(version="3.0c")
             print(status)
-            NSP.play_mp3("./src/data/GUI_sound/Signal.mp3")
             print("\n\t\033[92mComparison of terms from file 1 finished!\033[0m")
             print("\n\t", CA.measure_time(start_time, end_time, search=False, comparison=True))
+            NSP.play_deny_sound() if system_sound_level >= 2 else None
             input("\n\tType in anything to compare terms of file 2: ")
             time.sleep(1)
 
             start_time = time.time()
+            NSP.play_accept_sound() if system_sound_level == 3 else None
             for x in range(number_of_terms_2):
                 term = terms_2[x]
                 progress = format(100 * ((x+1) / number_of_terms_2), ".2f")
@@ -545,9 +641,9 @@ def search_for_terms(log_title, workbook_title):
             os.system('cls')
             CA.print_opening(version="3.0c")
             print(status)
-            NSP.play_mp3("./src/data/GUI_sound/Signal.mp3")
             print("\n\t\033[92mComparison of terms from file 2 finished!\033[0m")
             print("\n\t", CA.measure_time(start_time, end_time, search=False, comparison=True))
+            NSP.play_deny_sound() if system_sound_level >= 2 else None
             input("\n\tType in anything to continue: ")
 
             os.system('cls')
@@ -555,6 +651,7 @@ def search_for_terms(log_title, workbook_title):
             print(status)
             print("\n\t\033[92mComparing process finished!\033[0m")
             print("\n\t\033[92mThe results were saved as an additional comparison excel file!\033[0m")
+            NSP.play_accept_sound() if system_sound_level == 3 else None
             time.sleep(5)
 
             # generating new Excel file for comparison results exclusively
@@ -587,9 +684,8 @@ def search_for_terms(log_title, workbook_title):
 
         # SETTINGS MODE ------------------------------------------------------------------------------------------------
         elif i == "set!":
-            time.sleep(1)
             intro = "\033[33m\n\t~ Settings Menu ~" \
-                    "\n\t----------------------------------------------------------------\033[0m" \
+                    "\n\t------------------------------------------------------------------------\033[0m" \
                     "\n\n\tThe several settings you can change will be displayed in succession." \
                     "\n\tFor every setting there will be the respective options given." \
                     "\n\tThe currently selected option will be marked with an arrow." \
@@ -599,6 +695,7 @@ def search_for_terms(log_title, workbook_title):
             os.system('cls')
             CA.print_opening(version="3.0c")
             print(intro)
+            NSP.play_accept_sound() if system_sound_level == 3 else None
             input()
 
             # setting 1 (auto update)
@@ -611,6 +708,7 @@ def search_for_terms(log_title, workbook_title):
                 os.system('cls')
                 CA.display_settings_after_changes(1, auto_update)
                 print("\033[92m" + "\n\tAutomatic update search set on!\033[0m")
+                NSP.play_deny_sound() if system_sound_level == 3 else None
                 time.sleep(4)
             elif i == "2":
                 SDM.set_auto_update(0)
@@ -618,6 +716,7 @@ def search_for_terms(log_title, workbook_title):
                 os.system('cls')
                 CA.display_settings_after_changes(1, auto_update)
                 print("\033[92m" + "\n\tAutomatic update search set off!\033[0m")
+                NSP.play_deny_sound() if system_sound_level == 3 else None
                 time.sleep(4)
             else:
                 print("\033[92m" + "\n\tPrevious setting will be kept!\033[0m")
@@ -633,6 +732,7 @@ def search_for_terms(log_title, workbook_title):
                 os.system('cls')
                 CA.display_settings_after_changes(2, term_output_diplomacy)
                 print("\033[92m" + "\n\tOnly found terms will be considered!\033[0m")
+                NSP.play_deny_sound() if system_sound_level == 3 else None
                 time.sleep(4)
             elif i == "2":
                 SDM.set_term_output_diplomacy(2)
@@ -640,6 +740,7 @@ def search_for_terms(log_title, workbook_title):
                 os.system('cls')
                 CA.display_settings_after_changes(2, term_output_diplomacy)
                 print("\033[92m" + "\n\tOnly not found terms will be considered!\033[0m")
+                NSP.play_deny_sound() if system_sound_level == 3 else None
                 time.sleep(4)
             elif i == "3":
                 SDM.set_term_output_diplomacy(3)
@@ -647,6 +748,7 @@ def search_for_terms(log_title, workbook_title):
                 os.system('cls')
                 CA.display_settings_after_changes(2, term_output_diplomacy)
                 print("\033[92m" + "\n\tAll terms will be considered!\033[0m")
+                NSP.play_deny_sound() if system_sound_level == 3 else None
                 time.sleep(4)
             else:
                 print("\033[92m" + "\n\tPrevious setting will be kept!\033[0m")
@@ -662,6 +764,7 @@ def search_for_terms(log_title, workbook_title):
                 os.system('cls')
                 CA.display_settings_after_changes(3, oneline_output_format)
                 print("\033[92m" + "\n\tOutput will be printed in one-line format!\033[0m")
+                NSP.play_deny_sound() if system_sound_level == 3 else None
                 time.sleep(4)
             elif i == "2":
                 SDM.set_one_line_output(False)
@@ -669,6 +772,7 @@ def search_for_terms(log_title, workbook_title):
                 os.system('cls')
                 CA.display_settings_after_changes(3, oneline_output_format)
                 print("\033[92m" + "\n\tOutput will be printed in multi-line format!\033[0m")
+                NSP.play_deny_sound() if system_sound_level == 3 else None
                 time.sleep(4)
             else:
                 print("\033[92m" + "\n\tPrevious setting will be kept!\033[0m")
@@ -684,6 +788,7 @@ def search_for_terms(log_title, workbook_title):
                 os.system('cls')
                 CA.display_settings_after_changes(4, headline_printing)
                 print("\033[92m" + "\n\tHeadline will be printed only at top of excel!\033[0m")
+                NSP.play_deny_sound() if system_sound_level == 3 else None
                 time.sleep(4)
             elif i == "2":
                 SDM.set_headline_printing(2)
@@ -691,6 +796,7 @@ def search_for_terms(log_title, workbook_title):
                 os.system('cls')
                 CA.display_settings_after_changes(4, headline_printing)
                 print("\033[92m" + "\n\tHeadline will be printed for every new document in scan mode!\033[0m")
+                NSP.play_deny_sound() if system_sound_level == 3 else None
                 time.sleep(4)
             elif i == "3":
                 SDM.set_headline_printing(3)
@@ -698,6 +804,7 @@ def search_for_terms(log_title, workbook_title):
                 os.system('cls')
                 CA.display_settings_after_changes(4, headline_printing)
                 print("\033[92m" + "\n\tHeadline will be printed for every new term!\033[0m")
+                NSP.play_deny_sound() if system_sound_level == 3 else None
                 time.sleep(4)
             else:
                 print("\033[92m" + "\n\tPrevious setting will be kept!\033[0m")
@@ -713,6 +820,7 @@ def search_for_terms(log_title, workbook_title):
                 os.system('cls')
                 CA.display_settings_after_changes(5, alphabetical_output, abc_output_ascending)
                 print("\033[92m" + "\n\tOutput will be structured in ascending alphabetical order!\033[0m")
+                NSP.play_deny_sound() if system_sound_level == 3 else None
                 time.sleep(4)
             elif i == "2":
                 SDM.set_alphabetical_output(abc=True, asc=False)
@@ -720,6 +828,7 @@ def search_for_terms(log_title, workbook_title):
                 os.system('cls')
                 CA.display_settings_after_changes(5, alphabetical_output, abc_output_ascending)
                 print("\033[92m" + "\n\tOutput will be structured in descending alphabetical order!\033[0m")
+                NSP.play_deny_sound() if system_sound_level == 3 else None
                 time.sleep(4)
             elif i == "3":
                 SDM.set_alphabetical_output(abc=False, asc=False)
@@ -727,6 +836,7 @@ def search_for_terms(log_title, workbook_title):
                 os.system('cls')
                 CA.display_settings_after_changes(5, alphabetical_output, abc_output_ascending)
                 print("\033[92m" + "\n\tOutput will not be structured at all!\033[0m")
+                NSP.play_deny_sound() if system_sound_level == 3 else None
                 time.sleep(4)
             else:
                 print("\033[92m" + "\n\tPrevious setting will be kept!\033[0m")
@@ -743,6 +853,7 @@ def search_for_terms(log_title, workbook_title):
                 os.system('cls')
                 CA.display_settings_after_changes(6, auto_scan_filters)
                 print("\033[92m" + '\n\t"Noun" is set as pos filter now!\033[0m')
+                NSP.play_deny_sound() if system_sound_level == 3 else None
                 time.sleep(4)
             elif i == "2":
                 SDM.set_auto_scan_filters("Verb")
@@ -750,6 +861,7 @@ def search_for_terms(log_title, workbook_title):
                 os.system('cls')
                 CA.display_settings_after_changes(6, auto_scan_filters)
                 print("\033[92m" + '\n\t"Verb" is set as pos filter now!\033[0m')
+                NSP.play_deny_sound() if system_sound_level == 3 else None
                 time.sleep(4)
             elif i == "3":
                 SDM.set_auto_scan_filters("Adjective")
@@ -757,6 +869,7 @@ def search_for_terms(log_title, workbook_title):
                 os.system('cls')
                 CA.display_settings_after_changes(6, auto_scan_filters)
                 print("\033[92m" + '\n\t"Adjective" is set as pos filter now!\033[0m')
+                NSP.play_deny_sound() if system_sound_level == 3 else None
                 time.sleep(4)
             elif i == "4":
                 SDM.set_auto_scan_filters("Adverb")
@@ -764,6 +877,7 @@ def search_for_terms(log_title, workbook_title):
                 os.system('cls')
                 CA.display_settings_after_changes(6, auto_scan_filters)
                 print("\033[92m" + '\n\t"Adverb" is set as pos filter now!\033[0m')
+                NSP.play_deny_sound() if system_sound_level == 3 else None
                 time.sleep(4)
             elif i == "5":
                 SDM.set_auto_scan_filters("Preposition")
@@ -771,6 +885,7 @@ def search_for_terms(log_title, workbook_title):
                 os.system('cls')
                 CA.display_settings_after_changes(6, auto_scan_filters)
                 print("\033[92m" + '\n\t"Preposition" is set as pos filter now!\033[0m')
+                NSP.play_deny_sound() if system_sound_level == 3 else None
                 time.sleep(4)
             elif i == "6":
                 SDM.set_auto_scan_filters("Phrase")
@@ -778,6 +893,7 @@ def search_for_terms(log_title, workbook_title):
                 os.system('cls')
                 CA.display_settings_after_changes(6, auto_scan_filters)
                 print("\033[92m" + '\n\t"Phrase" is set as pos filter now!\033[0m')
+                NSP.play_deny_sound() if system_sound_level == 3 else None
                 time.sleep(4)
             elif i == "7":
                 SDM.set_auto_scan_filters("Noun,Verb,Adjective,Adverb,Preposition,Phrase")
@@ -785,6 +901,7 @@ def search_for_terms(log_title, workbook_title):
                 os.system('cls')
                 CA.display_settings_after_changes(6, auto_scan_filters)
                 print("\033[92m" + '\n\tAll pos types will be considered now!\033[0m')
+                NSP.play_deny_sound() if system_sound_level == 3 else None
                 time.sleep(4)
             else:
                 print("\033[92m" + "\n\tPrevious setting will be kept!\033[0m")
@@ -800,6 +917,7 @@ def search_for_terms(log_title, workbook_title):
                 os.system('cls')
                 CA.display_settings_after_changes(7, output_detail_level)
                 print("\033[92m" + "\n\tOutput will cover term data only!\033[0m")
+                NSP.play_deny_sound() if system_sound_level == 3 else None
                 time.sleep(4)
             elif i == "2":
                 SDM.set_output_detail_level(2)
@@ -807,6 +925,7 @@ def search_for_terms(log_title, workbook_title):
                 os.system('cls')
                 CA.display_settings_after_changes(7, output_detail_level)
                 print("\033[92m" + "\n\tOutput will cover term data and morphology data!\033[0m")
+                NSP.play_deny_sound() if system_sound_level == 3 else None
                 time.sleep(4)
             elif i == "3":
                 SDM.set_output_detail_level(3)
@@ -814,6 +933,40 @@ def search_for_terms(log_title, workbook_title):
                 os.system('cls')
                 CA.display_settings_after_changes(7, output_detail_level)
                 print("\033[92m" + "\n\tOutput will cover all data information!\033[0m")
+                NSP.play_deny_sound() if system_sound_level == 3 else None
+                time.sleep(4)
+            else:
+                print("\033[92m" + "\n\tPrevious setting will be kept!\033[0m")
+                time.sleep(2)
+
+            # setting 8 (system sound level)
+            os.system('cls')
+            CA.display_settings(8, system_sound_level)
+            i = input("\n\tOption number: ")
+            if i == "1":
+                SDM.set_system_sound_level(1)
+                system_sound_level = SDM.get_system_sound_level()
+                os.system('cls')
+                CA.display_settings_after_changes(8, system_sound_level)
+                print("\033[92m" + "\n\tNo sounds will be played!\033[0m")
+                NSP.play_deny_sound() if system_sound_level == 3 else None
+                time.sleep(4)
+            elif i == "2":
+                SDM.set_system_sound_level(2)
+                system_sound_level = SDM.get_system_sound_level()
+                os.system('cls')
+                CA.display_settings_after_changes(8, system_sound_level)
+                print("\033[92m" + "\n\tOnly notifications sounds will be played!\033[0m")
+                NSP.play_deny_sound() if system_sound_level == 3 else None
+                time.sleep(4)
+            elif i == "3":
+                SDM.set_system_sound_level(3)
+                system_sound_level = SDM.get_system_sound_level()
+                os.system('cls')
+                CA.display_settings_after_changes(8, system_sound_level)
+                print("\033[92m" + "\n\tNotification sounds and user feedback audio will be played!"
+                                   "\033[0m")
+                NSP.play_deny_sound() if system_sound_level == 3 else None
                 time.sleep(4)
             else:
                 print("\033[92m" + "\n\tPrevious setting will be kept!\033[0m")
@@ -826,6 +979,7 @@ def search_for_terms(log_title, workbook_title):
                     "\033[92m" + "\n\n\tNew configurations were saved!" + "\033[0m" \
                     "\n\n\tReturning to main menu..."
             print(outro)
+            NSP.play_deny_sound() if system_sound_level >= 2 else None
             time.sleep(4)
             print_main_menu_again = True
 
@@ -898,7 +1052,7 @@ def search_for_terms(log_title, workbook_title):
                                                                             hap=headline_already_printed)
 
                 print("\n\t\33[33mSaving results...\33[0m")
-                time.sleep(1)
+                NSP.play_deny_sound() if system_sound_level >= 2 else None
 
                 log = open(log_title, "a", encoding="utf-8")
                 log.write("\n\n" + log_output)
@@ -916,6 +1070,7 @@ def search_for_terms(log_title, workbook_title):
                 print_main_menu_again = True
 
 
+NSP.play_start_sound() if system_sound_level >= 2 else None
 CA.print_opening(version="3.0c")
 check_paths()
 if auto_update == 1:

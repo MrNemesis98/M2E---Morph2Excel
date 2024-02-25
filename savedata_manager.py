@@ -71,7 +71,8 @@ one_line_output = (variables_list[2].split(":")[1])
 headline_printing = (variables_list[3].split(":")[1])
 alphabetical_output = variables_list[4].split(":")
 auto_scan_filters = variables_list[5].split(":")[1]
-output_detail_level = (variables_list[6].split(":")[1])[:-1]
+output_detail_level = (variables_list[6].split(":")[1])
+system_sound_level = (variables_list[7].split(":")[1])[:-1]
 
 
 def update_system_data():
@@ -83,6 +84,7 @@ def update_system_data():
     global alphabetical_output
     global auto_scan_filters
     global output_detail_level
+    global system_sound_level
 
     # Save data from other sectors before overwriting
     sd = open("src/data/savedata.txt", "r")
@@ -91,14 +93,15 @@ def update_system_data():
 
     # Datei neu beschreiben, nur Nutzer-Trainingsdaten updaten
     sd = open("src/data/savedata.txt", "w")
-    text = database_data + "sys:" + \
-           "/au:" + str(auto_update) + \
-           "/tod:" + str(term_output_diplomacy) + \
-           "/onel:" + str(one_line_output) + \
-           "/hdlp:" + str(headline_printing) + \
-           "/" + str(alphabetical_output[0]) + ":" + alphabetical_output[1] + \
-           "/asf:" + str(auto_scan_filters) + \
-           "/odlvl:" + str(output_detail_level) + "\n"
+    text = (database_data + "sys:" +
+           "/au:" + str(auto_update) +
+           "/tod:" + str(term_output_diplomacy) +
+           "/onel:" + str(one_line_output) +
+           "/hdlp:" + str(headline_printing) +
+           "/" + str(alphabetical_output[0]) + ":" + alphabetical_output[1] +
+           "/asf:" + str(auto_scan_filters) +
+           "/odlvl:" + str(output_detail_level) +
+           "/ssl:" + str(system_sound_level) + "\n")
     sd.write(text)
     sd.close()
 
@@ -264,3 +267,25 @@ def set_output_detail_level(odlvl):
     global output_detail_level
     output_detail_level = odlvl
     update_system_data()
+
+
+def get_system_sound_level():
+    global system_sound_level
+    return int(system_sound_level)
+
+
+def get_system_sound_level_as_text():
+    global system_sound_level
+    if system_sound_level == "1":
+        return "\t8) System Sound Level:\t\tlevel 1, no sounds"
+    elif system_sound_level == "2":
+        return "\t8) System Sound Level:\t\tlevel 2, notifications only"
+    else:
+        return "\t8) System Sound Level:\t\tlevel 3, all sounds"
+
+
+def set_system_sound_level(ssl):
+    global system_sound_level
+    system_sound_level = ssl
+    update_system_data()
+

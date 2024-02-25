@@ -4,7 +4,6 @@ import urllib.request
 import datetime
 import openpyxl
 import time
-import subprocess
 import pandas as pd
 
 from PyQt5.QtWidgets import QApplication, QFileDialog
@@ -81,7 +80,7 @@ def print_opening(version):
 
 def print_manual_search_headline(tip=False):
     print("\n\t\033[97mManual term search\033[0m"
-          "\n\t\033[97m----------------------------------------------------------------\033[0m")
+          "\n\t\033[97m------------------------------------------------------------------------\033[0m")
     if tip:
         print('\n\t\33[92mTip:\33[0m If you want to display the\033[92m main menu\033[0m again '
               'just press \033[92menter\033[0m.')
@@ -93,26 +92,27 @@ def print_main_menu(version):
     headline = "\033[92m" + "\n\tMorph2Excel ~ Version " + version + "\033[0m"\
                "\n\n\t\033[92mMain Menu\033[0m"
     progress = [
-        "\t\033[92m----------------------------------------------------------------\033[0m",
-        "\t\033[92m[---]-----------------------------------------------------------\033[0m",
-        "\t\033[92m---[---]--------------------------------------------------------\033[0m",
-        "\t\033[92m------[---]-----------------------------------------------------\033[0m",
-        "\t\033[92m---------[---]--------------------------------------------------\033[0m",
-        "\t\033[92m--------------[---]---------------------------------------------\033[0m",
-        "\t\033[92m-----------------[---]------------------------------------------\033[0m",
-        "\t\033[92m---------------------[---]--------------------------------------\033[0m",
-        "\t\033[92m------------------------[---]-----------------------------------\033[0m",
-        "\t\033[92m---------------------------[---]--------------------------------\033[0m",
-        "\t\033[92m------------------------------[---]-----------------------------\033[0m",
-        "\t\033[92m----------------------------------[---]-------------------------\033[0m",
-        "\t\033[92m-------------------------------------[---]----------------------\033[0m",
-        "\t\033[92m----------------------------------------[---]-------------------\033[0m",
-        "\t\033[92m--------------------------------------------[---]---------------\033[0m",
-        "\t\033[92m-----------------------------------------------[---]------------\033[0m",
-        "\t\033[92m----------------------------------------------------[---]-------\033[0m",
-        "\t\033[92m--------------------------------------------------------[---]---\033[0m",
-        "\t\033[92m-----------------------------------------------------------[---]\033[0m",
-        "\t\033[92m[--------------------------------------------------------------]\033[0m",
+        "\t\033[92m------------------------------------------------------------------------\033[0m",
+        "\t\033[92m[--]--------------------------------------------------------------------\033[0m",
+        "\t\033[92m----[--]----------------------------------------------------------------\033[0m",
+        "\t\033[92m--------[--]------------------------------------------------------------\033[0m",
+        "\t\033[92m------------[--]--------------------------------------------------------\033[0m",
+        "\t\033[92m----------------[--]----------------------------------------------------\033[0m",
+        "\t\033[92m--------------------[--]------------------------------------------------\033[0m",
+        "\t\033[92m------------------------[--]--------------------------------------------\033[0m",
+        "\t\033[92m----------------------------[--]----------------------------------------\033[0m",
+        "\t\033[92m--------------------------------[--]------------------------------------\033[0m",
+        "\t\033[92m------------------------------------[--]--------------------------------\033[0m",
+        "\t\033[92m----------------------------------------[--]----------------------------\033[0m",
+        "\t\033[92m--------------------------------------------[--]------------------------\033[0m",
+        "\t\033[92m------------------------------------------------[--]--------------------\033[0m",
+        "\t\033[92m----------------------------------------------------[--]----------------\033[0m",
+        "\t\033[92m--------------------------------------------------------[--]------------\033[0m",
+        "\t\033[92m------------------------------------------------------------[--]--------\033[0m",
+        "\t\033[92m----------------------------------------------------------------[--]----\033[0m",
+        "\t\033[92m--------------------------------------------------------------------[--]\033[0m",
+        "\t\033[92m[----------------------------------------------------------------------]\033[0m",
+        "\t\033[92m------------------------------------------------------------------------\033[0m"
         ]
     menu_monochrom_display = [
         "\n\tManual search mode is prepared.",
@@ -133,6 +133,7 @@ def print_main_menu(version):
         SDM.get_alphabetical_output_as_text(),
         SDM.get_auto_scan_filters_as_text(),
         SDM.get_output_detail_level_as_text(),
+        SDM.get_system_sound_level_as_text(),
         '\n\tHint: If you want to display this menu again just press enter.'
     ]
     menu_color_display = [
@@ -154,6 +155,7 @@ def print_main_menu(version):
         SDM.get_alphabetical_output_as_text(),
         SDM.get_auto_scan_filters_as_text(),
         SDM.get_output_detail_level_as_text(),
+        SDM.get_system_sound_level_as_text(),
         '\n\tHint: If you want to \033[92mdisplay this menu again\033[0m just press \033[92menter\033[0m.'
     ]
 
@@ -161,7 +163,7 @@ def print_main_menu(version):
     os.system('cls')
     print(headline)
     print(progress[0])
-    NSP.play_mp3("./src/data/GUI_sound/Signal.mp3")
+    NSP.play_start_sound() if SDM.get_system_sound_level() >= 2 else None
     time.sleep(.5)
 
     for lines in range(len(menu_monochrom_display)):
@@ -265,12 +267,16 @@ def show_instructions():
     os.system('cls')
     print_opening(version="3.0c")
     print("\n\t\033[92mInstructions\033[0m"
-          "\n\t\033[92m---------------------------------------------------------------]\033[0m")
+          "\n\t\033[92m[----------------------------------------------------------------------]\033[0m")
+    NSP.play_accept_sound() if SDM.get_system_sound_level() == 3 else None
     time.sleep(.5)
     print("\n\t\033[33m" + "\n\tOpening PDF Handbook...\n" + "\033[0m")
     time.sleep(1)
     try:
-        pass
+        current_directory = os.getcwd()
+        instructions_pdf_path = r"src\data\Externals\M2E_v3.0c_EAP_Handbook.pdf"
+        # path = current_directory + instructions_pdf_path
+        os.system(instructions_pdf_path)
     except Exception:
         print("\n\t\033[91mWarning:\033[0m The program was not able to open the handbook file "
               "due to problems with the source path!"
@@ -281,17 +287,17 @@ def show_instructions():
     os.system('cls')
     print_opening(version="3.0c")
     print("\n\t\033[92mInstructions\033[0m"
-          "\n\t\033[92m[--------------------------------------------------------------]\033[0m")
+          "\n\t\033[92m[----------------------------------------------------------------------]\033[0m")
     print("\n\tReturning to main menu...")
     time.sleep(1)
 
 
 def show_version_description():
-    time.sleep(1)
     os.system('cls')
     print_opening(version="3.0c")
     print("\033[95m" + "\n\tWhat´s new in version 3.0c?" + "\033[0m"
-          "\n\t\033[95m[--------------------------------------------------------------]\033[0m")
+          "\n\t\033[95m[----------------------------------------------------------------------]\033[0m")
+    NSP.play_accept_sound() if SDM.get_system_sound_level() == 3 else None
     time.sleep(1.5)
     print("\n\t\33[95m1)\33[0m There is a new comparison mode, "
           "\n\t\twhich allows you to select two excel files in the directory. "
@@ -685,7 +691,7 @@ def search_and_output(worksheet, excel_row, pos_filters, term, entries_list,
 def select_excel_file():
     # Path to your Excel file
     # excel_file = r'C:\Users\tillp\Desktop\Morph2Excel - Version 2.0c\output\M2E_Output_(06_06_2023_(14_17_55)).xlsx'
-
+    NSP.play_request_sound() if SDM.get_system_sound_level() >= 2 else None
     # Create a QApplication instance
     app = QApplication([])
 
@@ -799,9 +805,9 @@ def display_settings(setting, current_var, current_var_2=""):
     if setting == 1:
         print_opening(version="3.0c")
         print("\033[33m\n\t~ Settings Menu ~"
-              "\n\t----------------------------------------------------------------\033[0m"
-              "\n\n\tSetting 1/7: Automatic Database Updates"
-              "\n\t[-------]-------------------------------------------------------"
+              "\n\t------------------------------------------------------------------------\033[0m"
+              "\n\n\tSetting 1/8: Automatic Database Updates"
+              "\n\t[-------]---------------------------------------------------------------"
               "\n\n\tDescription: "
               "\n\tThe program will automatically search for wiki_morph updates "
               "\n\tbefore loading the installed version of the database. "
@@ -815,9 +821,9 @@ def display_settings(setting, current_var, current_var_2=""):
     elif setting == 2:
         print_opening(version="3.0c")
         print("\033[33m\n\t~ Settings Menu ~"
-              "\n\t----------------------------------------------------------------\033[0m"
-              "\n\n\tSetting 2/7: Term Output Diplomacy"
-              "\n\t---------[-------]----------------------------------------------"
+              "\n\t------------------------------------------------------------------------\033[0m"
+              "\n\n\tSetting 2/8: Term Output Diplomacy"
+              "\n\t---------[-------]------------------------------------------------------"
               "\n\n\tDescription: "
               "\n\tDecide, which of the terms you searched shall be considered in the output."
               "\n\tThis only affects the excel table. The log_file.txt cannot be changed.")
@@ -834,9 +840,9 @@ def display_settings(setting, current_var, current_var_2=""):
     elif setting == 3:
         print_opening(version="3.0c")
         print("\033[33m\n\t~ Settings Menu ~"
-              "\n\t----------------------------------------------------------------\033[0m"
-              "\n\n\tSetting 3/7: Output Format"
-              "\n\t------------------[-------]-------------------------------------"
+              "\n\t------------------------------------------------------------------------\033[0m"
+              "\n\n\tSetting 3/8: Output Format"
+              "\n\t------------------[-------]---------------------------------------------"
               "\n\n\tDescription: "
               "\n\tThe excel output can either be structured with one-line or multiline format."
               "\n\tMulti-line format is more readable and provides a better overview for the user."
@@ -850,9 +856,9 @@ def display_settings(setting, current_var, current_var_2=""):
     elif setting == 4:
         print_opening(version="3.0c")
         print("\033[33m\n\t~ Settings Menu ~"
-              "\n\t----------------------------------------------------------------\033[0m"
-              "\n\n\tSetting 4/7: Headline Printing"
-              "\n\t---------------------------[-------]----------------------------"
+              "\n\t------------------------------------------------------------------------\033[0m"
+              "\n\n\tSetting 4/8: Headline Printing"
+              "\n\t---------------------------[-------]------------------------------------"
               "\n\n\tDescription: "
               "\n\tThe program is able to repeat the printing of a standardized headline for the"
               "\n\tresulting output excel file."
@@ -876,9 +882,9 @@ def display_settings(setting, current_var, current_var_2=""):
     elif setting == 5:
         print_opening(version="3.0c")
         print("\033[33m\n\t~ Settings Menu ~"
-              "\n\t----------------------------------------------------------------\033[0m"
-              "\n\n\tSetting 5/7: Alphabetical Output Order"
-              "\n\t------------------------------------[--------]------------------"
+              "\n\t------------------------------------------------------------------------\033[0m"
+              "\n\n\tSetting 5/8: Alphabetical Output Order"
+              "\n\t------------------------------------[-------]---------------------------"
               "\n\n\tDescription: "
               "\n\tDecide, if the output shall be structured in alphabetical order."
               "\n\tNote: For the moment this functionality is only available for auto scan mode."
@@ -899,9 +905,9 @@ def display_settings(setting, current_var, current_var_2=""):
     elif setting == 6:
         print_opening(version="3.0c")
         print("\033[33m\n\t~ Settings Menu ~"
-              "\n\t----------------------------------------------------------------\033[0m"
-              "\n\n\tSetting 6/7: Automatic Scan Filters"
-              "\n\t----------------------------------------------[-------]---------"
+              "\n\t------------------------------------------------------------------------\033[0m"
+              "\n\n\tSetting 6/8: Automatic Scan Filters"
+              "\n\t---------------------------------------------[-------]------------------"
               "\n\n\tDescription: "
               "\n\tSince you are familiar with the automatic scan mode,"
               "\n\tyou can specify the search of the scanned terms by presetting"
@@ -973,9 +979,9 @@ def display_settings(setting, current_var, current_var_2=""):
     elif setting == 7:
         print_opening(version="3.0c")
         print("\033[33m\n\t~ Settings Menu ~"
-              "\n\t----------------------------------------------------------------\033[0m"
-              "\n\n\tSetting 7/7: Output Detail Level"
-              "\n\t-------------------------------------------------------[-------]"
+              "\n\t------------------------------------------------------------------------\033[0m"
+              "\n\n\tSetting 7/8: Output Detail Level"
+              "\n\t------------------------------------------------------[-------]---------"
               "\n\n\tDescription: "
               "\n\tFor every term entry in the database there are three levels of information:"
               "\n\tThe basic term data (Level 1, output print color: black), "
@@ -995,15 +1001,41 @@ def display_settings(setting, current_var, current_var_2=""):
                   "\n\t\t\t\t2. Level 2: term data + morphology data"
                   "\n\t\t\t\033[33m" + "->" + "\033[0m\t3. Level 3: term data + morphology data + etymology data")
 
+    elif setting == 8:
+        print_opening(version="3.0c")
+        print("\033[33m\n\t~ Settings Menu ~"
+              "\n\t------------------------------------------------------------------------\033[0m"
+              "\n\n\tSetting 8/8: System Sound Level"
+              "\n\t---------------------------------------------------------------[-------]"
+              "\n\n\tDescription: "
+              "\n\tMorph2Excel is able to give you audio feedback for several interactions."
+              "\n\tThis is especially useful if you have to wait longer for an automatic scan or"
+              "\n\tin general if you execute the program in the background."
+              "\n\tYou can get an audio feedback for most of the user interactions or"
+              "\n\tjust keep the notification sounds. Of course you can also set all the sounds off.")
+        if current_var == 1:
+            print("\n\tOptions:\n\t\t\t\033[33m" + "->" + "\033[0m\t1. Level 1: no sounds"
+                  "\n\t\t\t\t2. Level 2: notification sounds only"
+                  "\n\t\t\t\t3. Level 3: all sounds (notification sounds + user feedback audio)")
+        elif current_var == 2:
+            print("\n\tOptions:\n\t\t\t\t1. Level 1: no sounds"
+                  "\n\t\t\t\033[33m" + "->" + "\033[0m\t2. Level 2: notification sounds only"
+                  "\n\t\t\t\t3. Level 3: all sounds (notification sounds + user feedback audio)")
+        else:
+            print("\n\tOptions:\n\t\t\t\t1. Level 1: no sounds"
+                  "\n\t\t\t\t2. Level 2: notification sounds only"
+                  "\n\t\t\t\033[33m" + "->" +
+                  "\033[0m\t3. Level 3: all sounds (notification sounds + user feedback audio)")
+
 
 def display_settings_after_changes(setting, current_var, current_var_2=""):
 
     if setting == 1:
         print_opening(version="3.0c")
         print("\033[33m\n\t~ Settings Menu ~"
-              "\n\t----------------------------------------------------------------\033[0m"
-              "\n\n\tSetting 1/7: Automatic Database Updates"
-              "\n\t[-------]-------------------------------------------------------"
+              "\n\t------------------------------------------------------------------------\033[0m"
+              "\n\n\tSetting 1/8: Automatic Database Updates"
+              "\n\t[-------]---------------------------------------------------------------"
               "\n\n\tDescription: "
               "\n\tThe program will automatically search for wiki_morph updates "
               "\n\tbefore loading the installed version of the database. "
@@ -1017,9 +1049,9 @@ def display_settings_after_changes(setting, current_var, current_var_2=""):
     elif setting == 2:
         print_opening(version="3.0c")
         print("\033[33m\n\t~ Settings Menu ~"
-              "\n\t----------------------------------------------------------------\033[0m"
-              "\n\n\tSetting 2/7: Term Output Diplomacy"
-              "\n\t---------[-------]----------------------------------------------"
+              "\n\t------------------------------------------------------------------------\033[0m"
+              "\n\n\tSetting 2/8: Term Output Diplomacy"
+              "\n\t---------[-------]------------------------------------------------------"
               "\n\n\tDescription: "
               "\n\tDecide, which of the terms you searched shall be considered in the output."
               "\n\tThis only affects the excel table. The log_file.txt cannot be changed.")
@@ -1036,9 +1068,9 @@ def display_settings_after_changes(setting, current_var, current_var_2=""):
     elif setting == 3:
         print_opening(version="3.0c")
         print("\033[33m\n\t~ Settings Menu ~"
-              "\n\t----------------------------------------------------------------\033[0m"
-              "\n\n\tSetting 3/7: Output Format"
-              "\n\t------------------[-------]-------------------------------------"
+              "\n\t------------------------------------------------------------------------\033[0m"
+              "\n\n\tSetting 3/8: Output Format"
+              "\n\t------------------[-------]---------------------------------------------"
               "\n\n\tDescription: "
               "\n\tThe excel output can either be structured with one-line or multiline format."
               "\n\tMulti-line format is more readable and provides a better overview for the user."
@@ -1052,9 +1084,9 @@ def display_settings_after_changes(setting, current_var, current_var_2=""):
     elif setting == 4:
         print_opening(version="3.0c")
         print("\033[33m\n\t~ Settings Menu ~"
-              "\n\t----------------------------------------------------------------\033[0m"
-              "\n\n\tSetting 4/7: Headline Printing"
-              "\n\t---------------------------[-------]----------------------------"
+              "\n\t------------------------------------------------------------------------\033[0m"
+              "\n\n\tSetting 4/8: Headline Printing"
+              "\n\t---------------------------[-------]------------------------------------"
               "\n\n\tDescription: "
               "\n\tThe program is able to repeat the printing of a standardized headline for the"
               "\n\tresulting output excel file."
@@ -1078,9 +1110,9 @@ def display_settings_after_changes(setting, current_var, current_var_2=""):
     elif setting == 5:
         print_opening(version="3.0c")
         print("\033[33m\n\t~ Settings Menu ~"
-              "\n\t----------------------------------------------------------------\033[0m"
-              "\n\n\tSetting 5/7: Alphabetical Output Order"
-              "\n\t------------------------------------[--------]------------------"
+              "\n\t------------------------------------------------------------------------\033[0m"
+              "\n\n\tSetting 5/8: Alphabetical Output Order"
+              "\n\t------------------------------------[-------]---------------------------"
               "\n\n\tDescription: "
               "\n\tDecide, if the output shall be structured in alphabetical order."
               "\n\tNote: For the moment this functionality is only available for auto scan mode."
@@ -1101,9 +1133,9 @@ def display_settings_after_changes(setting, current_var, current_var_2=""):
     elif setting == 6:
         print_opening(version="3.0c")
         print("\033[33m\n\t~ Settings Menu ~"
-              "\n\t----------------------------------------------------------------\033[0m"
-              "\n\n\tSetting 6/7: Automatic Scan Filters"
-              "\n\t----------------------------------------------[-------]---------"
+              "\n\t------------------------------------------------------------------------\033[0m"
+              "\n\n\tSetting 6/8: Automatic Scan Filters"
+              "\n\t---------------------------------------------[-------]------------------"
               "\n\n\tDescription: "
               "\n\tSince you are familiar with the automatic scan mode,"
               "\n\tyou can specify the search of the scanned terms by presetting"
@@ -1175,9 +1207,9 @@ def display_settings_after_changes(setting, current_var, current_var_2=""):
     elif setting == 7:
         print_opening(version="3.0c")
         print("\033[33m\n\t~ Settings Menu ~"
-              "\n\t----------------------------------------------------------------\033[0m"
-              "\n\n\tSetting 7/7: Output Detail Level"
-              "\n\t-------------------------------------------------------[-------]"
+              "\n\t------------------------------------------------------------------------\033[0m"
+              "\n\n\tSetting 7/8: Output Detail Level"
+              "\n\t------------------------------------------------------[-------]---------"
               "\n\n\tDescription: "
               "\n\tFor every term entry in the database there are three levels of information:"
               "\n\tThe basic term data (Level 1, output print color: black), "
@@ -1196,3 +1228,29 @@ def display_settings_after_changes(setting, current_var, current_var_2=""):
             print("\n\tOptions:\n\t\t\t\t1. Level 1: only term data"
                   "\n\t\t\t\t2. Level 2: term data + morphology data"
                   "\n\t\t\t\033[92m" + "->" + "\033[0m\t3. Level 3: term data + morphology data + etymology data")
+
+    elif setting == 8:
+        print_opening(version="3.0c")
+        print("\033[33m\n\t~ Settings Menu ~"
+              "\n\t------------------------------------------------------------------------\033[0m"
+              "\n\n\tSetting 8/8: System Sound Level"
+              "\n\t---------------------------------------------------------------[-------]"
+              "\n\n\tDescription: "
+              "\n\tMorph2Excel is able to give you audio feedback for several interactions."
+              "\n\tThis is especially useful if you have to wait longer for an automatic scan or"
+              "\n\tin general if you execute the program in the background."
+              "\n\tYou can get an audio feedback for most of the user interactions or"
+              "\n\tjust keep the notification sounds. Of course you can also set all the sounds off.")
+        if current_var == 1:
+            print("\n\tOptions:\n\t\t\t\033[92m" + "->" + "\033[0m\t1. Level 1: no sounds"
+                  "\n\t\t\t\t2. Level 2: notification sounds only"
+                  "\n\t\t\t\t3. Level 3: all sounds (notification sounds + user feedback audio)")
+        elif current_var == 2:
+            print("\n\tOptions:\n\t\t\t\t1. Level 1: no sounds"
+                  "\n\t\t\t\033[92m" + "->" + "\033[0m\t2. Level 2: notification sounds only"
+                  "\n\t\t\t\t3. Level 3: all sounds (notification sounds + user feedback audio)")
+        else:
+            print("\n\tOptions:\n\t\t\t\t1. Level 1: no sounds"
+                  "\n\t\t\t\t2. Level 2: notification sounds only"
+                  "\n\t\t\t\033[92m" + "->" +
+                  "\033[0m\t3. Level 3: all sounds (notification sounds + user feedback audio)")
