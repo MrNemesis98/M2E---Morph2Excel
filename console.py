@@ -188,76 +188,6 @@ def check_paths():
         time.sleep(2)
 
 
-def check_for_updates():
-    os.system('cls')
-    CA.print_opening(version="3.0c")
-    print("\n\tChecking for wiki_morph updates...")
-    time.sleep(3)
-
-    current_size = SDM.get_current_size()
-
-    try:
-        url = "https://zenodo.org/record/5172857/files/wiki_morph.json?download=1"
-
-        headers = {
-            'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) '
-            'AppleWebKit/537.36 (KHTML, like Gecko) Chrome/58.0.3029.110 Safari/537.3'}
-
-        response = requests.get(url, stream=True, headers=headers, allow_redirects=True)
-        remote_size = int(response.headers.get("Content-Length", 0))
-        remote_size = int(remote_size / (1024 * 1024))
-        print("\tResponse Status Code:", "\033[91m", response.status_code, "\033[0m")
-        time.sleep(2)
-
-        if remote_size == 0:
-            os.system('cls')
-            CA.print_opening(version="3.0c")
-            print("\n\tUpdate check not possible: \033[91mServer does not provide required information!\033[0m"
-                  "\n\tLast recent locally installed version will be used.")
-            NSP.play_deny_sound() if system_sound_level >= 2 else None
-            time.sleep(7)
-        else:
-            if current_size < remote_size:
-                os.system('cls')
-                CA.print_opening(version="3.0c")
-                print("\n\tThere is a new version of wiki_morph available!"
-                      "\n\n\tSize: " + str(remote_size) + " MB"
-                      "\n\n\t Do you want to download the update now? (y/n)")
-                answer = input("\n\tanswer: ")
-                if answer == "y":
-                    NSP.play_accept_sound() if system_sound_level == 3 else None
-                    SDM.set_download_size(remote_size)
-                    CA.download_database(url=url)
-
-                    os.system('cls')
-                    CA.print_opening(version="3.0c")
-                    print("\n\n\tUpdate completed! (" + str(current_size) + " MB)"
-                          "\n\n\tDo you wish to search for terms now? (y/n)")
-                    NSP.play_request_sound() if system_sound_level >= 2 else None
-                    answer = input("\n\tanswer: ")
-                    if answer == "n":
-                        NSP.play_deny_sound() if system_sound_level == 3 else None
-                        print("\n\tProgramm will now terminate.")
-                        time.sleep(3)
-                        sys.exit(0)
-                    else:
-                        NSP.play_accept_sound() if system_sound_level == 3 else None
-                else:
-                    NSP.play_deny_sound() if system_sound_level == 3 else None
-            else:
-                os.system('cls')
-                CA.print_opening(version="3.0c")
-                print("\n\tThe installed database is up to date!")
-                time.sleep(3)
-    except Exception as e:
-        CA.print_opening(version="3.0c")
-        print("\n\tUpdate check not possible: No internet connection!"
-              "\n\tLast recent locally installed version will be used.")
-        print("Exception:", e)
-        NSP.play_deny_sound() if system_sound_level >= 2 else None
-        time.sleep(5)
-
-
 def search_for_terms(log_title, workbook_title):
     global headline_already_printed
     global comparison_counter
@@ -394,7 +324,8 @@ def search_for_terms(log_title, workbook_title):
                     i = input("\n\tPress \033[92menter\033[0m or type in anything to \033[92mstart\033[0m the search. "
                               '\n\tType in \033[33mfile!\033[0m to select a different file.'
                               '\n\tType in \033[91mexit!\033[0m to cancel the automatic search.'
-                              '\n\n\t')
+                              '\n\n\ta'
+                              'nswer: ')
                     if i == "exit!":
                         excel_file_selected = True
                         breakoff = True
@@ -543,142 +474,215 @@ def search_for_terms(log_title, workbook_title):
                      "\n\t\033[94m------------------------------------------------------------------------\033[0m"
             print(status)
             NSP.play_accept_sound() if system_sound_level == 3 else None
-            print("\n\tPlease select two excel files you want to compare.")
-            time.sleep(2)
-            print("\n\t\33[33mSelect excel file 1 now.\33[0m")
-            time.sleep(2)
-            file_1 = CA.select_excel_file()
-            NSP.play_accept_sound() if system_sound_level == 3 else None
-            terms_1, invalid_terms_1 = CA.autoscan(file_1, test_for_invalides=False)
-            number_of_terms_1 = len(terms_1)
-            print("\n\tSelected file 1: " + file_1)
-            print("\tFound terms: " + str(number_of_terms_1))
-            if not invalid_terms_1 == []:
-                print("\n\t\033[91mWarning:\033[0m Scanned file contains terms that are invalid inputs!"
-                      "\n\n\tFor searching within the wikimorph database the following terms will be ignored:"
-                      "\n\t\t", str(invalid_terms_1))
-                NSP.play_deny_sound() if system_sound_level >= 2 else None
-                input("\n\tType in anything to continue: ")
 
-            time.sleep(4)
-
-            os.system('cls')
-            CA.print_opening(version="3.0c")
-            print(status)
-            print("\n\t\33[33mSelect excel file 2 now.\33[0m")
-            time.sleep(2)
-            file_2 = CA.select_excel_file()
-            NSP.play_accept_sound() if system_sound_level == 3 else None
-            terms_2, invalid_terms_2 = CA.autoscan(file_2, test_for_invalides=False)
-            number_of_terms_2 = len(terms_2)
-            print("\n\tSelected file 2: " + file_2)
-            print("\tFound terms: " + str(number_of_terms_2))
-            if not invalid_terms_2 == []:
-                print("\n\t\033[91mWarning:\033[0m Scanned file contains terms that are invalid inputs!"
-                      "\n\n\tFor searching within the wikimorph database the following terms will be ignored:"
-                      "\n\t\t", str(invalid_terms_2))
-                NSP.play_deny_sound() if system_sound_level >= 2 else None
-                input("\n\tType in anything to continue: ")
-            time.sleep(4)
-
-            os.system('cls')
-            CA.print_opening(version="3.0c")
-            print(status)
-            print("\n\tPreparing comparison...")
-            unique_terms_1 = []
-            unique_terms_2 = []
-            common_terms = []
-            time.sleep(2)
-
-            start_time = time.time()
-            NSP.play_deny_sound() if system_sound_level >= 2 else None
-            for x in range(number_of_terms_1):
-                term = terms_1[x]
-                progress = format(100 * ((x+1) / number_of_terms_1), ".2f")
+            excel_file_1_selected = False
+            breakoff = False
+            while not excel_file_1_selected:
                 os.system('cls')
                 CA.print_opening(version="3.0c")
                 print(status)
-                print("\n\t\33[94mComparing terms from file 1...\33[0m"
-                      "\n\tCurrent term: " + str(term) + "\t\tProgress: \33[94m" + str(progress) + "%\33[0m")
-                if term in terms_2:
-                    common_terms.append(term)
-                else:
-                    unique_terms_1.append(term)
-                time.sleep(.1)
-            end_time = time.time()
-            time.sleep(2)
+                print("\n\tPlease select two excel files you want to compare.")
+                time.sleep(2)
+                print("\n\t\33[33mSelect excel file 1 now.\33[0m")
+                time.sleep(1.5)
 
-            os.system('cls')
-            CA.print_opening(version="3.0c")
-            print(status)
-            print("\n\t\033[92mComparison of terms from file 1 finished!\033[0m")
-            print("\n\t", CA.measure_time(start_time, end_time, search=False, comparison=True))
-            NSP.play_deny_sound() if system_sound_level >= 2 else None
-            input("\n\tType in anything to compare terms of file 2: ")
-            time.sleep(1)
+                try:
+                    file_1 = CA.select_excel_file()
+                    NSP.play_accept_sound() if system_sound_level == 3 else None
 
-            start_time = time.time()
-            NSP.play_accept_sound() if system_sound_level == 3 else None
-            for x in range(number_of_terms_2):
-                term = terms_2[x]
-                progress = format(100 * ((x+1) / number_of_terms_2), ".2f")
+                    start_time = time.time()
+                    terms_1, invalid_terms_1 = CA.autoscan(file_1, test_for_invalides=False)
+                    end_time = time.time()
+
+                    number_of_terms_1 = len(terms_1)
+                    print("\n\tSelected as file 1: " + file_1)
+                    print("\tFound terms: " + str(number_of_terms_1))
+                    print("\n\t", CA.measure_time(start_time, end_time, search=False))
+
+                    time.sleep(3)
+
+                    i = input("\n\tPress \033[92menter\033[0m or type in anything to \033[92mselect file 2\033[0m. "
+                              '\n\tType in \033[33mfile!\033[0m to select a different file.'
+                              '\n\tType in \033[91mexit!\033[0m to cancel the comparison.'
+                              '\n\n\tanswer: ')
+                    if i == "exit!":
+                        excel_file_1_selected = True
+                        excel_file_2_selected = True
+                        breakoff = True
+                    elif i == "file!":
+                        os.system('cls')
+                        CA.print_opening(version="3.0c")
+                        print(status)
+                        NSP.play_accept_sound() if system_sound_level == 3 else None
+                    else:
+                        excel_file_1_selected = True
+
+                except Exception:
+                    os.system('cls')
+                    CA.print_opening(version="3.0c")
+                    print(status)
+                    print("\n\t\033[91mWarning:\033[0m No file as file 1 selected!")
+                    NSP.play_deny_sound() if system_sound_level >= 2 else None
+                    time.sleep(2)
+
+            if not breakoff:
+                excel_file_2_selected = False
+
+                while not excel_file_2_selected:
+
+                    os.system('cls')
+                    CA.print_opening(version="3.0c")
+                    print(status)
+                    print("\n\tPlease select two excel files you want to compare.")
+                    time.sleep(2)
+                    print("\n\t\33[33mSelect excel file 2 now.\33[0m")
+                    time.sleep(1.5)
+
+                    try:
+                        file_2 = CA.select_excel_file()
+                        NSP.play_accept_sound() if system_sound_level == 3 else None
+
+                        start_time = time.time()
+                        terms_2, invalid_terms_2 = CA.autoscan(file_2, test_for_invalides=False)
+                        end_time = time.time()
+
+                        number_of_terms_2 = len(terms_2)
+                        print("\n\tSelected file 2: " + file_2)
+                        print("\tFound terms: " + str(number_of_terms_2))
+                        print("\n\t", CA.measure_time(start_time, end_time, search=False))
+
+                        time.sleep(3)
+
+                        i = input("\n\tPress \033[92menter\033[0m or type in anything to \033[92mstart "
+                                  "the comparison\033[0m. "
+                                  '\n\tType in \033[33mfile!\033[0m to select a different file.'
+                                  '\n\tType in \033[91mexit!\033[0m to cancel the comparison.'
+                                  '\n\n\tanswer: ')
+                        if i == "exit!":
+                            excel_file_2_selected = True
+                            breakoff = True
+                        elif i == "file!":
+                            os.system('cls')
+                            CA.print_opening(version="3.0c")
+                            print(status)
+                            NSP.play_accept_sound() if system_sound_level == 3 else None
+                        else:
+                            excel_file_2_selected = True
+
+                    except Exception:
+                        os.system('cls')
+                        CA.print_opening(version="3.0c")
+                        print(status)
+                        print("\n\t\033[91mWarning:\033[0m No file as file 2 selected!")
+                        NSP.play_deny_sound() if system_sound_level >= 2 else None
+                        time.sleep(2)
+
+            if not breakoff:
                 os.system('cls')
                 CA.print_opening(version="3.0c")
                 print(status)
-                print("\n\t\33[94mComparing terms from file 2...\33[0m"
-                      "\n\tCurrent term: " + str(term) + "\t\tProgress: \33[94m" + str(progress) + "%\33[0m")
-                if term in terms_1:
-                    common_terms.append(term)
-                else:
-                    unique_terms_2.append(term)
-                time.sleep(.1)
-            end_time = time.time()
-            time.sleep(2)
+                print("\n\tPreparing comparison...")
+                unique_terms_1 = []
+                unique_terms_2 = []
+                common_terms = []
+                time.sleep(2)
 
-            # eliminating duplicates in common terms list
-            common_terms = list(set(common_terms))
+                start_time = time.time()
+                NSP.play_deny_sound() if system_sound_level >= 2 else None
+                for x in range(number_of_terms_1):
+                    term = terms_1[x]
+                    progress = format(100 * ((x+1) / number_of_terms_1), ".2f")
+                    os.system('cls')
+                    CA.print_opening(version="3.0c")
+                    print(status)
+                    print("\n\t\33[94mComparing terms from file 1...\33[0m"
+                          "\n\tCurrent term: " + str(term) + "\t\tProgress: \33[94m" + str(progress) + "%\33[0m")
+                    if term in terms_2:
+                        common_terms.append(term)
+                    else:
+                        unique_terms_1.append(term)
+                    time.sleep(.1)
+                end_time = time.time()
+                time.sleep(2)
 
-            os.system('cls')
-            CA.print_opening(version="3.0c")
-            print(status)
-            print("\n\t\033[92mComparison of terms from file 2 finished!\033[0m")
-            print("\n\t", CA.measure_time(start_time, end_time, search=False, comparison=True))
-            NSP.play_deny_sound() if system_sound_level >= 2 else None
-            input("\n\tType in anything to continue: ")
+                os.system('cls')
+                CA.print_opening(version="3.0c")
+                print(status)
+                print("\n\t\033[92mComparison of terms from file 1 finished!\033[0m")
+                print("\n\t", CA.measure_time(start_time, end_time, search=False, comparison=True))
+                NSP.play_deny_sound() if system_sound_level >= 2 else None
+                input("\n\tType in anything to compare terms of file 2: ")
+                time.sleep(1)
 
-            os.system('cls')
-            CA.print_opening(version="3.0c")
-            print(status)
-            print("\n\t\033[92mComparing process finished!\033[0m")
-            print("\n\t\033[92mThe results were saved as an additional comparison excel file!\033[0m")
-            NSP.play_accept_sound() if system_sound_level == 3 else None
-            time.sleep(5)
+                start_time = time.time()
+                NSP.play_accept_sound() if system_sound_level == 3 else None
+                for x in range(number_of_terms_2):
+                    term = terms_2[x]
+                    progress = format(100 * ((x+1) / number_of_terms_2), ".2f")
+                    os.system('cls')
+                    CA.print_opening(version="3.0c")
+                    print(status)
+                    print("\n\t\33[94mComparing terms from file 2...\33[0m"
+                          "\n\tCurrent term: " + str(term) + "\t\tProgress: \33[94m" + str(progress) + "%\33[0m")
+                    if term in terms_1:
+                        common_terms.append(term)
+                    else:
+                        unique_terms_2.append(term)
+                    time.sleep(.1)
+                end_time = time.time()
+                time.sleep(2)
 
-            # generating new Excel file for comparison results exclusively
-            results_wb_name = CA.create_comparison_result_excel(fd=formatted_date, counter=comparison_counter)
-            results_workbook = load_workbook(results_wb_name)
-            results_worksheet = results_workbook.active
+                # eliminating duplicates in common terms list
+                common_terms = list(set(common_terms))
 
-            # saving results
-            results_worksheet = CA.write_comparison_result_excel(worksheet=results_worksheet,
-                                                                 file_1=file_1, file_2=file_2,
-                                                                 list_of_terms_1=unique_terms_1,
-                                                                 list_of_terms_2=unique_terms_2,
-                                                                 common_terms_list=common_terms)
-            results_workbook.save(results_wb_name)
-            comparison_workbooks.append(results_wb_name)
+                os.system('cls')
+                CA.print_opening(version="3.0c")
+                print(status)
+                print("\n\t\033[92mComparison of terms from file 2 finished!\033[0m")
+                print("\n\t", CA.measure_time(start_time, end_time, search=False, comparison=True))
+                NSP.play_deny_sound() if system_sound_level >= 2 else None
+                input("\n\tType in anything to continue: ")
 
-            log = open(log_title, "a", encoding="utf-8")
-            log_output = "\t------------------------------------------------------------\n\n\tComparison mode accessed"\
-                         "\n\tFile 1: " + file_1 + "\n\tFile 2: " + file_2 + "\n"
-            log.write("\n\n" + log_output)
-            log.close()
-            comparison_counter += 1
+                os.system('cls')
+                CA.print_opening(version="3.0c")
+                print(status)
+                print("\n\t\033[92mComparing process finished!\033[0m")
+                print("\n\t\033[92mThe results were saved as an additional comparison excel file!\033[0m")
+                NSP.play_accept_sound() if system_sound_level == 3 else None
+                time.sleep(5)
 
-            os.system('cls')
-            CA.print_opening(version="3.0c")
-            print(status)
-            print("\n\tReturning to main menu...")
+                # generating new Excel file for comparison results exclusively
+                results_wb_name = CA.create_comparison_result_excel(fd=formatted_date, counter=comparison_counter)
+                results_workbook = load_workbook(results_wb_name)
+                results_worksheet = results_workbook.active
+
+                # saving results
+                results_worksheet = CA.write_comparison_result_excel(worksheet=results_worksheet,
+                                                                     file_1=file_1, file_2=file_2,
+                                                                     list_of_terms_1=unique_terms_1,
+                                                                     list_of_terms_2=unique_terms_2,
+                                                                     common_terms_list=common_terms)
+                results_workbook.save(results_wb_name)
+                comparison_workbooks.append(results_wb_name)
+
+                log = open(log_title, "a", encoding="utf-8")
+                log_output = "\t------------------------------------------------------------\n\n\tComparison mode accessed"\
+                             "\n\tFile 1: " + file_1 + "\n\tFile 2: " + file_2 + "\n"
+                log.write("\n\n" + log_output)
+                log.close()
+                comparison_counter += 1
+
+                os.system('cls')
+                CA.print_opening(version="3.0c")
+                print(status)
+                print("\n\tReturning to main menu...")
+            else:
+                os.system('cls')
+                CA.print_opening(version="3.0c")
+                print(status)
+                print("\n\t\033[91mProcess cancelled!\033[0m"
+                      "\n\tReturning to main menu...")
+                NSP.play_deny_sound() if system_sound_level == 3 else None
             time.sleep(4)
             print_main_menu_again = True
 
@@ -1073,8 +1077,6 @@ def search_for_terms(log_title, workbook_title):
 NSP.play_start_sound() if system_sound_level >= 2 else None
 CA.print_opening(version="3.0c")
 check_paths()
-if auto_update == 1:
-    check_for_updates()
 
 formatted_date = CA.get_datetime()
 
