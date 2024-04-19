@@ -15,7 +15,8 @@ headline_already_printed = False
 comparison_counter = 1
 tip_need_counter = 0
 
-auto_update = SDM.get_auto_update()
+database_version_date = SDM.get_database_version_date()
+database_version_description = SDM.get_database_version_description()
 term_output_diplomacy = SDM.get_term_output_diplomacy()
 oneline_output_format = SDM.get_one_line_output()
 headline_printing = SDM.get_headline_printing()
@@ -26,7 +27,8 @@ system_sound_level = SDM.get_system_sound_level()
 
 
 def set_system_variables_to_default():
-    global auto_update
+    global database_version_date
+    global database_version_description
     global term_output_diplomacy
     global oneline_output_format
     global headline_printing
@@ -35,7 +37,8 @@ def set_system_variables_to_default():
     global output_detail_level
     global system_sound_level
 
-    SDM.set_auto_update(1)
+    SDM.set_database_version_date("")
+    SDM.set_database_version_description("")
     SDM.set_term_output_diplomacy(3)
     SDM.set_one_line_output(1)
     SDM.set_headline_printing(2)
@@ -44,7 +47,8 @@ def set_system_variables_to_default():
     SDM.set_output_detail_level(3)
     SDM.set_system_sound_level(3)
 
-    auto_update = SDM.get_auto_update()
+    database_version_date = SDM.get_database_version_date()
+    database_version_description = SDM.get_database_version_description()
     term_output_diplomacy = SDM.get_term_output_diplomacy()
     oneline_output_format = SDM.get_one_line_output()
     headline_printing = SDM.get_headline_printing()
@@ -55,7 +59,8 @@ def set_system_variables_to_default():
 
 
 def check_paths():
-    global auto_update
+    global database_version_date
+    global database_version_description
     global system_sound_level
     time.sleep(2)
 
@@ -690,12 +695,12 @@ def search_for_terms(log_title, workbook_title):
         elif i == "set!":
             intro = "\033[33m\n\t~ Settings Menu ~" \
                     "\n\t------------------------------------------------------------------------\033[0m" \
-                    "\n\n\tThe several settings you can change will be displayed in succession." \
-                    "\n\tFor every setting there will be the respective options given." \
-                    "\n\tThe currently selected option will be marked with an arrow." \
-                    "\n\tTo keep the currently selected option of a setting just press enter." \
-                    "\n\tTo select another option please type in the given number." \
-                    "\n\tYou can press enter to start now."
+                    "\n\n\t\33[33mNote:\33[0m\tFor the following settings there are different control mechanisms as follows:" \
+                    "\n\t\tFor every setting there will be the respective options given." \
+                    "\n\t\tThe currently selected option will be marked with an \33[33marrow\33[0m." \
+                    "\n\t\tTo keep the currently selected option of a setting just press \33[92menter\33[0m." \
+                    "\n\t\tTo select another option please type in the given \33[92mnumber\33[0m." \
+                    "\n\n\t\tYou can press enter to start now."
             os.system('cls')
             CA.print_opening(version="3.0c")
             print(intro)

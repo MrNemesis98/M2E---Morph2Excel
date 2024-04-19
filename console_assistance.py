@@ -126,7 +126,7 @@ def print_main_menu(version):
         '\tC) For settings type set! instead of a term.',
         '\tD) For ending the program type exit! instead of a term.',
         '\n\tCurrent settings:',
-        SDM.get_auto_update_as_text(),
+        SDM.get_database_version_as_text(),
         SDM.get_term_output_diplomacy_as_text(),
         SDM.get_one_line_output_as_text(),
         SDM.get_headline_printing_as_text(),
@@ -148,7 +148,7 @@ def print_main_menu(version):
         '\tC) For \033[33msettings\033[0m type \033[33mset!\033[0m instead of a term.\t\t\t\033[33m<- New!\033[0m',
         '\tD) For \033[91mending the program\033[0m type \033[91mexit!\033[0m instead of a term.',
         '\n\t\033[97mCurrent settings:\033[0m',
-        SDM.get_auto_update_as_text(),
+        SDM.get_database_version_as_text(),
         SDM.get_term_output_diplomacy_as_text(),
         SDM.get_one_line_output_as_text(),
         SDM.get_headline_printing_as_text(),
@@ -806,17 +806,29 @@ def display_settings(setting, current_var, current_var_2=""):
         print_opening(version="3.0c")
         print("\033[33m\n\t~ Settings Menu ~"
               "\n\t------------------------------------------------------------------------\033[0m"
-              "\n\n\tSetting 1/8: Automatic Database Updates"
+              "\n\n\tSetting 1/8: Database Version Control"
               "\n\t[-------]---------------------------------------------------------------"
               "\n\n\tDescription: "
-              "\n\tThe program will automatically search for wiki_morph updates "
-              "\n\tbefore loading the installed version of the database. "
-              "\n\tIf there is a new version you will have the option to download it."
-              "\n\tBut the search itself may take a few seconds every time the program is started.")
-        if current_var == 0:
-            print("\n\tOptions:\n\t\t\t\t1. on\n\t\t\t\033[33m" + "->" + "\033[0m\t2. off")
+              "\n\tHere you can delete or update the currently installed version of"
+              "\n\tthe wikimorph database or just change its description."
+              "\n\tOnly one database version can be installed so far.")
+
+        if current_var == "":
+            print("\n\tCurrently installed version:\tNo version installed!",
+                  "\n\tInstallation date:\tNo version installed!")
+        elif current_var != "" and current_var_2 == "":
+            print("\n\tCurrently installed version:\tNo description found!",
+                  "\n\tInstallation date:\t" + SDM.get_database_version_date())
         else:
-            print("\n\tOptions:\n\t\t\t\033[33m" + "->" + "\033[0m\t1. on\n\t\t\t\t2. off")
+            print("\n\tCurrently installed version:\t" + SDM.get_database_version_description(),
+                  "\n\tInstallation date:\t" + SDM.get_database_version_date())
+
+        print("\n\tOptions:"
+              '\n\t\t\t\t1. Type in \33[94mu!\33[0m to \33[94mupdate (reinstall)\33[0m the database.'
+              '\n\t\t\t\t2. Type in \33[33mc!\33[0m to \33[33mchange the description\33[0m '
+              'for the currently installed version.'
+              '\n\t\t\t\t3. Type in \33[91md!\33[0m to \33[91mdelete\33[0m the currently installed version.'
+              '\n\n\t\t\t\tPress \33[92menter\33[0m to \33[92mcontinue\33[0m without making changes.')
 
     elif setting == 2:
         print_opening(version="3.0c")
@@ -1030,23 +1042,9 @@ def display_settings(setting, current_var, current_var_2=""):
 
 def display_settings_after_changes(setting, current_var, current_var_2=""):
 
-    if setting == 1:
-        print_opening(version="3.0c")
-        print("\033[33m\n\t~ Settings Menu ~"
-              "\n\t------------------------------------------------------------------------\033[0m"
-              "\n\n\tSetting 1/8: Automatic Database Updates"
-              "\n\t[-------]---------------------------------------------------------------"
-              "\n\n\tDescription: "
-              "\n\tThe program will automatically search for wiki_morph updates "
-              "\n\tbefore loading the installed version of the database. "
-              "\n\tIf there is a new version you will have the option to download it."
-              "\n\tBut the search itself may take a few seconds every time the program is started.")
-        if current_var == 0:
-            print("\n\tOptions:\n\t\t\t\t1. on\n\t\t\t\033[92m" + "->" + "\033[0m\t2. off")
-        else:
-            print("\n\tOptions:\n\t\t\t\033[92m" + "->" + "\033[0m\t1. on\n\t\t\t\t2. off")
+    # Hint: not for setting 1 needed!
 
-    elif setting == 2:
+    if setting == 2:
         print_opening(version="3.0c")
         print("\033[33m\n\t~ Settings Menu ~"
               "\n\t------------------------------------------------------------------------\033[0m"

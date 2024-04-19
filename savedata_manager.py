@@ -65,19 +65,21 @@ system_data = data[1]
 variables_list = system_data.split('/')
 variables_list.remove(variables_list[0])
 # print(variables_list)
-auto_update = (variables_list[0].split(":")[1])
-term_output_diplomacy = (variables_list[1].split(":")[1])
-one_line_output = (variables_list[2].split(":")[1])
-headline_printing = (variables_list[3].split(":")[1])
-alphabetical_output = variables_list[4].split(":")
-auto_scan_filters = variables_list[5].split(":")[1]
-output_detail_level = (variables_list[6].split(":")[1])
-system_sound_level = (variables_list[7].split(":")[1])[:-1]
+database_version_date = (variables_list[0].split(":")[1])
+database_version_description = (variables_list[1].split(":")[1])
+term_output_diplomacy = (variables_list[2].split(":")[1])
+one_line_output = (variables_list[3].split(":")[1])
+headline_printing = (variables_list[4].split(":")[1])
+alphabetical_output = variables_list[5].split(":")
+auto_scan_filters = variables_list[6].split(":")[1]
+output_detail_level = (variables_list[7].split(":")[1])
+system_sound_level = (variables_list[8].split(":")[1])[:-1]
 
 
 def update_system_data():
     global data
-    global auto_update
+    global database_version_date
+    global database_version_description
     global term_output_diplomacy
     global one_line_output
     global headline_printing
@@ -94,7 +96,8 @@ def update_system_data():
     # Datei neu beschreiben, nur Nutzer-Trainingsdaten updaten
     sd = open("src/data/savedata.txt", "w")
     text = (database_data + "sys:" +
-           "/au:" + str(auto_update) +
+           "/dbvdate:" + str(database_version_date) +
+           "/dbvdesc:" + str(database_version_description) +
            "/tod:" + str(term_output_diplomacy) +
            "/onel:" + str(one_line_output) +
            "/hdlp:" + str(headline_printing) +
@@ -106,24 +109,35 @@ def update_system_data():
     sd.close()
 
 
-def get_auto_update():
-    global auto_update
-    return int(auto_update)
+def get_database_version_date():
+    global database_version_date
+    return database_version_date
 
 
-def get_auto_update_as_text():
-    global auto_update
-    if auto_update == "0":
-        return "\t1) Automatic Update Search:\toff"
-    else:
-        return "\t1) Automatic Update Search:\ton"
-
-
-def set_auto_update(au):
-    global auto_update
-    auto_update = au
+def set_database_version_date(date_as_string):
+    global database_version_date
+    database_version_date = date_as_string
     update_system_data()
 
+
+def get_database_version_description():
+    global database_version_description
+    return database_version_description
+
+
+def set_database_version_description(description):
+    global database_version_description
+    database_version_description = description
+
+
+def get_database_version_as_text():
+    global database_version_date
+    if database_version_date == "":
+        return "\t1) Installed Wikimorph Version:\tno installation found"
+    else:
+        return "\1) Installed Wikimorph Version:\tversion from " + database_version_date
+
+# ------------------------------
 
 def get_term_output_diplomacy():
     global term_output_diplomacy
