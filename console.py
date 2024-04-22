@@ -199,7 +199,8 @@ def search_for_terms(log_title, workbook_title):
     global tip_need_counter
     print_main_menu_again = True
 
-    global auto_update
+    global database_version_date
+    global database_version_description
     global term_output_diplomacy
     global oneline_output_format
     global headline_printing
@@ -706,6 +707,20 @@ def search_for_terms(log_title, workbook_title):
                 if i == "u!":
 
                 elif i == "c!":
+                    description_set = False
+                    while not description_set:
+                        CA.display_settings_after_changes("c1")
+                        i = input("\n\tanswer: ")
+                        if len(i) > 25:
+                            NSP.play_deny_sound()
+                            print("\n\t\33[91mInvalid entry:\33]0m description is too long!")
+                        else:
+                            NSP.play_accept_sound()
+                            print("\n\t\33[92mEntry accepted!\33[0m")
+                            database_version_description = i
+                            SDM.set_database_version_description(database_version_description)
+                            CA.display_settings_after_changes("c2", database_version_description)
+                            description_set = True
 
                 elif i == "d!":
 
