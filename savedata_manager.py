@@ -1,4 +1,3 @@
-import re
 
 sd = open("src/data/savedata.txt", "r")
 data = sd.readlines()
@@ -6,18 +5,22 @@ sd.close()
 
 # Sector 1: Manage database update informations ------------------------------------------------------------------------
 database_data = data[0]
-info_list = database_data.split('/')
-info_list.remove(info_list[0])
+database_data_list = database_data.split('/')
+database_data_list.remove(database_data_list[0])
 
-download_size = int((info_list[0])[3:])
-current_size = int((info_list[1])[2:])
-soll_size = int((info_list[2])[5:])
+download_size = int((database_data_list[0])[3:])
+current_size = int((database_data_list[1])[2:])
+soll_size = int((database_data_list[2])[5:])
+database_version_date = (database_data_list[3].split(":")[1])
+database_version_description = (database_data_list[4].split(":")[1])
 
 
 def update_database_data():
     global download_size
     global current_size
     global soll_size
+    global database_version_date
+    global database_version_description
 
     # Save data from other sectors before overwriting
     sd = open("src/data/savedata.txt", "r")
@@ -27,8 +30,12 @@ def update_database_data():
 
     # Datei neu beschreiben, nur Datenbank Information updaten
     sd = open("src/data/savedata.txt", "w")
-    text = "db:/dl:" + str(download_size) + "/c:" + str(current_size) + "/soll:" + str(soll_size) + "/" \
-           + "\n" + system_data
+    text = ("db:/dl:" + str(download_size) +
+            "/c:" + str(current_size) +
+            "/soll:" + str(soll_size) +
+            "/date:" + str(database_version_date) +
+            "/scritto:" + str(database_version_description) +
+            "\n" + system_data)
     sd.write(text)
     sd.close()
 
@@ -60,26 +67,52 @@ def get_soll_size():
     return soll_size
 
 
+def get_database_version_date():
+    global database_version_date
+    return database_version_date
+
+
+def set_database_version_date(date_as_string):
+    global database_version_date
+    database_version_date = date_as_string
+    update_database_data()
+
+
+def get_database_version_description():
+    global database_version_description
+    return database_version_description
+
+
+def set_database_version_description(description):
+    global database_version_description
+    database_version_description = description
+    update_database_data()
+
+
+def get_database_version_as_text():
+    global database_version_date
+    if database_version_date == "":
+        return "\n\t1) Wikimorph Version:\t\tno installation found"
+    else:
+        return "\n\t1) Wikimorph Version:\t\tversion from " + database_version_date
+
+
 # Sector 2: Manage system variables for console.py and GUI settings ----------------------------------------------------
 system_data = data[1]
 variables_list = system_data.split('/')
 variables_list.remove(variables_list[0])
 # print(variables_list)
-database_version_date = (variables_list[0].split(":")[1])
-database_version_description = (variables_list[1].split(":")[1])
-term_output_diplomacy = (variables_list[2].split(":")[1])
-one_line_output = (variables_list[3].split(":")[1])
-headline_printing = (variables_list[4].split(":")[1])
-alphabetical_output = variables_list[5].split(":")
-auto_scan_filters = variables_list[6].split(":")[1]
-output_detail_level = (variables_list[7].split(":")[1])
-system_sound_level = (variables_list[8].split(":")[1])[:-1]
+term_output_diplomacy = (variables_list[0].split(":")[1])
+one_line_output = (variables_list[1].split(":")[1])
+headline_printing = (variables_list[2].split(":")[1])
+alphabetical_output = variables_list[3].split(":")
+auto_scan_filters = variables_list[4].split(":")[1]
+output_detail_level = (variables_list[5].split(":")[1])
+system_sound_level = (variables_list[6].split(":")[1])[:-1]
 
 
 def update_system_data():
     global data
-    global database_version_date
-    global database_version_description
     global term_output_diplomacy
     global one_line_output
     global headline_printing
@@ -96,48 +129,17 @@ def update_system_data():
     # Datei neu beschreiben, nur Nutzer-Trainingsdaten updaten
     sd = open("src/data/savedata.txt", "w")
     text = (database_data + "sys:" +
-           "/dbvdate:" + str(database_version_date) +
-           "/dbvdesc:" + str(database_version_description) +
            "/tod:" + str(term_output_diplomacy) +
            "/onel:" + str(one_line_output) +
            "/hdlp:" + str(headline_printing) +
            "/" + str(alphabetical_output[0]) + ":" + alphabetical_output[1] +
            "/asf:" + str(auto_scan_filters) +
            "/odlvl:" + str(output_detail_level) +
-           "/ssl:" + str(system_sound_level) + "\n")
+           "/ssl:" + str(system_sound_level) +
+           "\n")
     sd.write(text)
     sd.close()
 
-
-def get_database_version_date():
-    global database_version_date
-    return database_version_date
-
-
-def set_database_version_date(date_as_string):
-    global database_version_date
-    database_version_date = date_as_string
-    update_system_data()
-
-
-def get_database_version_description():
-    global database_version_description
-    return database_version_description
-
-
-def set_database_version_description(description):
-    global database_version_description
-    database_version_description = description
-
-
-def get_database_version_as_text():
-    global database_version_date
-    if database_version_date == "":
-        return "\t1) Installed Wikimorph Version:\tno installation found"
-    else:
-        return "\1) Installed Wikimorph Version:\tversion from " + database_version_date
-
-# ------------------------------
 
 def get_term_output_diplomacy():
     global term_output_diplomacy

@@ -3,6 +3,7 @@ import os
 import requests
 import sys
 import time
+import datetime
 
 from openpyxl import load_workbook
 
@@ -102,7 +103,6 @@ def check_paths():
                     current_size = os.path.getsize("src/database/wiki_morph.json")
                     current_size = int(current_size / (1024 * 1024))
                     SDM.set_current_size(current_size)
-                    auto_update = False
                     os.system('cls')
                     CA.print_opening(version="3.0c")
                     print("\n\n\t\033[92mDownload completed!\033[0m (" + str(current_size) + " MB)"
@@ -695,75 +695,109 @@ def search_for_terms(log_title, workbook_title):
         # SETTINGS MODE ------------------------------------------------------------------------------------------------
         elif i == "set!":
 
+            os.system('cls')
+
+            # setting 1 (database version control center)
             continue_with_settings = False
 
             while not continue_with_settings:
                 os.system('cls')
                 CA.print_opening(version="3.0c")
-                CA.display_settings(1, database_version_date, database_version_description)
+                CA.display_settings(setting=1, current_var=database_version_date, current_var_2=database_version_description)
                 NSP.play_accept_sound() if system_sound_level == 3 else None
                 i = input("\n\n\tanswer: ")
 
                 if i == "u!":
 
-                elif i == "c!":
+                    progress_completed = False
+                    SDM.set_current_size()
+
+                    while not progress_completed:
+
+                        url = "https://zenodo.org/record/5172857/files/wiki_morph.json?download=1"
+                        response = requests.get(url, stream=True)
+                        remote_size = int(response.headers.get("Content-Length", 0))
+                        remote_size = int(remote_size / (1024 * 1024))
+
+                        os.system('cls')
+                        CA.display_settings_after_changes(setting=1, current_var="")
+                        print("\n\tNote: \tYou are about to download the wikimorph database from the Zenovo Server."
+                              "\n\t\tPlease make sure you are connected to the internet before starting the procedure!")
+                        if remote_size == 0:
+                            print("\n\tSize of file: unknown")
+                        else:
+                            print("\tSize of file: " + str(remote_size) + "MB")
+                        NSP.play_request_sound() if system_sound_level == 3 else None
+                        print("\n\tPress \33[92menter\33[0m or type in anything to \33[92mstart the download\33[0m."
+                              "\n\tType in \33[91mexit!\33[0m to \33[91mbreak off\33[0m.")
+                        i = input()
+
+                        if i == "exit!" or "exit":
+                            NSP.play_deny_sound() if system_sound_level == 3 else None
+                            print("\n\tThe download process was \33[91mcancelled\33[0m!"
+                                  "\n\tPlease keep in mind that the database is required to search for terms!")
+                            progress_completed = True
+                        else:
+                            NSP.play_accept_sound() if system_sound_level == 3 else None
+                            SDM.set_download_size(remote_size)
+
+                            normal = CA.download_database(url=url, directly_after_start=False)
+
+                            if normal:
+                                current_size = os.path.getsize("src/database/wiki_morph.json")
+                                current_size = int(current_size / (1024 * 1024))
+                                SDM.set_current_size(current_size)
+                                SDM.set_database_version_date(datetime.date.today().strftime("%d_%m_%Y"))
+                                SDM.set_database_version_description("")
+                                os.system('cls')
+                                CA.print_opening(version="3.0c")
+                                print("\n\n\t\033[92mDownload could be completed sucessfully!\033[0m (" + str(current_size) + " MB)")
+                                NSP.play_request_sound() if system_sound_level >= 2 else None
+                                time.sleep(3)
+                                print("\n\tNote: The version you just installed will be marked with its installation date"
+                                      "as an identifier. \n\tBack in the settings menu you can add a short description "
+                                      "\n\tto add additional information to the new installed version. "
+                                      "\n\tThis is not mandatory and a description can also be added later or changed "
+                                      "several times.")
+
+
+                elif i == "d!":
                     description_set = False
                     while not description_set:
-                        CA.display_settings_after_changes("c1")
+                        CA.display_settings_after_changes(setting=1, current_var="d1")
                         i = input("\n\tanswer: ")
                         if len(i) > 25:
                             NSP.play_deny_sound()
-                            print("\n\t\33[91mInvalid entry:\33]0m description is too long!")
+                            print("\n\t\33[91mInvalid entry:\33[0m description is too long!")
+                            time.sleep(4)
                         else:
                             NSP.play_accept_sound()
                             print("\n\t\33[92mEntry accepted!\33[0m")
+                            time.sleep(2.5)
                             database_version_description = i
                             SDM.set_database_version_description(database_version_description)
-                            CA.display_settings_after_changes("c2", database_version_description)
+                            CA.display_settings_after_changes(setting=1, current_var="d2", current_var_2=database_version_description)
                             description_set = True
+                            time.sleep(4)
 
-                elif i == "d!":
+                elif i == "r!":
+                    pass
 
                 else:
                     continue_with_settings = True
-
-
+                    os.system('cls')
 
             intro = "\033[33m\n\t~ Settings Menu ~" \
                     "\n\t------------------------------------------------------------------------\033[0m" \
                     "\n\n\t\33[33mNote:\33[0m\tFor the following settings there are different control mechanisms as "\
                     "follows:" \
-                    "\n\t\tFor every setting there will be the respective options given." \
+                    "\n\n\t\tFor every setting there will be the respective options given." \
                     "\n\t\tThe currently selected option will be marked with an \33[33marrow\33[0m." \
                     "\n\t\tTo keep the currently selected option of a setting just press \33[92menter\33[0m." \
                     "\n\t\tTo select another option please type in the given \33[92mnumber\33[0m." \
                     "\n\n\t\tYou can press enter to start now."
             print(intro)
             input()
-
-            # setting 1 (auto update)
-            os.system('cls')
-            CA.display_settings(1, auto_update)
-            i = input("\n\tOption number: ")
-            if i == "1":
-                SDM.set_auto_update(1)
-                auto_update = SDM.get_auto_update()
-                os.system('cls')
-                CA.display_settings_after_changes(1, auto_update)
-                print("\033[92m" + "\n\tAutomatic update search set on!\033[0m")
-                NSP.play_deny_sound() if system_sound_level == 3 else None
-                time.sleep(4)
-            elif i == "2":
-                SDM.set_auto_update(0)
-                auto_update = SDM.get_auto_update()
-                os.system('cls')
-                CA.display_settings_after_changes(1, auto_update)
-                print("\033[92m" + "\n\tAutomatic update search set off!\033[0m")
-                NSP.play_deny_sound() if system_sound_level == 3 else None
-                time.sleep(4)
-            else:
-                print("\033[92m" + "\n\tPrevious setting will be kept!\033[0m")
-                time.sleep(2)
 
             # setting 2 (term output diplomacy)
             os.system('cls')

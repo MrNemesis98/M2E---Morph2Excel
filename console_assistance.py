@@ -234,7 +234,7 @@ def create_comparison_result_excel(fd, counter):
     return workbook_title
 
 
-def download_database(url):
+def download_database(url, directly_after_start=True):
     def progress(count, block_size, total_size):
         percent = int(count * block_size * 100 / total_size)
         sys.stdout.write("\r" + "\t[%-100s] %d%%" % ("#" * percent, percent))
@@ -245,16 +245,26 @@ def download_database(url):
 
     while not stop:
         try:
-            os.system('cls')
-            print_opening(version="3.0c")
-            print("\033[33m" + "\n\tDownloading wikimorph database...\n" + "\033[0m")
+
+            if directly_after_start:
+                os.system('cls')
+                print_opening(version="3.0c")
+            NSP.play_request_sound() if SDM.get_system_sound_level() >= 2 else None
+            print("\033[33m" + "\n\tDownload of wikimorph database in progress...\n" + "\033[0m")
             urllib.request.urlretrieve(url, "src/database/wiki_morph.json", reporthook=progress)
             stop = True
         except Exception:
-            print_opening(version="3.0c")
-            print("\n\tDownload not possible: \033[91mNo internet connection!\033[0m"
-                  "\n\tYou can try again by pressing enter."
-                  '\n\tAlternatively you can end the program by typing "exit!".')
+            if directly_after_start:
+                print_opening(version="3.0c")
+            NSP.play_request_sound() if SDM.get_system_sound_level() >= 2 else None
+            print("\n\n\t\033[91mWarning: There was an error detected during the download!\033[0m"
+                  "\n\tPlease check your internet connection."
+                  "\n\tYou can try again by pressing \33[92menter\33[0m.")
+            if directly_after_start:
+                print('\tAlternatively you can \33[91mend the program\33[0m by typing \33[91mexit!\33[0m.')
+            else:
+                print("\tAlternatively you can \33[33mbreak off and return to settings menu\33[0m by typing in "
+                      "\33[33mexit!\33[0m.")
             normal = False
             i = input("\n\t")
             if i == "exit!" or i == "exit":
@@ -815,20 +825,20 @@ def display_settings(setting, current_var, current_var_2=""):
 
         if current_var == "":
             print("\n\tCurrently installed version:\tNo version installed!",
-                  "\n\tInstallation date:\tNo version installed!")
+                  "\n\tInstallation date:\t\tNo version installed!")
         elif current_var != "" and current_var_2 == "":
             print("\n\tCurrently installed version:\tNo description found!",
-                  "\n\tInstallation date:\t" + SDM.get_database_version_date())
+                  "\tInstallation date:\t\t" + SDM.get_database_version_date())
         else:
             print("\n\tCurrently installed version:\t" + SDM.get_database_version_description(),
-                  "\n\tInstallation date:\t" + SDM.get_database_version_date())
+                  "\tInstallation date:\t\t" + SDM.get_database_version_date())
 
         print("\n\tOptions:"
-              '\n\t\t\t\t1. Type in \33[94mu!\33[0m to \33[94mupdate (reinstall)\33[0m the database.'
-              '\n\t\t\t\t2. Type in \33[33mc!\33[0m to \33[33mchange the description\33[0m '
+              '\n\t\t\t1. Type in \33[94mu!\33[0m to \33[94mupdate (reinstall)\33[0m the database.'
+              '\n\t\t\t2. Type in \33[33md!\33[0m to change the \33[33mdescription\33[0m '
               'for the currently installed version.'
-              '\n\t\t\t\t3. Type in \33[91md!\33[0m to \33[91mdelete\33[0m the currently installed version.'
-              '\n\n\t\t\t\tPress \33[92menter\33[0m or type in anything else to \33[92mcontinue\33[0m without '
+              '\n\t\t\t3. Type in \33[91mr!\33[0m to \33[91mremove (delete)\33[0m the currently installed version.'
+              '\n\n\tPress \33[92menter\33[0m or type in anything else to \33[92mcontinue\33[0m without '
               'making changes.')
 
     elif setting == 2:
@@ -1052,13 +1062,15 @@ def display_settings_after_changes(setting, current_var, current_var_2=""):
 
         if current_var == "u1":
             # update
-            pass
-        elif current_var == "c1":
+            print("\n\tNote: This option allows you to install the latest version of the wikimorph database"
+                  "\n\tdirectly from the Zenovo server. The procedure may take a while."
+                  "\n\tPlease make sure you are connected to a reliable internet access before starting the download!")
+        elif current_var == "d1":
             # change description
             print("\n\t\33[33mType in the new description for your installed version (max. 25 characters).\33[0m")
-        elif current_var == "c2":
-            print("\n\tDescription changed to \33[92m" + current_var_2 + "\33[0m.!")
-        elif current_var == "d1":
+        elif current_var == "d2":
+            print("\n\tDescription changed to \33[92m" + current_var_2 + "\33[0m!")
+        elif current_var == "r1":
             # delete current version
             pass
 
