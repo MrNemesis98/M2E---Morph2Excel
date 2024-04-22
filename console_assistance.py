@@ -828,7 +828,8 @@ def display_settings(setting, current_var, current_var_2=""):
               '\n\t\t\t\t2. Type in \33[33mc!\33[0m to \33[33mchange the description\33[0m '
               'for the currently installed version.'
               '\n\t\t\t\t3. Type in \33[91md!\33[0m to \33[91mdelete\33[0m the currently installed version.'
-              '\n\n\t\t\t\tPress \33[92menter\33[0m to \33[92mcontinue\33[0m without making changes.')
+              '\n\n\t\t\t\tPress \33[92menter\33[0m or type in anything else to \33[92mcontinue\33[0m without '
+              'making changes.')
 
     elif setting == 2:
         print_opening(version="3.0c")
@@ -1042,9 +1043,26 @@ def display_settings(setting, current_var, current_var_2=""):
 
 def display_settings_after_changes(setting, current_var, current_var_2=""):
 
-    # Hint: not for setting 1 needed!
+    if setting == 1:
+        print_opening(version="3.0c")
+        print("\033[33m\n\t~ Settings Menu ~"
+              "\n\t------------------------------------------------------------------------\033[0m"
+              "\n\n\tSetting 1/8: Database Version Control"
+              "\n\t[-------]---------------------------------------------------------------")
 
-    if setting == 2:
+        if current_var == "u1":
+            # update
+            pass
+        elif current_var == "c1":
+            # change description
+            print("\n\t\33[33mType in the new description for your installed version (max. 25 characters).\33[0m")
+        elif current_var == "c2":
+            print("\n\tDescription changed to \33[92m" + current_var_2 + "\33[0m.!")
+        elif current_var == "d1":
+            # delete current version
+            pass
+
+    elif setting == 2:
         print_opening(version="3.0c")
         print("\033[33m\n\t~ Settings Menu ~"
               "\n\t------------------------------------------------------------------------\033[0m"

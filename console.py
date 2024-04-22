@@ -693,18 +693,37 @@ def search_for_terms(log_title, workbook_title):
 
         # SETTINGS MODE ------------------------------------------------------------------------------------------------
         elif i == "set!":
+
+            continue_with_settings = False
+
+            while not continue_with_settings:
+                os.system('cls')
+                CA.print_opening(version="3.0c")
+                CA.display_settings(1, database_version_date, database_version_description)
+                NSP.play_accept_sound() if system_sound_level == 3 else None
+                i = input("\n\n\tanswer: ")
+
+                if i == "u!":
+
+                elif i == "c!":
+
+                elif i == "d!":
+
+                else:
+                    continue_with_settings = True
+
+
+
             intro = "\033[33m\n\t~ Settings Menu ~" \
                     "\n\t------------------------------------------------------------------------\033[0m" \
-                    "\n\n\t\33[33mNote:\33[0m\tFor the following settings there are different control mechanisms as follows:" \
+                    "\n\n\t\33[33mNote:\33[0m\tFor the following settings there are different control mechanisms as "\
+                    "follows:" \
                     "\n\t\tFor every setting there will be the respective options given." \
                     "\n\t\tThe currently selected option will be marked with an \33[33marrow\33[0m." \
                     "\n\t\tTo keep the currently selected option of a setting just press \33[92menter\33[0m." \
                     "\n\t\tTo select another option please type in the given \33[92mnumber\33[0m." \
                     "\n\n\t\tYou can press enter to start now."
-            os.system('cls')
-            CA.print_opening(version="3.0c")
             print(intro)
-            NSP.play_accept_sound() if system_sound_level == 3 else None
             input()
 
             # setting 1 (auto update)
