@@ -5,6 +5,8 @@ import datetime
 import openpyxl
 import time
 import pandas as pd
+import json
+import requests
 
 from PyQt5.QtWidgets import QApplication, QFileDialog
 from openpyxl.styles import Font, Color
@@ -234,7 +236,7 @@ def create_comparison_result_excel(fd, counter):
     return workbook_title
 
 
-def download_database(url, directly_after_start=True):
+def download_database(url, directly_after_start=False):
     def progress(count, block_size, total_size):
         percent = int(count * block_size * 100 / total_size)
         sys.stdout.write("\r" + "\t[%-100s] %d%%" % ("#" * percent, percent))
@@ -245,6 +247,11 @@ def download_database(url, directly_after_start=True):
 
     while not stop:
         try:
+            response = requests.get(url, stream=True)
+            remote_size = int(response.headers.get("Content-Length", 0))
+            remote_size = int(remote_size / (1024 * 1024))
+            SDM.set_download_size(remote_size)
+            SDM.set_current_size()
 
             if directly_after_start:
                 os.system('cls')
@@ -253,13 +260,20 @@ def download_database(url, directly_after_start=True):
             print("\033[33m" + "\n\tDownload of wikimorph database in progress...\n" + "\033[0m")
             urllib.request.urlretrieve(url, "src/database/wiki_morph.json", reporthook=progress)
             stop = True
+            normal = True
+            SDM.set_database_version_date(datetime.date.today().strftime("%d_%m_%Y"))
+            SDM.set_database_version_description("")
+            current_size = os.path.getsize("src/database/wiki_morph.json")
+            current_size = int(current_size / (1024 * 1024))
+            SDM.set_current_size(current_size)
         except Exception:
             if directly_after_start:
+                os.system("cls")
                 print_opening(version="3.0c")
             NSP.play_request_sound() if SDM.get_system_sound_level() >= 2 else None
-            print("\n\n\t\033[91mWarning: There was an error detected during the download!\033[0m"
+            print("\n\t\033[91mWarning: There was an error detected during the download!\033[0m"
                   "\n\tPlease check your internet connection."
-                  "\n\tYou can try again by pressing \33[92menter\33[0m.")
+                  "\n\n\tYou can \33[92mtry again\33[0m by pressing \33[92menter\33[0m.")
             if directly_after_start:
                 print('\tAlternatively you can \33[91mend the program\33[0m by typing \33[91mexit!\33[0m.')
             else:
@@ -267,10 +281,69 @@ def download_database(url, directly_after_start=True):
                       "\33[33mexit!\33[0m.")
             normal = False
             i = input("\n\t")
-            if i == "exit!" or i == "exit":
+            if i == "exit!" or i == "exit" or i == "exit1":
+                os.system("cls")
+                print_opening(version="3.0c")
+                print("\n\t\33[91mProgram terminated.\33[0m")
+                os.system("cls")
                 stop = True
 
     return normal
+
+
+def database_installation_confirmed(right_after_program_start=False):
+
+    def deny_access():
+        os.system("cls")
+        print_opening(version="3.0c")
+        NSP.play_deny_sound() if SDM.get_system_sound_level() >= 2 else None
+        print("\n\t\33[91mWarning: Access denied!\33[0m"
+              "\n\n\tThis problem can occur if you have no wikimorph installation yet or the last installation was "
+              "interrupted."
+              "\n\tPlease make sure that you have installed a complete version of the WikiMorph database."
+              "\n\n\tIn both cases you need to reinstall the database."
+              "\n\tThere are respective options in the \33[33msettings menu\33[0m given."
+              "\n\n\tPress \33[92menter\33[0m to continue.")
+
+        return False
+
+    def give_advice():
+        os.system("cls")
+        print_opening(version="3.0c")
+        NSP.play_deny_sound() if SDM.get_system_sound_level() >= 2 else None
+        print("\n\t\33[91mWarning: No valid wikimorph version found!\33[0m"
+              "\n\n\tThis problem can occur if you have no wikimorph installation yet or the last installation was "
+              "interrupted."
+              "\n\tSome functionalities of wikimorph will be \33[91mrestricted\33[0m until the database is installed "
+              "completely."
+              "\n\n\tYou are free to install wikimorph now or later with a new program start."
+              "\n\tFurthermore there is the option to download the database in the \33[33msettings menu\33[0m."
+              "\n\n\tOptions:"
+              "\n\t\t1. Type in \33[92mstart!\33[0m if you want to \33[92mstart the download now\33[0m."
+              "\n\t\t2. Otherwise press \33[94menter\33[0m or type in anything else to "
+              "\33[94mcontinue without downloading\33[0m.")
+
+        return False
+
+    if not os.path.exists("src/database/wiki_morph.json"):
+        give_advice() if right_after_program_start else deny_access()
+    else:
+        current_size = os.path.getsize("src/database/wiki_morph.json")
+        current_size = int(current_size / (1024 * 1024))
+        soll_size = SDM.get_soll_size()
+        if current_size < soll_size:
+            give_advice() if right_after_program_start else deny_access()
+        else:
+            return True
+
+
+def load_database():
+    os.system('cls')
+    print_opening(version="3.0c")
+    print("\n\tLoading wiki_morph database...")
+    with open("src/database/wiki_morph.json", "r", encoding="utf-8") as f:
+        entries_list = json.load(f)
+    return entries_list
 
 
 def show_instructions():
@@ -828,16 +901,16 @@ def display_settings(setting, current_var, current_var_2=""):
                   "\n\tInstallation date:\t\tNo version installed!")
         elif current_var != "" and current_var_2 == "":
             print("\n\tCurrently installed version:\tNo description found!",
-                  "\tInstallation date:\t\t" + SDM.get_database_version_date())
+                  "\n\tInstallation date:\t\t" + SDM.get_database_version_date())
         else:
             print("\n\tCurrently installed version:\t" + SDM.get_database_version_description(),
-                  "\tInstallation date:\t\t" + SDM.get_database_version_date())
+                  "\n\tInstallation date:\t\t" + SDM.get_database_version_date())
 
         print("\n\tOptions:"
-              '\n\t\t\t1. Type in \33[94mu!\33[0m to \33[94mupdate (reinstall)\33[0m the database.'
-              '\n\t\t\t2. Type in \33[33md!\33[0m to change the \33[33mdescription\33[0m '
+              '\n\t\t\t1. Type in \33[94m1\33[0m to \33[94mupdate / reinstall\33[0m the database.'
+              '\n\t\t\t2. Type in \33[33m2\33[0m to change the \33[33mdescription\33[0m '
               'for the currently installed version.'
-              '\n\t\t\t3. Type in \33[91mr!\33[0m to \33[91mremove (delete)\33[0m the currently installed version.'
+              '\n\t\t\t3. Type in \33[91m3\33[0m to \33[91mremove (delete)\33[0m the currently installed version.'
               '\n\n\tPress \33[92menter\33[0m or type in anything else to \33[92mcontinue\33[0m without '
               'making changes.')
 

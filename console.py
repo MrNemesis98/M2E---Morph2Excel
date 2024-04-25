@@ -1,4 +1,3 @@
-import json
 import os
 import requests
 import sys
@@ -15,6 +14,8 @@ import notification_sound_player as NSP
 headline_already_printed = False
 comparison_counter = 1
 tip_need_counter = 0
+entries_list = None
+database_is_installed = False
 
 database_version_date = SDM.get_database_version_date()
 database_version_description = SDM.get_database_version_description()
@@ -59,10 +60,11 @@ def set_system_variables_to_default():
     system_sound_level = SDM.get_system_sound_level()
 
 
-def check_paths():
+def check_database_installation():
     global database_version_date
     global database_version_description
     global system_sound_level
+    global database_is_installed
     time.sleep(2)
 
     os.system('cls')
@@ -73,6 +75,38 @@ def check_paths():
     print("\n\tChecking database status...")
     time.sleep(1.5)
 
+    if not CA.database_installation_confirmed(right_after_program_start=True):
+
+        i = input("\n\tanswer: ")
+
+        if i == "start!" or i == "start" or i == "start1":
+
+            NSP.play_accept_sound() if system_sound_level == 3 else None
+            url = "https://zenodo.org/record/5172857/files/wiki_morph.json?download=1"
+            normal = CA.download_database(url=url, directly_after_start=True)
+
+            if normal:
+                current_size = os.path.getsize("src/database/wiki_morph.json")
+                current_size = int(current_size / (1024 * 1024))
+                SDM.set_current_size(current_size)
+                os.system('cls')
+                CA.print_opening(version="3.0c")
+                print("\n\t\033[92mDownload completed sucessfully!\033[0m (" + str(current_size) +
+                      " MB)\n\tThe latest version of wikimorph is now installed on your device."
+                      "\n\n\t\33[94mTip:\33[0m In the \33[33msettings menu\33[0m you can manage this version and add a "
+                      "description.")
+                NSP.play_start_sound() if system_sound_level >= 2 else None
+                database_is_installed = True
+                time.sleep(7)
+            else:
+                NSP.play_deny_sound() if system_sound_level == 3 else None
+                sys.exit()
+
+    else:
+        database_is_installed = True
+
+
+    """
     if not os.path.exists("src/database/wiki_morph.json"):
         SDM.set_current_size()
         try:
@@ -191,12 +225,15 @@ def check_paths():
             CA.print_opening(version="3.0c")
             print("\n\t\033[92mDatabase installed and available.\033[0m")
         time.sleep(2)
+        """
 
 
 def search_for_terms(log_title, workbook_title):
     global headline_already_printed
     global comparison_counter
     global tip_need_counter
+    global entries_list
+    global database_is_installed
     print_main_menu_again = True
 
     global database_version_date
@@ -213,13 +250,8 @@ def search_for_terms(log_title, workbook_title):
     open_excel_automatically = False
     comparison_workbooks = []
 
-    # loading database
-    os.system('cls')
-    CA.print_opening(version="3.0c")
-    print("\n\tLoading wiki_morph database...")
-    with open("src/database/wiki_morph.json", "r", encoding="utf-8") as f:
-        entries_list = json.load(f)
-    # CA.print_main_menu(version="3.0c")
+    if database_is_installed:
+        entries_list = CA.load_database()
 
     # search function
     stop = False
@@ -372,7 +404,7 @@ def search_for_terms(log_title, workbook_title):
                     for x in range(number_of_valid_cases):
                         term = terms[x]
                         os.system('cls')
-                        progress = format(100*(x/number_of_valid_cases), ".2f")
+                        progress = format(100 * (x / number_of_valid_cases), ".2f")
                         CA.print_opening(version="3.0c")
                         print(status)
                         print("\n\t\033[38;5;130mSearching for terms...\033[0m"
@@ -476,7 +508,7 @@ def search_for_terms(log_title, workbook_title):
         elif i == "c!":
             os.system('cls')
             CA.print_opening(version="3.0c")
-            status = "\n\t\033[94m- Comparison Mode -\033[0m"\
+            status = "\n\t\033[94m- Comparison Mode -\033[0m" \
                      "\n\t\033[94m------------------------------------------------------------------------\033[0m"
             print(status)
             NSP.play_accept_sound() if system_sound_level == 3 else None
@@ -597,7 +629,7 @@ def search_for_terms(log_title, workbook_title):
                 NSP.play_deny_sound() if system_sound_level >= 2 else None
                 for x in range(number_of_terms_1):
                     term = terms_1[x]
-                    progress = format(100 * ((x+1) / number_of_terms_1), ".2f")
+                    progress = format(100 * ((x + 1) / number_of_terms_1), ".2f")
                     os.system('cls')
                     CA.print_opening(version="3.0c")
                     print(status)
@@ -624,7 +656,7 @@ def search_for_terms(log_title, workbook_title):
                 NSP.play_accept_sound() if system_sound_level == 3 else None
                 for x in range(number_of_terms_2):
                     term = terms_2[x]
-                    progress = format(100 * ((x+1) / number_of_terms_2), ".2f")
+                    progress = format(100 * ((x + 1) / number_of_terms_2), ".2f")
                     os.system('cls')
                     CA.print_opening(version="3.0c")
                     print(status)
@@ -672,8 +704,9 @@ def search_for_terms(log_title, workbook_title):
                 comparison_workbooks.append(results_wb_name)
 
                 log = open(log_title, "a", encoding="utf-8")
-                log_output = "\t------------------------------------------------------------\n\n\tComparison mode accessed"\
-                             "\n\tFile 1: " + file_1 + "\n\tFile 2: " + file_2 + "\n"
+                log_output = ("\t------------------------------------------------------------\n\n\t"
+                              "Comparison mode accessed"
+                              "\n\tFile 1: " + file_1 + "\n\tFile 2: " + file_2 + "\n")
                 log.write("\n\n" + log_output)
                 log.close()
                 comparison_counter += 1
@@ -703,65 +736,51 @@ def search_for_terms(log_title, workbook_title):
             while not continue_with_settings:
                 os.system('cls')
                 CA.print_opening(version="3.0c")
-                CA.display_settings(setting=1, current_var=database_version_date, current_var_2=database_version_description)
+                CA.display_settings(setting=1, current_var=database_version_date,
+                                    current_var_2=database_version_description)
                 NSP.play_accept_sound() if system_sound_level == 3 else None
                 i = input("\n\n\tanswer: ")
 
-                if i == "u!":
+                if i == "1":
 
-                    progress_completed = False
-                    SDM.set_current_size()
+                    CA.display_settings_after_changes(setting=1, current_var="u1")
+                    print("\n\t1. Press \33[92menter\33[0m to \33[92mstart the download\33[0m."
+                          "\n\t2. Type in \33[91mexit!\33[0m to \33[91mreturn to settings menu\33[0m.")
 
-                    while not progress_completed:
-
+                    if (not input("\n\tanswer: ") == "exit!" or input("\n\tanswer: ") == "exit" or
+                            input("\n\tanswer: ") == "exit1"):
+                        NSP.play_accept_sound() if system_sound_level == 3 else None
                         url = "https://zenodo.org/record/5172857/files/wiki_morph.json?download=1"
-                        response = requests.get(url, stream=True)
-                        remote_size = int(response.headers.get("Content-Length", 0))
-                        remote_size = int(remote_size / (1024 * 1024))
+                        normal = CA.download_database(url=url, directly_after_start=False)
 
-                        os.system('cls')
-                        CA.display_settings_after_changes(setting=1, current_var="")
-                        print("\n\tNote: \tYou are about to download the wikimorph database from the Zenovo Server."
-                              "\n\t\tPlease make sure you are connected to the internet before starting the procedure!")
-                        if remote_size == 0:
-                            print("\n\tSize of file: unknown")
+                        if normal:
+                            current_size = os.path.getsize("src/database/wiki_morph.json")
+                            current_size = int(current_size / (1024 * 1024))
+                            SDM.set_current_size(current_size)
+
+                            os.system('cls')
+                            CA.print_opening(version="3.0c")
+                            print("\n\t\033[92mDownload completed sucessfully!\033[0m (" + str(current_size) +
+                                  " MB)\n\tThe latest version of wikimorph is now installed on your device.")
+                            NSP.play_request_sound() if system_sound_level >= 2 else None
+                            print("\n\tNote: The version you just installed will be marked with its installation date"
+                                  " as an identifier. \n\tBack in the settings menu you can add a short description "
+                                  "\n\tfor additional information to the new installed version. "
+                                  "\n\tThis is not mandatory and a description can also be added later or changed "
+                                  "several times.")
+                            time.sleep(3)
+                            print("\n\tPress \33[92menter\33[0m to load the database"
+                                  "\n\tAfter that you will return to the settings menu automatically.")
+                            database_is_installed = True
+                            input()
+                            entries_list = CA.load_database()
                         else:
-                            print("\tSize of file: " + str(remote_size) + "MB")
-                        NSP.play_request_sound() if system_sound_level == 3 else None
-                        print("\n\tPress \33[92menter\33[0m or type in anything to \33[92mstart the download\33[0m."
-                              "\n\tType in \33[91mexit!\33[0m to \33[91mbreak off\33[0m.")
-                        i = input()
-
-                        if i == "exit!" or "exit":
                             NSP.play_deny_sound() if system_sound_level == 3 else None
-                            print("\n\tThe download process was \33[91mcancelled\33[0m!"
-                                  "\n\tPlease keep in mind that the database is required to search for terms!")
-                            progress_completed = True
-                        else:
-                            NSP.play_accept_sound() if system_sound_level == 3 else None
-                            SDM.set_download_size(remote_size)
+                    else:
+                        print("\n\tReturning to settings menu...")
+                        break
 
-                            normal = CA.download_database(url=url, directly_after_start=False)
-
-                            if normal:
-                                current_size = os.path.getsize("src/database/wiki_morph.json")
-                                current_size = int(current_size / (1024 * 1024))
-                                SDM.set_current_size(current_size)
-                                SDM.set_database_version_date(datetime.date.today().strftime("%d_%m_%Y"))
-                                SDM.set_database_version_description("")
-                                os.system('cls')
-                                CA.print_opening(version="3.0c")
-                                print("\n\n\t\033[92mDownload could be completed sucessfully!\033[0m (" + str(current_size) + " MB)")
-                                NSP.play_request_sound() if system_sound_level >= 2 else None
-                                time.sleep(3)
-                                print("\n\tNote: The version you just installed will be marked with its installation date"
-                                      "as an identifier. \n\tBack in the settings menu you can add a short description "
-                                      "\n\tto add additional information to the new installed version. "
-                                      "\n\tThis is not mandatory and a description can also be added later or changed "
-                                      "several times.")
-
-
-                elif i == "d!":
+                elif i == "2":
                     description_set = False
                     while not description_set:
                         CA.display_settings_after_changes(setting=1, current_var="d1")
@@ -776,20 +795,21 @@ def search_for_terms(log_title, workbook_title):
                             time.sleep(2.5)
                             database_version_description = i
                             SDM.set_database_version_description(database_version_description)
-                            CA.display_settings_after_changes(setting=1, current_var="d2", current_var_2=database_version_description)
+                            CA.display_settings_after_changes(setting=1, current_var="d2",
+                                                              current_var_2=database_version_description)
                             description_set = True
                             time.sleep(4)
 
-                elif i == "r!":
+                elif i == "3":
                     pass
 
                 else:
                     continue_with_settings = True
                     os.system('cls')
-
+            """
             intro = "\033[33m\n\t~ Settings Menu ~" \
                     "\n\t------------------------------------------------------------------------\033[0m" \
-                    "\n\n\t\33[33mNote:\33[0m\tFor the following settings there are different control mechanisms as "\
+                    "\n\n\t\33[33mNote:\33[0m\tFor the following settings there are different control mechanisms as " \
                     "follows:" \
                     "\n\n\t\tFor every setting there will be the respective options given." \
                     "\n\t\tThe currently selected option will be marked with an \33[33marrow\33[0m." \
@@ -798,7 +818,7 @@ def search_for_terms(log_title, workbook_title):
                     "\n\n\t\tYou can press enter to start now."
             print(intro)
             input()
-
+            """
             # setting 2 (term output diplomacy)
             os.system('cls')
             CA.display_settings(2, term_output_diplomacy)
@@ -1054,7 +1074,7 @@ def search_for_terms(log_title, workbook_title):
             outro = "\033[33m\n\t~ Settings Menu ~" \
                     "\n\t----------------------------------------------------------------\033[0m" \
                     "\033[92m" + "\n\n\tNew configurations were saved!" + "\033[0m" \
-                    "\n\n\tReturning to main menu..."
+                                                                          "\n\n\tReturning to main menu..."
             print(outro)
             NSP.play_deny_sound() if system_sound_level >= 2 else None
             time.sleep(4)
@@ -1081,7 +1101,7 @@ def search_for_terms(log_title, workbook_title):
                     CA.print_opening(version="3.0c")
                     CA.print_manual_search_headline()
                     print('\n\tSearching for term \33[33m' + term + '\33[0m '
-                          'with pos tag \33[33m(' + pos_filters + ')\33[0m...')
+                                                                    'with pos tag \33[33m(' + pos_filters + ')\33[0m...')
                     time.sleep(2)
                 else:
                     pos_filters = "Noun, Verb, Adjective, Adverb, Preposition, Phrase"
@@ -1149,7 +1169,7 @@ def search_for_terms(log_title, workbook_title):
 
 NSP.play_start_sound() if system_sound_level >= 2 else None
 CA.print_opening(version="3.0c")
-check_paths()
+check_database_installation()
 
 formatted_date = CA.get_datetime()
 

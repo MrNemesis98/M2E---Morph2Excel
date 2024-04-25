@@ -35,7 +35,8 @@ def update_database_data():
             "/soll:" + str(soll_size) +
             "/date:" + str(database_version_date) +
             "/scritto:" + str(database_version_description) +
-            "\n" + system_data)
+            "/\n" +
+            system_data)
     sd.write(text)
     sd.close()
 
@@ -136,7 +137,7 @@ def update_system_data():
            "/asf:" + str(auto_scan_filters) +
            "/odlvl:" + str(output_detail_level) +
            "/ssl:" + str(system_sound_level) +
-           "\n")
+           "/\n")
     sd.write(text)
     sd.close()
 
