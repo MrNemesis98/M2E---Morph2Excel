@@ -90,6 +90,19 @@ def print_manual_search_headline(tip=False):
 
 def print_main_menu(version):
 
+    def get_database_installation_info(colored=False):
+
+        normal_text = "\n\tManual search mode is prepared.\n\tYou can now search for terms."
+        normal_text_colored = "\n\t\33[97mManual search mode is prepared.\n\tYou can now search for terms.\33[0m"
+        exception_text = ("\n\tWarning: the wikimorph database is not installed!"
+                          "\n\tAccess to search modes is restricted!")
+        exception_text_colored = ("\n\t\33[91mWarning: the wikimorph database is not installed!\33[0m"
+                                  "\n\tAccess to search modes is \33[91mrestricted\33[0m!")
+        if SDM.get_database_version_date() != "":
+            return normal_text_colored if colored else normal_text
+        else:
+            return exception_text_colored if colored else exception_text
+
     # preparing displays ------------------------------------------------------
     headline = "\033[92m" + "\n\tMorph2Excel ~ Version " + version + "\033[0m"\
                "\n\n\t\033[92mMain Menu\033[0m"
@@ -117,8 +130,7 @@ def print_main_menu(version):
         "\t\033[92m------------------------------------------------------------------------\033[0m"
         ]
     menu_monochrom_display = [
-        "\n\tManual search mode is prepared.",
-        "\tYou can now search for terms.",
+        get_database_installation_info(),
         '\n\tAlternative search modes:',
         '\tI)  For Automatic Scan Mode type s! instead of a term.',
         '\tII) For Comparison Mode type c! instead of a term.',
@@ -139,8 +151,7 @@ def print_main_menu(version):
         '\n\tHint: If you want to display this menu again just press enter.'
     ]
     menu_color_display = [
-        "\n\t\33[97mManual search mode is prepared.",
-        "\tYou can now search for terms.\33[0m",
+        get_database_installation_info(colored=True),
         '\n\t\033[97mAlternative search modes:\033[0m',
         '\tI)  For \033[38;5;130mAutomatic Scan Mode\033[0m type \033[38;5;130ms!\033[0m instead of a term.',
         '\tII) For \033[94mComparison Mode\033[0m type \033[94mc!\033[0m instead of a term.\t\t\033[94m<- New!\033[0m',
