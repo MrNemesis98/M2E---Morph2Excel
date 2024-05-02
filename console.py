@@ -92,15 +92,18 @@ def check_database_installation():
                 current_size = os.path.getsize("src/database/wiki_morph.json")
                 current_size = int(current_size / (1024 * 1024))
                 SDM.set_current_size(current_size)
+                database_version_description = SDM.get_database_version_description()
+                database_version_date = SDM.get_database_version_date()
                 os.system('cls')
                 CA.print_opening(version="3.0c")
                 print("\n\t\033[92mDownload completed sucessfully!\033[0m (" + str(current_size) +
                       " MB)\n\tThe latest version of wikimorph is now installed on your device."
                       "\n\n\t\33[94mTip:\33[0m In the \33[33msettings menu\33[0m you can manage this version and add a "
-                      "description.")
+                      "description."
+                      "\n\n\tPress \33[92menter\33[0m to continue.")
                 NSP.play_start_sound() if system_sound_level >= 2 else None
                 database_is_installed = True
-                time.sleep(7)
+                input()
             else:
                 NSP.play_deny_sound() if system_sound_level == 3 else None
                 sys.exit()
@@ -748,6 +751,9 @@ def search_for_terms(log_title, workbook_title):
 
                 os.system('cls')
                 CA.print_opening(version="3.0c")
+                database_version_date = SDM.get_database_version_date()
+                database_version_description = SDM.get_database_version_description()
+
                 CA.display_settings(setting=1, current_var=database_version_date,
                                     current_var_2=database_version_description)
                 NSP.play_accept_sound() if system_sound_level == 3 else None
@@ -770,19 +776,21 @@ def search_for_terms(log_title, workbook_title):
                             current_size = os.path.getsize("src/database/wiki_morph.json")
                             current_size = int(current_size / (1024 * 1024))
                             SDM.set_current_size(current_size)
+                            database_version_description = SDM.get_database_version_description()
+                            database_version_date = SDM.get_database_version_date()
 
                             os.system('cls')
                             CA.print_opening(version="3.0c")
                             print("\n\t\033[92mDownload completed sucessfully!\033[0m (" + str(current_size) +
                                   " MB)\n\tThe latest version of wikimorph is now installed on your device.")
                             NSP.play_request_sound() if system_sound_level >= 2 else None
-                            print("\n\tNote: The version you just installed will be marked with its installation date"
+                            print("\n\t\33[33mNote:\33[0m The version you just installed will be marked with its installation date"
                                   " as an identifier. \n\tBack in the settings menu you can add a short description "
                                   "\n\tfor additional information to the new installed version. "
                                   "\n\tThis is not mandatory and a description can also be added later or changed "
                                   "several times.")
                             time.sleep(3)
-                            print("\n\tPress \33[92menter\33[0m to load the database"
+                            print("\n\tPress \33[92menter\33[0m to load the database."
                                   "\n\tAfter that you will return to the settings menu automatically.")
                             database_is_installed = True
                             input()
@@ -790,7 +798,8 @@ def search_for_terms(log_title, workbook_title):
                         else:
                             NSP.play_deny_sound() if system_sound_level == 3 else None
                     else:
-                        print("\n\tReturning to settings menu...")
+                        print("\n\t\33[33mReturning to settings menu...\33[0m")
+                        NSP.play_deny_sound() if system_sound_level == 3 else None
                         time.sleep(2)
 
                 elif i == "2":
@@ -801,11 +810,11 @@ def search_for_terms(log_title, workbook_title):
                             CA.display_settings_after_changes(setting=1, current_var="d1")
                             i = input("\n\tanswer: ")
                             if len(i) > 25:
-                                NSP.play_deny_sound()
+                                NSP.play_deny_sound() if system_sound_level >= 2 else None
                                 print("\n\t\33[91mInvalid entry:\33[0m description is too long!")
                                 time.sleep(4)
                             else:
-                                NSP.play_accept_sound()
+                                NSP.play_accept_sound() if system_sound_level >= 2 else None
                                 print("\n\t\33[92mEntry accepted!\33[0m")
                                 time.sleep(2.5)
                                 database_version_description = i
@@ -820,10 +829,41 @@ def search_for_terms(log_title, workbook_title):
                         input()
 
                 elif i == "3":
-                    pass
+
+                    if CA.database_installation_confirmed():
+
+                        NSP.play_deny_sound() if system_sound_level >= 2 else None
+                        CA.display_settings_after_changes(setting=1, current_var="r1")
+
+                        i = input("\n\tanswer: ")
+
+                        if i != "exit!" and i != "exit" and i != "exit1":
+
+                            NSP.play_accept_sound() if system_sound_level == 3 else None
+                            SDM.set_database_version_date("")
+                            SDM.set_database_version_description("")
+                            if os.path.exists("src/database/wiki_morph.json"):
+                                os.remove("src/database/wiki_morph.json")
+
+                            CA.display_settings_after_changes(setting=1, current_var="r2",
+                                                              current_var_2=database_version_date)
+                            input()
+                            print("\n\t\33[92mReturning to settings menu...\33[0m")
+                            time.sleep(2)
+
+                        else:
+                            print("\n\t\33[33mReturning to settings menu...\33[0m")
+                            NSP.play_deny_sound() if system_sound_level == 3 else None
+                            time.sleep(2)
+                    else:
+                        SDM.set_database_version_date("")
+                        SDM.set_database_version_description("")
+                        database_version_description = SDM.get_database_version_description()
+                        database_version_date = SDM.get_database_version_date()
+                        input()
 
                 else:
-                    print("\n\tContinuing...")
+                    print("\n\t\33[92mLoading further settings...\33[0m")
                     time.sleep(2)
                     continue_with_settings = True
                     os.system('cls')
@@ -843,7 +883,9 @@ def search_for_terms(log_title, workbook_title):
             # setting 2 (term output diplomacy)
             os.system('cls')
             CA.display_settings(2, term_output_diplomacy)
-            i = input("\n\tOption number: ")
+            i = input("\n\tType in the \33[33moption number\33[0m of the option you want to \33[33mchoose\33[0m or "
+                      "\n\tpress \33[92menter\33[0m to \33[92mcontinue\33[0m without making changes."
+                      "\n\n\tOption number: ")
             if i == "1":
                 SDM.set_term_output_diplomacy(1)
                 term_output_diplomacy = SDM.get_term_output_diplomacy()
@@ -875,7 +917,9 @@ def search_for_terms(log_title, workbook_title):
             # setting 3 (Output format)
             os.system('cls')
             CA.display_settings(3, oneline_output_format)
-            i = input("\n\tOption number: ")
+            i = input("\n\tType in the \33[33moption number\33[0m of the option you want to \33[33mchoose\33[0m or "
+                      "\n\tpress \33[92menter\33[0m to \33[92mcontinue\33[0m without making changes."
+                      "\n\n\tOption number: ")
             if i == "1":
                 SDM.set_one_line_output(True)
                 oneline_output_format = SDM.get_one_line_output()
@@ -899,7 +943,9 @@ def search_for_terms(log_title, workbook_title):
             # setting 4 (headline-printing)
             os.system('cls')
             CA.display_settings(4, headline_printing)
-            i = input("\n\tOption number: ")
+            i = input("\n\tType in the \33[33moption number\33[0m of the option you want to \33[33mchoose\33[0m or "
+                      "\n\tpress \33[92menter\33[0m to \33[92mcontinue\33[0m without making changes."
+                      "\n\n\tOption number: ")
             if i == "1":
                 SDM.set_headline_printing(1)
                 headline_printing = SDM.get_headline_printing()
@@ -931,7 +977,9 @@ def search_for_terms(log_title, workbook_title):
             # setting 5 (alphabetical output)
             os.system('cls')
             CA.display_settings(5, alphabetical_output, abc_output_ascending)
-            i = input("\n\tOption number: ")
+            i = input("\n\tType in the \33[33moption number\33[0m of the option you want to \33[33mchoose\33[0m or "
+                      "\n\tpress \33[92menter\33[0m to \33[92mcontinue\33[0m without making changes."
+                      "\n\n\tOption number: ")
             if i == "1":
                 SDM.set_alphabetical_output(abc=True, asc=True)
                 alphabetical_output, abc_output_ascending = SDM.get_alphabetical_output()
@@ -963,7 +1011,9 @@ def search_for_terms(log_title, workbook_title):
             # setting 6 (auto scan filters)
             os.system('cls')
             CA.display_settings(6, auto_scan_filters)
-            i = input("\n\n\tOption number: ")
+            i = input("\n\tType in the \33[33moption number\33[0m of the option you want to \33[33mchoose\33[0m or "
+                      "\n\tpress \33[92menter\33[0m to \33[92mcontinue\33[0m without making changes."
+                      "\n\n\tOption number: ")
 
             if i == "1":
                 SDM.set_auto_scan_filters("Noun")
@@ -1028,7 +1078,9 @@ def search_for_terms(log_title, workbook_title):
             # setting 7 (output detail level)
             os.system('cls')
             CA.display_settings(7, output_detail_level)
-            i = input("\n\tOption number: ")
+            i = input("\n\tType in the \33[33moption number\33[0m of the option you want to \33[33mchoose\33[0m or "
+                      "\n\tpress \33[92menter\33[0m to \33[92mcontinue\33[0m without making changes."
+                      "\n\n\tOption number: ")
             if i == "1":
                 SDM.set_output_detail_level(1)
                 output_detail_level = SDM.get_output_detail_level()
@@ -1060,7 +1112,9 @@ def search_for_terms(log_title, workbook_title):
             # setting 8 (system sound level)
             os.system('cls')
             CA.display_settings(8, system_sound_level)
-            i = input("\n\tOption number: ")
+            i = input("\n\tType in the \33[33moption number\33[0m of the option you want to \33[33mchoose\33[0m or "
+                      "\n\tpress \33[92menter\33[0m to \33[92mcontinue\33[0m without making changes."
+                      "\n\n\tOption number: ")
             if i == "1":
                 SDM.set_system_sound_level(1)
                 system_sound_level = SDM.get_system_sound_level()

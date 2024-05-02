@@ -93,9 +93,9 @@ def set_database_version_description(description):
 def get_database_version_as_text():
     global database_version_date
     if database_version_date == "":
-        return "\n\t1) Wikimorph Version:\t\tno installation found"
+        return "\t1) Wikimorph Version:\t\tno installation found"
     else:
-        return "\n\t1) Wikimorph Version:\t\tversion from " + database_version_date
+        return "\t1) Wikimorph Version:\t\tversion from " + database_version_date
 
 
 # Sector 2: Manage system variables for console.py and GUI settings ----------------------------------------------------

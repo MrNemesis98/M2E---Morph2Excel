@@ -92,12 +92,23 @@ def print_main_menu(version):
 
     def get_database_installation_info(colored=False):
 
-        normal_text = "\n\tManual search mode is prepared.\n\tYou can now search for terms."
-        normal_text_colored = "\n\t\33[97mManual search mode is prepared.\n\tYou can now search for terms.\33[0m"
+        normal_text = ("\n\tManual search mode is prepared."
+                       "\n\tYou can now search for terms."
+                       "\n\n\tAlternative search modes:"
+                       "\n\tI)  For Automatic Scan Mode type s! instead of a term.")
+        normal_text_colored = ("\n\t\33[97mManual search mode is prepared."
+                               "\n\tYou can now search for terms.\33[0m"
+                               "\n\n\t\033[97mAlternative search modes:\033[0m"
+                               "\n\tI)  For \033[38;5;130mAutomatic Scan Mode\033[0m type \033[38;5;130ms!\033[0m "
+                               "instead of a term.")
         exception_text = ("\n\tWarning: the wikimorph database is not installed!"
-                          "\n\tAccess to search modes is restricted!")
+                          "\n\tAccess to manual search mode is restricted!"
+                          "\n\n\tAlternative search modes:"
+                          "\n\tI) Access to automatic scan mode is restricted!")
         exception_text_colored = ("\n\t\33[91mWarning: the wikimorph database is not installed!\33[0m"
-                                  "\n\tAccess to search modes is \33[91mrestricted\33[0m!")
+                                  "\n\tAccess to \33[91mmanual search mode\33[0m is \33[91mrestricted\33[0m!"
+                                  "\n\n\t\033[97mAlternative search modes:\033[0m"
+                                  "\n\tI) Access to \33[91mautomatic scan mode\33[0m is \33[91mrestricted!\33[0m")
         if SDM.get_database_version_date() != "":
             return normal_text_colored if colored else normal_text
         else:
@@ -131,8 +142,6 @@ def print_main_menu(version):
         ]
     menu_monochrom_display = [
         get_database_installation_info(),
-        '\n\tAlternative search modes:',
-        '\tI)  For Automatic Scan Mode type s! instead of a term.',
         '\tII) For Comparison Mode type c! instead of a term.',
         '\n\tFurther options:',
         '\tA) For an instructions overview type i! or ? instead of a term.',
@@ -152,8 +161,6 @@ def print_main_menu(version):
     ]
     menu_color_display = [
         get_database_installation_info(colored=True),
-        '\n\t\033[97mAlternative search modes:\033[0m',
-        '\tI)  For \033[38;5;130mAutomatic Scan Mode\033[0m type \033[38;5;130ms!\033[0m instead of a term.',
         '\tII) For \033[94mComparison Mode\033[0m type \033[94mc!\033[0m instead of a term.\t\t\033[94m<- New!\033[0m',
         '\n\t\033[97mFurther options:\033[0m',
         '\tA) For an \033[92minstructions\033[0m overview type \033[92mi!\033[0m or \033[92m?\033[0m instead of a term.',
@@ -267,6 +274,8 @@ def download_database(url, directly_after_start=False):
             if directly_after_start:
                 os.system('cls')
                 print_opening(version="3.0c")
+            if os.path.exists("src/database/wiki_morph.json"):
+                os.remove("src/database/wiki_morph.json")
             NSP.play_request_sound() if SDM.get_system_sound_level() >= 2 else None
             print("\033[33m" + "\n\tDownload of wikimorph database in progress...\n" + "\033[0m")
             urllib.request.urlretrieve(url, "src/database/wiki_morph.json", reporthook=progress)
@@ -313,7 +322,7 @@ def database_installation_confirmed(right_after_program_start=False):
               "interrupted."
               "\n\tPlease make sure that you have installed a complete version of the WikiMorph database."
               "\n\n\tIn both cases you need to reinstall the database."
-              "\n\tThere are respective options in the \33[33msettings menu\33[0m given."
+              "\n\tThere are respective options given in the \33[33msettings menu\33[0m."
               "\n\n\tPress \33[92menter\33[0m to continue.")
 
         return False
@@ -328,7 +337,7 @@ def database_installation_confirmed(right_after_program_start=False):
               "\n\tSome functionalities of wikimorph will be \33[91mrestricted\33[0m until the database is installed "
               "completely."
               "\n\n\tYou are free to install wikimorph now or later with a new program start."
-              "\n\tFurthermore there is the option to download the database in the \33[33msettings menu\33[0m."
+              "\n\tThere is also the possibility to download the database in the \33[33msettings menu\33[0m."
               "\n\n\tOptions:"
               "\n\t\t1. Type in \33[92mstart!\33[0m if you want to \33[92mstart the download now\33[0m."
               "\n\t\t2. Otherwise press \33[94menter\33[0m or type in anything else to "
@@ -908,14 +917,14 @@ def display_settings(setting, current_var, current_var_2=""):
               "\n\tOnly one database version can be installed so far.")
 
         if current_var == "":
-            print("\n\tCurrently installed version:\tNo version installed!",
-                  "\n\tInstallation date:\t\tNo version installed!")
+            print("\n\tCurrently installed version:\t\33[91mNo version installed!\33[0m",
+                  "\n\tInstallation date:\t\t\33[91mNo version installed!\33[0m")
         elif current_var != "" and current_var_2 == "":
-            print("\n\tCurrently installed version:\tNo description found!",
-                  "\n\tInstallation date:\t\t" + SDM.get_database_version_date())
+            print("\n\tCurrently installed version:\t\33[91mNo description found!\33[0m",
+                  "\n\tInstallation date:\t\t\33[92m" + SDM.get_database_version_date() + "\33[0m")
         else:
-            print("\n\tCurrently installed version:\t" + SDM.get_database_version_description(),
-                  "\n\tInstallation date:\t\t" + SDM.get_database_version_date())
+            print("\n\tCurrently installed version:\t\33[92m" + SDM.get_database_version_description() + "\33[0m",
+                  "\n\tInstallation date:\t\t\33[92m" + SDM.get_database_version_date() + "\33[0m")
 
         print("\n\tOptions:"
               '\n\t\t\t1. Type in \33[94m1\33[0m to \33[94mupdate / reinstall\33[0m the database.'
@@ -1146,7 +1155,7 @@ def display_settings_after_changes(setting, current_var, current_var_2=""):
 
         if current_var == "u1":
             # update
-            print("\n\tNote: This option allows you to install the latest version of the wikimorph database"
+            print("\n\t\33[33mNote:\33[0m This option allows you to install the latest version of the wikimorph database"
                   "\n\tdirectly from the Zenovo server. The procedure may take a while."
                   "\n\tPlease make sure you are connected to a reliable internet access before starting the download!")
         elif current_var == "d1":
@@ -1155,8 +1164,14 @@ def display_settings_after_changes(setting, current_var, current_var_2=""):
         elif current_var == "d2":
             print("\n\tDescription changed to \33[92m" + current_var_2 + "\33[0m!")
         elif current_var == "r1":
-            # delete current version
-            pass
+            print("\n\t\33[91mWarning:\33[0m"
+                  "\n\tYou are about to delete the currently installed version of the wikimorph database!"
+                  "\n\n\t1. Press \33[33menter\33[0m to \33[33mproceed\33[0m."
+                  "\n\t2. Type in \33[91mexit!\33[0m to \33[91mreturn to settings menu without deleting\33[0m.")
+        elif current_var == "r2":
+            print("\n\t\33[92mDeletion successful!\33[0m"
+                  "\n\tWikimorph version was removed."
+                  "\n\n\tPress \33[33menter\33[0m to \33[33mproceed\33[0m.")
 
     elif setting == 2:
         print_opening(version="3.0c")
