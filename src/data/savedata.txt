@@ -1,2 +1,2 @@
 db:/dl:0/c:579/soll:579/date:/scritto:/
-sys:/fs:1/tod:1/onel:1/hdlp:2/abc=1:asc=1/asf:Noun/odlvl:3/ssl:2/
+sys:/fs:0/tod:3/onel:1/hdlp:2/abc=1:asc=1/asf:Noun,Verb,Adjective,Adverb,Preposition,Phrase/odlvl:3/ssl:3/

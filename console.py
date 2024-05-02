@@ -1088,7 +1088,7 @@ def search_for_terms(log_title, workbook_title):
                         CA.print_opening(version=m2e_version)
                         CA.print_manual_search_headline()
                         print('\n\tSearching for term \33[33m' + term + '\33[0m '
-                                                                        'with pos tag \33[33m(' + pos_filters + ')\33[0m...')
+                              'with pos tag \33[33m(' + pos_filters + ')\33[0m...')
                         time.sleep(2)
                     else:
                         pos_filters = "Noun, Verb, Adjective, Adverb, Preposition, Phrase"

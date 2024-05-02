@@ -86,7 +86,7 @@ def print_opening(version):
 
 
 def print_manual_search_headline(tip=False):
-    print("\n\t\033[97mManual term search\033[0m"
+    print("\n\t\033[97m- Manual term search -\033[0m"
           "\n\t\033[97m------------------------------------------------------------------------\033[0m")
     if tip:
         print('\n\t\33[92mTip:\33[0m If you want to display the\033[92m main menu\033[0m again '
@@ -113,15 +113,14 @@ def print_main_menu(version):
         exception_text_colored = ("\n\t\33[91mWarning: the wikimorph database is not installed!\33[0m"
                                   "\n\tAccess to \33[91mmanual search mode\33[0m is \33[91mrestricted\33[0m!"
                                   "\n\n\t\033[97mAlternative search modes:\033[0m"
-                                  "\n\tI) Access to \33[91mautomatic scan mode\33[0m is \33[91mrestricted!\33[0m")
+                                  "\n\tI) Access to \33[91mautomatic scan mode\33[0m is \33[91mrestricted\33[0m!")
         if SDM.get_database_version_date() != "":
             return normal_text_colored if colored else normal_text
         else:
             return exception_text_colored if colored else exception_text
 
     # preparing displays ------------------------------------------------------
-    headline = "\033[92m" + "\n\tMorph2Excel ~ Version " + version + "\033[0m"\
-               "\n\n\t\033[92mMain Menu\033[0m"
+    headline = "\n\t\33[92m~ Main Menu ~\33[0m"
     progress = [
         "\t\033[92m------------------------------------------------------------------------\033[0m",
         "\t\033[92m[--]--------------------------------------------------------------------\033[0m",
@@ -186,6 +185,7 @@ def print_main_menu(version):
 
     # printing main menu ------------------------------------------------------
     os.system('cls')
+    print_opening(m2e_version)
     print(headline)
     print(progress[0])
     NSP.play_start_sound() if SDM.get_system_sound_level() >= 2 else None
@@ -194,6 +194,7 @@ def print_main_menu(version):
     for lines in range(len(menu_monochrom_display)):
 
         os.system('cls')
+        print_opening(m2e_version)
         print(headline)
         print(progress[lines+1])
         for l in range(0, lines+1):
@@ -201,6 +202,7 @@ def print_main_menu(version):
         time.sleep(.05)
 
     os.system('cls')
+    print_opening(m2e_version)
     print(headline)
     print(progress[0])
     for line in range(len(menu_color_display)):
@@ -374,7 +376,7 @@ def load_database():
 def show_instructions():
     os.system('cls')
     print_opening(version=m2e_version)
-    print("\n\t\033[92mInstructions\033[0m"
+    print("\n\t\033[92m~ Instructions ~\033[0m"
           "\n\t\033[92m[----------------------------------------------------------------------]\033[0m")
     NSP.play_accept_sound() if SDM.get_system_sound_level() == 3 else None
     time.sleep(.5)
@@ -394,7 +396,7 @@ def show_instructions():
         os.system('cls')
     os.system('cls')
     print_opening(version=m2e_version)
-    print("\n\t\033[92mInstructions\033[0m"
+    print("\n\t\033[92m~ Instructions ~\033[0m"
           "\n\t\033[92m[----------------------------------------------------------------------]\033[0m")
     print("\n\tReturning to main menu...")
     time.sleep(1)
@@ -403,7 +405,7 @@ def show_instructions():
 def show_version_description():
     os.system('cls')
     print_opening(version=m2e_version)
-    print("\033[95m" + "\n\tWhat´s new in version 3.0c?" + "\033[0m"
+    print("\033[95m" + "\n\t~ What´s new in version 2024.0c? ~" + "\033[0m"
           "\n\t\033[95m[----------------------------------------------------------------------]\033[0m")
     NSP.play_accept_sound() if SDM.get_system_sound_level() == 3 else None
     time.sleep(1.5)
