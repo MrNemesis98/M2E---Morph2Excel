@@ -14,6 +14,8 @@ from openpyxl.styles import Font, Color
 import savedata_manager as SDM
 import notification_sound_player as NSP
 
+m2e_version = '2024.0 (EAP)'
+
 
 def is_valid_input(i):
     if i == "":
@@ -27,7 +29,7 @@ def is_valid_input(i):
     allowed_inputs = ['exit!', 'set!', 's!', 'i!', 'v!', 'c!', '?', '']
     for char in i:
         if not (char.isalpha() or i in allowed_inputs):
-            print_opening(version="3.0c")
+            print_opening(version=m2e_version)
             print("\n\t\033[91mWarning:\033[0m Invalid input!"
                   "\n\n\tFor typing in the term please use standard characters only. No numbers."
                   "\n\tSpecial signs are only allowed as described in the main menu.")
@@ -37,7 +39,7 @@ def is_valid_input(i):
     allowed_pos_filters = ['noun', 'verb', 'adjective', 'adverb', 'preposition', 'phrase']
     for filter in pos:
         if not filter in allowed_pos_filters:
-            print_opening(version="3.0c")
+            print_opening(version=m2e_version)
             print("\n\t\033[91mWarning:\033[0m Invalid input!"
                   "\n\n\tPlease use valid pos filters only."
                   "\n\tMore information can be found in the instructions.")
@@ -77,7 +79,10 @@ def measure_time(start, end, search=True, comparison=False):
 
 def print_opening(version):
     os.system('cls')
-    print("\033[92m" + "\n\tMorph2Excel ~ Version " + version + "\033[0m")
+    header_line = "| Morph2Excel ~ Version {} |".format(version)
+    underline = " " + "‾" * (len(header_line) - 2) + " "
+    print("\33[92m\t" + header_line)
+    print("\t" + underline + "\33[0m")
 
 
 def print_manual_search_headline(tip=False):
@@ -273,7 +278,7 @@ def download_database(url, directly_after_start=False):
 
             if directly_after_start:
                 os.system('cls')
-                print_opening(version="3.0c")
+                print_opening(version=m2e_version)
             if os.path.exists("src/database/wiki_morph.json"):
                 os.remove("src/database/wiki_morph.json")
             NSP.play_request_sound() if SDM.get_system_sound_level() >= 2 else None
@@ -289,7 +294,7 @@ def download_database(url, directly_after_start=False):
         except Exception:
             if directly_after_start:
                 os.system("cls")
-                print_opening(version="3.0c")
+                print_opening(version=m2e_version)
             NSP.play_request_sound() if SDM.get_system_sound_level() >= 2 else None
             print("\n\t\033[91mWarning: There was an error detected during the download!\033[0m"
                   "\n\tPlease check your internet connection."
@@ -303,7 +308,7 @@ def download_database(url, directly_after_start=False):
             i = input("\n\t")
             if i == "exit!" or i == "exit" or i == "exit1":
                 os.system("cls")
-                print_opening(version="3.0c")
+                print_opening(version=m2e_version)
                 print("\n\t\33[91mProgram terminated.\33[0m")
                 os.system("cls")
                 stop = True
@@ -315,7 +320,7 @@ def database_installation_confirmed(right_after_program_start=False):
 
     def deny_access():
         os.system("cls")
-        print_opening(version="3.0c")
+        print_opening(version=m2e_version)
         NSP.play_deny_sound() if SDM.get_system_sound_level() >= 2 else None
         print("\n\t\33[91mWarning: Access denied!\33[0m"
               "\n\n\tThis problem can occur if you have no wikimorph installation yet or the last installation was "
@@ -329,12 +334,12 @@ def database_installation_confirmed(right_after_program_start=False):
 
     def give_advice():
         os.system("cls")
-        print_opening(version="3.0c")
+        print_opening(version=m2e_version)
         NSP.play_deny_sound() if SDM.get_system_sound_level() >= 2 else None
-        print("\n\t\33[91mWarning: No valid wikimorph version found!\33[0m"
+        print("\n\t\33[91mWarning: No valid wikimorph database version found!\33[0m"
               "\n\n\tThis problem can occur if you have no wikimorph installation yet or the last installation was "
               "interrupted."
-              "\n\tSome functionalities of wikimorph will be \33[91mrestricted\33[0m until the database is installed "
+              "\n\tSome functionalities of Morph2Excel will be \33[91mrestricted\33[0m until the database is installed "
               "completely."
               "\n\n\tYou are free to install wikimorph now or later with a new program start."
               "\n\tThere is also the possibility to download the database in the \33[33msettings menu\33[0m."
@@ -359,7 +364,7 @@ def database_installation_confirmed(right_after_program_start=False):
 
 def load_database():
     os.system('cls')
-    print_opening(version="3.0c")
+    print_opening(version=m2e_version)
     print("\n\tLoading wiki_morph database...")
     with open("src/database/wiki_morph.json", "r", encoding="utf-8") as f:
         entries_list = json.load(f)
@@ -368,7 +373,7 @@ def load_database():
 
 def show_instructions():
     os.system('cls')
-    print_opening(version="3.0c")
+    print_opening(version=m2e_version)
     print("\n\t\033[92mInstructions\033[0m"
           "\n\t\033[92m[----------------------------------------------------------------------]\033[0m")
     NSP.play_accept_sound() if SDM.get_system_sound_level() == 3 else None
@@ -388,7 +393,7 @@ def show_instructions():
         input("\n\n\tType in any character to return to main menu: ")
         os.system('cls')
     os.system('cls')
-    print_opening(version="3.0c")
+    print_opening(version=m2e_version)
     print("\n\t\033[92mInstructions\033[0m"
           "\n\t\033[92m[----------------------------------------------------------------------]\033[0m")
     print("\n\tReturning to main menu...")
@@ -397,7 +402,7 @@ def show_instructions():
 
 def show_version_description():
     os.system('cls')
-    print_opening(version="3.0c")
+    print_opening(version=m2e_version)
     print("\033[95m" + "\n\tWhat´s new in version 3.0c?" + "\033[0m"
           "\n\t\033[95m[----------------------------------------------------------------------]\033[0m")
     NSP.play_accept_sound() if SDM.get_system_sound_level() == 3 else None
@@ -906,7 +911,7 @@ def write_comparison_result_excel(worksheet, file_1, file_2, list_of_terms_1, li
 def display_settings(setting, current_var, current_var_2=""):
 
     if setting == 1:
-        print_opening(version="3.0c")
+        print_opening(version=m2e_version)
         print("\033[33m\n\t~ Settings Menu ~"
               "\n\t------------------------------------------------------------------------\033[0m"
               "\n\n\tSetting 1/8: Database Version Control"
@@ -932,10 +937,11 @@ def display_settings(setting, current_var, current_var_2=""):
               'for the currently installed version.'
               '\n\t\t\t3. Type in \33[91m3\33[0m to \33[91mremove (delete)\33[0m the currently installed version.'
               '\n\n\tPress \33[92menter\33[0m or type in anything else to \33[92mcontinue\33[0m without '
-              'making changes.')
+              'making changes.'
+              '\n\tType in \33[91mexit!\33[0m to \33[91mreturn to main menu\33[0m.')
 
     elif setting == 2:
-        print_opening(version="3.0c")
+        print_opening(version=m2e_version)
         print("\033[33m\n\t~ Settings Menu ~"
               "\n\t------------------------------------------------------------------------\033[0m"
               "\n\n\tSetting 2/8: Term Output Diplomacy"
@@ -954,7 +960,7 @@ def display_settings(setting, current_var, current_var_2=""):
                   "\n\t\t\t\t2. only not found terms\n\t\t\t\033[33m" + "->" + "\033[0m\t3. all searched terms")
 
     elif setting == 3:
-        print_opening(version="3.0c")
+        print_opening(version=m2e_version)
         print("\033[33m\n\t~ Settings Menu ~"
               "\n\t------------------------------------------------------------------------\033[0m"
               "\n\n\tSetting 3/8: Output Format"
@@ -970,7 +976,7 @@ def display_settings(setting, current_var, current_var_2=""):
             print("\n\tOptions:\n\t\t\t\t1. one-line\n\t\t\t\033[33m" + "->" + "\033[0m\t2. multi-line")
 
     elif setting == 4:
-        print_opening(version="3.0c")
+        print_opening(version=m2e_version)
         print("\033[33m\n\t~ Settings Menu ~"
               "\n\t------------------------------------------------------------------------\033[0m"
               "\n\n\tSetting 4/8: Headline Printing"
@@ -996,7 +1002,7 @@ def display_settings(setting, current_var, current_var_2=""):
                   "\n\t\t\t\033[33m" + "->" + "\033[0m\t3. for every new term printed")
 
     elif setting == 5:
-        print_opening(version="3.0c")
+        print_opening(version=m2e_version)
         print("\033[33m\n\t~ Settings Menu ~"
               "\n\t------------------------------------------------------------------------\033[0m"
               "\n\n\tSetting 5/8: Alphabetical Output Order"
@@ -1019,7 +1025,7 @@ def display_settings(setting, current_var, current_var_2=""):
                   "\n\t\t\t\033[33m" + "->" + "\033[0m\t3. non-alphabetical")
 
     elif setting == 6:
-        print_opening(version="3.0c")
+        print_opening(version=m2e_version)
         print("\033[33m\n\t~ Settings Menu ~"
               "\n\t------------------------------------------------------------------------\033[0m"
               "\n\n\tSetting 6/8: Automatic Scan Filters"
@@ -1093,7 +1099,7 @@ def display_settings(setting, current_var, current_var_2=""):
               "\n\tThe results will be saved into the same excel file as usual.")
 
     elif setting == 7:
-        print_opening(version="3.0c")
+        print_opening(version=m2e_version)
         print("\033[33m\n\t~ Settings Menu ~"
               "\n\t------------------------------------------------------------------------\033[0m"
               "\n\n\tSetting 7/8: Output Detail Level"
@@ -1118,7 +1124,7 @@ def display_settings(setting, current_var, current_var_2=""):
                   "\n\t\t\t\033[33m" + "->" + "\033[0m\t3. Level 3: term data + morphology data + etymology data")
 
     elif setting == 8:
-        print_opening(version="3.0c")
+        print_opening(version=m2e_version)
         print("\033[33m\n\t~ Settings Menu ~"
               "\n\t------------------------------------------------------------------------\033[0m"
               "\n\n\tSetting 8/8: System Sound Level"
@@ -1147,7 +1153,7 @@ def display_settings(setting, current_var, current_var_2=""):
 def display_settings_after_changes(setting, current_var, current_var_2=""):
 
     if setting == 1:
-        print_opening(version="3.0c")
+        print_opening(version=m2e_version)
         print("\033[33m\n\t~ Settings Menu ~"
               "\n\t------------------------------------------------------------------------\033[0m"
               "\n\n\tSetting 1/8: Database Version Control"
@@ -1174,7 +1180,7 @@ def display_settings_after_changes(setting, current_var, current_var_2=""):
                   "\n\n\tPress \33[33menter\33[0m to \33[33mproceed\33[0m.")
 
     elif setting == 2:
-        print_opening(version="3.0c")
+        print_opening(version=m2e_version)
         print("\033[33m\n\t~ Settings Menu ~"
               "\n\t------------------------------------------------------------------------\033[0m"
               "\n\n\tSetting 2/8: Term Output Diplomacy"
@@ -1193,7 +1199,7 @@ def display_settings_after_changes(setting, current_var, current_var_2=""):
                   "\n\t\t\t\t2. only not found terms\n\t\t\t\033[92m" + "->" + "\033[0m\t3. all searched terms")
 
     elif setting == 3:
-        print_opening(version="3.0c")
+        print_opening(version=m2e_version)
         print("\033[33m\n\t~ Settings Menu ~"
               "\n\t------------------------------------------------------------------------\033[0m"
               "\n\n\tSetting 3/8: Output Format"
@@ -1209,7 +1215,7 @@ def display_settings_after_changes(setting, current_var, current_var_2=""):
             print("\n\tOptions:\n\t\t\t\t1. one-line\n\t\t\t\033[92m" + "->" + "\033[0m\t2. multi-line")
 
     elif setting == 4:
-        print_opening(version="3.0c")
+        print_opening(version=m2e_version)
         print("\033[33m\n\t~ Settings Menu ~"
               "\n\t------------------------------------------------------------------------\033[0m"
               "\n\n\tSetting 4/8: Headline Printing"
@@ -1235,7 +1241,7 @@ def display_settings_after_changes(setting, current_var, current_var_2=""):
                   "\n\t\t\t\033[92m" + "->" + "\033[0m\t3. for every new term printed")
 
     elif setting == 5:
-        print_opening(version="3.0c")
+        print_opening(version=m2e_version)
         print("\033[33m\n\t~ Settings Menu ~"
               "\n\t------------------------------------------------------------------------\033[0m"
               "\n\n\tSetting 5/8: Alphabetical Output Order"
@@ -1258,7 +1264,7 @@ def display_settings_after_changes(setting, current_var, current_var_2=""):
                   "\n\t\t\t\033[92m" + "->" + "\033[0m\t3. non-alphabetical")
 
     elif setting == 6:
-        print_opening(version="3.0c")
+        print_opening(version=m2e_version)
         print("\033[33m\n\t~ Settings Menu ~"
               "\n\t------------------------------------------------------------------------\033[0m"
               "\n\n\tSetting 6/8: Automatic Scan Filters"
@@ -1332,7 +1338,7 @@ def display_settings_after_changes(setting, current_var, current_var_2=""):
               "\n\tThe results will be saved into the same excel file as usual.")
 
     elif setting == 7:
-        print_opening(version="3.0c")
+        print_opening(version=m2e_version)
         print("\033[33m\n\t~ Settings Menu ~"
               "\n\t------------------------------------------------------------------------\033[0m"
               "\n\n\tSetting 7/8: Output Detail Level"
@@ -1357,7 +1363,7 @@ def display_settings_after_changes(setting, current_var, current_var_2=""):
                   "\n\t\t\t\033[92m" + "->" + "\033[0m\t3. Level 3: term data + morphology data + etymology data")
 
     elif setting == 8:
-        print_opening(version="3.0c")
+        print_opening(version=m2e_version)
         print("\033[33m\n\t~ Settings Menu ~"
               "\n\t------------------------------------------------------------------------\033[0m"
               "\n\n\tSetting 8/8: System Sound Level"

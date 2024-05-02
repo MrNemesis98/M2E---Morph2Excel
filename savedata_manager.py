@@ -103,17 +103,19 @@ system_data = data[1]
 variables_list = system_data.split('/')
 variables_list.remove(variables_list[0])
 # print(variables_list)
-term_output_diplomacy = (variables_list[0].split(":")[1])
-one_line_output = (variables_list[1].split(":")[1])
-headline_printing = (variables_list[2].split(":")[1])
-alphabetical_output = variables_list[3].split(":")
-auto_scan_filters = variables_list[4].split(":")[1]
-output_detail_level = (variables_list[5].split(":")[1])
-system_sound_level = (variables_list[6].split(":")[1])[:-1]
+first_start = (variables_list[0].split(":")[1])
+term_output_diplomacy = (variables_list[1].split(":")[1])
+one_line_output = (variables_list[2].split(":")[1])
+headline_printing = (variables_list[3].split(":")[1])
+alphabetical_output = variables_list[4].split(":")
+auto_scan_filters = variables_list[5].split(":")[1]
+output_detail_level = (variables_list[6].split(":")[1])
+system_sound_level = (variables_list[7].split(":")[1])
 
 
 def update_system_data():
     global data
+    global first_start
     global term_output_diplomacy
     global one_line_output
     global headline_printing
@@ -129,17 +131,29 @@ def update_system_data():
 
     # Datei neu beschreiben, nur Nutzer-Trainingsdaten updaten
     sd = open("src/data/savedata.txt", "w")
-    text = (database_data + "sys:" +
+    text = ((database_data + "sys:" +
+           "/fs:" + str(first_start) +
            "/tod:" + str(term_output_diplomacy) +
            "/onel:" + str(one_line_output) +
            "/hdlp:" + str(headline_printing) +
            "/" + str(alphabetical_output[0]) + ":" + alphabetical_output[1] +
            "/asf:" + str(auto_scan_filters) +
            "/odlvl:" + str(output_detail_level) +
-           "/ssl:" + str(system_sound_level) +
+           "/ssl:" + str(system_sound_level)) +
            "/\n")
     sd.write(text)
     sd.close()
+
+
+def get_first_start():
+    global first_start
+    return True if first_start == "1" else False
+
+
+def set_first_start(fs=False):
+    global first_start
+    first_start = "1" if fs else "0"
+    update_system_data()
 
 
 def get_term_output_diplomacy():

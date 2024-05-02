@@ -17,15 +17,10 @@ tip_need_counter = 0
 entries_list = None
 database_is_installed = False
 
-database_version_date = SDM.get_database_version_date()
-database_version_description = SDM.get_database_version_description()
-term_output_diplomacy = SDM.get_term_output_diplomacy()
-oneline_output_format = SDM.get_one_line_output()
-headline_printing = SDM.get_headline_printing()
-alphabetical_output, abc_output_ascending = SDM.get_alphabetical_output()
-auto_scan_filters = SDM.get_auto_scan_filters()
-output_detail_level = SDM.get_output_detail_level()
-system_sound_level = SDM.get_system_sound_level()
+# data to change for release
+m2e_version = "2024.0 (EAP)"       # auch in console_assistance.py ändern!
+supporter = "Till Preidt"
+support_email = "s2tiprei@uni-trier.de"
 
 
 def set_system_variables_to_default():
@@ -41,13 +36,13 @@ def set_system_variables_to_default():
 
     SDM.set_database_version_date("")
     SDM.set_database_version_description("")
-    SDM.set_term_output_diplomacy(3)
-    SDM.set_one_line_output(1)
-    SDM.set_headline_printing(2)
+    SDM.set_term_output_diplomacy("3")
+    SDM.set_one_line_output(True)
+    SDM.set_headline_printing("2")
     SDM.set_alphabetical_output(True, True)
     SDM.set_auto_scan_filters("Noun,Verb,Adjective,Adverb,Preposition,Phrase")
-    SDM.set_output_detail_level(3)
-    SDM.set_system_sound_level(3)
+    SDM.set_output_detail_level("3")
+    SDM.set_system_sound_level("3")
 
     database_version_date = SDM.get_database_version_date()
     database_version_description = SDM.get_database_version_description()
@@ -71,7 +66,7 @@ def check_database_installation():
     # For configuring M2E for other base systems:
     # os.system('cls' if os.name == 'nt' else 'clear')
 
-    CA.print_opening(version="3.0c")
+    CA.print_opening(version=m2e_version)
     print("\n\tChecking database status...")
     time.sleep(1.5)
 
@@ -95,7 +90,7 @@ def check_database_installation():
                 database_version_description = SDM.get_database_version_description()
                 database_version_date = SDM.get_database_version_date()
                 os.system('cls')
-                CA.print_opening(version="3.0c")
+                CA.print_opening(version=m2e_version)
                 print("\n\t\033[92mDownload completed sucessfully!\033[0m (" + str(current_size) +
                       " MB)\n\tThe latest version of wikimorph is now installed on your device."
                       "\n\n\t\33[94mTip:\33[0m In the \33[33msettings menu\33[0m you can manage this version and add a "
@@ -110,128 +105,6 @@ def check_database_installation():
 
     else:
         database_is_installed = True
-
-
-    """
-    if not os.path.exists("src/database/wiki_morph.json"):
-        SDM.set_current_size()
-        try:
-            url = "https://zenodo.org/record/5172857/files/wiki_morph.json?download=1"
-            response = requests.get(url, stream=True)
-            remote_size = int(response.headers.get("Content-Length", 0))
-            remote_size = int(remote_size / (1024 * 1024))
-
-            os.system('cls')
-            CA.print_opening(version="3.0c")
-            print("\n\t\033[91mWarning:\033[0m wiki_morph database could not be found on your system!"
-                  "\n\tYou have the option to download it automatically.")
-            if remote_size == 0:
-                print("\n\tSize of file: unknown")
-            else:
-                print("\tSize of file: " + str(remote_size) + "MB")
-            NSP.play_request_sound() if system_sound_level == 3 else None
-            print("\tDo you want to download it now? (y/n)")
-            answer = input("\n\tanswer: ")
-
-            if answer == "y":
-                NSP.play_accept_sound() if system_sound_level == 3 else None
-                SDM.set_download_size(remote_size)
-
-                normal = CA.download_database(url=url)
-
-                if normal:
-                    current_size = os.path.getsize("src/database/wiki_morph.json")
-                    current_size = int(current_size / (1024 * 1024))
-                    SDM.set_current_size(current_size)
-                    os.system('cls')
-                    CA.print_opening(version="3.0c")
-                    print("\n\n\t\033[92mDownload completed!\033[0m (" + str(current_size) + " MB)"
-                          "\n\n\tDo you wish to search for terms now? (y/n)")
-                    NSP.play_request_sound() if system_sound_level >= 2 else None
-                    answer = input("\n\tanswer: ")
-                    if answer == "n":
-                        print("\n\tProgram will now terminate.")
-                        NSP.play_deny_sound() if system_sound_level == 3 else None
-                        time.sleep(3)
-                        os.system('cls')
-                        sys.exit(0)
-                    else:
-                        NSP.play_accept_sound() if system_sound_level == 3 else None
-                else:
-                    NSP.play_deny_sound() if system_sound_level == 3 else None
-                    sys.exit()
-
-            else:
-                NSP.play_deny_sound()
-                CA.print_exit_without_download() if system_sound_level == 3 else None
-
-            time.sleep(1)
-        except Exception:
-            os.system('cls')
-            CA.print_opening(version="3.0c")
-            print("\n\t\033[91mWarning:\033[0m Database is not installed currently."
-                  "\n\n\tThis program offers the possibility to download the database automatically."
-                  "\n\tBut for the moment there was \033[91mno internet connection\033[0m recognized."
-                  "\n\tPlease make sure you are connected and restart the program."
-                  "\n\tThe program will now terminate.")
-            NSP.play_deny_sound() if system_sound_level >= 2 else None
-            time.sleep(15)
-            os.system('cls')
-            sys.exit(0)
-
-    else:
-        os.system('cls')
-        current_size = os.path.getsize("src/database/wiki_morph.json")
-        current_size = int(current_size / (1024 * 1024))
-        soll_size = SDM.get_soll_size()
-
-        if current_size < soll_size:
-            CA.print_opening(version="3.0c")
-            print("\n\t\033[91mWarning:\033[0m The local database file does not cover the expected amount of "
-                  "information!"
-                  "\n\n\t(Expected size: min. " + str(soll_size) + " MB)"
-                  "\n\t(Local size: " + str(current_size) + " MB)"
-                  "\n\n\tThis may be due to an interruption during the last downloading process."
-                  "\n\tTo solve this problem you should reinstall the database by downloading it again."
-                  "\n\tDo you want to start the download now? (y/n)")
-            NSP.play_request_sound() if system_sound_level >= 2 else None
-            answer = input("\n\tanswer: ")
-
-            if answer == "y":
-
-                SDM.set_current_size()
-                url = "https://zenodo.org/record/5172857/files/wiki_morph.json?download=1"
-                response = requests.get(url, stream=True)
-                remote_size = int(response.headers.get("Content-Length", 0))
-                remote_size = int(remote_size / (1024 * 1024))
-
-                SDM.set_download_size(remote_size)
-                CA.download_database(url=url)
-                NSP.play_accept_sound() if system_sound_level == 3 else None
-
-                current_size = os.path.getsize("src/database/wiki_morph.json")
-                current_size = int(current_size / (1024 * 1024))
-                SDM.set_current_size(current_size)
-                auto_update = False
-                os.system('cls')
-                CA.print_opening(version="3.0c")
-                print("\n\n\t\033[92mDownload completed!\033[0m (" + str(current_size) + " MB)"
-                      "\n\n\tDo you wish to search for terms now? (y/n)")
-                NSP.play_request_sound() if system_sound_level >= 2 else None
-                answer = input("\n\tanswer: ")
-                if answer == "n":
-                    print("\n\tProgramm will now terminate.")
-                    time.sleep(3)
-                    sys.exit(0)
-
-            else:
-                NSP.play_deny_sound() if system_sound_level == 3 else None
-                CA.print_exit_without_download()
-        else:
-            CA.print_opening(version="3.0c")
-            print("\n\t\033[92mDatabase installed and available.\033[0m")
-        time.sleep(2)
-        """
 
 
 def search_for_terms(log_title, workbook_title):
@@ -269,10 +142,10 @@ def search_for_terms(log_title, workbook_title):
 
         if print_main_menu_again:
             tip_need_counter = 0
-            CA.print_main_menu(version="3.0c")
+            CA.print_main_menu(version=m2e_version)
             print_main_menu_again = False
         else:
-            CA.print_opening(version="3.0c")
+            CA.print_opening(version=m2e_version)
             tip_need_counter += 1
             if tip_need_counter == 3:
                 CA.print_manual_search_headline(tip=True)
@@ -284,7 +157,7 @@ def search_for_terms(log_title, workbook_title):
         os.system('cls')
 
         if i == "exit!":
-            CA.print_opening(version="3.0c")
+            CA.print_opening(version=m2e_version)
             print("\033[91m" + "\n\tProgram terminated!\033[0m")
             NSP.play_accept_sound() if system_sound_level == 3 else None
             time.sleep(1)
@@ -323,7 +196,7 @@ def search_for_terms(log_title, workbook_title):
 
                 open_excel_automatically = True
                 os.system('cls')
-                CA.print_opening(version="3.0c")
+                CA.print_opening(version=m2e_version)
                 print("\n\t\033[38;5;130m- Automatic Scan Mode -\033[0m"
                       "\n\t\033[38;5;130m------------------------------------------------------------------------\033[0m")
                 NSP.play_accept_sound() if system_sound_level == 3 else None
@@ -353,7 +226,7 @@ def search_for_terms(log_title, workbook_title):
 
                         time.sleep(1)
                         os.system('cls')
-                        CA.print_opening(version="3.0c")
+                        CA.print_opening(version=m2e_version)
                         print(status)
                         print("\n\t", CA.measure_time(start_time, end_time, search=False))
                         time.sleep(3)
@@ -377,7 +250,7 @@ def search_for_terms(log_title, workbook_title):
                             breakoff = True
                         elif i == "file!":
                             os.system('cls')
-                            CA.print_opening(version="3.0c")
+                            CA.print_opening(version=m2e_version)
                             print("\n\t\033[38;5;130m- Automatic Scan Mode -\033[0m"
                                   "\n\t\033[38;5;130m--------"
                                   "----------------------------------------------------------------\033[0m")
@@ -387,7 +260,7 @@ def search_for_terms(log_title, workbook_title):
 
                     except Exception:
                         os.system('cls')
-                        CA.print_opening(version="3.0c")
+                        CA.print_opening(version=m2e_version)
                         print("\n\t\033[38;5;130m- Automatic Scan Mode -\033[0m"
                               "\n\t\033[38;5;130m-----"
                               "-------------------------------------------------------------------\033[0m")
@@ -413,7 +286,7 @@ def search_for_terms(log_title, workbook_title):
                             term = terms[x]
                             os.system('cls')
                             progress = format(100 * (x / number_of_valid_cases), ".2f")
-                            CA.print_opening(version="3.0c")
+                            CA.print_opening(version=m2e_version)
                             print(status)
                             print("\n\t\033[38;5;130mSearching for terms...\033[0m"
                                   "\n\tCurrent term: " + term + "\t\tProgress: \33[38;5;130m" + str(progress) + "%\33[0m")
@@ -438,7 +311,7 @@ def search_for_terms(log_title, workbook_title):
                             term = terms[x]
                             os.system('cls')
                             progress = format(100 * (x / number_of_valid_cases), ".2f")
-                            CA.print_opening(version="3.0c")
+                            CA.print_opening(version=m2e_version)
                             print(status)
                             print("\n\t\033[38;5;130mSearching for terms...\033[0m"
                                   "\n\tCurrent term: " + term + "\t\tProgress: \33[38;5;130m" + str(progress) + "%\33[0m")
@@ -463,7 +336,7 @@ def search_for_terms(log_title, workbook_title):
                             term = terms[x]
                             os.system('cls')
                             progress = format(100 * (x / number_of_valid_cases), ".2f")
-                            CA.print_opening(version="3.0c")
+                            CA.print_opening(version=m2e_version)
                             print(status)
                             print("\n\t\033[38;5;130mSearching for terms...\033[0m"
                                   "\n\tCurrent term: " + term + "\t\tProgress: \33[38;5;130m" + str(progress) + "%\33[0m")
@@ -487,14 +360,14 @@ def search_for_terms(log_title, workbook_title):
                     workbook.save(workbook_title)
                     end_time = time.time()
                     os.system('cls')
-                    CA.print_opening(version="3.0c")
+                    CA.print_opening(version=m2e_version)
                     print(status)
                     print("\n\t\033[92mProcess finished!\033[0m"
                           "\n\n\t", CA.measure_time(start_time, end_time))
                     NSP.play_accept_sound() if system_sound_level >= 2 else None
                     time.sleep(6)
                     os.system('cls')
-                    CA.print_opening(version="3.0c")
+                    CA.print_opening(version=m2e_version)
                     print(status)
                     print("\n\t\033[92mProcess finished!\033[0m"
                           "\n\n\t", CA.measure_time(start_time, end_time),
@@ -502,7 +375,7 @@ def search_for_terms(log_title, workbook_title):
                           "\n\tReturning to main menu...")
                 else:
                     os.system('cls')
-                    CA.print_opening(version="3.0c")
+                    CA.print_opening(version=m2e_version)
                     print("\n\t\033[38;5;130m- Automatic Scan Mode -\033[0m"
                           "\n\t\033[38;5;130m--------"
                           "----------------------------------------------------------------\033[0m")
@@ -521,7 +394,7 @@ def search_for_terms(log_title, workbook_title):
         # COMPARISON MODE ----------------------------------------------------------------------------------------------
         elif i == "c!":
             os.system('cls')
-            CA.print_opening(version="3.0c")
+            CA.print_opening(version=m2e_version)
             status = "\n\t\033[94m- Comparison Mode -\033[0m" \
                      "\n\t\033[94m------------------------------------------------------------------------\033[0m"
             print(status)
@@ -531,7 +404,7 @@ def search_for_terms(log_title, workbook_title):
             breakoff = False
             while not excel_file_1_selected:
                 os.system('cls')
-                CA.print_opening(version="3.0c")
+                CA.print_opening(version=m2e_version)
                 print(status)
                 print("\n\tPlease select two excel files you want to compare.")
                 time.sleep(2)
@@ -563,7 +436,7 @@ def search_for_terms(log_title, workbook_title):
                         breakoff = True
                     elif i == "file!":
                         os.system('cls')
-                        CA.print_opening(version="3.0c")
+                        CA.print_opening(version=m2e_version)
                         print(status)
                         NSP.play_accept_sound() if system_sound_level == 3 else None
                     else:
@@ -571,7 +444,7 @@ def search_for_terms(log_title, workbook_title):
 
                 except Exception:
                     os.system('cls')
-                    CA.print_opening(version="3.0c")
+                    CA.print_opening(version=m2e_version)
                     print(status)
                     print("\n\t\033[91mWarning:\033[0m No file as file 1 selected!")
                     NSP.play_deny_sound() if system_sound_level >= 2 else None
@@ -583,7 +456,7 @@ def search_for_terms(log_title, workbook_title):
                 while not excel_file_2_selected:
 
                     os.system('cls')
-                    CA.print_opening(version="3.0c")
+                    CA.print_opening(version=m2e_version)
                     print(status)
                     print("\n\tPlease select two excel files you want to compare.")
                     time.sleep(2)
@@ -615,7 +488,7 @@ def search_for_terms(log_title, workbook_title):
                             breakoff = True
                         elif i == "file!":
                             os.system('cls')
-                            CA.print_opening(version="3.0c")
+                            CA.print_opening(version=m2e_version)
                             print(status)
                             NSP.play_accept_sound() if system_sound_level == 3 else None
                         else:
@@ -623,7 +496,7 @@ def search_for_terms(log_title, workbook_title):
 
                     except Exception:
                         os.system('cls')
-                        CA.print_opening(version="3.0c")
+                        CA.print_opening(version=m2e_version)
                         print(status)
                         print("\n\t\033[91mWarning:\033[0m No file as file 2 selected!")
                         NSP.play_deny_sound() if system_sound_level >= 2 else None
@@ -631,7 +504,7 @@ def search_for_terms(log_title, workbook_title):
 
             if not breakoff:
                 os.system('cls')
-                CA.print_opening(version="3.0c")
+                CA.print_opening(version=m2e_version)
                 print(status)
                 print("\n\tPreparing comparison...")
                 unique_terms_1 = []
@@ -645,7 +518,7 @@ def search_for_terms(log_title, workbook_title):
                     term = terms_1[x]
                     progress = format(100 * ((x + 1) / number_of_terms_1), ".2f")
                     os.system('cls')
-                    CA.print_opening(version="3.0c")
+                    CA.print_opening(version=m2e_version)
                     print(status)
                     print("\n\t\33[94mComparing terms from file 1...\33[0m"
                           "\n\tCurrent term: " + str(term) + "\t\tProgress: \33[94m" + str(progress) + "%\33[0m")
@@ -658,7 +531,7 @@ def search_for_terms(log_title, workbook_title):
                 time.sleep(2)
 
                 os.system('cls')
-                CA.print_opening(version="3.0c")
+                CA.print_opening(version=m2e_version)
                 print(status)
                 print("\n\t\033[92mComparison of terms from file 1 finished!\033[0m")
                 print("\n\t", CA.measure_time(start_time, end_time, search=False, comparison=True))
@@ -672,7 +545,7 @@ def search_for_terms(log_title, workbook_title):
                     term = terms_2[x]
                     progress = format(100 * ((x + 1) / number_of_terms_2), ".2f")
                     os.system('cls')
-                    CA.print_opening(version="3.0c")
+                    CA.print_opening(version=m2e_version)
                     print(status)
                     print("\n\t\33[94mComparing terms from file 2...\33[0m"
                           "\n\tCurrent term: " + str(term) + "\t\tProgress: \33[94m" + str(progress) + "%\33[0m")
@@ -688,7 +561,7 @@ def search_for_terms(log_title, workbook_title):
                 common_terms = list(set(common_terms))
 
                 os.system('cls')
-                CA.print_opening(version="3.0c")
+                CA.print_opening(version=m2e_version)
                 print(status)
                 print("\n\t\033[92mComparison of terms from file 2 finished!\033[0m")
                 print("\n\t", CA.measure_time(start_time, end_time, search=False, comparison=True))
@@ -696,7 +569,7 @@ def search_for_terms(log_title, workbook_title):
                 input("\n\tType in anything to continue: ")
 
                 os.system('cls')
-                CA.print_opening(version="3.0c")
+                CA.print_opening(version=m2e_version)
                 print(status)
                 print("\n\t\033[92mComparing process finished!\033[0m")
                 print("\n\t\033[92mThe results were saved as an additional comparison excel file!\033[0m")
@@ -726,12 +599,12 @@ def search_for_terms(log_title, workbook_title):
                 comparison_counter += 1
 
                 os.system('cls')
-                CA.print_opening(version="3.0c")
+                CA.print_opening(version=m2e_version)
                 print(status)
                 print("\n\tReturning to main menu...")
             else:
                 os.system('cls')
-                CA.print_opening(version="3.0c")
+                CA.print_opening(version=m2e_version)
                 print(status)
                 print("\n\t\033[91mProcess cancelled!\033[0m"
                       "\n\tReturning to main menu...")
@@ -745,12 +618,13 @@ def search_for_terms(log_title, workbook_title):
             os.system('cls')
 
             # setting 1 (database version control center)
-            continue_with_settings = False
+            done_with_database_settings = False
+            next_setting = False
 
-            while not continue_with_settings:
+            while not done_with_database_settings:
 
                 os.system('cls')
-                CA.print_opening(version="3.0c")
+                CA.print_opening(version=m2e_version)
                 database_version_date = SDM.get_database_version_date()
                 database_version_description = SDM.get_database_version_description()
 
@@ -780,7 +654,7 @@ def search_for_terms(log_title, workbook_title):
                             database_version_date = SDM.get_database_version_date()
 
                             os.system('cls')
-                            CA.print_opening(version="3.0c")
+                            CA.print_opening(version=m2e_version)
                             print("\n\t\033[92mDownload completed sucessfully!\033[0m (" + str(current_size) +
                                   " MB)\n\tThe latest version of wikimorph is now installed on your device.")
                             NSP.play_request_sound() if system_sound_level >= 2 else None
@@ -861,295 +735,331 @@ def search_for_terms(log_title, workbook_title):
                         database_version_description = SDM.get_database_version_description()
                         database_version_date = SDM.get_database_version_date()
                         input()
-
+                elif i == "exit" or i == "exit1" or i == "exit!":
+                    print("\n\t\33[92mReturning to main menu...\33[0m")
+                    done_with_database_settings = True
+                    next_setting = False
+                    os.system('cls')
                 else:
                     print("\n\t\33[92mLoading further settings...\33[0m")
                     time.sleep(2)
-                    continue_with_settings = True
+                    done_with_database_settings = True
+                    next_setting = True
                     os.system('cls')
-            """
-            intro = "\033[33m\n\t~ Settings Menu ~" \
-                    "\n\t------------------------------------------------------------------------\033[0m" \
-                    "\n\n\t\33[33mNote:\33[0m\tFor the following settings there are different control mechanisms as " \
-                    "follows:" \
-                    "\n\n\t\tFor every setting there will be the respective options given." \
-                    "\n\t\tThe currently selected option will be marked with an \33[33marrow\33[0m." \
-                    "\n\t\tTo keep the currently selected option of a setting just press \33[92menter\33[0m." \
-                    "\n\t\tTo select another option please type in the given \33[92mnumber\33[0m." \
-                    "\n\n\t\tYou can press enter to start now."
-            print(intro)
-            input()
-            """
-            # setting 2 (term output diplomacy)
-            os.system('cls')
-            CA.display_settings(2, term_output_diplomacy)
-            i = input("\n\tType in the \33[33moption number\33[0m of the option you want to \33[33mchoose\33[0m or "
-                      "\n\tpress \33[92menter\33[0m to \33[92mcontinue\33[0m without making changes."
-                      "\n\n\tOption number: ")
-            if i == "1":
-                SDM.set_term_output_diplomacy(1)
-                term_output_diplomacy = SDM.get_term_output_diplomacy()
-                os.system('cls')
-                CA.display_settings_after_changes(2, term_output_diplomacy)
-                print("\033[92m" + "\n\tOnly found terms will be considered!\033[0m")
-                NSP.play_deny_sound() if system_sound_level == 3 else None
-                time.sleep(4)
-            elif i == "2":
-                SDM.set_term_output_diplomacy(2)
-                term_output_diplomacy = SDM.get_term_output_diplomacy()
-                os.system('cls')
-                CA.display_settings_after_changes(2, term_output_diplomacy)
-                print("\033[92m" + "\n\tOnly not found terms will be considered!\033[0m")
-                NSP.play_deny_sound() if system_sound_level == 3 else None
-                time.sleep(4)
-            elif i == "3":
-                SDM.set_term_output_diplomacy(3)
-                term_output_diplomacy = SDM.get_term_output_diplomacy()
-                os.system('cls')
-                CA.display_settings_after_changes(2, term_output_diplomacy)
-                print("\033[92m" + "\n\tAll terms will be considered!\033[0m")
-                NSP.play_deny_sound() if system_sound_level == 3 else None
-                time.sleep(4)
-            else:
-                print("\033[92m" + "\n\tPrevious setting will be kept!\033[0m")
-                time.sleep(2)
 
-            # setting 3 (Output format)
-            os.system('cls')
-            CA.display_settings(3, oneline_output_format)
-            i = input("\n\tType in the \33[33moption number\33[0m of the option you want to \33[33mchoose\33[0m or "
-                      "\n\tpress \33[92menter\33[0m to \33[92mcontinue\33[0m without making changes."
-                      "\n\n\tOption number: ")
-            if i == "1":
-                SDM.set_one_line_output(True)
-                oneline_output_format = SDM.get_one_line_output()
+            if next_setting:
+                # setting 2 (term output diplomacy)
                 os.system('cls')
-                CA.display_settings_after_changes(3, oneline_output_format)
-                print("\033[92m" + "\n\tOutput will be printed in one-line format!\033[0m")
-                NSP.play_deny_sound() if system_sound_level == 3 else None
-                time.sleep(4)
-            elif i == "2":
-                SDM.set_one_line_output(False)
-                oneline_output_format = SDM.get_one_line_output()
-                os.system('cls')
-                CA.display_settings_after_changes(3, oneline_output_format)
-                print("\033[92m" + "\n\tOutput will be printed in multi-line format!\033[0m")
-                NSP.play_deny_sound() if system_sound_level == 3 else None
-                time.sleep(4)
-            else:
-                print("\033[92m" + "\n\tPrevious setting will be kept!\033[0m")
-                time.sleep(2)
+                CA.display_settings(2, term_output_diplomacy)
+                i = input("\n\tType in the \33[33moption number\33[0m of the option you want to \33[33mchoose\33[0m or "
+                          "\n\tpress \33[92menter\33[0m to \33[92mcontinue\33[0m without making changes."
+                          "\n\tType in \33[91mexit!\33[0m to \33[91mreturn to main menu\33[0m."
+                          "\n\n\tOption number: ")
+                if i == "1":
+                    SDM.set_term_output_diplomacy("1")
+                    term_output_diplomacy = SDM.get_term_output_diplomacy()
+                    os.system('cls')
+                    CA.display_settings_after_changes(2, term_output_diplomacy)
+                    print("\033[92m" + "\n\tOnly found terms will be considered!\033[0m")
+                    NSP.play_deny_sound() if system_sound_level == 3 else None
+                    time.sleep(4)
+                elif i == "2":
+                    SDM.set_term_output_diplomacy("2")
+                    term_output_diplomacy = SDM.get_term_output_diplomacy()
+                    os.system('cls')
+                    CA.display_settings_after_changes(2, term_output_diplomacy)
+                    print("\033[92m" + "\n\tOnly not found terms will be considered!\033[0m")
+                    NSP.play_deny_sound() if system_sound_level == 3 else None
+                    time.sleep(4)
+                elif i == "3":
+                    SDM.set_term_output_diplomacy("3")
+                    term_output_diplomacy = SDM.get_term_output_diplomacy()
+                    os.system('cls')
+                    CA.display_settings_after_changes(2, term_output_diplomacy)
+                    print("\033[92m" + "\n\tAll terms will be considered!\033[0m")
+                    NSP.play_deny_sound() if system_sound_level == 3 else None
+                    time.sleep(4)
+                elif i == "exit" or i == "exit1" or i == "exit!":
+                    print("\n\t\33[92mReturning to main menu...\33[0m")
+                    done_with_database_settings = True
+                    next_setting = False
+                    os.system('cls')
+                else:
+                    print("\033[92m" + "\n\tPrevious setting will be kept!\033[0m")
+                    time.sleep(2)
 
-            # setting 4 (headline-printing)
-            os.system('cls')
-            CA.display_settings(4, headline_printing)
-            i = input("\n\tType in the \33[33moption number\33[0m of the option you want to \33[33mchoose\33[0m or "
-                      "\n\tpress \33[92menter\33[0m to \33[92mcontinue\33[0m without making changes."
-                      "\n\n\tOption number: ")
-            if i == "1":
-                SDM.set_headline_printing(1)
-                headline_printing = SDM.get_headline_printing()
+            if next_setting:
+                # setting 3 (Output format)
                 os.system('cls')
-                CA.display_settings_after_changes(4, headline_printing)
-                print("\033[92m" + "\n\tHeadline will be printed only at top of excel!\033[0m")
-                NSP.play_deny_sound() if system_sound_level == 3 else None
-                time.sleep(4)
-            elif i == "2":
-                SDM.set_headline_printing(2)
-                headline_printing = SDM.get_headline_printing()
-                os.system('cls')
-                CA.display_settings_after_changes(4, headline_printing)
-                print("\033[92m" + "\n\tHeadline will be printed for every new document in scan mode!\033[0m")
-                NSP.play_deny_sound() if system_sound_level == 3 else None
-                time.sleep(4)
-            elif i == "3":
-                SDM.set_headline_printing(3)
-                headline_printing = SDM.get_headline_printing()
-                os.system('cls')
-                CA.display_settings_after_changes(4, headline_printing)
-                print("\033[92m" + "\n\tHeadline will be printed for every new term!\033[0m")
-                NSP.play_deny_sound() if system_sound_level == 3 else None
-                time.sleep(4)
-            else:
-                print("\033[92m" + "\n\tPrevious setting will be kept!\033[0m")
-                time.sleep(2)
+                CA.display_settings(3, oneline_output_format)
+                i = input("\n\tType in the \33[33moption number\33[0m of the option you want to \33[33mchoose\33[0m or "
+                          "\n\tpress \33[92menter\33[0m to \33[92mcontinue\33[0m without making changes."
+                          "\n\tType in \33[91mexit!\33[0m to \33[91mreturn to main menu\33[0m."
+                          "\n\n\tOption number: ")
+                if i == "1":
+                    SDM.set_one_line_output(True)
+                    oneline_output_format = SDM.get_one_line_output()
+                    os.system('cls')
+                    CA.display_settings_after_changes(3, oneline_output_format)
+                    print("\033[92m" + "\n\tOutput will be printed in one-line format!\033[0m")
+                    NSP.play_deny_sound() if system_sound_level == 3 else None
+                    time.sleep(4)
+                elif i == "2":
+                    SDM.set_one_line_output(False)
+                    oneline_output_format = SDM.get_one_line_output()
+                    os.system('cls')
+                    CA.display_settings_after_changes(3, oneline_output_format)
+                    print("\033[92m" + "\n\tOutput will be printed in multi-line format!\033[0m")
+                    NSP.play_deny_sound() if system_sound_level == 3 else None
+                    time.sleep(4)
+                elif i == "exit" or i == "exit1" or i == "exit!":
+                    print("\n\t\33[92mReturning to main menu...\33[0m")
+                    done_with_database_settings = True
+                    next_setting = False
+                    os.system('cls')
+                else:
+                    print("\033[92m" + "\n\tPrevious setting will be kept!\033[0m")
+                    time.sleep(2)
 
-            # setting 5 (alphabetical output)
-            os.system('cls')
-            CA.display_settings(5, alphabetical_output, abc_output_ascending)
-            i = input("\n\tType in the \33[33moption number\33[0m of the option you want to \33[33mchoose\33[0m or "
-                      "\n\tpress \33[92menter\33[0m to \33[92mcontinue\33[0m without making changes."
-                      "\n\n\tOption number: ")
-            if i == "1":
-                SDM.set_alphabetical_output(abc=True, asc=True)
-                alphabetical_output, abc_output_ascending = SDM.get_alphabetical_output()
+            if next_setting:
+                # setting 4 (headline-printing)
                 os.system('cls')
-                CA.display_settings_after_changes(5, alphabetical_output, abc_output_ascending)
-                print("\033[92m" + "\n\tOutput will be structured in ascending alphabetical order!\033[0m")
-                NSP.play_deny_sound() if system_sound_level == 3 else None
-                time.sleep(4)
-            elif i == "2":
-                SDM.set_alphabetical_output(abc=True, asc=False)
-                alphabetical_output, abc_output_ascending = SDM.get_alphabetical_output()
-                os.system('cls')
-                CA.display_settings_after_changes(5, alphabetical_output, abc_output_ascending)
-                print("\033[92m" + "\n\tOutput will be structured in descending alphabetical order!\033[0m")
-                NSP.play_deny_sound() if system_sound_level == 3 else None
-                time.sleep(4)
-            elif i == "3":
-                SDM.set_alphabetical_output(abc=False, asc=False)
-                alphabetical_output, abc_output_ascending = SDM.get_alphabetical_output()
-                os.system('cls')
-                CA.display_settings_after_changes(5, alphabetical_output, abc_output_ascending)
-                print("\033[92m" + "\n\tOutput will not be structured at all!\033[0m")
-                NSP.play_deny_sound() if system_sound_level == 3 else None
-                time.sleep(4)
-            else:
-                print("\033[92m" + "\n\tPrevious setting will be kept!\033[0m")
-                time.sleep(2)
+                CA.display_settings(4, headline_printing)
+                i = input("\n\tType in the \33[33moption number\33[0m of the option you want to \33[33mchoose\33[0m or "
+                          "\n\tpress \33[92menter\33[0m to \33[92mcontinue\33[0m without making changes."
+                          "\n\tType in \33[91mexit!\33[0m to \33[91mreturn to main menu\33[0m."
+                          "\n\n\tOption number: ")
+                if i == "1":
+                    SDM.set_headline_printing("1")
+                    headline_printing = SDM.get_headline_printing()
+                    os.system('cls')
+                    CA.display_settings_after_changes(4, headline_printing)
+                    print("\033[92m" + "\n\tHeadline will be printed only at top of excel!\033[0m")
+                    NSP.play_deny_sound() if system_sound_level == 3 else None
+                    time.sleep(4)
+                elif i == "2":
+                    SDM.set_headline_printing("2")
+                    headline_printing = SDM.get_headline_printing()
+                    os.system('cls')
+                    CA.display_settings_after_changes(4, headline_printing)
+                    print("\033[92m" + "\n\tHeadline will be printed for every new document in scan mode!\033[0m")
+                    NSP.play_deny_sound() if system_sound_level == 3 else None
+                    time.sleep(4)
+                elif i == "3":
+                    SDM.set_headline_printing("3")
+                    headline_printing = SDM.get_headline_printing()
+                    os.system('cls')
+                    CA.display_settings_after_changes(4, headline_printing)
+                    print("\033[92m" + "\n\tHeadline will be printed for every new term!\033[0m")
+                    NSP.play_deny_sound() if system_sound_level == 3 else None
+                    time.sleep(4)
+                elif i == "exit" or i == "exit1" or i == "exit!":
+                    print("\n\t\33[92mReturning to main menu...\33[0m")
+                    done_with_database_settings = True
+                    next_setting = False
+                    os.system('cls')
+                else:
+                    print("\033[92m" + "\n\tPrevious setting will be kept!\033[0m")
+                    time.sleep(2)
 
-            # setting 6 (auto scan filters)
-            os.system('cls')
-            CA.display_settings(6, auto_scan_filters)
-            i = input("\n\tType in the \33[33moption number\33[0m of the option you want to \33[33mchoose\33[0m or "
-                      "\n\tpress \33[92menter\33[0m to \33[92mcontinue\33[0m without making changes."
-                      "\n\n\tOption number: ")
+            if next_setting:
+                # setting 5 (alphabetical output)
+                os.system('cls')
+                CA.display_settings(5, alphabetical_output, abc_output_ascending)
+                i = input("\n\tType in the \33[33moption number\33[0m of the option you want to \33[33mchoose\33[0m or "
+                          "\n\tpress \33[92menter\33[0m to \33[92mcontinue\33[0m without making changes."
+                          "\n\tType in \33[91mexit!\33[0m to \33[91mreturn to main menu\33[0m."
+                          "\n\n\tOption number: ")
+                if i == "1":
+                    SDM.set_alphabetical_output(abc=True, asc=True)
+                    alphabetical_output, abc_output_ascending = SDM.get_alphabetical_output()
+                    os.system('cls')
+                    CA.display_settings_after_changes(5, alphabetical_output, abc_output_ascending)
+                    print("\033[92m" + "\n\tOutput will be structured in ascending alphabetical order!\033[0m")
+                    NSP.play_deny_sound() if system_sound_level == 3 else None
+                    time.sleep(4)
+                elif i == "2":
+                    SDM.set_alphabetical_output(abc=True, asc=False)
+                    alphabetical_output, abc_output_ascending = SDM.get_alphabetical_output()
+                    os.system('cls')
+                    CA.display_settings_after_changes(5, alphabetical_output, abc_output_ascending)
+                    print("\033[92m" + "\n\tOutput will be structured in descending alphabetical order!\033[0m")
+                    NSP.play_deny_sound() if system_sound_level == 3 else None
+                    time.sleep(4)
+                elif i == "3":
+                    SDM.set_alphabetical_output(abc=False, asc=False)
+                    alphabetical_output, abc_output_ascending = SDM.get_alphabetical_output()
+                    os.system('cls')
+                    CA.display_settings_after_changes(5, alphabetical_output, abc_output_ascending)
+                    print("\033[92m" + "\n\tOutput will not be structured at all!\033[0m")
+                    NSP.play_deny_sound() if system_sound_level == 3 else None
+                    time.sleep(4)
+                elif i == "exit" or i == "exit1" or i == "exit!":
+                    print("\n\t\33[92mreturning to main menu...\33[0m")
+                    done_with_database_settings = True
+                    next_setting = False
+                    os.system('cls')
+                else:
+                    print("\033[92m" + "\n\tPrevious setting will be kept!\033[0m")
+                    time.sleep(2)
 
-            if i == "1":
-                SDM.set_auto_scan_filters("Noun")
-                auto_scan_filters = SDM.get_auto_scan_filters()
+            if next_setting:
+                # setting 6 (auto scan filters)
                 os.system('cls')
-                CA.display_settings_after_changes(6, auto_scan_filters)
-                print("\033[92m" + '\n\t"Noun" is set as pos filter now!\033[0m')
-                NSP.play_deny_sound() if system_sound_level == 3 else None
-                time.sleep(4)
-            elif i == "2":
-                SDM.set_auto_scan_filters("Verb")
-                auto_scan_filters = SDM.get_auto_scan_filters()
-                os.system('cls')
-                CA.display_settings_after_changes(6, auto_scan_filters)
-                print("\033[92m" + '\n\t"Verb" is set as pos filter now!\033[0m')
-                NSP.play_deny_sound() if system_sound_level == 3 else None
-                time.sleep(4)
-            elif i == "3":
-                SDM.set_auto_scan_filters("Adjective")
-                auto_scan_filters = SDM.get_auto_scan_filters()
-                os.system('cls')
-                CA.display_settings_after_changes(6, auto_scan_filters)
-                print("\033[92m" + '\n\t"Adjective" is set as pos filter now!\033[0m')
-                NSP.play_deny_sound() if system_sound_level == 3 else None
-                time.sleep(4)
-            elif i == "4":
-                SDM.set_auto_scan_filters("Adverb")
-                auto_scan_filters = SDM.get_auto_scan_filters()
-                os.system('cls')
-                CA.display_settings_after_changes(6, auto_scan_filters)
-                print("\033[92m" + '\n\t"Adverb" is set as pos filter now!\033[0m')
-                NSP.play_deny_sound() if system_sound_level == 3 else None
-                time.sleep(4)
-            elif i == "5":
-                SDM.set_auto_scan_filters("Preposition")
-                auto_scan_filters = SDM.get_auto_scan_filters()
-                os.system('cls')
-                CA.display_settings_after_changes(6, auto_scan_filters)
-                print("\033[92m" + '\n\t"Preposition" is set as pos filter now!\033[0m')
-                NSP.play_deny_sound() if system_sound_level == 3 else None
-                time.sleep(4)
-            elif i == "6":
-                SDM.set_auto_scan_filters("Phrase")
-                auto_scan_filters = SDM.get_auto_scan_filters()
-                os.system('cls')
-                CA.display_settings_after_changes(6, auto_scan_filters)
-                print("\033[92m" + '\n\t"Phrase" is set as pos filter now!\033[0m')
-                NSP.play_deny_sound() if system_sound_level == 3 else None
-                time.sleep(4)
-            elif i == "7":
-                SDM.set_auto_scan_filters("Noun,Verb,Adjective,Adverb,Preposition,Phrase")
-                auto_scan_filters = SDM.get_auto_scan_filters()
-                os.system('cls')
-                CA.display_settings_after_changes(6, auto_scan_filters)
-                print("\033[92m" + '\n\tAll pos types will be considered now!\033[0m')
-                NSP.play_deny_sound() if system_sound_level == 3 else None
-                time.sleep(4)
-            else:
-                print("\033[92m" + "\n\tPrevious setting will be kept!\033[0m")
-                time.sleep(2)
+                CA.display_settings(6, auto_scan_filters)
+                i = input("\n\tType in the \33[33moption number\33[0m of the option you want to \33[33mchoose\33[0m or "
+                          "\n\tpress \33[92menter\33[0m to \33[92mcontinue\33[0m without making changes."
+                          "\n\tType in \33[91mexit!\33[0m to \33[91mreturn to main menu\33[0m."
+                          "\n\n\tOption number: ")
 
-            # setting 7 (output detail level)
-            os.system('cls')
-            CA.display_settings(7, output_detail_level)
-            i = input("\n\tType in the \33[33moption number\33[0m of the option you want to \33[33mchoose\33[0m or "
-                      "\n\tpress \33[92menter\33[0m to \33[92mcontinue\33[0m without making changes."
-                      "\n\n\tOption number: ")
-            if i == "1":
-                SDM.set_output_detail_level(1)
-                output_detail_level = SDM.get_output_detail_level()
-                os.system('cls')
-                CA.display_settings_after_changes(7, output_detail_level)
-                print("\033[92m" + "\n\tOutput will cover term data only!\033[0m")
-                NSP.play_deny_sound() if system_sound_level == 3 else None
-                time.sleep(4)
-            elif i == "2":
-                SDM.set_output_detail_level(2)
-                output_detail_level = SDM.get_output_detail_level()
-                os.system('cls')
-                CA.display_settings_after_changes(7, output_detail_level)
-                print("\033[92m" + "\n\tOutput will cover term data and morphology data!\033[0m")
-                NSP.play_deny_sound() if system_sound_level == 3 else None
-                time.sleep(4)
-            elif i == "3":
-                SDM.set_output_detail_level(3)
-                output_detail_level = SDM.get_output_detail_level()
-                os.system('cls')
-                CA.display_settings_after_changes(7, output_detail_level)
-                print("\033[92m" + "\n\tOutput will cover all data information!\033[0m")
-                NSP.play_deny_sound() if system_sound_level == 3 else None
-                time.sleep(4)
-            else:
-                print("\033[92m" + "\n\tPrevious setting will be kept!\033[0m")
-                time.sleep(2)
+                if i == "1":
+                    SDM.set_auto_scan_filters("Noun")
+                    auto_scan_filters = SDM.get_auto_scan_filters()
+                    os.system('cls')
+                    CA.display_settings_after_changes(6, auto_scan_filters)
+                    print("\033[92m" + '\n\t"Noun" is set as pos filter now!\033[0m')
+                    NSP.play_deny_sound() if system_sound_level == 3 else None
+                    time.sleep(4)
+                elif i == "2":
+                    SDM.set_auto_scan_filters("Verb")
+                    auto_scan_filters = SDM.get_auto_scan_filters()
+                    os.system('cls')
+                    CA.display_settings_after_changes(6, auto_scan_filters)
+                    print("\033[92m" + '\n\t"Verb" is set as pos filter now!\033[0m')
+                    NSP.play_deny_sound() if system_sound_level == 3 else None
+                    time.sleep(4)
+                elif i == "3":
+                    SDM.set_auto_scan_filters("Adjective")
+                    auto_scan_filters = SDM.get_auto_scan_filters()
+                    os.system('cls')
+                    CA.display_settings_after_changes(6, auto_scan_filters)
+                    print("\033[92m" + '\n\t"Adjective" is set as pos filter now!\033[0m')
+                    NSP.play_deny_sound() if system_sound_level == 3 else None
+                    time.sleep(4)
+                elif i == "4":
+                    SDM.set_auto_scan_filters("Adverb")
+                    auto_scan_filters = SDM.get_auto_scan_filters()
+                    os.system('cls')
+                    CA.display_settings_after_changes(6, auto_scan_filters)
+                    print("\033[92m" + '\n\t"Adverb" is set as pos filter now!\033[0m')
+                    NSP.play_deny_sound() if system_sound_level == 3 else None
+                    time.sleep(4)
+                elif i == "5":
+                    SDM.set_auto_scan_filters("Preposition")
+                    auto_scan_filters = SDM.get_auto_scan_filters()
+                    os.system('cls')
+                    CA.display_settings_after_changes(6, auto_scan_filters)
+                    print("\033[92m" + '\n\t"Preposition" is set as pos filter now!\033[0m')
+                    NSP.play_deny_sound() if system_sound_level == 3 else None
+                    time.sleep(4)
+                elif i == "6":
+                    SDM.set_auto_scan_filters("Phrase")
+                    auto_scan_filters = SDM.get_auto_scan_filters()
+                    os.system('cls')
+                    CA.display_settings_after_changes(6, auto_scan_filters)
+                    print("\033[92m" + '\n\t"Phrase" is set as pos filter now!\033[0m')
+                    NSP.play_deny_sound() if system_sound_level == 3 else None
+                    time.sleep(4)
+                elif i == "7":
+                    SDM.set_auto_scan_filters("Noun,Verb,Adjective,Adverb,Preposition,Phrase")
+                    auto_scan_filters = SDM.get_auto_scan_filters()
+                    os.system('cls')
+                    CA.display_settings_after_changes(6, auto_scan_filters)
+                    print("\033[92m" + '\n\tAll pos types will be considered now!\033[0m')
+                    NSP.play_deny_sound() if system_sound_level == 3 else None
+                    time.sleep(4)
+                elif i == "exit" or i == "exit1" or i == "exit!":
+                    print("\n\t\33[92mreturning to main menu...\33[0m")
+                    done_with_database_settings = True
+                    next_setting = False
+                    os.system('cls')
+                else:
+                    print("\033[92m" + "\n\tPrevious setting will be kept!\033[0m")
+                    time.sleep(2)
 
-            # setting 8 (system sound level)
-            os.system('cls')
-            CA.display_settings(8, system_sound_level)
-            i = input("\n\tType in the \33[33moption number\33[0m of the option you want to \33[33mchoose\33[0m or "
-                      "\n\tpress \33[92menter\33[0m to \33[92mcontinue\33[0m without making changes."
-                      "\n\n\tOption number: ")
-            if i == "1":
-                SDM.set_system_sound_level(1)
-                system_sound_level = SDM.get_system_sound_level()
+            if next_setting:
+                # setting 7 (output detail level)
                 os.system('cls')
-                CA.display_settings_after_changes(8, system_sound_level)
-                print("\033[92m" + "\n\tNo sounds will be played!\033[0m")
-                NSP.play_deny_sound() if system_sound_level == 3 else None
-                time.sleep(4)
-            elif i == "2":
-                SDM.set_system_sound_level(2)
-                system_sound_level = SDM.get_system_sound_level()
+                CA.display_settings(7, output_detail_level)
+                i = input("\n\tType in the \33[33moption number\33[0m of the option you want to \33[33mchoose\33[0m or "
+                          "\n\tpress \33[92menter\33[0m to \33[92mcontinue\33[0m without making changes."
+                          "\n\tType in \33[91mexit!\33[0m to \33[91mreturn to main menu\33[0m."
+                          "\n\n\tOption number: ")
+                if i == "1":
+                    SDM.set_output_detail_level("1")
+                    output_detail_level = SDM.get_output_detail_level()
+                    os.system('cls')
+                    CA.display_settings_after_changes(7, output_detail_level)
+                    print("\033[92m" + "\n\tOutput will cover term data only!\033[0m")
+                    NSP.play_deny_sound() if system_sound_level == 3 else None
+                    time.sleep(4)
+                elif i == "2":
+                    SDM.set_output_detail_level("2")
+                    output_detail_level = SDM.get_output_detail_level()
+                    os.system('cls')
+                    CA.display_settings_after_changes(7, output_detail_level)
+                    print("\033[92m" + "\n\tOutput will cover term data and morphology data!\033[0m")
+                    NSP.play_deny_sound() if system_sound_level == 3 else None
+                    time.sleep(4)
+                elif i == "3":
+                    SDM.set_output_detail_level("3")
+                    output_detail_level = SDM.get_output_detail_level()
+                    os.system('cls')
+                    CA.display_settings_after_changes(7, output_detail_level)
+                    print("\033[92m" + "\n\tOutput will cover all data information!\033[0m")
+                    NSP.play_deny_sound() if system_sound_level == 3 else None
+                    time.sleep(4)
+                elif i == "exit" or i == "exit1" or i == "exit!":
+                    print("\n\t\33[92mreturning to main menu...\33[0m")
+                    done_with_database_settings = True
+                    next_setting = False
+                    os.system('cls')
+                else:
+                    print("\033[92m" + "\n\tPrevious setting will be kept!\033[0m")
+                    time.sleep(2)
+
+            if next_setting:
+                # setting 8 (system sound level)
                 os.system('cls')
-                CA.display_settings_after_changes(8, system_sound_level)
-                print("\033[92m" + "\n\tOnly notifications sounds will be played!\033[0m")
-                NSP.play_deny_sound() if system_sound_level == 3 else None
-                time.sleep(4)
-            elif i == "3":
-                SDM.set_system_sound_level(3)
-                system_sound_level = SDM.get_system_sound_level()
-                os.system('cls')
-                CA.display_settings_after_changes(8, system_sound_level)
-                print("\033[92m" + "\n\tNotification sounds and user feedback audio will be played!"
-                                   "\033[0m")
-                NSP.play_deny_sound() if system_sound_level == 3 else None
-                time.sleep(4)
-            else:
-                print("\033[92m" + "\n\tPrevious setting will be kept!\033[0m")
-                time.sleep(2)
+                CA.display_settings(8, system_sound_level)
+                i = input("\n\tType in the \33[33moption number\33[0m of the option you want to \33[33mchoose\33[0m or "
+                          "\n\tpress \33[92menter\33[0m to \33[92mreturn to main menu\33[0m without making changes."
+                          "\n\n\tOption number: ")
+                if i == "1":
+                    SDM.set_system_sound_level("1")
+                    system_sound_level = SDM.get_system_sound_level()
+                    os.system('cls')
+                    CA.display_settings_after_changes(8, system_sound_level)
+                    print("\033[92m" + "\n\tNo sounds will be played!\033[0m")
+                    NSP.play_deny_sound() if system_sound_level == 3 else None
+                    time.sleep(4)
+                elif i == "2":
+                    SDM.set_system_sound_level("2")
+                    system_sound_level = SDM.get_system_sound_level()
+                    os.system('cls')
+                    CA.display_settings_after_changes(8, system_sound_level)
+                    print("\033[92m" + "\n\tOnly notifications sounds will be played!\033[0m")
+                    NSP.play_deny_sound() if system_sound_level == 3 else None
+                    time.sleep(4)
+                elif i == "3":
+                    SDM.set_system_sound_level("3")
+                    system_sound_level = SDM.get_system_sound_level()
+                    os.system('cls')
+                    CA.display_settings_after_changes(8, system_sound_level)
+                    print("\033[92m" + "\n\tNotification sounds and user feedback audio will be played!"
+                                       "\033[0m")
+                    NSP.play_deny_sound() if system_sound_level == 3 else None
+                    time.sleep(4)
+                else:
+                    print("\033[92m" + "\n\tPrevious setting will be kept!\033[0m")
+                    time.sleep(2)
 
             os.system('cls')
-            CA.print_opening(version="3.0c")
+            CA.print_opening(version=m2e_version)
             outro = "\033[33m\n\t~ Settings Menu ~" \
                     "\n\t----------------------------------------------------------------\033[0m" \
                     "\033[92m" + "\n\n\tNew configurations were saved!" + "\033[0m" \
-                                                                          "\n\n\tReturning to main menu..."
+                    "\n\n\tReturning to main menu..."
             print(outro)
             NSP.play_deny_sound() if system_sound_level >= 2 else None
             time.sleep(4)
@@ -1175,7 +1085,7 @@ def search_for_terms(log_title, workbook_title):
                             if not x == len(splitted_input) - 1:
                                 pos_filters += ","
                         os.system('cls')
-                        CA.print_opening(version="3.0c")
+                        CA.print_opening(version=m2e_version)
                         CA.print_manual_search_headline()
                         print('\n\tSearching for term \33[33m' + term + '\33[0m '
                                                                         'with pos tag \33[33m(' + pos_filters + ')\33[0m...')
@@ -1184,7 +1094,7 @@ def search_for_terms(log_title, workbook_title):
                         pos_filters = "Noun, Verb, Adjective, Adverb, Preposition, Phrase"
                         term = i
                         os.system('cls')
-                        CA.print_opening(version="3.0c")
+                        CA.print_opening(version=m2e_version)
                         CA.print_manual_search_headline()
                         print('\n\tSearching for term \33[33m' + term + '\33[0m ...')
                         time.sleep(2)
@@ -1235,7 +1145,7 @@ def search_for_terms(log_title, workbook_title):
                     workbook.save(workbook_title)
 
                     os.system('cls')
-                    CA.print_opening(version="3.0c")
+                    CA.print_opening(version=m2e_version)
                     CA.print_manual_search_headline()
                     print("\033[92m" + "\n\tDone!" + "\033[0m")
                     time.sleep(1)
@@ -1248,9 +1158,78 @@ def search_for_terms(log_title, workbook_title):
                 print_main_menu_again = True
                 input()
 
+# Program Start ----------------------------------------------------------------------------------------------
 
-NSP.play_start_sound() if system_sound_level >= 2 else None
-CA.print_opening(version="3.0c")
+NSP.play_start_sound()
+
+CA.print_opening(version=m2e_version)
+time.sleep(2)
+print("\n\tLoading components...")
+time.sleep(2)
+try:
+    if SDM.get_first_start():
+        set_system_variables_to_default()
+        SDM.set_first_start(False)
+    else:
+        pass
+except Exception:
+    pass
+# the problem with accessing first start will be solved in next exception handling
+
+
+try:
+    database_version_date = SDM.get_database_version_date()
+    database_version_description = SDM.get_database_version_description()
+
+    first_start = SDM.get_first_start()
+    term_output_diplomacy = SDM.get_term_output_diplomacy()
+    oneline_output_format = SDM.get_one_line_output()
+    headline_printing = SDM.get_headline_printing()
+    alphabetical_output, abc_output_ascending = SDM.get_alphabetical_output()
+    auto_scan_filters = SDM.get_auto_scan_filters()
+    output_detail_level = SDM.get_output_detail_level()
+    system_sound_level = SDM.get_system_sound_level()
+
+except Exception:
+    os.system("cls")
+    CA.print_opening(version=m2e_version)
+    print("\n\t\33[91mWarning: fatal system error detected!\33[0m")
+    print("\n\tThis may be due to a problem with the savedata file.")
+    time.sleep(3)
+    print("\n\t\33[33mAll system variables will be set to default to solve the issue...\33[0m")
+    set_system_variables_to_default()
+    time.sleep(3)
+    os.system("cls")
+    CA.print_opening(version=m2e_version)
+    print("\n\t\33[91mWarning: fatal system error detected!\33[0m")
+    print("\n\tThis may be due to a problem with the savedata file.")
+    print("\n\t\33[33mRetrying accessing data...\33[0m")
+    time.sleep(3)
+
+    try:
+        database_version_date = SDM.get_database_version_date()
+        database_version_description = SDM.get_database_version_description()
+
+        first_start = SDM.get_first_start()
+        term_output_diplomacy = SDM.get_term_output_diplomacy()
+        oneline_output_format = SDM.get_one_line_output()
+        headline_printing = SDM.get_headline_printing()
+        alphabetical_output, abc_output_ascending = SDM.get_alphabetical_output()
+        auto_scan_filters = SDM.get_auto_scan_filters()
+        output_detail_level = SDM.get_output_detail_level()
+        system_sound_level = SDM.get_system_sound_level()
+
+    except Exception:
+        os.system("cls")
+        CA.print_opening(version=m2e_version)
+        print("\n\t\33[91mWarning: fatal system error detected!\33[0m")
+        print("\n\tThis may be due to a problem with the savedata file.")
+        print("\n\t\33[91mUnfortunately the problem still remains. The program cannot be started so far.\33[0m"
+              "\n\tPlease contact the developer for help:"
+              "\n\n\t\33[92m" + supporter + "\n\t" + support_email + "\33[0m")
+        time.sleep(3)
+        print("\n\tYou can press \33[92menter\33[0m now to exit the program.")
+
 check_database_installation()
 
 formatted_date = CA.get_datetime()
