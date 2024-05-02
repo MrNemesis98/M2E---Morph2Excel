@@ -423,28 +423,22 @@ def show_version_description():
     print("\n\t\33[95m2)\33[0m There is also a new settings mode, "
           "\n\t\tin which you can adjust several system variables. "
           "\n\t\tMost of them relate to the output. Changes will be saved on the flow."
-          "\n\n\t\tIn total there are seven variables to change:"
-          "\n\t\t\t1. Automatic Update Control"
-          "\n\t\t\t2. Term Output Diplomacy"
-          "\n\t\t\t3. Output Line Format"
-          "\n\t\t\t4. Headline Printing Control"
-          "\n\t\t\t5. Alphabetical Output Formation"
-          "\n\t\t\t6. Automatic Scan Filters"
-          "\n\t\t\t7. Output Detail Level Control"
-          "\n\n\t\tFor every setting there are a description and the respective options given.")
+          "\n\t\tFor every setting there are a description and the respective options given."
+          "\n\t\tFurthermore there is a new database version control center integrated in the settings,"
+          "\n\t\tthat allows you to manage your installed version of the wikimorph database.")
     time.sleep(.25)
-    print("\n\t\33[95m3)\33[0m There is a new notification sound which informs you about a finished process like: "
-          "\n\t\t1. Loading the database or the main menu."
-          "\n\t\t2. Saving results from auto scan mode."
-          "\n\t\t3. Saving results from comparison mode."
-          "\n\t\t4. Saving changes in settings mode."
-          "\n\t\t5. ...")
+    print("\n\t\33[95m3)\33[0m Four different notification sounds were integrated as audio feedback."
+          "\n\t\t1) A sound for program launch and main menu, "
+          "\n\t\t2) a sound for signaling the request of an user interaction,"
+          "\n\t\t3) as well as sounds for negative and positive audio feedback."
+          "\n\t\tThese sounds can be limited or deactivated in the settings menu.")
     time.sleep(.25)
     print("\n\t\33[95m4)\33[0m The system menus were revised."
           "\n\t\t1. Better structure and new color schemes."
           "\n\t\t2. A new overview of the current system settings for the main menu was added.")
     time.sleep(.25)
-    print("\n\n\tYou can type in any character to return to main menu.")
+    print("\n\n\tFor more information have a look at the instructions / manual."
+          "\n\tPress \33[92menter\33[0m to return to main menu.")
 
 
 def print_headlines(worksheet, excel_row, output_detail_level):
