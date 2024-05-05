@@ -60,7 +60,7 @@ elapsed_minutes = int(elapsed_time_seconds // 60)
 elapsed_seconds = int(elapsed_time_seconds % 60)
 elapsed_seconds_formatted = "{:02d}".format(elapsed_seconds)
 print(f"Die Suche dauerte {elapsed_minutes} Minuten und {elapsed_seconds} Sekunden.")
-"""
+
 import subprocess
 import webbrowser
 import os
@@ -80,7 +80,7 @@ os.system(path)
 
 import os
 
-"""
+
 current_directory = os.getcwd()
 print(current_directory)
 

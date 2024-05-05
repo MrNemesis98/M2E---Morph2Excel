@@ -184,7 +184,7 @@ def print_main_menu(version):
     ]
 
     # printing main menu ------------------------------------------------------
-    os.system('cls')
+    # os.system('cls')
     print_opening(m2e_version)
     print(headline)
     print(progress[0])
@@ -193,7 +193,7 @@ def print_main_menu(version):
 
     for lines in range(len(menu_monochrom_display)):
 
-        os.system('cls')
+        # os.system('cls')
         print_opening(m2e_version)
         print(headline)
         print(progress[lines+1])
@@ -201,7 +201,7 @@ def print_main_menu(version):
             print(menu_monochrom_display[l])
         time.sleep(.05)
 
-    os.system('cls')
+    # os.system('cls')
     print_opening(m2e_version)
     print(headline)
     print(progress[0])
@@ -405,39 +405,39 @@ def show_instructions():
 def show_version_description():
     os.system('cls')
     print_opening(version=m2e_version)
-    print("\033[95m" + "\n\t~ What´s new in version 2024.0c? ~" + "\033[0m"
+    print("\033[95m" + "\n\t~ What´s new in version 2024.0 ? ~" + "\033[0m"
           "\n\t\033[95m[----------------------------------------------------------------------]\033[0m")
     NSP.play_accept_sound() if SDM.get_system_sound_level() == 3 else None
     time.sleep(1.5)
-    print("\n\t\33[95m1)\33[0m There is a new comparison mode, "
+    print("\n\t\33[95m1)\33[0m There is a new \33[95mcomparison mode\33[0m, "
           "\n\t\twhich allows you to select two excel files in the directory. "
           "\n\t\tThe first column of these files will be scanned and for every term, "
           "\n\t\tM2E will determine, in which of the files the term occurs."
           "\n\t\tThe results of this comparison will not be saved in the standard output_excel file,"
           "\n\t\tbut in an additional comparison_results excel file in the same folder,"
           "\n\t\tas described in the instructions."
-          "\n\n\t\t\033[33m" + "Note:" + "\033[0m The program will ignore the first column of your excel files, "
+          "\n\n\t\t\033[33m" + "Note:" + "\033[0m The program will ignore the first row of your excel files, "
           "\n\t\tsince headlines should not be taken into account."
           "\n\t\tAccordingly please take care if your terms do not start with the second row!")
     time.sleep(.25)
-    print("\n\t\33[95m2)\33[0m There is also a new settings mode, "
+    print("\n\t\33[95m2)\33[0m There is also a new \33[95msettings mode\33[0m, "
           "\n\t\tin which you can adjust several system variables. "
           "\n\t\tMost of them relate to the output. Changes will be saved on the flow."
           "\n\t\tFor every setting there are a description and the respective options given."
-          "\n\t\tFurthermore there is a new database version control center integrated in the settings,"
+          "\n\t\tFurthermore there is a new \33[95mdatabase version control center\33[0m integrated in the settings,"
           "\n\t\tthat allows you to manage your installed version of the wikimorph database.")
     time.sleep(.25)
-    print("\n\t\33[95m3)\33[0m Four different notification sounds were integrated as audio feedback."
-          "\n\t\t1) A sound for program launch and main menu, "
-          "\n\t\t2) a sound for signaling the request of an user interaction,"
+    print("\n\t\33[95m3)\33[0m Four different \33[95msystem sounds\33[0m were integrated."
+          "\n\t\t1) A notification sound for program launch and main menu, "
+          "\n\t\t2) an audio signal for the request of an user interaction,"
           "\n\t\t3) as well as sounds for negative and positive audio feedback."
           "\n\t\tThese sounds can be limited or deactivated in the settings menu.")
     time.sleep(.25)
     print("\n\t\33[95m4)\33[0m The system menus were revised."
-          "\n\t\t1. Better structure and new color schemes."
-          "\n\t\t2. A new overview of the current system settings for the main menu was added.")
+          "\n\t\t1. Better structure and new \33[95mcolor schemes\33[0m in the menus."
+          "\n\t\t2. A new \33[95moverview of the current system settings\33[0m for the main menu was added.")
     time.sleep(.25)
-    print("\n\n\tFor more information have a look at the instructions / manual."
+    print("\n\n\tFor more information have a look at the \33[94minstructions / user manual\33[0m of this version."
           "\n\tPress \33[92menter\33[0m to return to main menu.")
 
 
