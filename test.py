@@ -68,16 +68,19 @@ import os
 # subprocess.Popen(["r'file:./src/data/Externals/MEDEL_Report.pdf"], shell=True)
 # webbrowser.open_new("./src/data/Externals/MEDEL_Report.pdf")
 import os
-
+"""
+import os
+import savedata_manager as SDM
 # Get the current working directory
 current_directory = os.getcwd()
 print(current_directory)
-instructions_pdf_path = r"\src\data\Externals\M2E_v3.0c_EAP_Handbook.pdf"
+instructions_pdf_path = SDM.get_manpath()
 path = current_directory + instructions_pdf_path
 # path = os.path.join(os.getcwd(), instructions_pdf_path)
-print(path)
 os.system(path)
 
+
+"""
 import os
 
 

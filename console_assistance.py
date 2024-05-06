@@ -379,19 +379,21 @@ def show_instructions():
     print("\n\t\033[92m~ Instructions ~\033[0m"
           "\n\t\033[92m[----------------------------------------------------------------------]\033[0m")
     NSP.play_accept_sound() if SDM.get_system_sound_level() == 3 else None
+
     time.sleep(.5)
+
     print("\n\t\033[33m" + "\n\tOpening PDF Handbook...\n" + "\033[0m")
     time.sleep(1)
     try:
         current_directory = os.getcwd()
-        instructions_pdf_path = r"src\data\Externals\M2E_v3.0c_EAP_Handbook.pdf"
-        # path = current_directory + instructions_pdf_path
-        os.system(instructions_pdf_path)
+        manual_file_path = SDM.get_manpath()
+        path = current_directory + manual_file_path
+        os.system(path)
     except Exception:
         print("\n\t\033[91mWarning:\033[0m The program was not able to open the handbook file "
               "due to problems with the source path!"
               'You can find the respective file under '
-              '\033[33msrc/data/Externals/M2E_v3.0c_EAP_Handbook.pdf\033[0m and open it manually.')
+              '\033[33msrc/data/Externals/\33[0m and open it manually.')
         input("\n\n\tType in any character to return to main menu: ")
         os.system('cls')
     os.system('cls')

@@ -13,6 +13,7 @@ current_size = int((database_data_list[1])[2:])
 soll_size = int((database_data_list[2])[5:])
 database_version_date = (database_data_list[3].split(":")[1])
 database_version_description = (database_data_list[4].split(":")[1])
+manual_file_path = (database_data_list[5].split(":")[1])
 
 
 def update_database_data():
@@ -21,6 +22,7 @@ def update_database_data():
     global soll_size
     global database_version_date
     global database_version_description
+    global manual_file_path
 
     # Save data from other sectors before overwriting
     sd = open("src/data/savedata.txt", "r")
@@ -35,6 +37,7 @@ def update_database_data():
             "/soll:" + str(soll_size) +
             "/date:" + str(database_version_date) +
             "/scritto:" + str(database_version_description) +
+            "/manpath:" + str(manual_file_path) +
             "/\n" +
             system_data)
     sd.write(text)
@@ -98,6 +101,11 @@ def get_database_version_as_text():
         return "\t1) Wikimorph Version:\t\tversion from " + database_version_date
 
 
+def get_manpath():
+    global manual_file_path
+    return str(manual_file_path)
+
+
 # Sector 2: Manage system variables for console.py and GUI settings ----------------------------------------------------
 system_data = data[1]
 variables_list = system_data.split('/')
@@ -123,6 +131,7 @@ def update_system_data():
     global auto_scan_filters
     global output_detail_level
     global system_sound_level
+    global manual_file_name
 
     # Save data from other sectors before overwriting
     sd = open("src/data/savedata.txt", "r")
@@ -136,11 +145,11 @@ def update_system_data():
            "/tod:" + str(term_output_diplomacy) +
            "/onel:" + str(one_line_output) +
            "/hdlp:" + str(headline_printing) +
-           "/" + str(alphabetical_output[0]) + ":" + alphabetical_output[1] +
+           "/" + str(alphabetical_output[0]) + ":" + str(alphabetical_output[1]) +
            "/asf:" + str(auto_scan_filters) +
            "/odlvl:" + str(output_detail_level) +
-           "/ssl:" + str(system_sound_level)) +
-           "/\n")
+           "/ssl:" + str(system_sound_level) +
+           "/\n"))
     sd.write(text)
     sd.close()
 
@@ -319,4 +328,3 @@ def set_system_sound_level(ssl):
     global system_sound_level
     system_sound_level = ssl
     update_system_data()
-
