@@ -10,6 +10,8 @@ print("\033[96m<- Old!\033[0m df")  # cyan / türkis
 print("\033[38;5;130m<- Old!\033[0m df")  # braun
 print("\033[97m<- Old!\033[0m df")  # neon weiß
 """
+import os
+
 """
 import pygetwindow as gw
 
@@ -33,7 +35,7 @@ set_console_window_size(800, 600)
 import time
 import sys
 
-text = '\n\tI)  For \033[38;5;130mAutomatic scan mode\033[0m type \033[38;5;130ms!\033[0m instead of a term.'
+# text = '\n\tI)  For \033[38;5;130mAutomatic scan mode\033[0m type \033[38;5;130ms!\033[0m instead of a term.'
 
 for char in text:
     sys.stdout.write(char)
@@ -69,31 +71,23 @@ import os
 # webbrowser.open_new("./src/data/Externals/MEDEL_Report.pdf")
 import os
 """
-import os
+import os, time
 import savedata_manager as SDM
+
 # Get the current working directory
-current_directory = os.getcwd()
-print(current_directory)
-instructions_pdf_path = SDM.get_manpath()
-path = current_directory + instructions_pdf_path
-# path = os.path.join(os.getcwd(), instructions_pdf_path)
-os.system(path)
-
-
-"""
-import os
-
-
-current_directory = os.getcwd()
-print(current_directory)
-
-# Fügen Sie doppelte Anführungszeichen um den Dateipfad hinzu
-command = f'"{path}"'
-os.system(command)
-
-current_directory = os.getcwd()
+# current_directory = os.getcwd()
 # print(current_directory)
-# path = os.path.join(current_directory, r"src\data\Externals\M2E_v3.0c_EAP_Handbook.pdf")
-path = 'M2E_v3.0c_EAP_Handbook.pdf'
-subprocess.Popen([path], shell=True)
-"""
+# instructions_pdf_path = SDM.get_manpath()
+# path = current_directory + instructions_pdf_path
+# path = os.path.join(os.getcwd(), instructions_pdf_path)
+# os.system(path)
+
+print("\n\t\033[33m" + "\n\tOpening PDF Handbook...\n" + "\033[0m")
+# absolute_path = os.getcwd() + r"\src\data\Externals"
+absolute_path = r"C:\Users\tillp\Desktop\M2E 2024.0\src\data\Externals"
+if " " in absolute_path:
+    absolute_path = absolute_path.replace(" ", "%20")
+relative_path = SDM.get_manpath()
+print("\t\33[33mPath:\33[0m " + absolute_path + relative_path)
+time.sleep(1)
+os.system(absolute_path+relative_path)

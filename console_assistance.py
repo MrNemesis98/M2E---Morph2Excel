@@ -383,13 +383,18 @@ def show_instructions():
     time.sleep(.5)
 
     print("\n\t\033[33m" + "\n\tOpening PDF Handbook...\n" + "\033[0m")
+    absolute_path = os.getcwd() + r"\src\data\Externals"
+    if " " in absolute_path:
+        absolute_path = absolute_path.replace(" ", "%20")
+    relative_path = SDM.get_manpath()
+    if " " in relative_path:
+        relative_path = relative_path.replace(" ", "%20")
+    print("\t\33[33mPath:\33[0m " + absolute_path + relative_path)
     time.sleep(1)
     try:
-        current_directory = os.getcwd()
-        manual_file_path = SDM.get_manpath()
-        path = current_directory + manual_file_path
-        os.system(path)
-    except Exception:
+        os.system(absolute_path+relative_path)
+        input("\n\tPress \33[92menter\33[0m to return to main menu.")
+    except FileNotFoundError or Exception:
         print("\n\t\033[91mWarning:\033[0m The program was not able to open the handbook file "
               "due to problems with the source path!"
               'You can find the respective file under '
@@ -401,7 +406,7 @@ def show_instructions():
     print("\n\t\033[92m~ Instructions ~\033[0m"
           "\n\t\033[92m[----------------------------------------------------------------------]\033[0m")
     print("\n\tReturning to main menu...")
-    time.sleep(1)
+    time.sleep(.5)
 
 
 def show_version_description():
