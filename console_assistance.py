@@ -506,7 +506,7 @@ def print_headlines(worksheet, excel_row, output_detail_level):
 
 def search_and_output(worksheet, excel_row, pos_filters, term, entries_list,
                       only_found_terms, only_not_found_terms, multiline_output, output_detail_level,
-                      headline_printing, hap):
+                      headline_printing, hdlp_start, hdlp_doc):
 
     pos_filters = pos_filters.split(",")
 
@@ -538,13 +538,22 @@ def search_and_output(worksheet, excel_row, pos_filters, term, entries_list,
         if entry["Word"] == term and entry["PoS"] in pos_filters:
             found_entries += 1
 
-    if found_entries != 0 and not only_not_found_terms:
-        if headline_printing == 3 and not hap:
-            worksheet, excel_row = print_headlines(worksheet, excel_row, output_detail_level)
+    if found_entries != 0 and not only_not_found_terms:     # Term gefunden und gefundene Terms sollen gedruckt werden
+        if headline_printing == 3:                          # Term-Überschrift angeordnet
+            if not hdlp_start and not hdlp_doc:             # keine Tabellen- oder Dokumentüberschrift voraus?
+                worksheet, excel_row = print_headlines(worksheet, excel_row, output_detail_level)
+            else:
+                hdlp_start = False
+                hdlp_doc = False
         print_term()
-    elif found_entries == 0 and not only_found_terms:
-        if headline_printing == 3 and not hap:
-            worksheet, excel_row = print_headlines(worksheet, excel_row, output_detail_level)
+
+    elif found_entries == 0 and not only_found_terms:       # Term nicht gefunden, soll aber gedruckt werden
+        if headline_printing == 3:                          # Term-Überschrift angeordnet
+            if not hdlp_start and not hdlp_doc:             # keine Tabellen- oder Dokumentüberschrift voraus?
+                worksheet, excel_row = print_headlines(worksheet, excel_row, output_detail_level)
+            else:
+                hdlp_start = False
+                hdlp_doc = False
         print_term()
 
     found_entries = 0
@@ -796,7 +805,7 @@ def search_and_output(worksheet, excel_row, pos_filters, term, entries_list,
                             "\n\tEntries found: " + str(found_entries) + "\n"
         final_output += output
 
-    return worksheet, excel_row, log_output
+    return worksheet, excel_row, log_output, hdlp_start, hdlp_doc
 
 
 def select_excel_file():

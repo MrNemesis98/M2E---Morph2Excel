@@ -11,9 +11,14 @@ import savedata_manager as SDM
 import notification_sound_player as NSP
 
 # system variables
-headline_already_printed = False
+workbook = None
+worksheet = None
+workbook_title = None
+hdlp_start = False
+hdlp_doc = False
 comparison_counter = 1
 tip_need_counter = 0
+excel_row = 0
 entries_list = None
 database_is_installed = False
 
@@ -107,14 +112,37 @@ def check_database_installation():
         database_is_installed = True
 
 
-def search_for_terms(log_title, workbook_title):
-    global headline_already_printed
-    global comparison_counter
-    global tip_need_counter
-    global entries_list
-    global database_is_installed
-    print_main_menu_again = True
+# preparing worksheet with first (general) headline
+def prepare_worksheet():
+    global workbook
+    global worksheet
+    global workbook_title
+    global excel_row
+    global hdlp_start
+    global formatted_date
 
+    workbook_title = CA.create_excel(fd=formatted_date)
+    excel_row = 1
+    workbook = load_workbook(workbook_title)
+    worksheet = workbook.active
+    worksheet, excel_row = CA.print_headlines(worksheet, excel_row, output_detail_level)
+    hdlp_start = True
+
+    return workbook, worksheet, excel_row, hdlp_start
+
+
+def search_for_terms(log_title):
+    # Excel file variables
+    global workbook
+    global worksheet
+    global excel_row
+    global entries_list
+    global comparison_counter
+    global hdlp_start
+    global hdlp_doc
+
+    # System variables
+    global database_is_installed
     global database_version_date
     global database_version_description
     global term_output_diplomacy
@@ -125,18 +153,17 @@ def search_for_terms(log_title, workbook_title):
     global auto_scan_filters
     global output_detail_level
     global system_sound_level
+    global tip_need_counter
 
+    worksheet_generated = False
     open_excel_automatically = False
     comparison_workbooks = []
+    print_main_menu_again = True
 
     if database_is_installed:
         entries_list = CA.load_database()
 
-    # search function
     stop = False
-    excel_row = 1
-    workbook = load_workbook(workbook_title)
-    worksheet = workbook.active
 
     while not stop:
 
@@ -188,11 +215,11 @@ def search_for_terms(log_title, workbook_title):
         # AUTOMATIC SCAN MODE ------------------------------------------------------------------------------------------
         elif i == "s!":
 
-            if CA.database_installation_confirmed():
+            if not worksheet_generated:
+                workbook, worksheet, excel_row, hdlp_start = prepare_worksheet()
+                worksheet_generated = True
 
-                if excel_row == 1:
-                    worksheet, excel_row = CA.print_headlines(worksheet, excel_row, output_detail_level)
-                    headline_already_printed = True
+            if CA.database_installation_confirmed():
 
                 open_excel_automatically = True
                 os.system('cls')
@@ -232,7 +259,8 @@ def search_for_terms(log_title, workbook_title):
                         time.sleep(3)
                         if not invalid_cases == [] and len(invalid_cases) <= 10:
                             print("\n\t\033[91mWarning:\033[0m Scanned file contains terms that are invalid inputs!"
-                                  "\n\n\tFor searching within the wikimorph database the following terms will be ignored:"
+                                  "\n\n\tFor searching within the wikimorph database "
+                                  "the following terms will be ignored:"
                                   "\n\t\t", str(invalid_cases))
                             NSP.play_deny_sound() if system_sound_level >= 2 else None
                         elif not invalid_cases == [] and len(invalid_cases) > 10:
@@ -240,7 +268,8 @@ def search_for_terms(log_title, workbook_title):
                                   "\n\n\tThese terms will be ignored for searching within the wikimorph database."
                                   "\n\tThe amount of invalid terms is too large to be displayed here.")
                             NSP.play_deny_sound() if system_sound_level >= 2 else None
-                        i = input("\n\tPress \033[92menter\033[0m or type in anything to \033[92mstart\033[0m the search. "
+                        i = input("\n\tPress \033[92menter\033[0m or type in anything to "
+                                  "\033[92mstart\033[0m the search. "
                                   '\n\tType in \033[33mfile!\033[0m to select a different file.'
                                   '\n\tType in \033[91mexit!\033[0m to cancel the automatic search.'
                                   '\n\n\ta'
@@ -272,12 +301,17 @@ def search_for_terms(log_title, workbook_title):
                     NSP.play_accept_sound() if system_sound_level == 3 else None
                     time.sleep(3)
 
-                    # for preventing double headline printing at the beginning of the Excel
-                    # only executes the "for every new doc" headline printing
-                    # the headline printing for every term in case hlp == 3 is defined below
-                    if headline_printing == 2 and not headline_already_printed:
-                        worksheet, excel_row = CA.print_headlines(worksheet, excel_row, output_detail_level)
-                        headline_already_printed = True
+                    # for preventing double headline printing either at the beginning of the Excel
+                    # (conflict with hdlp_start) or before every term (in case hdlp=3)
+                    # only executes the "for every new doc" headline printing (hdlp=2)
+                    # the headline printing for every term (hdlp=3) is defined below in the basic search section and
+                    # in the search_and_output function of console_assistance.py
+                    if headline_printing == 2:
+                        if not hdlp_start:
+                            worksheet, excel_row = CA.print_headlines(worksheet, excel_row, output_detail_level)
+                            hdlp_doc = True
+                        else:
+                            hdlp_start = False
 
                     start_time = time.time()
                     log = open(log_title, "a", encoding="utf-8")
@@ -289,21 +323,23 @@ def search_for_terms(log_title, workbook_title):
                             CA.print_opening(version=m2e_version)
                             print(status)
                             print("\n\t\033[38;5;130mSearching for terms...\033[0m"
-                                  "\n\tCurrent term: " + term + "\t\tProgress: \33[38;5;130m" + str(progress) + "%\33[0m")
+                                  "\n\tCurrent term: " + term +
+                                  "\t\tProgress: \33[38;5;130m" + str(progress) + "%\33[0m")
 
-                            worksheet, excel_row, log_output = CA.search_and_output(worksheet=worksheet,
-                                                                                    excel_row=excel_row,
-                                                                                    pos_filters=auto_scan_filters,
-                                                                                    term=term,
-                                                                                    entries_list=entries_list,
-                                                                                    only_found_terms=True,
-                                                                                    only_not_found_terms=False,
-                                                                                    multiline_output=not oneline_output_format,
-                                                                                    output_detail_level=output_detail_level,
-                                                                                    headline_printing=headline_printing,
-                                                                                    hap=headline_already_printed)
+                            worksheet, excel_row, log_output, \
+                                hdlp_start, hdlp_doc = CA.search_and_output(worksheet=worksheet,
+                                                                            excel_row=excel_row,
+                                                                            pos_filters=auto_scan_filters,
+                                                                            term=term,
+                                                                            entries_list=entries_list,
+                                                                            only_found_terms=True,
+                                                                            only_not_found_terms=False,
+                                                                            multiline_output=not oneline_output_format,
+                                                                            output_detail_level=output_detail_level,
+                                                                            headline_printing=headline_printing,
+                                                                            hdlp_start=hdlp_start,
+                                                                            hdlp_doc=hdlp_doc)
                             log.write("\n\n" + log_output)
-                            headline_already_printed = False
                             time.sleep(.1)
 
                     elif term_output_diplomacy == 2:
@@ -316,19 +352,20 @@ def search_for_terms(log_title, workbook_title):
                             print("\n\t\033[38;5;130mSearching for terms...\033[0m"
                                   "\n\tCurrent term: " + term + "\t\tProgress: \33[38;5;130m" + str(progress) + "%\33[0m")
 
-                            worksheet, excel_row, log_output = CA.search_and_output(worksheet=worksheet,
-                                                                                    excel_row=excel_row,
-                                                                                    pos_filters=auto_scan_filters,
-                                                                                    term=term,
-                                                                                    entries_list=entries_list,
-                                                                                    only_found_terms=False,
-                                                                                    only_not_found_terms=True,
-                                                                                    multiline_output=not oneline_output_format,
-                                                                                    output_detail_level=output_detail_level,
-                                                                                    headline_printing=headline_printing,
-                                                                                    hap=headline_already_printed)
+                            worksheet, excel_row, log_output, \
+                                hdlp_start, hdlp_doc = CA.search_and_output(worksheet=worksheet,
+                                                                            excel_row=excel_row,
+                                                                            pos_filters=auto_scan_filters,
+                                                                            term=term,
+                                                                            entries_list=entries_list,
+                                                                            only_found_terms=False,
+                                                                            only_not_found_terms=True,
+                                                                            multiline_output=not oneline_output_format,
+                                                                            output_detail_level=output_detail_level,
+                                                                            headline_printing=headline_printing,
+                                                                            hdlp_start=hdlp_start,
+                                                                            hdlp_doc=hdlp_doc)
                             log.write("\n\n" + log_output)
-                            headline_already_printed = False
                             time.sleep(.1)
 
                     else:
@@ -341,19 +378,20 @@ def search_for_terms(log_title, workbook_title):
                             print("\n\t\033[38;5;130mSearching for terms...\033[0m"
                                   "\n\tCurrent term: " + term + "\t\tProgress: \33[38;5;130m" + str(progress) + "%\33[0m")
 
-                            worksheet, excel_row, log_output = CA.search_and_output(worksheet=worksheet,
-                                                                                    excel_row=excel_row,
-                                                                                    pos_filters=auto_scan_filters,
-                                                                                    term=term,
-                                                                                    entries_list=entries_list,
-                                                                                    only_found_terms=False,
-                                                                                    only_not_found_terms=False,
-                                                                                    multiline_output=not oneline_output_format,
-                                                                                    output_detail_level=output_detail_level,
-                                                                                    headline_printing=headline_printing,
-                                                                                    hap=headline_already_printed)
+                            worksheet, excel_row, log_output, \
+                                hdlp_start, hdlp_doc = CA.search_and_output(worksheet=worksheet,
+                                                                            excel_row=excel_row,
+                                                                            pos_filters=auto_scan_filters,
+                                                                            term=term,
+                                                                            entries_list=entries_list,
+                                                                            only_found_terms=False,
+                                                                            only_not_found_terms=False,
+                                                                            multiline_output=not oneline_output_format,
+                                                                            output_detail_level=output_detail_level,
+                                                                            headline_printing=headline_printing,
+                                                                            hdlp_start=hdlp_start,
+                                                                            hdlp_doc=hdlp_doc)
                             log.write("\n\n" + log_output)
-                            headline_already_printed = False
                             time.sleep(.1)
 
                     log.close()
@@ -432,7 +470,6 @@ def search_for_terms(log_title, workbook_title):
                               '\n\n\tanswer: ')
                     if i == "exit!":
                         excel_file_1_selected = True
-                        excel_file_2_selected = True
                         breakoff = True
                     elif i == "file!":
                         os.system('cls')
@@ -658,7 +695,8 @@ def search_for_terms(log_title, workbook_title):
                             print("\n\t\033[92mDownload completed sucessfully!\033[0m (" + str(current_size) +
                                   " MB)\n\tThe latest version of wikimorph is now installed on your device.")
                             NSP.play_request_sound() if system_sound_level >= 2 else None
-                            print("\n\t\33[33mNote:\33[0m The version you just installed will be marked with its installation date"
+                            print("\n\t\33[33mNote:\33[0m "
+                                  "The version you just installed will be marked with its installation date"
                                   " as an identifier. \n\tBack in the settings menu you can add a short description "
                                   "\n\tfor additional information to the new installed version. "
                                   "\n\tThis is not mandatory and a description can also be added later or changed "
@@ -781,7 +819,6 @@ def search_for_terms(log_title, workbook_title):
                     time.sleep(4)
                 elif i == "exit" or i == "exit1" or i == "exit!":
                     print("\n\t\33[92mReturning to main menu...\33[0m")
-                    done_with_database_settings = True
                     next_setting = False
                     os.system('cls')
                 else:
@@ -814,7 +851,6 @@ def search_for_terms(log_title, workbook_title):
                     time.sleep(4)
                 elif i == "exit" or i == "exit1" or i == "exit!":
                     print("\n\t\33[92mReturning to main menu...\33[0m")
-                    done_with_database_settings = True
                     next_setting = False
                     os.system('cls')
                 else:
@@ -855,7 +891,6 @@ def search_for_terms(log_title, workbook_title):
                     time.sleep(4)
                 elif i == "exit" or i == "exit1" or i == "exit!":
                     print("\n\t\33[92mReturning to main menu...\33[0m")
-                    done_with_database_settings = True
                     next_setting = False
                     os.system('cls')
                 else:
@@ -896,7 +931,6 @@ def search_for_terms(log_title, workbook_title):
                     time.sleep(4)
                 elif i == "exit" or i == "exit1" or i == "exit!":
                     print("\n\t\33[92mreturning to main menu...\33[0m")
-                    done_with_database_settings = True
                     next_setting = False
                     os.system('cls')
                 else:
@@ -970,7 +1004,6 @@ def search_for_terms(log_title, workbook_title):
                     time.sleep(4)
                 elif i == "exit" or i == "exit1" or i == "exit!":
                     print("\n\t\33[92mreturning to main menu...\33[0m")
-                    done_with_database_settings = True
                     next_setting = False
                     os.system('cls')
                 else:
@@ -1011,7 +1044,6 @@ def search_for_terms(log_title, workbook_title):
                     time.sleep(4)
                 elif i == "exit" or i == "exit1" or i == "exit!":
                     print("\n\t\33[92mreturning to main menu...\33[0m")
-                    done_with_database_settings = True
                     next_setting = False
                     os.system('cls')
                 else:
@@ -1071,9 +1103,9 @@ def search_for_terms(log_title, workbook_title):
 
                 if CA.is_valid_input(i):
 
-                    if excel_row == 1:
-                        worksheet, excel_row = CA.print_headlines(worksheet, excel_row, output_detail_level)
-                        headline_already_printed = True
+                    if not worksheet_generated:
+                        workbook, worksheet, excel_row, hdlp_start = prepare_worksheet()
+                        worksheet_generated = True
 
                     open_excel_automatically = True
                     if ":" in i:
@@ -1098,42 +1130,49 @@ def search_for_terms(log_title, workbook_title):
                         CA.print_manual_search_headline()
                         print('\n\tSearching for term \33[33m' + term + '\33[0m ...')
                         time.sleep(2)
+
                     if term_output_diplomacy == 1:
-                        worksheet, excel_row, log_output = CA.search_and_output(worksheet=worksheet,
-                                                                                excel_row=excel_row,
-                                                                                pos_filters=pos_filters,
-                                                                                term=term,
-                                                                                entries_list=entries_list,
-                                                                                only_found_terms=True,
-                                                                                only_not_found_terms=False,
-                                                                                multiline_output=not oneline_output_format,
-                                                                                output_detail_level=output_detail_level,
-                                                                                headline_printing=headline_printing,
-                                                                                hap=headline_already_printed)
+                        worksheet, excel_row, log_output, \
+                            hdlp_start, hdlp_doc = CA.search_and_output(worksheet=worksheet,
+                                                                        excel_row=excel_row,
+                                                                        pos_filters=pos_filters,
+                                                                        term=term,
+                                                                        entries_list=entries_list,
+                                                                        only_found_terms=True,
+                                                                        only_not_found_terms=False,
+                                                                        multiline_output=not oneline_output_format,
+                                                                        output_detail_level=output_detail_level,
+                                                                        headline_printing=headline_printing,
+                                                                        hdlp_start=hdlp_start,
+                                                                        hdlp_doc=hdlp_doc)
                     elif term_output_diplomacy == 2:
-                        worksheet, excel_row, log_output = CA.search_and_output(worksheet=worksheet,
-                                                                                excel_row=excel_row,
-                                                                                pos_filters=pos_filters,
-                                                                                term=term,
-                                                                                entries_list=entries_list,
-                                                                                only_found_terms=False,
-                                                                                only_not_found_terms=True,
-                                                                                multiline_output=not oneline_output_format,
-                                                                                output_detail_level=output_detail_level,
-                                                                                headline_printing=headline_printing,
-                                                                                hap=headline_already_printed)
+                        worksheet, excel_row, log_output, \
+                            hdlp_start, hdlp_doc = CA.search_and_output(worksheet=worksheet,
+                                                                        excel_row=excel_row,
+                                                                        pos_filters=pos_filters,
+                                                                        term=term,
+                                                                        entries_list=entries_list,
+                                                                        only_found_terms=False,
+                                                                        only_not_found_terms=True,
+                                                                        multiline_output=not oneline_output_format,
+                                                                        output_detail_level=output_detail_level,
+                                                                        headline_printing=headline_printing,
+                                                                        hdlp_start=hdlp_start,
+                                                                        hdlp_doc=hdlp_doc)
                     else:
-                        worksheet, excel_row, log_output = CA.search_and_output(worksheet=worksheet,
-                                                                                excel_row=excel_row,
-                                                                                pos_filters=pos_filters,
-                                                                                term=term,
-                                                                                entries_list=entries_list,
-                                                                                only_found_terms=False,
-                                                                                only_not_found_terms=False,
-                                                                                multiline_output=not oneline_output_format,
-                                                                                output_detail_level=output_detail_level,
-                                                                                headline_printing=headline_printing,
-                                                                                hap=headline_already_printed)
+                        worksheet, excel_row, log_output, \
+                            hdlp_start, hdlp_doc = CA.search_and_output(worksheet=worksheet,
+                                                                        excel_row=excel_row,
+                                                                        pos_filters=pos_filters,
+                                                                        term=term,
+                                                                        entries_list=entries_list,
+                                                                        only_found_terms=False,
+                                                                        only_not_found_terms=False,
+                                                                        multiline_output=not oneline_output_format,
+                                                                        output_detail_level=output_detail_level,
+                                                                        headline_printing=headline_printing,
+                                                                        hdlp_start=hdlp_start,
+                                                                        hdlp_doc=hdlp_doc)
 
                     print("\n\t\33[33mSaving results...\33[0m")
                     NSP.play_deny_sound() if system_sound_level >= 2 else None
@@ -1235,6 +1274,5 @@ check_database_installation()
 formatted_date = CA.get_datetime()
 
 log_name = CA.create_logfile(fd=formatted_date)
-wb_name = CA.create_excel(fd=formatted_date)
 
-search_for_terms(log_name, wb_name)
+search_for_terms(log_name)
