@@ -531,7 +531,7 @@ def search_and_output(worksheet, excel_row, pos_filters, term, entries_list,
 
     # Begin writing term to Excel file ---------------------------------------------------------------------------------
 
-    # print control in dependency of chosen 3 way output option
+    # print control in dependency of chosen 3 way output option plus headline printing management
     found_entries = 0
     for x in range(len(entries_list)):
         entry = entries_list[x]
