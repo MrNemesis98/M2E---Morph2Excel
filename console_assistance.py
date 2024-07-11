@@ -546,6 +546,9 @@ def search_and_output(worksheet, excel_row, pos_filters, term, entries_list,
                 hdlp_start = False
                 hdlp_doc = False
         print_term()
+        if headline_printing == 2:                          # Überschrift für Dokumente im AS wieder
+            hdlp_start = False                              # freigeben, nachdem ein erster Term gedruckt wurde
+            hdlp_doc = False
 
     elif found_entries == 0 and not only_found_terms:       # Term nicht gefunden, soll aber gedruckt werden
         if headline_printing == 3:                          # Term-Überschrift angeordnet
@@ -555,6 +558,9 @@ def search_and_output(worksheet, excel_row, pos_filters, term, entries_list,
                 hdlp_start = False
                 hdlp_doc = False
         print_term()
+        if headline_printing == 2:                          # Überschrift für Dokumente im AS wieder
+            hdlp_start = False                              # freigeben, nachdem ein erster Term gedruckt wurde
+            hdlp_doc = False
 
     found_entries = 0
 
