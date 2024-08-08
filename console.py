@@ -7,6 +7,7 @@ import datetime
 from openpyxl import load_workbook
 
 import console_assistance as CA
+import console_assistance_test as CA_test
 import savedata_manager as SDM
 import notification_sound_player as NSP
 
@@ -327,7 +328,7 @@ def search_for_terms(log_title):
                                   "\t\tProgress: \33[38;5;130m" + str(progress) + "%\33[0m")
 
                             worksheet, excel_row, log_output, \
-                                hdlp_start, hdlp_doc = CA.search_and_output(worksheet=worksheet,
+                                hdlp_start, hdlp_doc = CA_test.search_and_output(worksheet=worksheet,
                                                                             excel_row=excel_row,
                                                                             pos_filters=auto_scan_filters,
                                                                             term=term,
@@ -353,7 +354,7 @@ def search_for_terms(log_title):
                                   "\n\tCurrent term: " + term + "\t\tProgress: \33[38;5;130m" + str(progress) + "%\33[0m")
 
                             worksheet, excel_row, log_output, \
-                                hdlp_start, hdlp_doc = CA.search_and_output(worksheet=worksheet,
+                                hdlp_start, hdlp_doc = CA_test.search_and_output(worksheet=worksheet,
                                                                             excel_row=excel_row,
                                                                             pos_filters=auto_scan_filters,
                                                                             term=term,
@@ -379,7 +380,7 @@ def search_for_terms(log_title):
                                   "\n\tCurrent term: " + term + "\t\tProgress: \33[38;5;130m" + str(progress) + "%\33[0m")
 
                             worksheet, excel_row, log_output, \
-                                hdlp_start, hdlp_doc = CA.search_and_output(worksheet=worksheet,
+                                hdlp_start, hdlp_doc = CA_test.search_and_output(worksheet=worksheet,
                                                                             excel_row=excel_row,
                                                                             pos_filters=auto_scan_filters,
                                                                             term=term,
@@ -1115,7 +1116,7 @@ def search_for_terms(log_title):
                         for x in range(1, len(splitted_input)):
                             pos_filters += str(splitted_input[x])
                             if not x == len(splitted_input) - 1:
-                                pos_filters += ","
+                                pos_filters += ", "
                         os.system('cls')
                         CA.print_opening(version=m2e_version)
                         CA.print_manual_search_headline()
@@ -1133,7 +1134,7 @@ def search_for_terms(log_title):
 
                     if term_output_diplomacy == 1:
                         worksheet, excel_row, log_output, \
-                            hdlp_start, hdlp_doc = CA.search_and_output(worksheet=worksheet,
+                            hdlp_start, hdlp_doc = CA_test.search_and_output(worksheet=worksheet,
                                                                         excel_row=excel_row,
                                                                         pos_filters=pos_filters,
                                                                         term=term,
@@ -1147,7 +1148,7 @@ def search_for_terms(log_title):
                                                                         hdlp_doc=hdlp_doc)
                     elif term_output_diplomacy == 2:
                         worksheet, excel_row, log_output, \
-                            hdlp_start, hdlp_doc = CA.search_and_output(worksheet=worksheet,
+                            hdlp_start, hdlp_doc = CA_test.search_and_output(worksheet=worksheet,
                                                                         excel_row=excel_row,
                                                                         pos_filters=pos_filters,
                                                                         term=term,
@@ -1161,7 +1162,7 @@ def search_for_terms(log_title):
                                                                         hdlp_doc=hdlp_doc)
                     else:
                         worksheet, excel_row, log_output, \
-                            hdlp_start, hdlp_doc = CA.search_and_output(worksheet=worksheet,
+                            hdlp_start, hdlp_doc = CA_test.search_and_output(worksheet=worksheet,
                                                                         excel_row=excel_row,
                                                                         pos_filters=pos_filters,
                                                                         term=term,
