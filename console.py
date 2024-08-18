@@ -46,7 +46,7 @@ def set_system_variables_to_default():
     SDM.set_one_line_output(True)
     SDM.set_headline_printing("2")
     SDM.set_alphabetical_output(True, True)
-    SDM.set_auto_scan_filters("Noun,Verb,Adjective,Adverb,Preposition,Phrase")
+    SDM.set_auto_scan_filters("Noun, Verb, Adjective, Adverb, Preposition, Phrase")
     SDM.set_output_detail_level("3")
     SDM.set_system_sound_level("3")
 
@@ -328,7 +328,7 @@ def search_for_terms(log_title):
                                   "\t\tProgress: \33[38;5;130m" + str(progress) + "%\33[0m")
 
                             worksheet, excel_row, log_output, \
-                                hdlp_start, hdlp_doc = CA_test.search_and_output(worksheet=worksheet,
+                                hdlp_start, hdlp_doc = CA.search_and_output(worksheet=worksheet,
                                                                             excel_row=excel_row,
                                                                             pos_filters=auto_scan_filters,
                                                                             term=term,
@@ -354,7 +354,7 @@ def search_for_terms(log_title):
                                   "\n\tCurrent term: " + term + "\t\tProgress: \33[38;5;130m" + str(progress) + "%\33[0m")
 
                             worksheet, excel_row, log_output, \
-                                hdlp_start, hdlp_doc = CA_test.search_and_output(worksheet=worksheet,
+                                hdlp_start, hdlp_doc = CA.search_and_output(worksheet=worksheet,
                                                                             excel_row=excel_row,
                                                                             pos_filters=auto_scan_filters,
                                                                             term=term,
@@ -380,7 +380,7 @@ def search_for_terms(log_title):
                                   "\n\tCurrent term: " + term + "\t\tProgress: \33[38;5;130m" + str(progress) + "%\33[0m")
 
                             worksheet, excel_row, log_output, \
-                                hdlp_start, hdlp_doc = CA_test.search_and_output(worksheet=worksheet,
+                                hdlp_start, hdlp_doc = CA.search_and_output(worksheet=worksheet,
                                                                             excel_row=excel_row,
                                                                             pos_filters=auto_scan_filters,
                                                                             term=term,
@@ -996,7 +996,7 @@ def search_for_terms(log_title):
                     NSP.play_deny_sound() if system_sound_level == 3 else None
                     time.sleep(4)
                 elif i == "7":
-                    SDM.set_auto_scan_filters("Noun,Verb,Adjective,Adverb,Preposition,Phrase")
+                    SDM.set_auto_scan_filters("Noun, Verb, Adjective, Adverb, Preposition, Phrase")
                     auto_scan_filters = SDM.get_auto_scan_filters()
                     os.system('cls')
                     CA.display_settings_after_changes(6, auto_scan_filters)
@@ -1114,7 +1114,7 @@ def search_for_terms(log_title):
                         term = splitted_input[0]
                         pos_filters = ""
                         for x in range(1, len(splitted_input)):
-                            pos_filters += str(splitted_input[x])
+                            pos_filters += str(splitted_input[x]).capitalize()
                             if not x == len(splitted_input) - 1:
                                 pos_filters += ", "
                         os.system('cls')
@@ -1134,7 +1134,7 @@ def search_for_terms(log_title):
 
                     if term_output_diplomacy == 1:
                         worksheet, excel_row, log_output, \
-                            hdlp_start, hdlp_doc = CA_test.search_and_output(worksheet=worksheet,
+                            hdlp_start, hdlp_doc = CA.search_and_output(worksheet=worksheet,
                                                                         excel_row=excel_row,
                                                                         pos_filters=pos_filters,
                                                                         term=term,
@@ -1148,7 +1148,7 @@ def search_for_terms(log_title):
                                                                         hdlp_doc=hdlp_doc)
                     elif term_output_diplomacy == 2:
                         worksheet, excel_row, log_output, \
-                            hdlp_start, hdlp_doc = CA_test.search_and_output(worksheet=worksheet,
+                            hdlp_start, hdlp_doc = CA.search_and_output(worksheet=worksheet,
                                                                         excel_row=excel_row,
                                                                         pos_filters=pos_filters,
                                                                         term=term,
@@ -1162,7 +1162,7 @@ def search_for_terms(log_title):
                                                                         hdlp_doc=hdlp_doc)
                     else:
                         worksheet, excel_row, log_output, \
-                            hdlp_start, hdlp_doc = CA_test.search_and_output(worksheet=worksheet,
+                            hdlp_start, hdlp_doc = CA.search_and_output(worksheet=worksheet,
                                                                         excel_row=excel_row,
                                                                         pos_filters=pos_filters,
                                                                         term=term,

@@ -245,7 +245,7 @@ def get_alphabetical_output_as_text():
     elif abc and not asc:
         return "\t5) Alphabetical Output:\t\talphabetical, descending"
     else:
-        return "\n\t5) Alphabetical Output:\t\tnon-alphabetical"
+        return "\t5) Alphabetical Output:\t\tnon-alphabetical"
 
 
 def set_alphabetical_output(abc, asc):
@@ -275,7 +275,7 @@ def get_auto_scan_filters_as_text():
         return "\t6) Auto Scan PoS Filters:\tprepositions only"
     elif auto_scan_filters == "Phrase":
         return "\t6) Auto Scan PoS Filters:\tphrases only"
-    elif auto_scan_filters == "Noun,Verb,Adjective,Adverb,Preposition,Phrase":
+    elif auto_scan_filters == "Noun, Verb, Adjective, Adverb, Preposition, Phrase":
         return "\t6) Auto Scan PoS Filters:\tall pos types, no restrictions"
     else:
         return "\t6) Auto Scan PoS Filters:\t" + str(auto_scan_filters)

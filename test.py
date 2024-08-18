@@ -82,12 +82,29 @@ import savedata_manager as SDM
 # path = os.path.join(os.getcwd(), instructions_pdf_path)
 # os.system(path)
 
-print("\n\t\033[33m" + "\n\tOpening PDF Handbook...\n" + "\033[0m")
+# print("\n\t\033[33m" + "\n\tOpening PDF Handbook...\n" + "\033[0m")
 # absolute_path = os.getcwd() + r"\src\data\Externals"
-absolute_path = r"C:\Users\tillp\Desktop\M2E 2024.0\src\data\Externals"
-if " " in absolute_path:
-    absolute_path = absolute_path.replace(" ", "%20")
-relative_path = SDM.get_manpath()
-print("\t\33[33mPath:\33[0m " + absolute_path + relative_path)
-time.sleep(1)
-os.system(absolute_path+relative_path)
+# absolute_path = r"C:\Users\tillp\Desktop\M2E 2024.0\src\data\Externals"
+# if " " in absolute_path:
+#     absolute_path = absolute_path.replace(" ", "%20")
+# relative_path = SDM.get_manpath()
+# print("\t\33[33mPath:\33[0m " + absolute_path + relative_path)
+# time.sleep(1)
+# os.system(absolute_path+relative_path)
+
+
+# pos_filters = "Noun, Verb, Adverb"
+# pos_filters = "Noun"
+pos_filters = "Noun, Verb, Adjective, Adverb, Preposition, Phrase"
+pos_filters = pos_filters.split(", ")
+if len(pos_filters) == 6:
+    print("NONE")
+elif 1 < len(pos_filters) < 6:
+    pos_info_string = ""
+    for x in range(len(pos_filters)):
+        pos_info_string += pos_filters[x]
+        if x != len(pos_filters) - 1:
+            pos_info_string += ", "
+    print(pos_info_string)
+else:
+    print(str(pos_filters[0]) + "s only")

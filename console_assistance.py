@@ -508,7 +508,7 @@ def search_and_output(worksheet, excel_row, pos_filters, term, entries_list,
                       only_found_terms, only_not_found_terms, multiline_output, output_detail_level,
                       headline_printing, hdlp_start, hdlp_doc):
 
-    pos_filters = pos_filters.split(",")
+    pos_filters = pos_filters.split(", ")
 
     # Set the color for blue entries
     blue_color = "0000FF"
@@ -526,8 +526,15 @@ def search_and_output(worksheet, excel_row, pos_filters, term, entries_list,
         filter_cell = "B" + str(excel_row)
         if len(pos_filters) == 6:
             worksheet[filter_cell] = "NONE"
+        elif 1 < len(pos_filters) < 6:
+            pos_info_string = ""
+            for x in range(len(pos_filters)):
+                pos_info_string += pos_filters[x]
+                if x != len(pos_filters) - 1:
+                    pos_info_string += ", "
+            worksheet[filter_cell] = pos_info_string
         else:
-            worksheet[filter_cell] = str(pos_filters[0])
+            worksheet[filter_cell] = str(pos_filters[0]) + "s only"
 
     # Begin writing term to Excel file ---------------------------------------------------------------------------------
 
@@ -618,138 +625,143 @@ def search_and_output(worksheet, excel_row, pos_filters, term, entries_list,
         worksheet[sub_meaning_cell] = str(sub_meaning)
 
     # search term ---------------------------------------------------------------------------------------------
-    for x in range(len(entries_list)):
+    for fil in pos_filters:
 
-        entry = entries_list[x]
-        multiline_at_level2_already_executed = False
+        for index in range(len(entries_list)):
 
-        if entry["Word"] == term and entry["PoS"] in pos_filters:
-            found_entries += 1
+            entry = entries_list[index]
+            multiline_at_level2_already_executed = False
 
-            if not only_not_found_terms:
+            # -> AS mode lief zuletzt nur unter console_assistance_test.py
+            # -> nochmal mit ursprungs ca.py testen!
 
-                keys = list(entry.keys())
+            if entry["Word"] == term and entry["PoS"] == fil:
+                found_entries += 1
 
-                # Data Structure Level 1 ---------------------------------------------------------------------
+                if not only_not_found_terms:
 
-                pos_value = entry[keys[1]]
-                syllables_value = entry[keys[2]]
-                definition_value = entry[keys[3]]
-                morphemes_value = entry[keys[4]]
+                    keys = list(entry.keys())
 
-                set_level_1_cell_data(
-                    excel_row, pos_value, syllables_value, definition_value)
+                    # Data Structure Level 1 ---------------------------------------------------------------------
 
-                output += "\n\t" + str(found_entries) + ")" + \
-                          "\t" + str(keys[1]) + ": " + str(pos_value) + "\n" + \
-                          "\t\t" + str(keys[2]) + ": " + str(syllables_value) + "\n" + \
-                          "\t\t" + str(keys[3]) + ": " + str(definition_value) + "\n" + \
-                          "\t\t" + str(keys[4]) + ": " + str(morphemes_value) + "\n"
+                    pos_value = entry[keys[1]]
+                    syllables_value = entry[keys[2]]
+                    definition_value = entry[keys[3]]
+                    morphemes_value = entry[keys[4]]
 
-                # Data Structure Level 2 ---------------------------------------------------------------------
+                    set_level_1_cell_data(
+                        excel_row, pos_value, syllables_value, definition_value)
 
-                if output_detail_level >= 2:
+                    output += "\n\t" + str(found_entries) + ")" + \
+                              "\t" + str(keys[1]) + ": " + str(pos_value) + "\n" + \
+                              "\t\t" + str(keys[2]) + ": " + str(syllables_value) + "\n" + \
+                              "\t\t" + str(keys[3]) + ": " + str(definition_value) + "\n" + \
+                              "\t\t" + str(keys[4]) + ": " + str(morphemes_value) + "\n"
 
-                    if morphemes_value is None:
-                        set_level_2_cell_data(excel_row, affix="N/V", language="N/V", sub_pos="N/V", meaning="N/V")
-                        excel_row += 1
+                    # Data Structure Level 2 ---------------------------------------------------------------------
 
-                    else:
-                        for respective_morph_dict in morphemes_value:
+                    if output_detail_level >= 2:
 
-                            if multiline_output and not multiline_at_level2_already_executed:
-                                excel_row += 1
-                                multiline_at_level2_already_executed = True
+                        if morphemes_value is None:
+                            set_level_2_cell_data(excel_row, affix="N/V", language="N/V", sub_pos="N/V", meaning="N/V")
+                            excel_row += 1
 
-                            morphemes_sub_values = list(respective_morph_dict.values())
+                        else:
+                            for respective_morph_dict in morphemes_value:
 
-                            affix_value = morphemes_sub_values[0]
-                            language_value = morphemes_sub_values[1]
-                            sub_pos_value = morphemes_sub_values[2]
-                            meaning_value = morphemes_sub_values[3]
-                            etcom_value = morphemes_sub_values[4]
-
-                            set_level_2_cell_data(
-                                excel_row, affix_value, language_value, sub_pos_value, meaning_value)
-
-                            # Data Structure Level 3 -------------------------------------------------------------
-                            if output_detail_level == 3:
-
-                                if multiline_output:
+                                if multiline_output and not multiline_at_level2_already_executed:
                                     excel_row += 1
+                                    multiline_at_level2_already_executed = True
 
-                                if etcom_value is None:
-                                    set_level_3_cell_data(excel_row, sub_affix="N/V", sub_language="N/V", decoded="N/V",
-                                                          sub_sub_pos="N/V", sub_meaning="N/V")
-                                    excel_row += 1
+                                morphemes_sub_values = list(respective_morph_dict.values())
 
-                                else:
+                                affix_value = morphemes_sub_values[0]
+                                language_value = morphemes_sub_values[1]
+                                sub_pos_value = morphemes_sub_values[2]
+                                meaning_value = morphemes_sub_values[3]
+                                etcom_value = morphemes_sub_values[4]
 
-                                    sub_affix_values = []
-                                    sub_language_values = []
-                                    decoded_values = []
-                                    sub_sub_pos_values = []
-                                    sub_meaning_values = []
+                                set_level_2_cell_data(
+                                    excel_row, affix_value, language_value, sub_pos_value, meaning_value)
 
-                                    for respective_etcom_dict in etcom_value:
-                                        etcom_sub_values = list(respective_etcom_dict.values())
+                                # Data Structure Level 3 -------------------------------------------------------------
+                                if output_detail_level == 3:
 
-                                        sub_affix_value = etcom_sub_values[0]
-                                        sub_language_value = etcom_sub_values[1]
-                                        decoded_value = etcom_sub_values[2]
-                                        sub_sub_pos_value = etcom_sub_values[3]
-                                        sub_meaning_value = etcom_sub_values[4]
-
-                                        sub_affix_values.append(sub_affix_value)
-                                        sub_language_values.append(sub_language_value)
-                                        decoded_values.append(decoded_value)
-                                        sub_sub_pos_values.append(sub_sub_pos_value)
-                                        sub_meaning_values.append(sub_meaning_value)
-
-                                    # the lists with all collected information are prepared now
-                                    # next step is to filter out redundant (duplicate) information over all
-                                    # five information types. so we connect them in a single list:
-
-                                    hyper_list = []
-                                    for v in range(len(sub_affix_values)):
-                                        value = str(sub_affix_values[v]) + "[/]"
-                                        value += str(sub_language_values[v]) + "[/]"
-                                        value += str(decoded_values[v]) + "[/]"
-                                        value += str(sub_sub_pos_values[v]) + "[/]"
-                                        value += str(sub_meaning_values[v])
-                                        hyper_list.append(value)
-
-                                    # eliminating duplicates and sorting alphabetical ascending
-                                    hyper_list = list(set(hyper_list))
-                                    hyper_list = sorted(hyper_list)
-
-                                    # transforming back to separated lists
-                                    cleaned_sub_affix_values = []
-                                    cleaned_sub_language_values = []
-                                    cleaned_decoded_values = []
-                                    cleaned_sub_sub_pos_values = []
-                                    cleaned_sub_meaning_values = []
-
-                                    for x in range(len(hyper_list)):
-                                        values = hyper_list[x].split("[/]")
-                                        cleaned_sub_affix_values.append(values[0])
-                                        cleaned_sub_language_values.append(values[1])
-                                        cleaned_decoded_values.append(values[2])
-                                        cleaned_sub_sub_pos_values.append(values[3])
-                                        cleaned_sub_meaning_values.append(values[4])
-
-                                    for x in range(len(cleaned_sub_affix_values)):
-
-                                        set_level_3_cell_data(
-                                            excel_row, cleaned_sub_affix_values[x], cleaned_sub_language_values[x],
-                                            cleaned_decoded_values[x], cleaned_sub_sub_pos_values[x],
-                                            cleaned_sub_meaning_values[x])
-
+                                    if multiline_output:
                                         excel_row += 1
-                            else:
-                                excel_row += 1
-                else:
-                    excel_row += 1
+
+                                    if etcom_value is None:
+                                        set_level_3_cell_data(excel_row, sub_affix="N/V", sub_language="N/V", decoded="N/V",
+                                                              sub_sub_pos="N/V", sub_meaning="N/V")
+                                        excel_row += 1
+
+                                    else:
+
+                                        sub_affix_values = []
+                                        sub_language_values = []
+                                        decoded_values = []
+                                        sub_sub_pos_values = []
+                                        sub_meaning_values = []
+
+                                        for respective_etcom_dict in etcom_value:
+                                            etcom_sub_values = list(respective_etcom_dict.values())
+
+                                            sub_affix_value = etcom_sub_values[0]
+                                            sub_language_value = etcom_sub_values[1]
+                                            decoded_value = etcom_sub_values[2]
+                                            sub_sub_pos_value = etcom_sub_values[3]
+                                            sub_meaning_value = etcom_sub_values[4]
+
+                                            sub_affix_values.append(sub_affix_value)
+                                            sub_language_values.append(sub_language_value)
+                                            decoded_values.append(decoded_value)
+                                            sub_sub_pos_values.append(sub_sub_pos_value)
+                                            sub_meaning_values.append(sub_meaning_value)
+
+                                        # the lists with all collected information are prepared now
+                                        # next step is to filter out redundant (duplicate) information over all
+                                        # five information types. so we connect them in a single list:
+
+                                        hyper_list = []
+                                        for v in range(len(sub_affix_values)):
+                                            value = str(sub_affix_values[v]) + "[/]"
+                                            value += str(sub_language_values[v]) + "[/]"
+                                            value += str(decoded_values[v]) + "[/]"
+                                            value += str(sub_sub_pos_values[v]) + "[/]"
+                                            value += str(sub_meaning_values[v])
+                                            hyper_list.append(value)
+
+                                        # eliminating duplicates and sorting alphabetical ascending
+                                        hyper_list = list(set(hyper_list))
+                                        hyper_list = sorted(hyper_list)
+
+                                        # transforming back to separated lists
+                                        cleaned_sub_affix_values = []
+                                        cleaned_sub_language_values = []
+                                        cleaned_decoded_values = []
+                                        cleaned_sub_sub_pos_values = []
+                                        cleaned_sub_meaning_values = []
+
+                                        for x in range(len(hyper_list)):
+                                            values = hyper_list[x].split("[/]")
+                                            cleaned_sub_affix_values.append(values[0])
+                                            cleaned_sub_language_values.append(values[1])
+                                            cleaned_decoded_values.append(values[2])
+                                            cleaned_sub_sub_pos_values.append(values[3])
+                                            cleaned_sub_meaning_values.append(values[4])
+
+                                        for x in range(len(cleaned_sub_affix_values)):
+
+                                            set_level_3_cell_data(
+                                                excel_row, cleaned_sub_affix_values[x], cleaned_sub_language_values[x],
+                                                cleaned_decoded_values[x], cleaned_sub_sub_pos_values[x],
+                                                cleaned_sub_meaning_values[x])
+
+                                            excel_row += 1
+                                else:
+                                    excel_row += 1
+                    else:
+                        excel_row += 1
 
     if found_entries == 0 and len(pos_filters) == 6:
         final_output += "\n\tWarning: database has no entry for '" + term + "'."
@@ -834,7 +846,7 @@ def autoscan(excel_file, duplicates=False, abc=True, abc_ascending=True, test_fo
     # Get the values from the first column (assuming it's named 'mot_lpd')
     terms = data.iloc[:, 0].dropna().tolist()
     if not duplicates:
-        terms = list(set(terms))    # eliminates duplicates
+        terms = list(dict.fromkeys(terms))  # eliminates duplicates
     if abc:
         if abc_ascending:
             terms = sorted(terms)       # alphabetical order (ascending)
