@@ -1,13 +1,10 @@
 import os
-import requests
 import sys
 import time
-import datetime
 
 from openpyxl import load_workbook
 
 import console_assistance as CA
-import console_assistance_test as CA_test
 import savedata_manager as SDM
 import notification_sound_player as NSP
 
@@ -24,7 +21,7 @@ entries_list = None
 database_is_installed = False
 
 # data to change for release
-m2e_version = "2024.0 (EAP)"       # auch in console_assistance.py ändern!
+m2e_version = "2024.1"                                  # auch in console_assistance.py ändern!
 supporter = "Till Preidt"
 support_email = "s2tiprei@uni-trier.de"
 

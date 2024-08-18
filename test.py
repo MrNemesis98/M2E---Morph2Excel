@@ -93,18 +93,6 @@ import savedata_manager as SDM
 # os.system(absolute_path+relative_path)
 
 
-# pos_filters = "Noun, Verb, Adverb"
-# pos_filters = "Noun"
-pos_filters = "Noun, Verb, Adjective, Adverb, Preposition, Phrase"
-pos_filters = pos_filters.split(", ")
-if len(pos_filters) == 6:
-    print("NONE")
-elif 1 < len(pos_filters) < 6:
-    pos_info_string = ""
-    for x in range(len(pos_filters)):
-        pos_info_string += pos_filters[x]
-        if x != len(pos_filters) - 1:
-            pos_info_string += ", "
-    print(pos_info_string)
-else:
-    print(str(pos_filters[0]) + "s only")
+print("Hello")
+input("\nWould you like to save your data?")
+print("Would you like to save your data?")
