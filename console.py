@@ -789,6 +789,8 @@ def search_for_terms(log_title):
                 CA.display_settings(2, term_output_diplomacy)
                 i = input("\n\tType in the \33[33moption number\33[0m of the option you want to \33[33mchoose\33[0m or "
                           "\n\tpress \33[92menter\33[0m to \33[92mcontinue\33[0m without making changes."
+                          "\n\tType in \33[94mb!\33[0m to navigate \33[94mbackwards\33[0m to the "
+                          "\33[94mprevious setting\33[0m."
                           "\n\tType in \33[91mexit!\33[0m to \33[91mreturn to main menu\33[0m."
                           "\n\n\tOption number: ")
                 if i == "1":
@@ -829,6 +831,8 @@ def search_for_terms(log_title):
                 CA.display_settings(3, oneline_output_format)
                 i = input("\n\tType in the \33[33moption number\33[0m of the option you want to \33[33mchoose\33[0m or "
                           "\n\tpress \33[92menter\33[0m to \33[92mcontinue\33[0m without making changes."
+                          "\n\tType in \33[94mb!\33[0m to navigate \33[94mbackwards\33[0m to the "
+                          "\33[94mprevious setting\33[0m."
                           "\n\tType in \33[91mexit!\33[0m to \33[91mreturn to main menu\33[0m."
                           "\n\n\tOption number: ")
                 if i == "1":
@@ -861,6 +865,8 @@ def search_for_terms(log_title):
                 CA.display_settings(4, headline_printing)
                 i = input("\n\tType in the \33[33moption number\33[0m of the option you want to \33[33mchoose\33[0m or "
                           "\n\tpress \33[92menter\33[0m to \33[92mcontinue\33[0m without making changes."
+                          "\n\tType in \33[94mb!\33[0m to navigate \33[94mbackwards\33[0m to the "
+                          "\33[94mprevious setting\33[0m."
                           "\n\tType in \33[91mexit!\33[0m to \33[91mreturn to main menu\33[0m."
                           "\n\n\tOption number: ")
                 if i == "1":
@@ -901,6 +907,8 @@ def search_for_terms(log_title):
                 CA.display_settings(5, alphabetical_output, abc_output_ascending)
                 i = input("\n\tType in the \33[33moption number\33[0m of the option you want to \33[33mchoose\33[0m or "
                           "\n\tpress \33[92menter\33[0m to \33[92mcontinue\33[0m without making changes."
+                          "\n\tType in \33[94mb!\33[0m to navigate \33[94mbackwards\33[0m to the "
+                          "\33[94mprevious setting\33[0m."
                           "\n\tType in \33[91mexit!\33[0m to \33[91mreturn to main menu\33[0m."
                           "\n\n\tOption number: ")
                 if i == "1":
@@ -941,6 +949,8 @@ def search_for_terms(log_title):
                 CA.display_settings(6, auto_scan_filters)
                 i = input("\n\tType in the \33[33moption number\33[0m of the option you want to \33[33mchoose\33[0m or "
                           "\n\tpress \33[92menter\33[0m to \33[92mcontinue\33[0m without making changes."
+                          "\n\tType in \33[94mb!\33[0m to navigate \33[94mbackwards\33[0m to the "
+                          "\33[94mprevious setting\33[0m."
                           "\n\tType in \33[91mexit!\33[0m to \33[91mreturn to main menu\33[0m."
                           "\n\n\tOption number: ")
 
@@ -1014,6 +1024,8 @@ def search_for_terms(log_title):
                 CA.display_settings(7, output_detail_level)
                 i = input("\n\tType in the \33[33moption number\33[0m of the option you want to \33[33mchoose\33[0m or "
                           "\n\tpress \33[92menter\33[0m to \33[92mcontinue\33[0m without making changes."
+                          "\n\tType in \33[94mb!\33[0m to navigate \33[94mbackwards\33[0m to the "
+                          "\33[94mprevious setting\33[0m."
                           "\n\tType in \33[91mexit!\33[0m to \33[91mreturn to main menu\33[0m."
                           "\n\n\tOption number: ")
                 if i == "1":
@@ -1054,6 +1066,8 @@ def search_for_terms(log_title):
                 CA.display_settings(8, system_sound_level)
                 i = input("\n\tType in the \33[33moption number\33[0m of the option you want to \33[33mchoose\33[0m or "
                           "\n\tpress \33[92menter\33[0m to \33[92mreturn to main menu\33[0m without making changes."
+                          "\n\tType in \33[94mb!\33[0m to navigate \33[94mbackwards\33[0m to the "
+                          "\33[94mprevious setting\33[0m."
                           "\n\n\tOption number: ")
                 if i == "1":
                     SDM.set_system_sound_level("1")
