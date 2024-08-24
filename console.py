@@ -3,8 +3,9 @@ import sys
 import time
 
 from openpyxl import load_workbook
-import ctypes
-import ctypes.wintypes
+import win32gui
+import win32con
+import win32api
 import console_text_management as CTM
 import console_assistance as CA
 import savedata_manager as SDM
@@ -60,17 +61,39 @@ def set_system_variables_to_default():
     system_sound_level = SDM.get_system_sound_level()
 
 
-def set_console_size(width, height):
-    hwnd = ctypes.windll.kernel32.GetConsoleWindow()
-    ctypes.windll.user32.MoveWindow(hwnd, 0, 0, width, height, True)
+def get_screen_size():
+    screen_width = win32api.GetSystemMetrics(win32con.SM_CXSCREEN)
+    screen_height = win32api.GetSystemMetrics(win32con.SM_CYSCREEN)
+    return screen_width, screen_height
 
 
-def disable_resize():
-    hwnd = ctypes.windll.kernel32.GetConsoleWindow()
-    style = ctypes.windll.user32.GetWindowLongW(hwnd, -16)  # GWL_STYLE = -16
-    style &= ~0x00040000  # WS_SIZEBOX = 0x00040000
-    style &= ~0x00080000  # WS_MAXIMIZEBOX = 0x00080000
-    ctypes.windll.user32.SetWindowLongW(hwnd, -16, style)
+def set_console_fullscreen():
+    hwnd = win32gui.GetForegroundWindow()
+
+    # Bildschirmgröße ermitteln
+    screen_width, screen_height = get_screen_size()
+
+    # Fensterstil auf WS_POPUP setzen und Fenstergröße anpassen
+    win32gui.SetWindowLong(hwnd, win32con.GWL_STYLE, win32con.WS_POPUP)
+    win32gui.SetWindowPos(hwnd, win32con.HWND_TOP, 0, 0, screen_width, screen_height,
+                          win32con.SWP_FRAMECHANGED | win32con.SWP_SHOWWINDOW)
+
+
+def disable_resize_and_buttons():
+    hwnd = win32gui.GetForegroundWindow()
+
+    # Entfernen aller Stile, die das Fenster veränderbar machen oder Schaltflächen anzeigen
+    style = win32gui.GetWindowLong(hwnd, win32con.GWL_STYLE)
+    style &= ~win32con.WS_CAPTION      # Entfernt die Titelleiste
+    style &= ~win32con.WS_THICKFRAME   # Entfernt die Möglichkeit, das Fenster zu vergrößern/verkleinern
+    style &= ~win32con.WS_MINIMIZEBOX  # Entfernt den Minimierungsbutton
+    style &= ~win32con.WS_MAXIMIZEBOX  # Entfernt den Maximierungsbutton
+    style &= ~win32con.WS_SYSMENU      # Entfernt das Systemmenü (inkl. Schließen)
+    win32gui.SetWindowLong(hwnd, win32con.GWL_STYLE, style)
+
+    # Änderungen anwenden und das Fenster im Vordergrund belassen
+    win32gui.SetWindowPos(hwnd, None, 0, 0, 0, 0,
+                          win32con.SWP_NOMOVE | win32con.SWP_NOSIZE | win32con.SWP_NOZORDER | win32con.SWP_FRAMECHANGED)
 
 
 def check_database_installation():
@@ -185,7 +208,7 @@ def search_for_terms(log_title):
             tip_need_counter = 0
             CTM.block_input()
             CTM.clear_screen_backwards(down_to_row=5)
-            CA.print_main_menu(version=m2e_version)
+            CA.print_main_menu()
             print_main_menu_again = False
             CTM.unblock_input()
         else:
@@ -1250,12 +1273,12 @@ def search_for_terms(log_title):
 
 
 # Program Start ----------------------------------------------------------------------------------------------
-
+os.system("cls")
 CTM.block_input()
+set_console_fullscreen()
+disable_resize_and_buttons()
 
-set_console_size(800, 800)
-disable_resize()
-
+time.sleep(1)
 
 os.system("cls")
 CA.print_opening(version=m2e_version, colour=True)
