@@ -1,9 +1,24 @@
+"""
+Copyright © MrNemesis98, GitHub, 2024
+
+Permission is hereby granted, free of charge, to any person obtaining a copy of this software and associated
+documentation files (the "Software"), to deal in the Software without restriction, including without limitation
+the rights to use, copy, modify, merge, publish, distribute, sublicense, and/or sell copies of the Software, and to
+permit persons to whom the Software is furnished to do so, subject to the following conditions:
+
+The above copyright notice and this permission notice shall be included in all copies or substantial portions of the
+Software. The software is provided “as is”, without warranty of any kind, express or implied, including but not
+limited to the warranties of merchantability, fitness for a particular purpose and noninfringement.
+In no event shall the author(s) or copyright holder(s) be liable for any claim, damages or other liability, whether
+in an action of contract, tort or otherwise, arising from, out of or in connection with the software or the use or
+other dealings in the software.
+"""
 
 sd = open("src/data/savedata.txt", "r")
 data = sd.readlines()
 sd.close()
 
-# Sector 1: Manage database update informations ------------------------------------------------------------------------
+# Sector 1: Manage database update information -------------------------------------------------------------------------
 database_data = data[0]
 database_data_list = database_data.split('/')
 database_data_list.remove(database_data_list[0])
@@ -30,7 +45,7 @@ def update_database_data():
     system_data = data[1]
     sd.close()
 
-    # Datei neu beschreiben, nur Datenbank Information updaten
+    # write savedata.txt, update database data only
     sd = open("src/data/savedata.txt", "w")
     text = ("db:/dl:" + str(download_size) +
             "/c:" + str(current_size) +
@@ -106,11 +121,10 @@ def get_manpath():
     return str(manual_file_path)
 
 
-# Sector 2: Manage system variables for console.py and GUI settings ----------------------------------------------------
+# Sector 2: Manage system variables for console.py ---------------------------------------------------------------------
 system_data = data[1]
 variables_list = system_data.split('/')
 variables_list.remove(variables_list[0])
-# print(variables_list)
 first_start = (variables_list[0].split(":")[1])
 term_output_diplomacy = (variables_list[1].split(":")[1])
 one_line_output = (variables_list[2].split(":")[1])
@@ -138,7 +152,7 @@ def update_system_data():
     data = sd.readlines()
     sd.close()
 
-    # Datei neu beschreiben, nur Nutzer-Trainingsdaten updaten
+    # write savedata.txt, update system data only
     sd = open("src/data/savedata.txt", "w")
     text = ((database_data + "sys:" +
            "/fs:" + str(first_start) +

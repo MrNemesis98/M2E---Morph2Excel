@@ -1,3 +1,19 @@
+"""
+Copyright © MrNemesis98, GitHub, 2024
+
+Permission is hereby granted, free of charge, to any person obtaining a copy of this software and associated
+documentation files (the "Software"), to deal in the Software without restriction, including without limitation
+the rights to use, copy, modify, merge, publish, distribute, sublicense, and/or sell copies of the Software, and to
+permit persons to whom the Software is furnished to do so, subject to the following conditions:
+
+The above copyright notice and this permission notice shall be included in all copies or substantial portions of the
+Software. The software is provided “as is”, without warranty of any kind, express or implied, including but not
+limited to the warranties of merchantability, fitness for a particular purpose and noninfringement.
+In no event shall the author(s) or copyright holder(s) be liable for any claim, damages or other liability, whether
+in an action of contract, tort or otherwise, arising from, out of or in connection with the software or the use or
+other dealings in the software.
+"""
+
 import os
 import sys
 import time
@@ -6,6 +22,7 @@ from openpyxl import load_workbook
 import win32gui
 import win32con
 import win32api
+
 import console_text_management as CTM
 import console_assistance as CA
 import savedata_manager as SDM
@@ -23,7 +40,7 @@ excel_row = 0
 entries_list = None
 database_is_installed = False
 
-# data to change for release
+# data to change for every release
 m2e_version = "2024.1"
 supporter = "Till Preidt ~ GitHub/MrNemesis98"
 support_email = "s2tiprei@uni-trier.de / till.p2.tp@gmail.com"
@@ -70,10 +87,8 @@ def get_screen_size():
 def set_console_fullscreen():
     hwnd = win32gui.GetForegroundWindow()
 
-    # Bildschirmgröße ermitteln
     screen_width, screen_height = get_screen_size()
 
-    # Fensterstil auf WS_POPUP setzen und Fenstergröße anpassen
     win32gui.SetWindowLong(hwnd, win32con.GWL_STYLE, win32con.WS_POPUP)
     win32gui.SetWindowPos(hwnd, win32con.HWND_TOP, 0, 0, screen_width, screen_height,
                           win32con.SWP_FRAMECHANGED | win32con.SWP_SHOWWINDOW)
@@ -82,16 +97,14 @@ def set_console_fullscreen():
 def disable_resize_and_buttons():
     hwnd = win32gui.GetForegroundWindow()
 
-    # Entfernen aller Stile, die das Fenster veränderbar machen oder Schaltflächen anzeigen
     style = win32gui.GetWindowLong(hwnd, win32con.GWL_STYLE)
-    style &= ~win32con.WS_CAPTION      # Entfernt die Titelleiste
-    style &= ~win32con.WS_THICKFRAME   # Entfernt die Möglichkeit, das Fenster zu vergrößern/verkleinern
-    style &= ~win32con.WS_MINIMIZEBOX  # Entfernt den Minimierungsbutton
-    style &= ~win32con.WS_MAXIMIZEBOX  # Entfernt den Maximierungsbutton
-    style &= ~win32con.WS_SYSMENU      # Entfernt das Systemmenü (inkl. Schließen)
+    style &= ~win32con.WS_CAPTION
+    style &= ~win32con.WS_THICKFRAME
+    style &= ~win32con.WS_MINIMIZEBOX
+    style &= ~win32con.WS_MAXIMIZEBOX
+    style &= ~win32con.WS_SYSMENU
     win32gui.SetWindowLong(hwnd, win32con.GWL_STYLE, style)
 
-    # Änderungen anwenden und das Fenster im Vordergrund belassen
     win32gui.SetWindowPos(hwnd, None, 0, 0, 0, 0,
                           win32con.SWP_NOMOVE | win32con.SWP_NOSIZE | win32con.SWP_NOZORDER | win32con.SWP_FRAMECHANGED)
 

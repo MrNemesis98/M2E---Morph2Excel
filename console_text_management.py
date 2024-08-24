@@ -1,3 +1,19 @@
+"""
+Copyright © MrNemesis98, GitHub, 2024
+
+Permission is hereby granted, free of charge, to any person obtaining a copy of this software and associated
+documentation files (the "Software"), to deal in the Software without restriction, including without limitation
+the rights to use, copy, modify, merge, publish, distribute, sublicense, and/or sell copies of the Software, and to
+permit persons to whom the Software is furnished to do so, subject to the following conditions:
+
+The above copyright notice and this permission notice shall be included in all copies or substantial portions of the
+Software. The software is provided “as is”, without warranty of any kind, express or implied, including but not
+limited to the warranties of merchantability, fitness for a particular purpose and noninfringement.
+In no event shall the author(s) or copyright holder(s) be liable for any claim, damages or other liability, whether
+in an action of contract, tort or otherwise, arising from, out of or in connection with the software or the use or
+other dealings in the software.
+"""
+
 import msvcrt
 import sys
 import threading
@@ -40,16 +56,14 @@ def get_cursor_position():
         sys.stdout.write("\033[6n")
         sys.stdout.flush()
 
-        # Antwort einlesen und verarbeiten
         response = ''
         while True:
-            if msvcrt.kbhit():  # Überprüft, ob eine Taste gedrückt wurde
+            if msvcrt.kbhit():
                 char = msvcrt.getch().decode()
                 response += char
                 if char == 'R':
                     break
 
-        # Response ist im Format '\033[{ROW};{COLUMN}R'
         response = response.lstrip('\033[').rstrip('R')
         row, col = map(int, response.split(';'))
         return row, col
@@ -83,7 +97,7 @@ def calculate_tab_width():
 def draw(text, clear=True, delay=0.01):
     for char in text:
         sys.stdout.write(char)
-        sys.stdout.flush()          # clear puffer / print content from puffer directly
+        sys.stdout.flush()
         time.sleep(delay)
     print(end='', flush=True) if clear else print()
 
@@ -97,10 +111,9 @@ def stack(lines_of_text, clear=True, delay=0.1):
 def clear_screen_backwards(down_to_row=1, delay=0.01):
 
     def clear_line():
-        sys.stdout.write("\033[2K")  # Löscht die aktuelle Zeile
+        sys.stdout.write("\033[2K")
         sys.stdout.flush()
 
-    # Funktion, um den Cursor zu einer bestimmten Position zu setzen
     def move_cursor_to(row, col):
         sys.stdout.write(f"\033[{row};{col}H")
         sys.stdout.flush()

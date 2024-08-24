@@ -1,4 +1,19 @@
-import msvcrt
+"""
+Copyright © MrNemesis98, GitHub, 2024
+
+Permission is hereby granted, free of charge, to any person obtaining a copy of this software and associated
+documentation files (the "Software"), to deal in the Software without restriction, including without limitation
+the rights to use, copy, modify, merge, publish, distribute, sublicense, and/or sell copies of the Software, and to
+permit persons to whom the Software is furnished to do so, subject to the following conditions:
+
+The above copyright notice and this permission notice shall be included in all copies or substantial portions of the
+Software. The software is provided “as is”, without warranty of any kind, express or implied, including but not
+limited to the warranties of merchantability, fitness for a particular purpose and noninfringement.
+In no event shall the author(s) or copyright holder(s) be liable for any claim, damages or other liability, whether
+in an action of contract, tort or otherwise, arising from, out of or in connection with the software or the use or
+other dealings in the software.
+"""
+
 import sys
 import os
 import urllib.request
@@ -42,7 +57,7 @@ def is_valid_input(i):
     allowed_pos_filters = ['noun', 'verb', 'adjective', 'adverb', 'preposition', 'phrase']
     for filter in pos:
         if not filter in allowed_pos_filters:
-            print_opening(version=m2e_version)
+            CTM.clear_screen_backwards(down_to_row=5)
             print("\n\t\033[91mWarning:\033[0m Invalid input!")
             NSP.play_deny_sound() if SDM.get_system_sound_level() >= 2 else None
             CTM.stack(["\n\n\tPlease use valid pos filters only.",
@@ -65,7 +80,6 @@ def is_valid_scan(i):
 
 
 def measure_time(start, end, search=True, comparison=False):
-    # Zeitdifferenz in Minuten und Sekunden berechnen
     elapsed_time_seconds = end - start
     elapsed_minutes = int(elapsed_time_seconds // 60)
     elapsed_seconds = int(elapsed_time_seconds % 60)
@@ -243,9 +257,7 @@ def create_logfile(fd):
 def create_excel(fd):
 
     workbook_title = "output/excel_files/M2E_Output_(" + str(fd) + ").xlsx"
-    # Eine neue Excel-Datei erstellen
     workbook = openpyxl.Workbook()
-
     workbook.save(workbook_title)
 
     return workbook_title
@@ -254,9 +266,7 @@ def create_excel(fd):
 def create_comparison_result_excel(fd, counter):
 
     workbook_title = "output/excel_files/M2E_Comparison_Results_" + str(counter) + "_(" + str(fd) + ").xlsx"
-    # Eine neue Excel-Datei erstellen
     workbook = openpyxl.Workbook()
-
     workbook.save(workbook_title)
 
     return workbook_title
@@ -415,7 +425,7 @@ def show_instructions():
     time.sleep(.5)
 
 
-def show_version_description(version):
+def show_version_description():
     CTM.clear_screen_backwards(5)
     print("\033[95m" + "\n\n\t~ What´s new in version 2024.1 ? ~" + "\033[0m"
           "\n\t\033[95m[-----------------------------------------------------------------------------]\033[0m")
@@ -637,9 +647,6 @@ def search_and_output(worksheet, excel_row, pos_filters, term, entries_list,
             entry = entries_list[index]
             multiline_at_level2_already_executed = False
 
-            # -> AS mode lief zuletzt nur unter console_assistance_test.py
-            # -> nochmal mit ursprungs ca.py testen!
-
             if entry["Word"] == term and entry["PoS"] == fil:
                 found_entries += 1
 
@@ -832,29 +839,25 @@ def search_and_output(worksheet, excel_row, pos_filters, term, entries_list,
 
 
 def select_excel_file():
-    # Path to your Excel file
-    # excel_file = r'C:\Users\tillp\Desktop\Morph2Excel - Version 2.0c\output\M2E_Output_(06_06_2023_(14_17_55)).xlsx'
     NSP.play_request_sound() if SDM.get_system_sound_level() >= 2 else None
-    # Create a QApplication instance
-    app = QApplication([])
 
-    # Open file dialog to choose the Excel file
+    app = QApplication([])
     excel_file, _ = QFileDialog.getOpenFileName(None, "Select Excel File", "./data", "Excel Files (*.xlsx)")
 
     return excel_file
 
 
 def autoscan(excel_file, duplicates=False, abc=True, abc_ascending=True, test_for_invalides=True):
-    # Read the Excel file
+
     data = pd.read_excel(excel_file)
 
-    # Get the values from the first column (assuming it's named 'mot_lpd')
+    # Get the values from the first column
     terms = data.iloc[:, 0].dropna().tolist()
     if not duplicates:
         terms = list(dict.fromkeys(terms))  # eliminates duplicates
     if abc:
         if abc_ascending:
-            terms = sorted(terms)       # alphabetical order (ascending)
+            terms = sorted(terms)           # alphabetical order (ascending)
         else:
             terms = sorted(terms, reverse=True)     # alphabetical order (descending)
 
@@ -928,15 +931,12 @@ def write_comparison_result_excel(worksheet, file_1, file_2, list_of_terms_1, li
     for term in common_terms_list:
         term_Cell = 'A' + str(excel_row)
         worksheet[term_Cell] = term
-        # worksheet[term_Cell].font = Font(color=Color(rgb=yellow_color))
 
         property_Cell = 'B' + str(excel_row)
         worksheet[property_Cell] = "common"
-        # worksheet[property_Cell].font = Font(color=Color(rgb=yellow_color))
 
         file_Cell = 'C' + str(excel_row)
         worksheet[file_Cell] = "File 1: " + file_1 + "   +   File 2: " + file_2
-        # worksheet[file_Cell].font = Font(color=Color(rgb=yellow_color))
 
         excel_row += 1
 
@@ -1374,4 +1374,3 @@ def display_settings_after_changes(setting, current_var, current_var_2=""):
                   "\n\t\t\t\t2. Level 2: notification sounds only"
                   "\n\t\t\t\033[92m" + "->" +
                   "\033[0m\t3. Level 3: all sounds (notification sounds + user feedback audio)")
-
