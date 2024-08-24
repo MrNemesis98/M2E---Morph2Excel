@@ -3,7 +3,9 @@ import sys
 import time
 
 from openpyxl import load_workbook
-
+import ctypes
+import ctypes.wintypes
+import console_text_management as CTM
 import console_assistance as CA
 import savedata_manager as SDM
 import notification_sound_player as NSP
@@ -58,6 +60,19 @@ def set_system_variables_to_default():
     system_sound_level = SDM.get_system_sound_level()
 
 
+def set_console_size(width, height):
+    hwnd = ctypes.windll.kernel32.GetConsoleWindow()
+    ctypes.windll.user32.MoveWindow(hwnd, 0, 0, width, height, True)
+
+
+def disable_resize():
+    hwnd = ctypes.windll.kernel32.GetConsoleWindow()
+    style = ctypes.windll.user32.GetWindowLongW(hwnd, -16)  # GWL_STYLE = -16
+    style &= ~0x00040000  # WS_SIZEBOX = 0x00040000
+    style &= ~0x00080000  # WS_MAXIMIZEBOX = 0x00080000
+    ctypes.windll.user32.SetWindowLongW(hwnd, -16, style)
+
+
 def check_database_installation():
     global database_version_date
     global database_version_description
@@ -65,12 +80,7 @@ def check_database_installation():
     global database_is_installed
     time.sleep(2)
 
-    os.system('cls')
-    # For configuring M2E for other base systems:
-    # os.system('cls' if os.name == 'nt' else 'clear')
-
-    CA.print_opening(version=m2e_version)
-    print("\n\tChecking database status...")
+    CTM.draw("\r\tChecking database status...")
     time.sleep(1.5)
 
     if not CA.database_installation_confirmed(right_after_program_start=True):
@@ -78,7 +88,9 @@ def check_database_installation():
         SDM.set_database_version_date("")
         SDM.set_database_version_description("")
 
-        i = input("\n\tanswer: ")
+        CTM.unblock_input()
+        i = input("\n\n\t\tanswer: ")
+        CTM.block_input()
 
         if i == "start!" or i == "start" or i == "start1":
 
@@ -92,16 +104,16 @@ def check_database_installation():
                 SDM.set_current_size(current_size)
                 database_version_description = SDM.get_database_version_description()
                 database_version_date = SDM.get_database_version_date()
-                os.system('cls')
-                CA.print_opening(version=m2e_version)
-                print("\n\t\033[92mDownload completed sucessfully!\033[0m (" + str(current_size) +
+                print("\r\t\033[92mDownload completed sucessfully!\033[0m (" + str(current_size) +
                       " MB)\n\tThe latest version of wikimorph is now installed on your device."
                       "\n\n\t\33[94mTip:\33[0m In the \33[33msettings menu\33[0m you can manage this version and add a "
                       "description."
-                      "\n\n\tPress \33[92menter\33[0m to continue.")
+                      "\n\n\tPress \33[92menter\33[0m to continue.", end='', flush=True)
                 NSP.play_start_sound() if system_sound_level >= 2 else None
                 database_is_installed = True
+                CTM.unblock_input()
                 input()
+                CTM.block_input()
             else:
                 NSP.play_deny_sound() if system_sound_level == 3 else None
                 sys.exit()
@@ -130,6 +142,7 @@ def prepare_worksheet():
 
 
 def search_for_terms(log_title):
+
     # Excel file variables
     global workbook
     global worksheet
@@ -160,6 +173,9 @@ def search_for_terms(log_title):
 
     if database_is_installed:
         entries_list = CA.load_database()
+    CTM.clear_screen_backwards(down_to_row=1, delay=0)
+    CA.print_opening(version=m2e_version, colour=False)
+    time.sleep(1)
 
     stop = False
 
@@ -167,32 +183,35 @@ def search_for_terms(log_title):
 
         if print_main_menu_again:
             tip_need_counter = 0
+            CTM.block_input()
+            CTM.clear_screen_backwards(down_to_row=5)
             CA.print_main_menu(version=m2e_version)
             print_main_menu_again = False
+            CTM.unblock_input()
         else:
-            CA.print_opening(version=m2e_version)
             tip_need_counter += 1
             if tip_need_counter == 3:
                 CA.print_manual_search_headline(tip=True)
                 tip_need_counter = 0
             else:
                 CA.print_manual_search_headline(tip=False)
+        CTM.unblock_input()
         i = input("\n\t\33[97mSearch term: \33[92m").lower()
+        CTM.block_input()
         print("\33[0m")
-        os.system('cls')
+        CTM.clear_screen_backwards(down_to_row=5)
 
         if i == "exit!":
-            CA.print_opening(version=m2e_version)
-            print("\033[91m" + "\n\tProgram terminated!\033[0m")
+            CTM.draw("\033[91m" + "\n\tProgram terminated!\033[0m", clear=False)
             NSP.play_accept_sound() if system_sound_level == 3 else None
             time.sleep(1)
             stop = True
             if open_excel_automatically:
-                print("\033[33m" + "\n\tOpening search results...\033[0m")
+                CTM.draw("\033[33m" + "\n\tOpening search results...\033[0m", clear=False)
                 time.sleep(2)
                 os.system(f'start "" {workbook_title}')
             if comparison_counter != 1:
-                print("\033[94m" + "\n\tOpening comparison results...\033[0m")
+                CTM.draw("\033[94m" + "\n\tOpening comparison results...\033[0m", clear=False)
                 time.sleep(2)
                 for file in comparison_workbooks:
                     os.system(f'start "" {file}')
@@ -205,7 +224,9 @@ def search_for_terms(log_title):
             print_main_menu_again = True
         elif i == "v!":
             CA.show_version_description()
+            CTM.unblock_input()
             i = input()
+            CTM.block_input()
             print_main_menu_again = True
         elif i == "":
             print_main_menu_again = True
@@ -220,8 +241,6 @@ def search_for_terms(log_title):
             if CA.database_installation_confirmed():
 
                 open_excel_automatically = True
-                os.system('cls')
-                CA.print_opening(version=m2e_version)
                 print("\n\t\033[38;5;130m- Automatic Scan Mode -\033[0m"
                       "\n\t\033[38;5;130m------------------------------------------------------------------------\033[0m")
                 NSP.play_accept_sound() if system_sound_level == 3 else None
@@ -230,7 +249,7 @@ def search_for_terms(log_title):
                 breakoff = False
                 while not excel_file_selected:
                     time.sleep(1)
-                    print("\n\t\33[33mPlease select an excel file to scan for possible terms.\33[0m")
+                    CTM.draw("\n\t\33[33mPlease select an excel file to scan for possible terms.\33[0m", clear=False)
                     time.sleep(1.5)
                     try:
                         file = CA.select_excel_file()
@@ -242,18 +261,15 @@ def search_for_terms(log_title):
                         end_time = time.time()
                         number_of_terms = len(terms) + len(invalid_cases)
                         number_of_valid_cases = len(terms)
-                        status = "\n\t\033[38;5;130m- Automatic Scan Mode -\033[0m" \
-                                 "\n\t\033[38;5;130m------------------------------------------------------------------------\033[0m" \
-                                 "\n\n\tExcel file: " + file + \
-                                 "\n\tFound terms: " + str(number_of_terms) + \
-                                 "\n\tValid cases: " + str(number_of_valid_cases) + \
-                                 "\n\tPos filters: " + str(auto_scan_filters)
+                        status = ["\n\tExcel file: " + file,
+                                  "\tFound terms: " + str(number_of_terms),
+                                  "\tValid cases: " + str(number_of_valid_cases),
+                                  "\tPos filters: " + str(auto_scan_filters)]
 
                         time.sleep(1)
-                        os.system('cls')
-                        CA.print_opening(version=m2e_version)
-                        print(status)
-                        print("\n\t", CA.measure_time(start_time, end_time, search=False))
+                        CTM.clear_screen_backwards(down_to_row=8)
+                        CTM.stack(status, clear=False)
+                        CTM.draw("\n\t", CA.measure_time(start_time, end_time, search=False))
                         time.sleep(3)
                         if not invalid_cases == [] and len(invalid_cases) <= 10:
                             print("\n\t\033[91mWarning:\033[0m Scanned file contains terms that are invalid inputs!"
@@ -266,38 +282,31 @@ def search_for_terms(log_title):
                                   "\n\n\tThese terms will be ignored for searching within the wikimorph database."
                                   "\n\tThe amount of invalid terms is too large to be displayed here.")
                             NSP.play_deny_sound() if system_sound_level >= 2 else None
+                        CTM.unblock_input()
                         i = input("\n\tPress \033[92menter\033[0m or type in anything to "
                                   "\033[92mstart\033[0m the search. "
                                   '\n\tType in \033[33mfile!\033[0m to select a different file.'
                                   '\n\tType in \033[91mexit!\033[0m to cancel the automatic search.'
                                   '\n\n\ta'
                                   'nswer: ')
+                        CTM.block_input()
                         if i == "exit!":
                             excel_file_selected = True
                             breakoff = True
                         elif i == "file!":
-                            os.system('cls')
-                            CA.print_opening(version=m2e_version)
-                            print("\n\t\033[38;5;130m- Automatic Scan Mode -\033[0m"
-                                  "\n\t\033[38;5;130m--------"
-                                  "----------------------------------------------------------------\033[0m")
                             NSP.play_accept_sound() if system_sound_level == 3 else None
                         else:
                             excel_file_selected = True
 
                     except Exception:
-                        os.system('cls')
-                        CA.print_opening(version=m2e_version)
-                        print("\n\t\033[38;5;130m- Automatic Scan Mode -\033[0m"
-                              "\n\t\033[38;5;130m-----"
-                              "-------------------------------------------------------------------\033[0m")
+                        CTM.clear_screen_backwards(down_to_row=8)
                         print("\n\t\033[91mWarning:\033[0m No file selected!")
                         NSP.play_deny_sound() if system_sound_level >= 2 else None
 
                 if not breakoff:
-                    print("\n\t\033[92mThe valid terms will now be searched in the database.\033[0m")
+                    CTM.draw("\n\t\033[92mThe valid terms will now be searched in the database.\033[0m", clear=False)
                     NSP.play_accept_sound() if system_sound_level == 3 else None
-                    time.sleep(3)
+                    time.sleep(2)
 
                     # for preventing double headline printing either at the beginning of the Excel
                     # (conflict with hdlp_start) or before every term (in case hdlp=3)
@@ -316,10 +325,8 @@ def search_for_terms(log_title):
                     if term_output_diplomacy == 1:
                         for x in range(number_of_valid_cases):
                             term = terms[x]
-                            os.system('cls')
+                            CTM.clear_screen_backwards(down_to_row=13)
                             progress = format(100 * (x / number_of_valid_cases), ".2f")
-                            CA.print_opening(version=m2e_version)
-                            print(status)
                             print("\n\t\033[38;5;130mSearching for terms...\033[0m"
                                   "\n\tCurrent term: " + term +
                                   "\t\tProgress: \33[38;5;130m" + str(progress) + "%\33[0m")
@@ -343,10 +350,8 @@ def search_for_terms(log_title):
                     elif term_output_diplomacy == 2:
                         for x in range(number_of_valid_cases):
                             term = terms[x]
-                            os.system('cls')
+                            CTM.clear_screen_backwards(down_to_row=13)
                             progress = format(100 * (x / number_of_valid_cases), ".2f")
-                            CA.print_opening(version=m2e_version)
-                            print(status)
                             print("\n\t\033[38;5;130mSearching for terms...\033[0m"
                                   "\n\tCurrent term: " + term + "\t\tProgress: \33[38;5;130m" + str(progress) + "%\33[0m")
 
@@ -369,10 +374,8 @@ def search_for_terms(log_title):
                     else:
                         for x in range(number_of_valid_cases):
                             term = terms[x]
-                            os.system('cls')
+                            CTM.clear_screen_backwards(down_to_row=13)
                             progress = format(100 * (x / number_of_valid_cases), ".2f")
-                            CA.print_opening(version=m2e_version)
-                            print(status)
                             print("\n\t\033[38;5;130mSearching for terms...\033[0m"
                                   "\n\tCurrent term: " + term + "\t\tProgress: \33[38;5;130m" + str(progress) + "%\33[0m")
 
@@ -395,42 +398,38 @@ def search_for_terms(log_title):
                     log.close()
                     workbook.save(workbook_title)
                     end_time = time.time()
-                    os.system('cls')
-                    CA.print_opening(version=m2e_version)
-                    print(status)
+                    CTM.clear_screen_backwards(down_to_row=13)
                     print("\n\t\033[92mProcess finished!\033[0m"
                           "\n\n\t", CA.measure_time(start_time, end_time))
                     NSP.play_accept_sound() if system_sound_level >= 2 else None
-                    time.sleep(6)
-                    os.system('cls')
-                    CA.print_opening(version=m2e_version)
-                    print(status)
-                    print("\n\t\033[92mProcess finished!\033[0m"
-                          "\n\n\t", CA.measure_time(start_time, end_time),
-                          "\n\n\t\33[92mResults were saved.\33[0m"
-                          "\n\tReturning to main menu...")
+                    time.sleep(3)
+                    CTM.clear_screen_backwards(down_to_row=14)
+                    CTM.draw("\n\n\t" + CA.measure_time(start_time, end_time), clear=True)
+                    CTM.draw("\n\n\t\33[92mResults were saved.\33[0m", clear=True)
+                    time.sleep(1)
+                    CTM.draw("\n\tReturning to main menu...", clear=True)
+                    time.sleep(1)
+
                 else:
-                    os.system('cls')
-                    CA.print_opening(version=m2e_version)
-                    print("\n\t\033[38;5;130m- Automatic Scan Mode -\033[0m"
-                          "\n\t\033[38;5;130m--------"
-                          "----------------------------------------------------------------\033[0m")
-                    print("\n\t\033[91mProcess cancelled!\033[0m"
-                          "\n\tReturning to main menu...")
+                    CTM.clear_screen_backwards(down_to_row=8)
+                    print("\n\t\033[91mProcess cancelled!\033[0m")
                     NSP.play_deny_sound() if system_sound_level == 3 else None
+                    time.sleep(1)
+                    CTM.draw("\n\tReturning to main menu...")
                 print_main_menu_again = True
-                time.sleep(4)
+                time.sleep(3)
 
             else:
                 SDM.set_database_version_date("")
                 SDM.set_database_version_description("")
                 print_main_menu_again = True
+                CTM.unblock_input()
                 input()
+                CTM.block_input()
 
         # COMPARISON MODE ----------------------------------------------------------------------------------------------
         elif i == "c!":
-            os.system('cls')
-            CA.print_opening(version=m2e_version)
+            CTM.clear_screen_backwards(down_to_row=5)
             status = "\n\t\033[94m- Comparison Mode -\033[0m" \
                      "\n\t\033[94m------------------------------------------------------------------------\033[0m"
             print(status)
@@ -439,13 +438,10 @@ def search_for_terms(log_title):
             excel_file_1_selected = False
             breakoff = False
             while not excel_file_1_selected:
-                os.system('cls')
-                CA.print_opening(version=m2e_version)
-                print(status)
-                print("\n\tPlease select two excel files you want to compare.")
+                CTM.draw("\n\tPlease select two excel files you want to compare.", clear=False)
                 time.sleep(2)
-                print("\n\t\33[33mSelect excel file 1 now.\33[0m")
-                time.sleep(1.5)
+                CTM.draw("\t\33[33mSelect excel file 1 now.\33[0m", clear=False)
+                time.sleep(1)
 
                 try:
                     file_1 = CA.select_excel_file()
@@ -456,31 +452,29 @@ def search_for_terms(log_title):
                     end_time = time.time()
 
                     number_of_terms_1 = len(terms_1)
-                    print("\n\tSelected as file 1: " + file_1)
-                    print("\tFound terms: " + str(number_of_terms_1))
-                    print("\n\t", CA.measure_time(start_time, end_time, search=False))
+                    CTM.stack(["\n\n\tSelected as file 1: " + file_1,
+                               "\n\tFound terms: " + str(number_of_terms_1),
+                               "\n" + CA.measure_time(start_time, end_time, search=False)])
 
-                    time.sleep(3)
+                    time.sleep(2)
 
-                    i = input("\n\tPress \033[92menter\033[0m or type in anything to \033[92mselect file 2\033[0m. "
+                    CTM.unblock_input()
+                    i = input("\n\n\tPress \033[92menter\033[0m or type in anything to \033[92mselect file 2\033[0m. "
                               '\n\tType in \033[33mfile!\033[0m to select a different file.'
                               '\n\tType in \033[91mexit!\033[0m to cancel the comparison.'
                               '\n\n\tanswer: ')
+                    CTM.block_input()
                     if i == "exit!":
                         excel_file_1_selected = True
                         breakoff = True
                     elif i == "file!":
-                        os.system('cls')
-                        CA.print_opening(version=m2e_version)
-                        print(status)
+                        CTM.clear_screen_backwards(down_to_row=8)
                         NSP.play_accept_sound() if system_sound_level == 3 else None
                     else:
                         excel_file_1_selected = True
 
                 except Exception:
-                    os.system('cls')
-                    CA.print_opening(version=m2e_version)
-                    print(status)
+                    CTM.clear_screen_backwards(down_to_row=8)
                     print("\n\t\033[91mWarning:\033[0m No file as file 1 selected!")
                     NSP.play_deny_sound() if system_sound_level >= 2 else None
                     time.sleep(2)
@@ -490,12 +484,8 @@ def search_for_terms(log_title):
 
                 while not excel_file_2_selected:
 
-                    os.system('cls')
-                    CA.print_opening(version=m2e_version)
-                    print(status)
-                    print("\n\tPlease select two excel files you want to compare.")
-                    time.sleep(2)
-                    print("\n\t\33[33mSelect excel file 2 now.\33[0m")
+                    CTM.clear_screen_backwards(down_to_row=8)
+                    CTM.draw("\n\t\33[33mSelect excel file 2 now.\33[0m", clear=False)
                     time.sleep(1.5)
 
                     try:
@@ -507,41 +497,37 @@ def search_for_terms(log_title):
                         end_time = time.time()
 
                         number_of_terms_2 = len(terms_2)
-                        print("\n\tSelected file 2: " + file_2)
-                        print("\tFound terms: " + str(number_of_terms_2))
-                        print("\n\t", CA.measure_time(start_time, end_time, search=False))
+                        CTM.stack(["\n\tSelected file 2: " + file_2,
+                                   "\n\tFound terms: " + str(number_of_terms_2),
+                                   "\n" + CA.measure_time(start_time, end_time, search=False)])
 
-                        time.sleep(3)
+                        time.sleep(2)
 
-                        i = input("\n\tPress \033[92menter\033[0m or type in anything to \033[92mstart "
+                        CTM.unblock_input()
+                        i = input("\n\n\tPress \033[92menter\033[0m or type in anything to \033[92mstart "
                                   "the comparison\033[0m. "
                                   '\n\tType in \033[33mfile!\033[0m to select a different file.'
                                   '\n\tType in \033[91mexit!\033[0m to cancel the comparison.'
                                   '\n\n\tanswer: ')
+                        CTM.block_input()
                         if i == "exit!":
                             excel_file_2_selected = True
                             breakoff = True
                         elif i == "file!":
-                            os.system('cls')
-                            CA.print_opening(version=m2e_version)
-                            print(status)
+                            CTM.clear_screen_backwards(down_to_row=8)
                             NSP.play_accept_sound() if system_sound_level == 3 else None
                         else:
                             excel_file_2_selected = True
 
                     except Exception:
-                        os.system('cls')
-                        CA.print_opening(version=m2e_version)
-                        print(status)
+                        CTM.clear_screen_backwards(down_to_row=8)
                         print("\n\t\033[91mWarning:\033[0m No file as file 2 selected!")
                         NSP.play_deny_sound() if system_sound_level >= 2 else None
                         time.sleep(2)
 
             if not breakoff:
-                os.system('cls')
-                CA.print_opening(version=m2e_version)
-                print(status)
-                print("\n\tPreparing comparison...")
+                CTM.clear_screen_backwards(down_to_row=8)
+                CTM.draw("\n\tPreparing comparison...", clear=False)
                 unique_terms_1 = []
                 unique_terms_2 = []
                 common_terms = []
@@ -552,9 +538,7 @@ def search_for_terms(log_title):
                 for x in range(number_of_terms_1):
                     term = terms_1[x]
                     progress = format(100 * ((x + 1) / number_of_terms_1), ".2f")
-                    os.system('cls')
-                    CA.print_opening(version=m2e_version)
-                    print(status)
+                    CTM.clear_screen_backwards(down_to_row=8)
                     print("\n\t\33[94mComparing terms from file 1...\33[0m"
                           "\n\tCurrent term: " + str(term) + "\t\tProgress: \33[94m" + str(progress) + "%\33[0m")
                     if term in terms_2:
@@ -565,13 +549,13 @@ def search_for_terms(log_title):
                 end_time = time.time()
                 time.sleep(2)
 
-                os.system('cls')
-                CA.print_opening(version=m2e_version)
-                print(status)
-                print("\n\t\033[92mComparison of terms from file 1 finished!\033[0m")
-                print("\n\t", CA.measure_time(start_time, end_time, search=False, comparison=True))
+                CTM.clear_screen_backwards(down_to_row=8)
+                CTM.draw("\n\t\033[92mComparison of terms from file 1 finished!\033[0m", clear=False)
+                CTM.draw("\n" + CA.measure_time(start_time, end_time, search=False, comparison=True), clear=False)
                 NSP.play_deny_sound() if system_sound_level >= 2 else None
+                CTM.unblock_input()
                 input("\n\tType in anything to compare terms of file 2: ")
+                CTM.block_input()
                 time.sleep(1)
 
                 start_time = time.time()
@@ -579,9 +563,7 @@ def search_for_terms(log_title):
                 for x in range(number_of_terms_2):
                     term = terms_2[x]
                     progress = format(100 * ((x + 1) / number_of_terms_2), ".2f")
-                    os.system('cls')
-                    CA.print_opening(version=m2e_version)
-                    print(status)
+                    CTM.clear_screen_backwards(down_to_row=8)
                     print("\n\t\33[94mComparing terms from file 2...\33[0m"
                           "\n\tCurrent term: " + str(term) + "\t\tProgress: \33[94m" + str(progress) + "%\33[0m")
                     if term in terms_1:
@@ -595,20 +577,18 @@ def search_for_terms(log_title):
                 # eliminating duplicates in common terms list
                 common_terms = list(set(common_terms))
 
-                os.system('cls')
-                CA.print_opening(version=m2e_version)
-                print(status)
-                print("\n\t\033[92mComparison of terms from file 2 finished!\033[0m")
-                print("\n\t", CA.measure_time(start_time, end_time, search=False, comparison=True))
+                CTM.clear_screen_backwards(down_to_row=8)
+                CTM.draw("\n\t\033[92mComparison of terms from file 2 finished!\033[0m", clear=False)
+                CTM.draw("\n" + CA.measure_time(start_time, end_time, search=False, comparison=True), clear=False)
                 NSP.play_deny_sound() if system_sound_level >= 2 else None
-                input("\n\tType in anything to continue: ")
+                CTM.unblock_input()
+                input("\n\tType in anything to finish: ")
+                CTM.block_input()
 
-                os.system('cls')
-                CA.print_opening(version=m2e_version)
-                print(status)
-                print("\n\t\033[92mComparing process finished!\033[0m")
-                print("\n\t\033[92mThe results were saved as an additional comparison excel file!\033[0m")
+                CTM.clear_screen_backwards(down_to_row=8)
+                CTM.draw("\n\t\033[92mComparing process finished!\033[0m", clear=False)
                 NSP.play_accept_sound() if system_sound_level == 3 else None
+                CTM.draw("\n\t\033[92mThe results were saved as an additional comparison excel file!\033[0m", clear=False)
                 time.sleep(5)
 
                 # generating new Excel file for comparison results exclusively
@@ -633,479 +613,543 @@ def search_for_terms(log_title):
                 log.close()
                 comparison_counter += 1
 
-                os.system('cls')
-                CA.print_opening(version=m2e_version)
-                print(status)
-                print("\n\tReturning to main menu...")
+                CTM.clear_screen_backwards(down_to_row=8)
+                CTM.draw("\n\tReturning to main menu...")
             else:
-                os.system('cls')
-                CA.print_opening(version=m2e_version)
-                print(status)
-                print("\n\t\033[91mProcess cancelled!\033[0m"
-                      "\n\tReturning to main menu...")
+                CTM.clear_screen_backwards(down_to_row=8)
+                CTM.draw("\n\t\033[91mProcess cancelled!\033[0m", clear=False)
                 NSP.play_deny_sound() if system_sound_level == 3 else None
+                CTM.draw("\n\tReturning to main menu...")
+
             time.sleep(4)
             print_main_menu_again = True
 
         # SETTINGS MODE ------------------------------------------------------------------------------------------------
-        elif i == "set!":
+        elif i in ["set!", "set1!", "set2!", "set3!", "set4!", "set5!",
+                   "set6!", "set7!", "set8!"]:
 
-            os.system('cls')
+            CTM.clear_screen_backwards(down_to_row=5, delay=0)
+            print("\033[33m\n\t~ Settings Menu ~"
+                  "\n\t-------------------------------------------------------------------------------\033[0m")
+            time.sleep(1)
+            NSP.play_accept_sound() if system_sound_level == 3 else None
+
+            if i == "set!" or i == "set1!":
+                setting_ctrl = 1
+            elif i == "set2!":
+                setting_ctrl = 2
+            elif i == "set3!":
+                setting_ctrl = 3
+            elif i == "set4!":
+                setting_ctrl = 4
+            elif i == "set5!":
+                setting_ctrl = 5
+            elif i == "set6!":
+                setting_ctrl = 6
+            elif i == "set7!":
+                setting_ctrl = 7
+            else:
+                setting_ctrl = 8
 
             # setting 1 (database version control center)
-            done_with_database_settings = False
-            next_setting = False
 
-            while not done_with_database_settings:
+            while setting_ctrl <= 8:
 
-                os.system('cls')
-                CA.print_opening(version=m2e_version)
-                database_version_date = SDM.get_database_version_date()
-                database_version_description = SDM.get_database_version_description()
+                while setting_ctrl == 1:
 
-                CA.display_settings(setting=1, current_var=database_version_date,
-                                    current_var_2=database_version_description)
-                NSP.play_accept_sound() if system_sound_level == 3 else None
-                i = input("\n\n\tanswer: ")
+                    # setting 1 (database version control center) ------------------------------------------------------
 
-                if i == "1":
+                    CTM.clear_screen_backwards(down_to_row=8, delay=0)
+                    database_version_date = SDM.get_database_version_date()
+                    database_version_description = SDM.get_database_version_description()
 
-                    CA.display_settings_after_changes(setting=1, current_var="u1")
-                    print("\n\t1. Press \33[92menter\33[0m to \33[92mstart the download\33[0m."
-                          "\n\t2. Type in \33[91mexit!\33[0m to \33[91mreturn to settings menu\33[0m.")
+                    CA.display_settings(setting=1, current_var=database_version_date,
+                                        current_var_2=database_version_description)
 
+                    CTM.unblock_input()
                     i = input("\n\n\tanswer: ")
+                    CTM.block_input()
 
-                    if i != "exit!" and i != "exit" and i != "exit1":
-                        NSP.play_accept_sound() if system_sound_level == 3 else None
-                        url = "https://zenodo.org/record/5172857/files/wiki_morph.json?download=1"
-                        normal = CA.download_database(url=url, directly_after_start=False)
+                    if i == "1":
+                        CTM.clear_screen_backwards(down_to_row=8, delay=0)
+                        CA.display_settings_after_changes(setting=1, current_var="u1")
+                        CTM.draw("\n\t1. Press \33[92menter\33[0m to \33[92mstart the download\33[0m.",
+                                 clear=False)
+                        CTM.draw("\t2. Type in \33[91mexit!\33[0m to \33[91mreturn to settings menu\33[0m.",
+                                 clear=False)
 
-                        if normal:
-                            current_size = os.path.getsize("src/database/wiki_morph.json")
-                            current_size = int(current_size / (1024 * 1024))
-                            SDM.set_current_size(current_size)
-                            database_version_description = SDM.get_database_version_description()
-                            database_version_date = SDM.get_database_version_date()
-
-                            os.system('cls')
-                            CA.print_opening(version=m2e_version)
-                            print("\n\t\033[92mDownload completed sucessfully!\033[0m (" + str(current_size) +
-                                  " MB)\n\tThe latest version of wikimorph is now installed on your device.")
-                            NSP.play_request_sound() if system_sound_level >= 2 else None
-                            print("\n\t\33[33mNote:\33[0m "
-                                  "The version you just installed will be marked with its installation date"
-                                  " as an identifier. \n\tBack in the settings menu you can add a short description "
-                                  "\n\tfor additional information to the new installed version. "
-                                  "\n\tThis is not mandatory and a description can also be added later or changed "
-                                  "several times.")
-                            time.sleep(3)
-                            print("\n\tPress \33[92menter\33[0m to load the database."
-                                  "\n\tAfter that you will return to the settings menu automatically.")
-                            database_is_installed = True
-                            input()
-                            entries_list = CA.load_database()
-                        else:
-                            NSP.play_deny_sound() if system_sound_level == 3 else None
-                    else:
-                        print("\n\t\33[33mReturning to settings menu...\33[0m")
-                        NSP.play_deny_sound() if system_sound_level == 3 else None
-                        time.sleep(2)
-
-                elif i == "2":
-
-                    if CA.database_installation_confirmed():
-                        description_set = False
-                        while not description_set:
-                            CA.display_settings_after_changes(setting=1, current_var="d1")
-                            i = input("\n\tanswer: ")
-                            if len(i) > 25:
-                                NSP.play_deny_sound() if system_sound_level >= 2 else None
-                                print("\n\t\33[91mInvalid entry:\33[0m description is too long!")
-                                time.sleep(4)
-                            else:
-                                NSP.play_accept_sound() if system_sound_level >= 2 else None
-                                print("\n\t\33[92mEntry accepted!\33[0m")
-                                time.sleep(2.5)
-                                database_version_description = i
-                                SDM.set_database_version_description(database_version_description)
-                                CA.display_settings_after_changes(setting=1, current_var="d2",
-                                                                  current_var_2=database_version_description)
-                                description_set = True
-                                time.sleep(4)
-                    else:
-                        SDM.set_database_version_date("")
-                        SDM.set_database_version_description("")
-                        input()
-
-                elif i == "3":
-
-                    if CA.database_installation_confirmed():
-
-                        NSP.play_deny_sound() if system_sound_level >= 2 else None
-                        CA.display_settings_after_changes(setting=1, current_var="r1")
-
-                        i = input("\n\tanswer: ")
+                        CTM.unblock_input()
+                        i = input("\n\n\tanswer: ")
+                        CTM.block_input()
 
                         if i != "exit!" and i != "exit" and i != "exit1":
-
+                            CTM.clear_screen_backwards(down_to_row=8, delay=0)
                             NSP.play_accept_sound() if system_sound_level == 3 else None
-                            SDM.set_database_version_date("")
-                            SDM.set_database_version_description("")
-                            if os.path.exists("src/database/wiki_morph.json"):
-                                os.remove("src/database/wiki_morph.json")
+                            url = "https://zenodo.org/record/5172857/files/wiki_morph.json?download=1"
+                            normal = CA.download_database(url=url, directly_after_start=False)
 
-                            CA.display_settings_after_changes(setting=1, current_var="r2",
-                                                              current_var_2=database_version_date)
-                            input()
-                            print("\n\t\33[92mReturning to settings menu...\33[0m")
-                            time.sleep(2)
+                            if normal:
+                                current_size = os.path.getsize("src/database/wiki_morph.json")
+                                current_size = int(current_size / (1024 * 1024))
+                                SDM.set_current_size(current_size)
+                                database_version_description = SDM.get_database_version_description()
+                                database_version_date = SDM.get_database_version_date()
 
+                                CTM.clear_screen_backwards(down_to_row=8, delay=0)
+                                print("\n\t\033[92mDownload completed sucessfully!\033[0m (" + str(current_size) +
+                                      " MB)\n\tThe latest version of wikimorph is now installed on your device.")
+                                NSP.play_request_sound() if system_sound_level >= 2 else None
+                                print("\n\t\33[33mNote:\33[0m "
+                                      "The version you just installed will be marked with its installation date"
+                                      " as an identifier. \n\tBack in the settings menu you can add a short description "
+                                      "\n\tfor additional information to the new installed version. "
+                                      "\n\tThis is not mandatory and a description can also be added later or changed "
+                                      "several times.")
+                                time.sleep(3)
+                                CTM.draw("\n\tPress \33[92menter\33[0m to load the database."
+                                         "\n\tAfter that you will return to the settings menu automatically.",
+                                         clear=False)
+                                database_is_installed = True
+                                CTM.unblock_input()
+                                input()
+                                CTM.block_input()
+                                entries_list = CA.load_database()
+                            else:
+                                NSP.play_deny_sound() if system_sound_level == 3 else None
                         else:
-                            print("\n\t\33[33mReturning to settings menu...\33[0m")
+                            CTM.draw("\n\t\33[33mReturning to overview...\33[0m")
                             NSP.play_deny_sound() if system_sound_level == 3 else None
                             time.sleep(2)
+
+                    elif i == "2":
+
+                        if CA.database_installation_confirmed():
+                            description_set = False
+                            while not description_set:
+                                CTM.clear_screen_backwards(down_to_row=8, delay=0)
+                                CA.display_settings_after_changes(setting=1, current_var="d1")
+                                CTM.unblock_input()
+                                i = input("\n\tanswer: ")
+                                CTM.block_input()
+                                if len(i) > 25:
+                                    CTM.draw("\n\t\33[91mInvalid entry:\33[0m description is too long!", clear=False)
+                                    NSP.play_deny_sound() if system_sound_level >= 2 else None
+                                    time.sleep(4)
+                                else:
+                                    CTM.draw("\n\t\33[92mEntry accepted!\33[0m", clear=False)
+                                    NSP.play_accept_sound() if system_sound_level >= 2 else None
+                                    time.sleep(2.5)
+                                    database_version_description = i
+                                    SDM.set_database_version_description(database_version_description)
+                                    CTM.clear_screen_backwards(down_to_row=8, delay=0)
+                                    CA.display_settings_after_changes(setting=1, current_var="d2",
+                                                                      current_var_2=database_version_description)
+                                    description_set = True
+                                    time.sleep(4)
+                        else:
+                            SDM.set_database_version_date("")
+                            SDM.set_database_version_description("")
+                            CTM.unblock_input()
+                            input()
+                            CTM.block_input()
+                            CTM.clear_screen_backwards(down_to_row=5, delay=0)
+                            print("\033[33m\n\t~ Settings Menu ~"
+                                  "\n\t---------------------------------------------------"
+                                  "----------------------------\033[0m")
+
+                    elif i == "3":
+
+                        if CA.database_installation_confirmed():
+
+                            NSP.play_deny_sound() if system_sound_level >= 2 else None
+                            CA.display_settings_after_changes(setting=1, current_var="r1")
+
+                            CTM.unblock_input()
+                            i = input("\n\tanswer: ")
+                            CTM.block_input()
+
+                            if i != "exit!" and i != "exit" and i != "exit1":
+
+                                NSP.play_accept_sound() if system_sound_level == 3 else None
+                                SDM.set_database_version_date("")
+                                SDM.set_database_version_description("")
+                                if os.path.exists("src/database/wiki_morph.json"):
+                                    os.remove("src/database/wiki_morph.json")
+
+                                CA.display_settings_after_changes(setting=1, current_var="r2",
+                                                                  current_var_2=database_version_date)
+                                CTM.unblock_input()
+                                input()
+                                CTM.block_input()
+                                CTM.draw("\n\t\33[92mReturning to overview...\33[0m")
+                                time.sleep(2)
+
+                            else:
+                                CTM.draw("\n\t\33[33mReturning to settings menu...\33[0m")
+                                NSP.play_deny_sound() if system_sound_level == 3 else None
+                                time.sleep(2)
+                        else:
+                            SDM.set_database_version_date("")
+                            SDM.set_database_version_description("")
+                            database_version_description = SDM.get_database_version_description()
+                            database_version_date = SDM.get_database_version_date()
+                            CTM.unblock_input()
+                            input()
+                            CTM.block_input()
+                            CTM.clear_screen_backwards(down_to_row=5, delay=0)
+                            print("\033[33m\n\t~ Settings Menu ~"
+                                  "\n\t--------------------------------------------------"
+                                  "-----------------------------\033[0m")
+
+                    elif i == "exit" or i == "exit1" or i == "exit!":
+                        setting_ctrl = 9
+                        CTM.clear_screen_backwards(down_to_row=8, delay=0)
                     else:
-                        SDM.set_database_version_date("")
-                        SDM.set_database_version_description("")
-                        database_version_description = SDM.get_database_version_description()
-                        database_version_date = SDM.get_database_version_date()
-                        input()
-                elif i == "exit" or i == "exit1" or i == "exit!":
-                    print("\n\t\33[92mReturning to main menu...\33[0m")
-                    done_with_database_settings = True
-                    next_setting = False
-                    os.system('cls')
-                else:
-                    print("\n\t\33[92mLoading further settings...\33[0m")
-                    time.sleep(2)
-                    done_with_database_settings = True
-                    next_setting = True
-                    os.system('cls')
+                        setting_ctrl = 2
 
-            if next_setting:
-                # setting 2 (term output diplomacy)
-                os.system('cls')
-                CA.display_settings(2, term_output_diplomacy)
-                i = input("\n\tType in the \33[33moption number\33[0m of the option you want to \33[33mchoose\33[0m or "
-                          "\n\tpress \33[92menter\33[0m to \33[92mcontinue\33[0m without making changes."
-                          "\n\tType in \33[94mb!\33[0m to navigate \33[94mbackwards\33[0m to the "
-                          "\33[94mprevious setting\33[0m."
-                          "\n\tType in \33[91mexit!\33[0m to \33[91mreturn to main menu\33[0m."
-                          "\n\n\tOption number: ")
-                if i == "1":
-                    SDM.set_term_output_diplomacy("1")
-                    term_output_diplomacy = SDM.get_term_output_diplomacy()
-                    os.system('cls')
-                    CA.display_settings_after_changes(2, term_output_diplomacy)
-                    print("\033[92m" + "\n\tOnly found terms will be considered!\033[0m")
-                    NSP.play_deny_sound() if system_sound_level == 3 else None
-                    time.sleep(4)
-                elif i == "2":
-                    SDM.set_term_output_diplomacy("2")
-                    term_output_diplomacy = SDM.get_term_output_diplomacy()
-                    os.system('cls')
-                    CA.display_settings_after_changes(2, term_output_diplomacy)
-                    print("\033[92m" + "\n\tOnly not found terms will be considered!\033[0m")
-                    NSP.play_deny_sound() if system_sound_level == 3 else None
-                    time.sleep(4)
-                elif i == "3":
-                    SDM.set_term_output_diplomacy("3")
-                    term_output_diplomacy = SDM.get_term_output_diplomacy()
-                    os.system('cls')
-                    CA.display_settings_after_changes(2, term_output_diplomacy)
-                    print("\033[92m" + "\n\tAll terms will be considered!\033[0m")
-                    NSP.play_deny_sound() if system_sound_level == 3 else None
-                    time.sleep(4)
-                elif i == "exit" or i == "exit1" or i == "exit!":
-                    print("\n\t\33[92mReturning to main menu...\33[0m")
-                    next_setting = False
-                    os.system('cls')
-                else:
-                    print("\033[92m" + "\n\tPrevious setting will be kept!\033[0m")
-                    time.sleep(2)
+                if setting_ctrl == 2:
+                    # setting 2 (term output diplomacy) ----------------------------------------------------------------
+                    CTM.clear_screen_backwards(down_to_row=8, delay=0)
+                    CA.display_settings(2, term_output_diplomacy)
+                    CTM.unblock_input()
+                    i = input("\n\tType in the \33[33moption number\33[0m of the option you want to \33[33mchoose\33[0m"
+                              " or\n\tpress \33[92menter\33[0m to \33[92mcontinue\33[0m without making changes."
+                              "\n\tType in \33[94mb!\33[0m to navigate \33[94mbackwards\33[0m to the "
+                              "\33[94mprevious setting\33[0m."
+                              "\n\tType in \33[91mexit!\33[0m to \33[91mreturn to main menu\33[0m."
+                              "\n\n\tOption number: ")
+                    CTM.block_input()
+                    if i == "1":
+                        SDM.set_term_output_diplomacy("1")
+                        term_output_diplomacy = SDM.get_term_output_diplomacy()
+                        CTM.clear_screen_backwards(down_to_row=8, delay=0)
+                        CA.display_settings_after_changes(2, term_output_diplomacy)
+                        CTM.draw("\033[92m" + "\n\tOnly found terms will be considered!\033[0m")
+                        NSP.play_deny_sound() if system_sound_level == 3 else None
+                        time.sleep(4)
+                    elif i == "2":
+                        SDM.set_term_output_diplomacy("2")
+                        term_output_diplomacy = SDM.get_term_output_diplomacy()
+                        CTM.clear_screen_backwards(down_to_row=8, delay=0)
+                        CA.display_settings_after_changes(2, term_output_diplomacy)
+                        CTM.draw("\033[92m" + "\n\tOnly not found terms will be considered!\033[0m")
+                        NSP.play_deny_sound() if system_sound_level == 3 else None
+                        time.sleep(4)
+                    elif i == "3":
+                        SDM.set_term_output_diplomacy("3")
+                        term_output_diplomacy = SDM.get_term_output_diplomacy()
+                        CTM.clear_screen_backwards(down_to_row=8, delay=0)
+                        CA.display_settings_after_changes(2, term_output_diplomacy)
+                        CTM.draw("\033[92m" + "\n\tAll terms will be considered!\033[0m")
+                        NSP.play_deny_sound() if system_sound_level == 3 else None
+                        time.sleep(4)
+                    elif i == "b!" or i == "B!" or i == "b1" or i == "B1":
+                        setting_ctrl -= 1
+                        CTM.clear_screen_backwards(down_to_row=8, delay=0)
+                    elif i == "exit" or i == "exit1" or i == "exit!":
+                        setting_ctrl = 9
+                        CTM.clear_screen_backwards(down_to_row=8, delay=0)
+                    else:
+                        setting_ctrl = 3
 
-            if next_setting:
-                # setting 3 (Output format)
-                os.system('cls')
-                CA.display_settings(3, oneline_output_format)
-                i = input("\n\tType in the \33[33moption number\33[0m of the option you want to \33[33mchoose\33[0m or "
-                          "\n\tpress \33[92menter\33[0m to \33[92mcontinue\33[0m without making changes."
-                          "\n\tType in \33[94mb!\33[0m to navigate \33[94mbackwards\33[0m to the "
-                          "\33[94mprevious setting\33[0m."
-                          "\n\tType in \33[91mexit!\33[0m to \33[91mreturn to main menu\33[0m."
-                          "\n\n\tOption number: ")
-                if i == "1":
-                    SDM.set_one_line_output(True)
-                    oneline_output_format = SDM.get_one_line_output()
-                    os.system('cls')
-                    CA.display_settings_after_changes(3, oneline_output_format)
-                    print("\033[92m" + "\n\tOutput will be printed in one-line format!\033[0m")
-                    NSP.play_deny_sound() if system_sound_level == 3 else None
-                    time.sleep(4)
-                elif i == "2":
-                    SDM.set_one_line_output(False)
-                    oneline_output_format = SDM.get_one_line_output()
-                    os.system('cls')
-                    CA.display_settings_after_changes(3, oneline_output_format)
-                    print("\033[92m" + "\n\tOutput will be printed in multi-line format!\033[0m")
-                    NSP.play_deny_sound() if system_sound_level == 3 else None
-                    time.sleep(4)
-                elif i == "exit" or i == "exit1" or i == "exit!":
-                    print("\n\t\33[92mReturning to main menu...\33[0m")
-                    next_setting = False
-                    os.system('cls')
-                else:
-                    print("\033[92m" + "\n\tPrevious setting will be kept!\033[0m")
-                    time.sleep(2)
+                if setting_ctrl == 3:
+                    # setting 3 (Output line format) -------------------------------------------------------------------
+                    CTM.clear_screen_backwards(down_to_row=8, delay=0)
+                    CA.display_settings(3, oneline_output_format)
+                    CTM.unblock_input()
+                    i = input("\n\tType in the \33[33moption number\33[0m of the option you want to \33[33mchoose\33[0m"
+                              " or\n\tpress \33[92menter\33[0m to \33[92mcontinue\33[0m without making changes."
+                              "\n\tType in \33[94mb!\33[0m to navigate \33[94mbackwards\33[0m to the "
+                              "\33[94mprevious setting\33[0m."
+                              "\n\tType in \33[91mexit!\33[0m to \33[91mreturn to main menu\33[0m."
+                              "\n\n\tOption number: ")
+                    CTM.block_input()
+                    if i == "1":
+                        SDM.set_one_line_output(True)
+                        oneline_output_format = SDM.get_one_line_output()
+                        CTM.clear_screen_backwards(down_to_row=8, delay=0)
+                        CA.display_settings_after_changes(3, oneline_output_format)
+                        CTM.draw("\033[92m" + "\n\tOutput will be printed in one-line format!\033[0m")
+                        NSP.play_deny_sound() if system_sound_level == 3 else None
+                        time.sleep(4)
+                    elif i == "2":
+                        SDM.set_one_line_output(False)
+                        oneline_output_format = SDM.get_one_line_output()
+                        CTM.clear_screen_backwards(down_to_row=8, delay=0)
+                        CA.display_settings_after_changes(3, oneline_output_format)
+                        CTM.draw("\033[92m" + "\n\tOutput will be printed in multi-line format!\033[0m")
+                        NSP.play_deny_sound() if system_sound_level == 3 else None
+                        time.sleep(4)
+                    elif i == "b!" or i == "B!" or i == "b1" or i == "B1":
+                        setting_ctrl -= 1
+                        CTM.clear_screen_backwards(down_to_row=8, delay=0)
+                    elif i == "exit" or i == "exit1" or i == "exit!":
+                        setting_ctrl = 9
+                        CTM.clear_screen_backwards(down_to_row=8, delay=0)
+                    else:
+                        setting_ctrl = 4
 
-            if next_setting:
-                # setting 4 (headline-printing)
-                os.system('cls')
-                CA.display_settings(4, headline_printing)
-                i = input("\n\tType in the \33[33moption number\33[0m of the option you want to \33[33mchoose\33[0m or "
-                          "\n\tpress \33[92menter\33[0m to \33[92mcontinue\33[0m without making changes."
-                          "\n\tType in \33[94mb!\33[0m to navigate \33[94mbackwards\33[0m to the "
-                          "\33[94mprevious setting\33[0m."
-                          "\n\tType in \33[91mexit!\33[0m to \33[91mreturn to main menu\33[0m."
-                          "\n\n\tOption number: ")
-                if i == "1":
-                    SDM.set_headline_printing("1")
-                    headline_printing = SDM.get_headline_printing()
-                    os.system('cls')
-                    CA.display_settings_after_changes(4, headline_printing)
-                    print("\033[92m" + "\n\tHeadline will be printed only at top of excel!\033[0m")
-                    NSP.play_deny_sound() if system_sound_level == 3 else None
-                    time.sleep(4)
-                elif i == "2":
-                    SDM.set_headline_printing("2")
-                    headline_printing = SDM.get_headline_printing()
-                    os.system('cls')
-                    CA.display_settings_after_changes(4, headline_printing)
-                    print("\033[92m" + "\n\tHeadline will be printed for every new document in scan mode!\033[0m")
-                    NSP.play_deny_sound() if system_sound_level == 3 else None
-                    time.sleep(4)
-                elif i == "3":
-                    SDM.set_headline_printing("3")
-                    headline_printing = SDM.get_headline_printing()
-                    os.system('cls')
-                    CA.display_settings_after_changes(4, headline_printing)
-                    print("\033[92m" + "\n\tHeadline will be printed for every new term!\033[0m")
-                    NSP.play_deny_sound() if system_sound_level == 3 else None
-                    time.sleep(4)
-                elif i == "exit" or i == "exit1" or i == "exit!":
-                    print("\n\t\33[92mReturning to main menu...\33[0m")
-                    next_setting = False
-                    os.system('cls')
-                else:
-                    print("\033[92m" + "\n\tPrevious setting will be kept!\033[0m")
-                    time.sleep(2)
+                if setting_ctrl == 4:
+                    # setting 4 (headline-printing) --------------------------------------------------------------------
+                    CTM.clear_screen_backwards(down_to_row=8, delay=0)
+                    CA.display_settings(4, headline_printing)
+                    CTM.unblock_input()
+                    i = input("\n\tType in the \33[33moption number\33[0m of the option you want to \33[33mchoose\33[0m"
+                              " or\n\tpress \33[92menter\33[0m to \33[92mcontinue\33[0m without making changes."
+                              "\n\tType in \33[94mb!\33[0m to navigate \33[94mbackwards\33[0m to the "
+                              "\33[94mprevious setting\33[0m."
+                              "\n\tType in \33[91mexit!\33[0m to \33[91mreturn to main menu\33[0m."
+                              "\n\n\tOption number: ")
+                    CTM.block_input()
+                    if i == "1":
+                        SDM.set_headline_printing("1")
+                        headline_printing = SDM.get_headline_printing()
+                        CTM.clear_screen_backwards(down_to_row=8, delay=0)
+                        CA.display_settings_after_changes(4, headline_printing)
+                        CTM.draw("\033[92m" + "\n\tHeadline will be printed only at top of excel!\033[0m")
+                        NSP.play_deny_sound() if system_sound_level == 3 else None
+                        time.sleep(4)
+                    elif i == "2":
+                        SDM.set_headline_printing("2")
+                        headline_printing = SDM.get_headline_printing()
+                        CTM.clear_screen_backwards(down_to_row=8, delay=0)
+                        CA.display_settings_after_changes(4, headline_printing)
+                        CTM.draw("\033[92m" + "\n\tHeadline will be printed for every new document in scan mode!\033[0m")
+                        NSP.play_deny_sound() if system_sound_level == 3 else None
+                        time.sleep(4)
+                    elif i == "3":
+                        SDM.set_headline_printing("3")
+                        headline_printing = SDM.get_headline_printing()
+                        CTM.clear_screen_backwards(down_to_row=8, delay=0)
+                        CA.display_settings_after_changes(4, headline_printing)
+                        CTM.draw("\033[92m" + "\n\tHeadline will be printed for every new term!\033[0m")
+                        NSP.play_deny_sound() if system_sound_level == 3 else None
+                        time.sleep(4)
+                    elif i == "b!" or i == "B!" or i == "b1" or i == "B1":
+                        setting_ctrl -= 1
+                        CTM.clear_screen_backwards(down_to_row=8, delay=0)
+                    elif i == "exit" or i == "exit1" or i == "exit!":
+                        setting_ctrl = 9
+                        CTM.clear_screen_backwards(down_to_row=8, delay=0)
+                    else:
+                        setting_ctrl = 5
 
-            if next_setting:
-                # setting 5 (alphabetical output)
-                os.system('cls')
-                CA.display_settings(5, alphabetical_output, abc_output_ascending)
-                i = input("\n\tType in the \33[33moption number\33[0m of the option you want to \33[33mchoose\33[0m or "
-                          "\n\tpress \33[92menter\33[0m to \33[92mcontinue\33[0m without making changes."
-                          "\n\tType in \33[94mb!\33[0m to navigate \33[94mbackwards\33[0m to the "
-                          "\33[94mprevious setting\33[0m."
-                          "\n\tType in \33[91mexit!\33[0m to \33[91mreturn to main menu\33[0m."
-                          "\n\n\tOption number: ")
-                if i == "1":
-                    SDM.set_alphabetical_output(abc=True, asc=True)
-                    alphabetical_output, abc_output_ascending = SDM.get_alphabetical_output()
-                    os.system('cls')
-                    CA.display_settings_after_changes(5, alphabetical_output, abc_output_ascending)
-                    print("\033[92m" + "\n\tOutput will be structured in ascending alphabetical order!\033[0m")
-                    NSP.play_deny_sound() if system_sound_level == 3 else None
-                    time.sleep(4)
-                elif i == "2":
-                    SDM.set_alphabetical_output(abc=True, asc=False)
-                    alphabetical_output, abc_output_ascending = SDM.get_alphabetical_output()
-                    os.system('cls')
-                    CA.display_settings_after_changes(5, alphabetical_output, abc_output_ascending)
-                    print("\033[92m" + "\n\tOutput will be structured in descending alphabetical order!\033[0m")
-                    NSP.play_deny_sound() if system_sound_level == 3 else None
-                    time.sleep(4)
-                elif i == "3":
-                    SDM.set_alphabetical_output(abc=False, asc=False)
-                    alphabetical_output, abc_output_ascending = SDM.get_alphabetical_output()
-                    os.system('cls')
-                    CA.display_settings_after_changes(5, alphabetical_output, abc_output_ascending)
-                    print("\033[92m" + "\n\tOutput will not be structured at all!\033[0m")
-                    NSP.play_deny_sound() if system_sound_level == 3 else None
-                    time.sleep(4)
-                elif i == "exit" or i == "exit1" or i == "exit!":
-                    print("\n\t\33[92mreturning to main menu...\33[0m")
-                    next_setting = False
-                    os.system('cls')
-                else:
-                    print("\033[92m" + "\n\tPrevious setting will be kept!\033[0m")
-                    time.sleep(2)
+                if setting_ctrl == 5:
+                    # setting 5 (alphabetical output) ------------------------------------------------------------------
+                    CTM.clear_screen_backwards(down_to_row=8, delay=0)
+                    CA.display_settings(5, alphabetical_output, abc_output_ascending)
+                    CTM.unblock_input()
+                    i = input("\n\tType in the \33[33moption number\33[0m of the option you want to \33[33mchoose\33[0m"
+                              " or\n\tpress \33[92menter\33[0m to \33[92mcontinue\33[0m without making changes."
+                              "\n\tType in \33[94mb!\33[0m to navigate \33[94mbackwards\33[0m to the "
+                              "\33[94mprevious setting\33[0m."
+                              "\n\tType in \33[91mexit!\33[0m to \33[91mreturn to main menu\33[0m."
+                              "\n\n\tOption number: ")
+                    CTM.block_input()
+                    if i == "1":
+                        SDM.set_alphabetical_output(abc=True, asc=True)
+                        alphabetical_output, abc_output_ascending = SDM.get_alphabetical_output()
+                        CTM.clear_screen_backwards(down_to_row=8, delay=0)
+                        CA.display_settings_after_changes(5, alphabetical_output, abc_output_ascending)
+                        CTM.draw("\033[92m" + "\n\tOutput will be structured in ascending alphabetical order!\033[0m")
+                        NSP.play_deny_sound() if system_sound_level == 3 else None
+                        time.sleep(4)
+                    elif i == "2":
+                        SDM.set_alphabetical_output(abc=True, asc=False)
+                        alphabetical_output, abc_output_ascending = SDM.get_alphabetical_output()
+                        CTM.clear_screen_backwards(down_to_row=8, delay=0)
+                        CA.display_settings_after_changes(5, alphabetical_output, abc_output_ascending)
+                        CTM.draw("\033[92m" + "\n\tOutput will be structured in descending alphabetical order!\033[0m")
+                        NSP.play_deny_sound() if system_sound_level == 3 else None
+                        time.sleep(4)
+                    elif i == "3":
+                        SDM.set_alphabetical_output(abc=False, asc=False)
+                        alphabetical_output, abc_output_ascending = SDM.get_alphabetical_output()
+                        CTM.clear_screen_backwards(down_to_row=8, delay=0)
+                        CA.display_settings_after_changes(5, alphabetical_output, abc_output_ascending)
+                        CTM.draw("\033[92m" + "\n\tOutput will not be structured at all!\033[0m")
+                        NSP.play_deny_sound() if system_sound_level == 3 else None
+                        time.sleep(4)
+                    elif i == "b!" or i == "B!" or i == "b1" or i == "B1":
+                        setting_ctrl -= 1
+                        CTM.clear_screen_backwards(down_to_row=8, delay=0)
+                    elif i == "exit" or i == "exit1" or i == "exit!":
+                        setting_ctrl = 9
+                        CTM.clear_screen_backwards(down_to_row=8, delay=0)
+                    else:
+                        setting_ctrl = 6
 
-            if next_setting:
-                # setting 6 (auto scan filters)
-                os.system('cls')
-                CA.display_settings(6, auto_scan_filters)
-                i = input("\n\tType in the \33[33moption number\33[0m of the option you want to \33[33mchoose\33[0m or "
-                          "\n\tpress \33[92menter\33[0m to \33[92mcontinue\33[0m without making changes."
-                          "\n\tType in \33[94mb!\33[0m to navigate \33[94mbackwards\33[0m to the "
-                          "\33[94mprevious setting\33[0m."
-                          "\n\tType in \33[91mexit!\33[0m to \33[91mreturn to main menu\33[0m."
-                          "\n\n\tOption number: ")
+                if setting_ctrl == 6:
+                    # setting 6 (auto scan filters) --------------------------------------------------------------------
+                    CTM.clear_screen_backwards(down_to_row=8, delay=0)
+                    CA.display_settings(6, auto_scan_filters)
+                    CTM.unblock_input()
+                    i = input("\n\tType in the \33[33moption number\33[0m of the option you want to \33[33mchoose\33[0m"
+                              " or\n\tpress \33[92menter\33[0m to \33[92mcontinue\33[0m without making changes."
+                              "\n\tType in \33[94mb!\33[0m to navigate \33[94mbackwards\33[0m to the "
+                              "\33[94mprevious setting\33[0m."
+                              "\n\tType in \33[91mexit!\33[0m to \33[91mreturn to main menu\33[0m."
+                              "\n\n\tOption number: ")
+                    CTM.block_input()
 
-                if i == "1":
-                    SDM.set_auto_scan_filters("Noun")
-                    auto_scan_filters = SDM.get_auto_scan_filters()
-                    os.system('cls')
-                    CA.display_settings_after_changes(6, auto_scan_filters)
-                    print("\033[92m" + '\n\t"Noun" is set as pos filter now!\033[0m')
-                    NSP.play_deny_sound() if system_sound_level == 3 else None
-                    time.sleep(4)
-                elif i == "2":
-                    SDM.set_auto_scan_filters("Verb")
-                    auto_scan_filters = SDM.get_auto_scan_filters()
-                    os.system('cls')
-                    CA.display_settings_after_changes(6, auto_scan_filters)
-                    print("\033[92m" + '\n\t"Verb" is set as pos filter now!\033[0m')
-                    NSP.play_deny_sound() if system_sound_level == 3 else None
-                    time.sleep(4)
-                elif i == "3":
-                    SDM.set_auto_scan_filters("Adjective")
-                    auto_scan_filters = SDM.get_auto_scan_filters()
-                    os.system('cls')
-                    CA.display_settings_after_changes(6, auto_scan_filters)
-                    print("\033[92m" + '\n\t"Adjective" is set as pos filter now!\033[0m')
-                    NSP.play_deny_sound() if system_sound_level == 3 else None
-                    time.sleep(4)
-                elif i == "4":
-                    SDM.set_auto_scan_filters("Adverb")
-                    auto_scan_filters = SDM.get_auto_scan_filters()
-                    os.system('cls')
-                    CA.display_settings_after_changes(6, auto_scan_filters)
-                    print("\033[92m" + '\n\t"Adverb" is set as pos filter now!\033[0m')
-                    NSP.play_deny_sound() if system_sound_level == 3 else None
-                    time.sleep(4)
-                elif i == "5":
-                    SDM.set_auto_scan_filters("Preposition")
-                    auto_scan_filters = SDM.get_auto_scan_filters()
-                    os.system('cls')
-                    CA.display_settings_after_changes(6, auto_scan_filters)
-                    print("\033[92m" + '\n\t"Preposition" is set as pos filter now!\033[0m')
-                    NSP.play_deny_sound() if system_sound_level == 3 else None
-                    time.sleep(4)
-                elif i == "6":
-                    SDM.set_auto_scan_filters("Phrase")
-                    auto_scan_filters = SDM.get_auto_scan_filters()
-                    os.system('cls')
-                    CA.display_settings_after_changes(6, auto_scan_filters)
-                    print("\033[92m" + '\n\t"Phrase" is set as pos filter now!\033[0m')
-                    NSP.play_deny_sound() if system_sound_level == 3 else None
-                    time.sleep(4)
-                elif i == "7":
-                    SDM.set_auto_scan_filters("Noun, Verb, Adjective, Adverb, Preposition, Phrase")
-                    auto_scan_filters = SDM.get_auto_scan_filters()
-                    os.system('cls')
-                    CA.display_settings_after_changes(6, auto_scan_filters)
-                    print("\033[92m" + '\n\tAll pos types will be considered now!\033[0m')
-                    NSP.play_deny_sound() if system_sound_level == 3 else None
-                    time.sleep(4)
-                elif i == "exit" or i == "exit1" or i == "exit!":
-                    print("\n\t\33[92mreturning to main menu...\33[0m")
-                    next_setting = False
-                    os.system('cls')
-                else:
-                    print("\033[92m" + "\n\tPrevious setting will be kept!\033[0m")
-                    time.sleep(2)
+                    if i == "1":
+                        SDM.set_auto_scan_filters("Noun")
+                        auto_scan_filters = SDM.get_auto_scan_filters()
+                        CTM.clear_screen_backwards(down_to_row=8, delay=0)
+                        CA.display_settings_after_changes(6, auto_scan_filters)
+                        CTM.draw("\033[92m" + '\n\t"Noun" is set as pos filter now!\033[0m')
+                        NSP.play_deny_sound() if system_sound_level == 3 else None
+                        time.sleep(4)
+                    elif i == "2":
+                        SDM.set_auto_scan_filters("Verb")
+                        auto_scan_filters = SDM.get_auto_scan_filters()
+                        CTM.clear_screen_backwards(down_to_row=8, delay=0)
+                        CA.display_settings_after_changes(6, auto_scan_filters)
+                        CTM.draw("\033[92m" + '\n\t"Verb" is set as pos filter now!\033[0m')
+                        NSP.play_deny_sound() if system_sound_level == 3 else None
+                        time.sleep(4)
+                    elif i == "3":
+                        SDM.set_auto_scan_filters("Adjective")
+                        auto_scan_filters = SDM.get_auto_scan_filters()
+                        CTM.clear_screen_backwards(down_to_row=8, delay=0)
+                        CA.display_settings_after_changes(6, auto_scan_filters)
+                        CTM.draw("\033[92m" + '\n\t"Adjective" is set as pos filter now!\033[0m')
+                        NSP.play_deny_sound() if system_sound_level == 3 else None
+                        time.sleep(4)
+                    elif i == "4":
+                        SDM.set_auto_scan_filters("Adverb")
+                        auto_scan_filters = SDM.get_auto_scan_filters()
+                        CTM.clear_screen_backwards(down_to_row=8, delay=0)
+                        CA.display_settings_after_changes(6, auto_scan_filters)
+                        CTM.draw("\033[92m" + '\n\t"Adverb" is set as pos filter now!\033[0m')
+                        NSP.play_deny_sound() if system_sound_level == 3 else None
+                        time.sleep(4)
+                    elif i == "5":
+                        SDM.set_auto_scan_filters("Preposition")
+                        auto_scan_filters = SDM.get_auto_scan_filters()
+                        CTM.clear_screen_backwards(down_to_row=8, delay=0)
+                        CA.display_settings_after_changes(6, auto_scan_filters)
+                        CTM.draw("\033[92m" + '\n\t"Preposition" is set as pos filter now!\033[0m')
+                        NSP.play_deny_sound() if system_sound_level == 3 else None
+                        time.sleep(4)
+                    elif i == "6":
+                        SDM.set_auto_scan_filters("Phrase")
+                        auto_scan_filters = SDM.get_auto_scan_filters()
+                        CTM.clear_screen_backwards(down_to_row=8, delay=0)
+                        CA.display_settings_after_changes(6, auto_scan_filters)
+                        CTM.draw("\033[92m" + '\n\t"Phrase" is set as pos filter now!\033[0m')
+                        NSP.play_deny_sound() if system_sound_level == 3 else None
+                        time.sleep(4)
+                    elif i == "7":
+                        SDM.set_auto_scan_filters("Noun, Verb, Adjective, Adverb, Preposition, Phrase")
+                        auto_scan_filters = SDM.get_auto_scan_filters()
+                        CTM.clear_screen_backwards(down_to_row=8, delay=0)
+                        CA.display_settings_after_changes(6, auto_scan_filters)
+                        CTM.draw("\033[92m" + '\n\tAll pos types will be considered now!\033[0m')
+                        NSP.play_deny_sound() if system_sound_level == 3 else None
+                        time.sleep(4)
+                    elif i == "b!" or i == "B!" or i == "b1" or i == "B1":
+                        setting_ctrl -= 1
+                        CTM.clear_screen_backwards(down_to_row=8, delay=0)
+                    elif i == "exit" or i == "exit1" or i == "exit!":
+                        setting_ctrl = 9
+                        CTM.clear_screen_backwards(down_to_row=8, delay=0)
+                    else:
+                        setting_ctrl = 7
 
-            if next_setting:
-                # setting 7 (output detail level)
-                os.system('cls')
-                CA.display_settings(7, output_detail_level)
-                i = input("\n\tType in the \33[33moption number\33[0m of the option you want to \33[33mchoose\33[0m or "
-                          "\n\tpress \33[92menter\33[0m to \33[92mcontinue\33[0m without making changes."
-                          "\n\tType in \33[94mb!\33[0m to navigate \33[94mbackwards\33[0m to the "
-                          "\33[94mprevious setting\33[0m."
-                          "\n\tType in \33[91mexit!\33[0m to \33[91mreturn to main menu\33[0m."
-                          "\n\n\tOption number: ")
-                if i == "1":
-                    SDM.set_output_detail_level("1")
-                    output_detail_level = SDM.get_output_detail_level()
-                    os.system('cls')
-                    CA.display_settings_after_changes(7, output_detail_level)
-                    print("\033[92m" + "\n\tOutput will cover term data only!\033[0m")
-                    NSP.play_deny_sound() if system_sound_level == 3 else None
-                    time.sleep(4)
-                elif i == "2":
-                    SDM.set_output_detail_level("2")
-                    output_detail_level = SDM.get_output_detail_level()
-                    os.system('cls')
-                    CA.display_settings_after_changes(7, output_detail_level)
-                    print("\033[92m" + "\n\tOutput will cover term data and morphology data!\033[0m")
-                    NSP.play_deny_sound() if system_sound_level == 3 else None
-                    time.sleep(4)
-                elif i == "3":
-                    SDM.set_output_detail_level("3")
-                    output_detail_level = SDM.get_output_detail_level()
-                    os.system('cls')
-                    CA.display_settings_after_changes(7, output_detail_level)
-                    print("\033[92m" + "\n\tOutput will cover all data information!\033[0m")
-                    NSP.play_deny_sound() if system_sound_level == 3 else None
-                    time.sleep(4)
-                elif i == "exit" or i == "exit1" or i == "exit!":
-                    print("\n\t\33[92mreturning to main menu...\33[0m")
-                    next_setting = False
-                    os.system('cls')
-                else:
-                    print("\033[92m" + "\n\tPrevious setting will be kept!\033[0m")
-                    time.sleep(2)
+                if setting_ctrl == 7:
+                    # setting 7 (output detail level) ------------------------------------------------------------------
+                    CTM.clear_screen_backwards(down_to_row=8, delay=0)
+                    CA.display_settings(7, output_detail_level)
+                    CTM.unblock_input()
+                    i = input("\n\tType in the \33[33moption number\33[0m of the option you want to \33[33mchoose\33[0m"
+                              " or\n\tpress \33[92menter\33[0m to \33[92mcontinue\33[0m without making changes."
+                              "\n\tType in \33[94mb!\33[0m to navigate \33[94mbackwards\33[0m to the "
+                              "\33[94mprevious setting\33[0m."
+                              "\n\tType in \33[91mexit!\33[0m to \33[91mreturn to main menu\33[0m."
+                              "\n\n\tOption number: ")
+                    CTM.block_input()
+                    if i == "1":
+                        SDM.set_output_detail_level("1")
+                        output_detail_level = SDM.get_output_detail_level()
+                        CTM.clear_screen_backwards(down_to_row=8, delay=0)
+                        CA.display_settings_after_changes(7, output_detail_level)
+                        CTM.draw("\033[92m" + "\n\tOutput will cover term data only!\033[0m")
+                        NSP.play_deny_sound() if system_sound_level == 3 else None
+                        time.sleep(4)
+                    elif i == "2":
+                        SDM.set_output_detail_level("2")
+                        output_detail_level = SDM.get_output_detail_level()
+                        CTM.clear_screen_backwards(down_to_row=8, delay=0)
+                        CA.display_settings_after_changes(7, output_detail_level)
+                        CTM.draw("\033[92m" + "\n\tOutput will cover term data and morphology data!\033[0m")
+                        NSP.play_deny_sound() if system_sound_level == 3 else None
+                        time.sleep(4)
+                    elif i == "3":
+                        SDM.set_output_detail_level("3")
+                        output_detail_level = SDM.get_output_detail_level()
+                        CTM.clear_screen_backwards(down_to_row=8, delay=0)
+                        CA.display_settings_after_changes(7, output_detail_level)
+                        CTM.draw("\033[92m" + "\n\tOutput will cover all data information!\033[0m")
+                        NSP.play_deny_sound() if system_sound_level == 3 else None
+                        time.sleep(4)
+                    elif i == "b!" or i == "B!" or i == "b1" or i == "B1":
+                        setting_ctrl -= 1
+                        CTM.clear_screen_backwards(down_to_row=8, delay=0)
+                    elif i == "exit" or i == "exit1" or i == "exit!":
+                        setting_ctrl = 9
+                        CTM.clear_screen_backwards(down_to_row=8, delay=0)
+                    else:
+                        setting_ctrl = 8
 
-            if next_setting:
-                # setting 8 (system sound level)
-                os.system('cls')
-                CA.display_settings(8, system_sound_level)
-                i = input("\n\tType in the \33[33moption number\33[0m of the option you want to \33[33mchoose\33[0m or "
-                          "\n\tpress \33[92menter\33[0m to \33[92mreturn to main menu\33[0m without making changes."
-                          "\n\tType in \33[94mb!\33[0m to navigate \33[94mbackwards\33[0m to the "
-                          "\33[94mprevious setting\33[0m."
-                          "\n\n\tOption number: ")
-                if i == "1":
-                    SDM.set_system_sound_level("1")
-                    system_sound_level = SDM.get_system_sound_level()
-                    os.system('cls')
-                    CA.display_settings_after_changes(8, system_sound_level)
-                    print("\033[92m" + "\n\tNo sounds will be played!\033[0m")
-                    NSP.play_deny_sound() if system_sound_level == 3 else None
-                    time.sleep(4)
-                elif i == "2":
-                    SDM.set_system_sound_level("2")
-                    system_sound_level = SDM.get_system_sound_level()
-                    os.system('cls')
-                    CA.display_settings_after_changes(8, system_sound_level)
-                    print("\033[92m" + "\n\tOnly notifications sounds will be played!\033[0m")
-                    NSP.play_deny_sound() if system_sound_level == 3 else None
-                    time.sleep(4)
-                elif i == "3":
-                    SDM.set_system_sound_level("3")
-                    system_sound_level = SDM.get_system_sound_level()
-                    os.system('cls')
-                    CA.display_settings_after_changes(8, system_sound_level)
-                    print("\033[92m" + "\n\tNotification sounds and user feedback audio will be played!"
-                                       "\033[0m")
-                    NSP.play_deny_sound() if system_sound_level == 3 else None
-                    time.sleep(4)
-                else:
-                    print("\033[92m" + "\n\tPrevious setting will be kept!\033[0m")
-                    time.sleep(2)
+                if setting_ctrl == 8:
+                    # setting 8 (system sound level) -------------------------------------------------------------------
+                    CTM.clear_screen_backwards(down_to_row=8, delay=0)
+                    CA.display_settings(8, system_sound_level)
+                    CTM.unblock_input()
+                    i = input("\n\tType in the \33[33moption number\33[0m of the option you want to \33[33mchoose\33[0m"
+                              " or\n\tpress \33[92menter\33[0m to \33[92mreturn to main menu\33[0m "
+                              "without making changes."
+                              "\n\tType in \33[94mb!\33[0m to navigate \33[94mbackwards\33[0m to the "
+                              "\33[94mprevious setting\33[0m."
+                              "\n\n\tOption number: ")
+                    CTM.block_input()
+                    if i == "1":
+                        SDM.set_system_sound_level("1")
+                        system_sound_level = SDM.get_system_sound_level()
+                        CTM.clear_screen_backwards(down_to_row=8, delay=0)
+                        CA.display_settings_after_changes(8, system_sound_level)
+                        CTM.draw("\033[92m" + "\n\tNo sounds will be played!\033[0m")
+                        NSP.play_deny_sound() if system_sound_level == 3 else None
+                        time.sleep(4)
+                    elif i == "2":
+                        SDM.set_system_sound_level("2")
+                        system_sound_level = SDM.get_system_sound_level()
+                        CTM.clear_screen_backwards(down_to_row=8, delay=0)
+                        CA.display_settings_after_changes(8, system_sound_level)
+                        CTM.draw("\033[92m" + "\n\tOnly notifications sounds will be played!\033[0m")
+                        NSP.play_deny_sound() if system_sound_level == 3 else None
+                        time.sleep(4)
+                    elif i == "3":
+                        SDM.set_system_sound_level("3")
+                        system_sound_level = SDM.get_system_sound_level()
+                        CTM.clear_screen_backwards(down_to_row=8, delay=0)
+                        CA.display_settings_after_changes(8, system_sound_level)
+                        CTM.draw("\033[92m" + "\n\tNotification sounds and user feedback audio will be played!"
+                                           "\033[0m")
+                        NSP.play_deny_sound() if system_sound_level == 3 else None
+                        time.sleep(4)
+                    elif i == "b!" or i == "B!" or i == "b1" or i == "B1":
+                        setting_ctrl -= 1
+                        CTM.clear_screen_backwards(down_to_row=8, delay=0)
+                    else:
+                        setting_ctrl = 9
 
-            os.system('cls')
-            CA.print_opening(version=m2e_version)
-            outro = "\033[33m\n\t~ Settings Menu ~" \
-                    "\n\t----------------------------------------------------------------\033[0m" \
-                    "\033[92m" + "\n\n\tNew configurations were saved!" + "\033[0m" \
-                    "\n\n\tReturning to main menu..."
-            print(outro)
+            CTM.clear_screen_backwards(down_to_row=8, delay=0)
             NSP.play_deny_sound() if system_sound_level >= 2 else None
+            outro = "\033[92m" + "\n\n\tConfigurations were saved!" + "\033[0m" \
+                    "\n\n\tReturning to main menu..."
+            CTM.draw(outro, clear=False)
             time.sleep(4)
             print_main_menu_again = True
 
@@ -1119,6 +1163,9 @@ def search_for_terms(log_title):
                         workbook, worksheet, excel_row, hdlp_start = prepare_worksheet()
                         worksheet_generated = True
 
+                    CTM.clear_screen_backwards(down_to_row=5)
+                    CA.print_manual_search_headline()
+
                     open_excel_automatically = True
                     if ":" in i:
                         splitted_input = i.split(":")
@@ -1128,19 +1175,13 @@ def search_for_terms(log_title):
                             pos_filters += str(splitted_input[x]).capitalize()
                             if not x == len(splitted_input) - 1:
                                 pos_filters += ", "
-                        os.system('cls')
-                        CA.print_opening(version=m2e_version)
-                        CA.print_manual_search_headline()
-                        print('\n\tSearching for term \33[33m' + term + '\33[0m '
-                              'with pos tag \33[33m(' + pos_filters + ')\33[0m...')
+                        CTM.draw('\n\tSearching for term \33[33m' + term + '\33[0m '
+                                 'with pos tag \33[33m(' + pos_filters + ')\33[0m...', clear=False)
                         time.sleep(2)
                     else:
                         pos_filters = "Noun, Verb, Adjective, Adverb, Preposition, Phrase"
                         term = i
-                        os.system('cls')
-                        CA.print_opening(version=m2e_version)
-                        CA.print_manual_search_headline()
-                        print('\n\tSearching for term \33[33m' + term + '\33[0m ...')
+                        CTM.draw('\n\tSearching for term \33[33m' + term + '\33[0m ...', clear=False)
                         time.sleep(2)
 
                     if term_output_diplomacy == 1:
@@ -1186,8 +1227,7 @@ def search_for_terms(log_title):
                                                                         hdlp_start=hdlp_start,
                                                                         hdlp_doc=hdlp_doc)
 
-                    print("\n\t\33[33mSaving results...\33[0m")
-                    NSP.play_deny_sound() if system_sound_level >= 2 else None
+                    CTM.draw("\n\t\33[33mSaving results...\33[0m", clear=False)
 
                     log = open(log_title, "a", encoding="utf-8")
                     log.write("\n\n" + log_output)
@@ -1195,28 +1235,34 @@ def search_for_terms(log_title):
 
                     workbook.save(workbook_title)
 
-                    os.system('cls')
-                    CA.print_opening(version=m2e_version)
-                    CA.print_manual_search_headline()
                     print("\033[92m" + "\n\tDone!" + "\033[0m")
+                    NSP.play_accept_sound() if system_sound_level >= 2 else None
                     time.sleep(1)
-                    os.system('cls')
                 else:
                     print_main_menu_again = True
             else:
                 SDM.set_database_version_date("")
                 SDM.set_database_version_description("")
                 print_main_menu_again = True
+                CTM.unblock_input()
                 input()
+                CTM.block_input()
+
 
 # Program Start ----------------------------------------------------------------------------------------------
 
-NSP.play_start_sound()
+CTM.block_input()
 
-CA.print_opening(version=m2e_version)
-time.sleep(2)
-print("\n\tLoading components...")
-time.sleep(2)
+set_console_size(800, 800)
+disable_resize()
+
+
+os.system("cls")
+CA.print_opening(version=m2e_version, colour=True)
+NSP.play_start_sound()
+time.sleep(1)
+CTM.draw("\n\tLoading components...")
+time.sleep(1.5)
 try:
     if SDM.get_first_start():
         set_system_variables_to_default()
@@ -1242,19 +1288,13 @@ try:
     system_sound_level = SDM.get_system_sound_level()
 
 except Exception:
-    os.system("cls")
-    CA.print_opening(version=m2e_version)
-    print("\n\t\33[91mWarning: fatal system error detected!\33[0m")
+    print("\r\t\33[91mWarning: fatal system error detected!\33[0m")
     print("\n\tThis may be due to a problem with the savedata file.")
     time.sleep(3)
-    print("\n\t\33[33mAll system variables will be set to default to solve the issue...\33[0m")
+    print("\n\t\33[33mAll system variables will be set to default to solve the issue...\33[0m", end='', flush=True)
     set_system_variables_to_default()
     time.sleep(3)
-    os.system("cls")
-    CA.print_opening(version=m2e_version)
-    print("\n\t\33[91mWarning: fatal system error detected!\33[0m")
-    print("\n\tThis may be due to a problem with the savedata file.")
-    print("\n\t\33[33mRetrying accessing data...\33[0m")
+    print("\r\t\33[33mRetrying accessing data...\33[0m")
     time.sleep(3)
 
     try:
@@ -1271,15 +1311,14 @@ except Exception:
         system_sound_level = SDM.get_system_sound_level()
 
     except Exception:
-        os.system("cls")
-        CA.print_opening(version=m2e_version)
-        print("\n\t\33[91mWarning: fatal system error detected!\33[0m")
+        print("\r\t\33[91mWarning: fatal system error detected!\33[0m")
         print("\n\tThis may be due to a problem with the savedata file.")
         print("\n\t\33[91mUnfortunately the problem still remains. The program cannot be started so far.\33[0m"
               "\n\tPlease contact the developer for help:"
               "\n\n\t\33[92m" + supporter + "\n\t" + support_email + "\33[0m")
         time.sleep(3)
         print("\n\tYou can press \33[92menter\33[0m now to exit the program.")
+
 
 check_database_installation()
 

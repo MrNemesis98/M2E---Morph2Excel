@@ -11,6 +11,8 @@ print("\033[38;5;130m<- Old!\033[0m df")  # braun
 print("\033[97m<- Old!\033[0m df")  # neon weiß
 """
 import os
+import threading
+import time
 
 """
 import pygetwindow as gw
@@ -71,28 +73,4 @@ import os
 # webbrowser.open_new("./src/data/Externals/MEDEL_Report.pdf")
 import os
 """
-import os, time
-import savedata_manager as SDM
 
-# Get the current working directory
-# current_directory = os.getcwd()
-# print(current_directory)
-# instructions_pdf_path = SDM.get_manpath()
-# path = current_directory + instructions_pdf_path
-# path = os.path.join(os.getcwd(), instructions_pdf_path)
-# os.system(path)
-
-# print("\n\t\033[33m" + "\n\tOpening PDF Handbook...\n" + "\033[0m")
-# absolute_path = os.getcwd() + r"\src\data\Externals"
-# absolute_path = r"C:\Users\tillp\Desktop\M2E 2024.0\src\data\Externals"
-# if " " in absolute_path:
-#     absolute_path = absolute_path.replace(" ", "%20")
-# relative_path = SDM.get_manpath()
-# print("\t\33[33mPath:\33[0m " + absolute_path + relative_path)
-# time.sleep(1)
-# os.system(absolute_path+relative_path)
-
-
-print("Hello")
-input("\nWould you like to save your data?")
-print("Would you like to save your data?")
