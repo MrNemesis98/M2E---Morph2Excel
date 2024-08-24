@@ -16,8 +16,6 @@ import console_text_management as CTM
 import savedata_manager as SDM
 import notification_sound_player as NSP
 
-m2e_version = '2024.1'
-
 
 def is_valid_input(i):
     if i == "":
@@ -286,7 +284,7 @@ def download_database(url, directly_after_start=False):
             if os.path.exists("src/database/wiki_morph.json"):
                 os.remove("src/database/wiki_morph.json")
             NSP.play_request_sound() if SDM.get_system_sound_level() >= 2 else None
-            CTM.draw("\033[33m" + "\tDownload of wikimorph database in progress...\n" + "\033[0m", clear=False)
+            CTM.draw("\033[33m" + "\n\tDownload of wikimorph database in progress...\n" + "\033[0m", clear=False)
             urllib.request.urlretrieve(url, "src/database/wiki_morph.json", reporthook=progress)
             stop = True
             normal = True
@@ -296,8 +294,10 @@ def download_database(url, directly_after_start=False):
             current_size = int(current_size / (1024 * 1024))
             SDM.set_current_size(current_size)
         except Exception:
-            if directly_after_start:
-                CTM.clear_screen_backwards(down_to_row=5)
+
+            CTM.clear_screen_backwards(down_to_row=5) if directly_after_start \
+                else CTM.clear_screen_backwards(down_to_row=9)
+
             print("\n\t\033[91mWarning: There was an error detected during the download!\033[0m")
             NSP.play_request_sound() if SDM.get_system_sound_level() >= 2 else None
             CTM.draw("\n\tPlease check your internet connection."
@@ -305,16 +305,23 @@ def download_database(url, directly_after_start=False):
             if directly_after_start:
                 CTM.draw('\n\tAlternatively you can \33[91mend the program\33[0m by typing \33[91mexit!\33[0m.')
             else:
-                CTM.draw("\tAlternatively you can \33[33mbreak off and return to settings menu\33[0m by typing in "
-                         "\33[33mexit!\33[0m.")
+                CTM.draw("\n\tAlternatively you can \33[33mcancel the process and return to settings menu\33[0m by "
+                         "typing in \33[33mexit!\33[0m.")
             normal = False
             CTM.unblock_input()
             i = input("\n\n\t")
             CTM.block_input()
             if i == "exit!" or i == "exit" or i == "exit1":
-                CTM.clear_screen_backwards(down_to_row=5)
-                print("\n\t\33[91mProgram terminated.\33[0m")
-                stop = True
+                if directly_after_start:
+                    CTM.clear_screen_backwards(down_to_row=5)
+                    CTM.draw("\n\t\33[91mProgram terminated!\33[0m")
+                    time.sleep(1.5)
+                    stop = True
+                else:
+                    CTM.draw("\n\t\33[91mProcess cancelled!\33[0m")
+                    time.sleep(1.5)
+                    CTM.clear_screen_backwards(down_to_row=9)
+                    stop = True
 
     return normal
 
@@ -364,9 +371,9 @@ def database_installation_confirmed(right_after_program_start=False):
             return True
 
 
-def load_database():
+def load_database(version):
     os.system('cls')
-    print_opening(version=m2e_version, colour=True)
+    print_opening(version, colour=True)
     CTM.draw("\n\tLoading wiki_morph database...")
     with open("src/database/wiki_morph.json", "r", encoding="utf-8") as f:
         entries_list = json.load(f)
@@ -408,9 +415,8 @@ def show_instructions():
     time.sleep(.5)
 
 
-def show_version_description():
-    os.system('cls')
-    print_opening(version=m2e_version)
+def show_version_description(version):
+    CTM.clear_screen_backwards(5)
     print("\033[95m" + "\n\n\t~ What´s new in version 2024.1 ? ~" + "\033[0m"
           "\n\t\033[95m[-----------------------------------------------------------------------------]\033[0m")
     NSP.play_accept_sound() if SDM.get_system_sound_level() == 3 else None

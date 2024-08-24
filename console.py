@@ -24,9 +24,9 @@ entries_list = None
 database_is_installed = False
 
 # data to change for release
-m2e_version = "2024.1"                                  # auch in console_assistance.py ändern!
-supporter = "Till Preidt"
-support_email = "s2tiprei@uni-trier.de"
+m2e_version = "2024.1"
+supporter = "Till Preidt ~ GitHub/MrNemesis98"
+support_email = "s2tiprei@uni-trier.de / till.p2.tp@gmail.com"
 
 
 def set_system_variables_to_default():
@@ -195,7 +195,7 @@ def search_for_terms(log_title):
     print_main_menu_again = True
 
     if database_is_installed:
-        entries_list = CA.load_database()
+        entries_list = CA.load_database(version=m2e_version)
     CTM.clear_screen_backwards(down_to_row=1, delay=0)
     CA.print_opening(version=m2e_version, colour=False)
     time.sleep(1)
@@ -246,7 +246,7 @@ def search_for_terms(log_title):
             time.sleep(3)
             print_main_menu_again = True
         elif i == "v!":
-            CA.show_version_description()
+            CA.show_version_description(version=m2e_version)
             CTM.unblock_input()
             i = input()
             CTM.block_input()
@@ -654,7 +654,6 @@ def search_for_terms(log_title):
             CTM.clear_screen_backwards(down_to_row=5, delay=0)
             print("\033[33m\n\t~ Settings Menu ~"
                   "\n\t-------------------------------------------------------------------------------\033[0m")
-            time.sleep(1)
             NSP.play_accept_sound() if system_sound_level == 3 else None
 
             if i == "set!" or i == "set1!":
@@ -696,6 +695,7 @@ def search_for_terms(log_title):
                     if i == "1":
                         CTM.clear_screen_backwards(down_to_row=8, delay=0)
                         CA.display_settings_after_changes(setting=1, current_var="u1")
+                        NSP.play_deny_sound() if system_sound_level >= 2 else None
                         CTM.draw("\n\t1. Press \33[92menter\33[0m to \33[92mstart the download\33[0m.",
                                  clear=False)
                         CTM.draw("\t2. Type in \33[91mexit!\33[0m to \33[91mreturn to settings menu\33[0m.",
@@ -736,7 +736,11 @@ def search_for_terms(log_title):
                                 CTM.unblock_input()
                                 input()
                                 CTM.block_input()
-                                entries_list = CA.load_database()
+                                entries_list = CA.load_database(version=m2e_version)
+                                CTM.clear_screen_backwards(down_to_row=5, delay=0)
+                                print("\033[33m\n\t~ Settings Menu ~"
+                                      "\n\t---------------------------------------------------"
+                                      "----------------------------\033[0m")
                             else:
                                 NSP.play_deny_sound() if system_sound_level == 3 else None
                         else:
@@ -751,6 +755,7 @@ def search_for_terms(log_title):
                             while not description_set:
                                 CTM.clear_screen_backwards(down_to_row=8, delay=0)
                                 CA.display_settings_after_changes(setting=1, current_var="d1")
+                                NSP.play_deny_sound() if system_sound_level >= 2 else None
                                 CTM.unblock_input()
                                 i = input("\n\tanswer: ")
                                 CTM.block_input()
@@ -783,9 +788,9 @@ def search_for_terms(log_title):
                     elif i == "3":
 
                         if CA.database_installation_confirmed():
-
-                            NSP.play_deny_sound() if system_sound_level >= 2 else None
+                            CTM.clear_screen_backwards(down_to_row=8, delay=0)
                             CA.display_settings_after_changes(setting=1, current_var="r1")
+                            NSP.play_deny_sound() if system_sound_level >= 2 else None
 
                             CTM.unblock_input()
                             i = input("\n\tanswer: ")
@@ -799,6 +804,7 @@ def search_for_terms(log_title):
                                 if os.path.exists("src/database/wiki_morph.json"):
                                     os.remove("src/database/wiki_morph.json")
 
+                                CTM.clear_screen_backwards(down_to_row=8, delay=0)
                                 CA.display_settings_after_changes(setting=1, current_var="r2",
                                                                   current_var_2=database_version_date)
                                 CTM.unblock_input()

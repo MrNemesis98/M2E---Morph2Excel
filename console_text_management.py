@@ -59,9 +59,21 @@ def get_cursor_position():
 
 
 def calculate_tab_width():
-    row_0, col_0 = get_cursor_position()
+    try:
+        row_0, col_0 = get_cursor_position()
+    except Exception as e:
+        draw("\n\t\33[91mWarning: a fatal system error occurred.\33[0m\n\n\tThis can happen from time to time and "
+             "will be solved with the next start. \n\tThe program will end automatically in a few seconds..")
+        time.sleep(7)
+        sys.exit(1)
     print("\t", end='', flush=True)
-    row_1, col_1 = get_cursor_position()
+    try:
+        row_1, col_1 = get_cursor_position()
+    except Exception as e:
+        draw("\n\t\33[91mWarning: a fatal system error occurred.\33[0m\n\n\tThis can happen from time to time and "
+             "will be solved with the next start. \n\tThe program will end automatically in a few seconds..")
+        time.sleep(7)
+        sys.exit(1)
     tab_width = col_1 - col_0
     return tab_width
 
@@ -106,4 +118,5 @@ def clear_screen_backwards(down_to_row=1, delay=0.01):
         clear_line()
 
     except Exception as e:
-        clear_line()
+        move_cursor_to(20, 0)
+        clear_screen_backwards(down_to_row, delay)
