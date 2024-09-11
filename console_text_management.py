@@ -69,7 +69,12 @@ def get_cursor_position():
         return row, col
 
     except Exception as e:
+
+        # erster versuch der behebung des fehlers
+        print("Unexpected error:", sys.exc_info()[0])
+        time.sleep(10)
         get_cursor_position()
+
 
 
 def calculate_tab_width():
@@ -131,5 +136,11 @@ def clear_screen_backwards(down_to_row=1, delay=0.01):
         clear_line()
 
     except Exception as e:
+
+        # erster versuch der behebung des fehlers
+        print("Unexpected error:", sys.exc_info()[0],
+              "\nautomatic cursor shift")
+        time.sleep(10)
+
         move_cursor_to(20, 0)
         clear_screen_backwards(down_to_row, delay)
