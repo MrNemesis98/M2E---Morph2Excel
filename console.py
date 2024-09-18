@@ -98,13 +98,13 @@ def disable_resize_and_buttons():
     hwnd = win32gui.GetForegroundWindow()
 
     style = win32gui.GetWindowLong(hwnd, win32con.GWL_STYLE)
+
     style &= ~win32con.WS_CAPTION
     style &= ~win32con.WS_THICKFRAME
-    style &= ~win32con.WS_MINIMIZEBOX
     style &= ~win32con.WS_MAXIMIZEBOX
     style &= ~win32con.WS_SYSMENU
-    win32gui.SetWindowLong(hwnd, win32con.GWL_STYLE, style)
 
+    win32gui.SetWindowLong(hwnd, win32con.GWL_STYLE, style)
     win32gui.SetWindowPos(hwnd, None, 0, 0, 0, 0,
                           win32con.SWP_NOMOVE | win32con.SWP_NOSIZE | win32con.SWP_NOZORDER | win32con.SWP_FRAMECHANGED)
 

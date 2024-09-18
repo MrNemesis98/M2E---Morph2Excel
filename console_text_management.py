@@ -84,6 +84,10 @@ def calculate_tab_width():
              "\n\n\tFor more information please have a look at the manual.")
         input("\n\n\t\33[92mPress Enter to continue...\33[0m")
 
+        sys.stdout.write(f"\033[{30};{0}H")
+        sys.stdout.flush()
+        clear_screen_backwards(down_to_row=5)
+
         # emergency solution (will work on most systems properly):
         tab_width = 8
 
