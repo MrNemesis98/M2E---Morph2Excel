@@ -52,48 +52,41 @@ def unblock_input():
 
 # 2. Basic Functions for Navigation ------------------------------------------------------------------------------------
 def get_cursor_position():
-    try:
-        sys.stdout.write("\033[6n")
-        sys.stdout.flush()
 
-        response = ''
-        while True:
-            if msvcrt.kbhit():
-                char = msvcrt.getch().decode()
-                response += char
-                if char == 'R':
-                    break
+    sys.stdout.write("\033[6n")
+    sys.stdout.flush()
 
-        response = response.lstrip('\033[').rstrip('R')
-        row, col = map(int, response.split(';'))
-        return row, col
+    response = ''
+    while True:
+        if msvcrt.kbhit():
+            char = msvcrt.getch().decode()
+            response += char
+            if char == 'R':
+                break
 
-    except Exception as e:
-
-        # erster versuch der behebung des fehlers
-        print("Unexpected error:", sys.exc_info()[0])
-        time.sleep(10)
-        get_cursor_position()
-
+    response = response.lstrip('\033[').rstrip('R')
+    row, col = map(int, response.split(';'))
+    return row, col
 
 
 def calculate_tab_width():
+
     try:
         row_0, col_0 = get_cursor_position()
-    except Exception as e:
-        draw("\n\t\33[91mWarning: a fatal system error occurred.\33[0m\n\n\tThis can happen from time to time and "
-             "will be solved with the next start. \n\tThe program will end automatically in a few seconds..")
-        time.sleep(7)
-        sys.exit(1)
-    print("\t", end='', flush=True)
-    try:
+        print("\t", end='', flush=True)
+        time.sleep(0.01)
         row_1, col_1 = get_cursor_position()
+        tab_width = col_1 - col_0
     except Exception as e:
-        draw("\n\t\33[91mWarning: a fatal system error occurred.\33[0m\n\n\tThis can happen from time to time and "
-             "will be solved with the next start. \n\tThe program will end automatically in a few seconds..")
-        time.sleep(7)
-        sys.exit(1)
-    tab_width = col_1 - col_0
+        draw("\n\t\33[91mWarning: Your system denies access to basic information of this console window!\33[0m"
+             "\n\n\tAccordingly M2E might encounter some minor formatting problems."
+             "\n\tThe functionality - especially your output results - will not be influenced."
+             "\n\n\tFor more information please have a look at the manual.")
+        input("\n\n\t\33[92mPress Enter to continue...\33[0m")
+
+        # emergency solution (will work on most systems properly):
+        tab_width = 8
+
     return tab_width
 
 
@@ -137,10 +130,17 @@ def clear_screen_backwards(down_to_row=1, delay=0.01):
 
     except Exception as e:
 
-        # erster versuch der behebung des fehlers
-        print("Unexpected error:", sys.exc_info()[0],
-              "\nautomatic cursor shift")
-        time.sleep(10)
+        # optional: warning message like for function "calculate tab width"
+        # -> but might be to annoying / repetitive if the error occurs often
 
-        move_cursor_to(20, 0)
-        clear_screen_backwards(down_to_row, delay)
+        row = 25
+
+        while row > down_to_row:
+            move_cursor_to(row, 0)
+            clear_line()
+            time.sleep(delay)
+            row -= 1
+
+        move_cursor_to(down_to_row, 0)
+        clear_line()
+

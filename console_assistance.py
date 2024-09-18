@@ -140,7 +140,7 @@ def print_main_menu():
         else:
             return exception_text_colored if colored else exception_text
 
-    # preparing displays ------------------------------------------------------
+    # preparing displays -----------------------------------------------------------------------------------------------
     headline = "\n\t\33[92m~ Main Menu ~\33[0m"
 
     menu_monochrom_display = [
@@ -182,7 +182,7 @@ def print_main_menu():
         '\n\tHint: If you want to \033[92mdisplay this menu again\033[0m just press \033[92menter\033[0m.'
     ]
 
-    # printing main menu ------------------------------------------------------
+    # printing main menu -----------------------------------------------------------------------------------------------
     tab_width = CTM.calculate_tab_width()
 
     sys.stdout.write(f"\033[{4};\tH")
