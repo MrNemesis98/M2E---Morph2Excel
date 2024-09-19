@@ -19,6 +19,8 @@ import sys
 import threading
 import time
 
+warning_message = True
+
 
 # 1. Keyboard Input Management -----------------------------------------------------------------------------------------
 
@@ -70,6 +72,7 @@ def get_cursor_position():
 
 
 def calculate_tab_width():
+    global warning_message
 
     try:
         row_0, col_0 = get_cursor_position()
@@ -78,14 +81,16 @@ def calculate_tab_width():
         row_1, col_1 = get_cursor_position()
         tab_width = col_1 - col_0
     except Exception as e:
-        draw("\n\t\33[91mWarning: Your system denies access "
-             "\n\tto basic information of this console window!\33[0m"
-             "\n\n\tAccordingly M2E might encounter some minor formatting problems."
-             "\n\tThe functionality - especially your output results - will not be influenced."
-             "\n\n\tFor more information please have a look at chapter 3 of the user manual.")
-        unblock_input()
-        input("\n\n\t\33[92mPress Enter to continue.\33[0m")
-        block_input()
+        if warning_message:
+            warning_message = False
+            draw("\n\t\33[91mWarning: Your system denies access "
+                 "\n\tto basic information of this console window!\33[0m"
+                 "\n\n\tAccordingly M2E might encounter some minor formatting problems."
+                 "\n\tThe functionality - especially your output results - will not be influenced."
+                 "\n\n\tFor more information please have a look at chapter 3 of the user manual.")
+            unblock_input()
+            input("\n\n\t\33[92mPress Enter to continue.\33[0m")
+            block_input()
         sys.stdout.write(f"\033[{30};{0}H")
         sys.stdout.flush()
         clear_screen_backwards(down_to_row=5)

@@ -117,6 +117,9 @@ def print_manual_search_headline(tip=False):
 def print_main_menu():
     tab_width = CTM.calculate_tab_width()
 
+    os.system("cls")
+    print_opening(version="2024.1", colour=False)
+
     def get_database_installation_info(colored=False):
 
         normal_text = ("\n" + tab_width * " " + "Manual search mode is prepared."
