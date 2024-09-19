@@ -1,2 +1,0 @@
-db:/dl:0/c:579/soll:579/date:/scritto:/manpath:\M2E_V2024.1_User_Manual/
-sys:/fs:1/tod:3/onel:0/hdlp:2/abc=1:asc=1/asf:Noun, Verb, Adjective, Adverb, Preposition, Phrase/odlvl:3/ssl:3/
