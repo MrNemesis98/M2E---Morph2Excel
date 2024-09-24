@@ -1,4 +1,4 @@
-Morph2Excel (M2E) is a console-based application that provides multiple operations on the so-called wikimorph database, 
+Morph2Excel (M2E) is a console-based application that provides multiple operations on the so-called wikimorph database*, 
 an A.I. generated JSON file that contains morphological and etymological information about several English terms. 
 The M2E software is able to search for specific entries within this database and create a special formatted excel file as output. 
 Since this software was created for linguistic research in the field of anglistics, the user can choose between several output formats 
@@ -8,3 +8,9 @@ The project Morph2Excel was financed by the German Research Foundation (Deutsche
 ~ Project Leader: Prof. Dr. Sabine Arndt-Lappe ~ Software Development and Management: Till Preidt ~ Assistance and Benchmarking: Sonja Böker, Jakob Engel, Anika Petri, Lilly-Kristin Plock, Carolin Sloykowski
 
 (Copyright © MrNemesis98, GitHub, 2024)
+
+*Yarbro, J.T., Olney, A.M. (2021). WikiMorph: Learning to Decompose
+Words into Morphological Structures. In: Roll, I., McNamara, D.,
+Sosnovsky, S., Luckin, R., Dimitrova, V. (eds) Artificial Intelligence in
+Education. AIED 2021. Lecture Notes in Computer Science(), vol
+12749. Springer, Cham. https://doi.org/10.1007/978-3-030-78270-2_72
