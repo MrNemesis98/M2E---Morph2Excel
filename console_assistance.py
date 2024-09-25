@@ -161,7 +161,7 @@ def print_main_menu():
         tab_width * " " + 'D) For ending the program type exit! instead of a term.',
         tab_width * " " + 'Current settings:',
         SDM.get_database_version_as_text(),
-        SDM.get_term_output_diplomacy_as_text(),
+        SDM.get_term_output_policy_as_text(),
         SDM.get_one_line_output_as_text(),
         SDM.get_headline_printing_as_text(),
         SDM.get_alphabetical_output_as_text(),
@@ -183,7 +183,7 @@ def print_main_menu():
         tab_width * " " + 'D) For \033[91mending the program\033[0m type \033[91mexit!\033[0m instead of a term.',
         '\n' + tab_width * " " + '\033[97mCurrent settings:\033[0m',
         SDM.get_database_version_as_text(),
-        SDM.get_term_output_diplomacy_as_text(),
+        SDM.get_term_output_policy_as_text(),
         SDM.get_one_line_output_as_text(),
         SDM.get_headline_printing_as_text(),
         SDM.get_alphabetical_output_as_text(),
@@ -314,6 +314,7 @@ def download_database(url, directly_after_start=False):
             current_size = os.path.getsize("src/database/wiki_morph.json")
             current_size = int(current_size / (1024 * 1024))
             SDM.set_current_size(current_size)
+
         except Exception:
 
             CTM.clear_screen_backwards(down_to_row=5) if directly_after_start \
@@ -984,7 +985,7 @@ def display_settings(setting, current_var, current_var_2=""):
               '\n\tType in \33[91mexit!\33[0m to \33[91mreturn to main menu\33[0m.')
 
     elif setting == 2:
-        print("\n\n\tSetting \33[33m2\33[0m/8: \33[33mTerm Output Diplomacy\33[0m"
+        print("\n\n\tSetting \33[33m2\33[0m/8: \33[33mTerm Output Policy\33[0m"
               "\n\t---------\33[33m[\33[0m-------\33[33m]\33[0m------------------------------------------------------"
               "\n\n\tDescription: "
               "\n\tDecide, which of the terms you searched shall be considered in the output."
@@ -1199,7 +1200,7 @@ def display_settings_after_changes(setting, current_var, current_var_2=""):
                   "\n\n\tPress \33[33menter\33[0m to \33[33mproceed\33[0m.")
 
     elif setting == 2:
-        print("\n\n\tSetting \33[33m2\33[0m/8: \33[33mTerm Output Diplomacy\33[0m"
+        print("\n\n\tSetting \33[33m2\33[0m/8: \33[33mTerm Output Policy\33[0m"
               "\n\t---------\33[33m[\33[0m-------\33[33m]\33[0m------------------------------------------------------"
               "\n\n\tDescription: "
               "\n\tDecide, which of the terms you searched shall be considered in the output."
