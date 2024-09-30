@@ -39,6 +39,7 @@ tip_need_counter = 0
 excel_row = 0
 entries_list = None
 database_is_installed = False
+request_error = None
 
 # data to change for every release
 m2e_version = "2024.1"
@@ -56,6 +57,7 @@ def set_system_variables_to_default(database_also=False):
     global auto_scan_filters
     global output_detail_level
     global system_sound_level
+    global request_error
 
     if database_also:
         SDM.set_database_version_date("")
@@ -67,6 +69,7 @@ def set_system_variables_to_default(database_also=False):
     SDM.set_auto_scan_filters("Noun, Verb, Adjective, Adverb, Preposition, Phrase")
     SDM.set_output_detail_level("3")
     SDM.set_system_sound_level("3")
+    SDM.set_request_error("0")
 
     database_version_date = SDM.get_database_version_date()
     database_version_description = SDM.get_database_version_description()

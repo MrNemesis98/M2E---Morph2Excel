@@ -18,8 +18,10 @@ import msvcrt
 import sys
 import threading
 import time
+import savedata_manager as SDM
 
 warning_message = True
+request_error = SDM.get_request_error()
 
 
 # 1. Keyboard Input Management -----------------------------------------------------------------------------------------
@@ -73,29 +75,38 @@ def get_cursor_position():
 
 def calculate_tab_width():
     global warning_message
+    global request_error
 
-    try:
-        row_0, col_0 = get_cursor_position()
-        print("\t", end='', flush=True)
-        time.sleep(0.01)
-        row_1, col_1 = get_cursor_position()
-        tab_width = col_1 - col_0
-    except Exception as e:
-        if warning_message:
-            warning_message = False
-            draw("\n\t\33[91mWarning: Your system denies access "
-                 "\n\tto basic information of this console window!\33[0m"
-                 "\n\n\tAccordingly M2E might encounter some minor formatting problems."
-                 "\n\tThe functionality - especially your output results - will not be influenced."
-                 "\n\n\tFor more information please have a look at chapter 3 of the user manual.")
-            unblock_input()
-            input("\n\n\t\33[92mPress Enter to continue.\33[0m")
-            block_input()
-        sys.stdout.write(f"\033[{30};{0}H")
-        sys.stdout.flush()
-        clear_screen_backwards(down_to_row=5)
+    if not request_error == 1:
 
-        # emergency solution (will work on most systems properly):
+        try:
+            row_0, col_0 = get_cursor_position()
+            print("\t", end='', flush=True)
+            time.sleep(0.01)
+            row_1, col_1 = get_cursor_position()
+            tab_width = col_1 - col_0
+
+        except Exception as e:
+            request_error = 1
+            SDM.set_request_error(error_code=1)
+            if warning_message:
+                warning_message = False
+                draw("\n\t\33[91mWarning: Your system denies access "
+                     "\n\tto basic information of this console window!\33[0m"
+                     "\n\n\tAccordingly M2E might encounter some minor formatting problems."
+                     "\n\tThe functionality - especially your output results - will not be influenced."
+                     "\n\n\tFor more information please have a look at chapter 3 of the user manual.")
+                unblock_input()
+                input("\n\n\t\33[92mPress Enter to continue.\33[0m")
+                block_input()
+            sys.stdout.write(f"\033[{30};{0}H")
+            sys.stdout.flush()
+            clear_screen_backwards(down_to_row=5)
+
+            # emergency solution (will work on most systems properly):
+            tab_width = 8
+
+    else:
         tab_width = 8
 
     return tab_width
@@ -127,23 +138,35 @@ def clear_screen_backwards(down_to_row=1, delay=0.01):
         sys.stdout.write(f"\033[{row};{col}H")
         sys.stdout.flush()
 
-    try:
-        row, col = get_cursor_position()
+    if not request_error == 1:
+        try:
+            row, col = get_cursor_position()
 
-        while row > down_to_row:
-            move_cursor_to(row, 0)
+            while row > down_to_row:
+                move_cursor_to(row, 0)
+                clear_line()
+                time.sleep(delay)
+                row -= 1
+
+            move_cursor_to(down_to_row, 0)
             clear_line()
-            time.sleep(delay)
-            row -= 1
 
-        move_cursor_to(down_to_row, 0)
-        clear_line()
+        except Exception as e:
 
-    except Exception as e:
+            # optional: warning message like for function "calculate tab width"
+            # -> but might be to annoying / repetitive if the error occurs often
 
-        # optional: warning message like for function "calculate tab width"
-        # -> but might be to annoying / repetitive if the error occurs often
+            row = 25
 
+            while row > down_to_row:
+                move_cursor_to(row, 0)
+                clear_line()
+                time.sleep(delay)
+                row -= 1
+
+            move_cursor_to(down_to_row, 0)
+            clear_line()
+    else:
         row = 25
 
         while row > down_to_row:
@@ -154,3 +177,4 @@ def clear_screen_backwards(down_to_row=1, delay=0.01):
 
         move_cursor_to(down_to_row, 0)
         clear_line()
+
