@@ -12,6 +12,18 @@ limited to the warranties of merchantability, fitness for a particular purpose a
 In no event shall the author(s) or copyright holder(s) be liable for any claim, damages or other liability, whether
 in an action of contract, tort or otherwise, arising from, out of or in connection with the software or the use or
 other dealings in the software.
+
+This software accesses the A.I. generated wiki_morph database, introduced in
+Yarbro, J.T., Olney, A.M. (2021). WikiMorph: Learning to Decompose
+Words into Morphological Structures. In: Roll, I., McNamara, D.,
+Sosnovsky, S., Luckin, R., Dimitrova, V. (eds) Artificial Intelligence in Education.
+AIED 2021. Lecture Notes in Computer Science(), vol 12749. Springer,
+Cham. https://doi.org/10.1007/978-3-030-78270-2_72
+Copyright © 2021 Springer Nature Switzerland AG
+
+The software as well as its handbook should be cited as follows:
+Preidt, Till, Böker, S., Engel, J., Petri, A., Plock, L.-K., Sloykowski, C. & Arndt-Lappe, S.
+(2024, September 30). M2E - Morph2Excel. Retrieved from osf.io/jrdn3
 """
 
 import sys
