@@ -133,6 +133,7 @@ alphabetical_output = variables_list[4].split(":")
 auto_scan_filters = variables_list[5].split(":")[1]
 output_detail_level = (variables_list[6].split(":")[1])
 system_sound_level = (variables_list[7].split(":")[1])
+request_error = (variables_list[8].split(":")[1])
 
 
 def update_system_data():
@@ -145,6 +146,7 @@ def update_system_data():
     global auto_scan_filters
     global output_detail_level
     global system_sound_level
+    global request_error
 
     # Save data from other sectors before overwriting
     sd = open("src/data/savedata.txt", "r")
@@ -154,15 +156,16 @@ def update_system_data():
     # write savedata.txt, update system data only
     sd = open("src/data/savedata.txt", "w")
     text = ((database_data + "sys:" +
-           "/fs:" + str(first_start) +
-           "/top:" + str(term_output_policy) +
-           "/onel:" + str(one_line_output) +
-           "/hdlp:" + str(headline_printing) +
-           "/" + str(alphabetical_output[0]) + ":" + str(alphabetical_output[1]) +
-           "/asf:" + str(auto_scan_filters) +
-           "/odlvl:" + str(output_detail_level) +
-           "/ssl:" + str(system_sound_level) +
-           "/\n"))
+             "/fs:" + str(first_start) +
+             "/top:" + str(term_output_policy) +
+             "/onel:" + str(one_line_output) +
+             "/hdlp:" + str(headline_printing) +
+             "/" + str(alphabetical_output[0]) + ":" + str(alphabetical_output[1]) +
+             "/asf:" + str(auto_scan_filters) +
+             "/odlvl:" + str(output_detail_level) +
+             "/ssl:" + str(system_sound_level) +
+             "/re:" + str(request_error) +
+             "/\n"))
     sd.write(text)
     sd.close()
 
@@ -340,4 +343,15 @@ def get_system_sound_level_as_text():
 def set_system_sound_level(ssl):
     global system_sound_level
     system_sound_level = ssl
+    update_system_data()
+
+
+def get_request_error():
+    global request_error
+    return int(request_error)
+
+
+def set_request_error(error_code):
+    global request_error
+    request_error = str(error_code)
     update_system_data()
