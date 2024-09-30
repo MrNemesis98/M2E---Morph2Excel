@@ -126,7 +126,7 @@ system_data = data[1]
 variables_list = system_data.split('/')
 variables_list.remove(variables_list[0])
 first_start = (variables_list[0].split(":")[1])
-term_output_diplomacy = (variables_list[1].split(":")[1])
+term_output_policy = (variables_list[1].split(":")[1])
 one_line_output = (variables_list[2].split(":")[1])
 headline_printing = (variables_list[3].split(":")[1])
 alphabetical_output = variables_list[4].split(":")
@@ -138,14 +138,13 @@ system_sound_level = (variables_list[7].split(":")[1])
 def update_system_data():
     global data
     global first_start
-    global term_output_diplomacy
+    global term_output_policy
     global one_line_output
     global headline_printing
     global alphabetical_output
     global auto_scan_filters
     global output_detail_level
     global system_sound_level
-    global manual_file_name
 
     # Save data from other sectors before overwriting
     sd = open("src/data/savedata.txt", "r")
@@ -156,7 +155,7 @@ def update_system_data():
     sd = open("src/data/savedata.txt", "w")
     text = ((database_data + "sys:" +
            "/fs:" + str(first_start) +
-           "/tod:" + str(term_output_diplomacy) +
+           "/top:" + str(term_output_policy) +
            "/onel:" + str(one_line_output) +
            "/hdlp:" + str(headline_printing) +
            "/" + str(alphabetical_output[0]) + ":" + str(alphabetical_output[1]) +
@@ -179,24 +178,24 @@ def set_first_start(fs=False):
     update_system_data()
 
 
-def get_term_output_diplomacy():
-    global term_output_diplomacy
-    return int(term_output_diplomacy)
+def get_term_output_policy():
+    global term_output_policy
+    return int(term_output_policy)
 
 
-def get_term_output_diplomacy_as_text():
-    global term_output_diplomacy
-    if term_output_diplomacy == "1":
-        return "\t2) Term Output Diplomacy:\tonly found terms"
-    elif term_output_diplomacy == "2":
-        return "\t2) Term Output Diplomacy:\tonly not found terms"
+def get_term_output_policy_as_text():
+    global term_output_policy
+    if term_output_policy == "1":
+        return "\t2) Term Output Policy:\t\tonly found terms"
+    elif term_output_policy == "2":
+        return "\t2) Term Output Policy:\t\tonly not found terms"
     else:
-        return "\t2) Term Output Diplomacy:\tall terms"
+        return "\t2) Term Output Policy:\t\tall terms"
 
 
-def set_term_output_diplomacy(tod):
-    global term_output_diplomacy
-    term_output_diplomacy = tod
+def set_term_output_policy(top):
+    global term_output_policy
+    term_output_policy = top
     update_system_data()
 
 

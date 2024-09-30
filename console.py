@@ -21,7 +21,7 @@ import time
 from openpyxl import load_workbook
 import win32gui
 import win32con
-import win32api
+from win32api import GetSystemMetrics
 
 import console_text_management as CTM
 import console_assistance as CA
@@ -46,10 +46,10 @@ supporter = "Till Preidt ~ GitHub/MrNemesis98"
 support_email = "s2tiprei@uni-trier.de / till.p2.tp@gmail.com"
 
 
-def set_system_variables_to_default():
+def set_system_variables_to_default(database_also=False):
     global database_version_date
     global database_version_description
-    global term_output_diplomacy
+    global term_output_policy
     global oneline_output_format
     global headline_printing
     global alphabetical_output, abc_output_ascending
@@ -57,9 +57,10 @@ def set_system_variables_to_default():
     global output_detail_level
     global system_sound_level
 
-    SDM.set_database_version_date("")
-    SDM.set_database_version_description("")
-    SDM.set_term_output_diplomacy("3")
+    if database_also:
+        SDM.set_database_version_date("")
+        SDM.set_database_version_description("")
+    SDM.set_term_output_policy("3")
     SDM.set_one_line_output(True)
     SDM.set_headline_printing("2")
     SDM.set_alphabetical_output(True, True)
@@ -69,7 +70,7 @@ def set_system_variables_to_default():
 
     database_version_date = SDM.get_database_version_date()
     database_version_description = SDM.get_database_version_description()
-    term_output_diplomacy = SDM.get_term_output_diplomacy()
+    term_output_policy = SDM.get_term_output_policy()
     oneline_output_format = SDM.get_one_line_output()
     headline_printing = SDM.get_headline_printing()
     alphabetical_output, abc_output_ascending = SDM.get_alphabetical_output()
@@ -79,8 +80,8 @@ def set_system_variables_to_default():
 
 
 def get_screen_size():
-    screen_width = win32api.GetSystemMetrics(win32con.SM_CXSCREEN)
-    screen_height = win32api.GetSystemMetrics(win32con.SM_CYSCREEN)
+    screen_width = GetSystemMetrics(win32con.SM_CXSCREEN)
+    screen_height = GetSystemMetrics(win32con.SM_CYSCREEN)
     return screen_width, screen_height
 
 
@@ -98,13 +99,13 @@ def disable_resize_and_buttons():
     hwnd = win32gui.GetForegroundWindow()
 
     style = win32gui.GetWindowLong(hwnd, win32con.GWL_STYLE)
+
     style &= ~win32con.WS_CAPTION
     style &= ~win32con.WS_THICKFRAME
-    style &= ~win32con.WS_MINIMIZEBOX
     style &= ~win32con.WS_MAXIMIZEBOX
     style &= ~win32con.WS_SYSMENU
-    win32gui.SetWindowLong(hwnd, win32con.GWL_STYLE, style)
 
+    win32gui.SetWindowLong(hwnd, win32con.GWL_STYLE, style)
     win32gui.SetWindowPos(hwnd, None, 0, 0, 0, 0,
                           win32con.SWP_NOMOVE | win32con.SWP_NOSIZE | win32con.SWP_NOZORDER | win32con.SWP_FRAMECHANGED)
 
@@ -192,7 +193,7 @@ def search_for_terms(log_title):
     global database_is_installed
     global database_version_date
     global database_version_description
-    global term_output_diplomacy
+    global term_output_policy
     global oneline_output_format
     global headline_printing
     global alphabetical_output
@@ -259,7 +260,7 @@ def search_for_terms(log_title):
             time.sleep(3)
             print_main_menu_again = True
         elif i == "v!":
-            CA.show_version_description(version=m2e_version)
+            CA.show_version_description()
             CTM.unblock_input()
             i = input()
             CTM.block_input()
@@ -273,6 +274,9 @@ def search_for_terms(log_title):
             if not worksheet_generated:
                 workbook, worksheet, excel_row, hdlp_start = prepare_worksheet()
                 worksheet_generated = True
+
+            terms = None
+            number_of_valid_cases = None
 
             if CA.database_installation_confirmed():
 
@@ -358,7 +362,7 @@ def search_for_terms(log_title):
 
                     start_time = time.time()
                     log = open(log_title, "a", encoding="utf-8")
-                    if term_output_diplomacy == 1:
+                    if term_output_policy == 1:
                         for x in range(number_of_valid_cases):
                             term = terms[x]
                             CTM.clear_screen_backwards(down_to_row=13)
@@ -383,7 +387,7 @@ def search_for_terms(log_title):
                             log.write("\n\n" + log_output)
                             time.sleep(.1)
 
-                    elif term_output_diplomacy == 2:
+                    elif term_output_policy == 2:
                         for x in range(number_of_valid_cases):
                             term = terms[x]
                             CTM.clear_screen_backwards(down_to_row=13)
@@ -413,7 +417,8 @@ def search_for_terms(log_title):
                             CTM.clear_screen_backwards(down_to_row=13)
                             progress = format(100 * (x / number_of_valid_cases), ".2f")
                             print("\n\t\033[38;5;130mSearching for terms...\033[0m"
-                                  "\n\tCurrent term: " + term + "\t\tProgress: \33[38;5;130m" + str(progress) + "%\33[0m")
+                                  "\n\tCurrent term: " + term + "\t\tProgress: \33[38;5;130m"
+                                  + str(progress) + "%\33[0m")
 
                             worksheet, excel_row, log_output, \
                                 hdlp_start, hdlp_doc = CA.search_and_output(worksheet=worksheet,
@@ -432,7 +437,7 @@ def search_for_terms(log_title):
                             time.sleep(.1)
 
                     log.close()
-                    workbook.save(workbook_title)
+                    workbook.save(str(workbook_title))
                     end_time = time.time()
                     CTM.clear_screen_backwards(down_to_row=13)
                     print("\n\t\033[92mProcess finished!\033[0m"
@@ -471,8 +476,16 @@ def search_for_terms(log_title):
             print(status)
             NSP.play_accept_sound() if system_sound_level == 3 else None
 
+            file_1 = None
+            file_2 = None
+            terms_1 = None
+            terms_2 = None
+            number_of_terms_1 = None
+            number_of_terms_2 = None
+
             excel_file_1_selected = False
             breakoff = False
+
             while not excel_file_1_selected:
                 CTM.draw("\n\tPlease select two excel files you want to compare.", clear=False)
                 time.sleep(2)
@@ -850,9 +863,9 @@ def search_for_terms(log_title):
                         setting_ctrl = 2
 
                 if setting_ctrl == 2:
-                    # setting 2 (term output diplomacy) ----------------------------------------------------------------
+                    # setting 2 (term output policy) ----------------------------------------------------------------
                     CTM.clear_screen_backwards(down_to_row=8, delay=0)
-                    CA.display_settings(2, term_output_diplomacy)
+                    CA.display_settings(2, term_output_policy)
                     CTM.unblock_input()
                     i = input("\n\tType in the \33[33moption number\33[0m of the option you want to \33[33mchoose\33[0m"
                               " or\n\tpress \33[92menter\33[0m to \33[92mcontinue\33[0m without making changes."
@@ -862,26 +875,26 @@ def search_for_terms(log_title):
                               "\n\n\tOption number: ")
                     CTM.block_input()
                     if i == "1":
-                        SDM.set_term_output_diplomacy("1")
-                        term_output_diplomacy = SDM.get_term_output_diplomacy()
+                        SDM.set_term_output_policy("1")
+                        term_output_policy = SDM.get_term_output_policy()
                         CTM.clear_screen_backwards(down_to_row=8, delay=0)
-                        CA.display_settings_after_changes(2, term_output_diplomacy)
+                        CA.display_settings_after_changes(2, term_output_policy)
                         CTM.draw("\033[92m" + "\n\tOnly found terms will be considered!\033[0m")
                         NSP.play_deny_sound() if system_sound_level == 3 else None
                         time.sleep(4)
                     elif i == "2":
-                        SDM.set_term_output_diplomacy("2")
-                        term_output_diplomacy = SDM.get_term_output_diplomacy()
+                        SDM.set_term_output_policy("2")
+                        term_output_policy = SDM.get_term_output_policy()
                         CTM.clear_screen_backwards(down_to_row=8, delay=0)
-                        CA.display_settings_after_changes(2, term_output_diplomacy)
+                        CA.display_settings_after_changes(2, term_output_policy)
                         CTM.draw("\033[92m" + "\n\tOnly not found terms will be considered!\033[0m")
                         NSP.play_deny_sound() if system_sound_level == 3 else None
                         time.sleep(4)
                     elif i == "3":
-                        SDM.set_term_output_diplomacy("3")
-                        term_output_diplomacy = SDM.get_term_output_diplomacy()
+                        SDM.set_term_output_policy("3")
+                        term_output_policy = SDM.get_term_output_policy()
                         CTM.clear_screen_backwards(down_to_row=8, delay=0)
-                        CA.display_settings_after_changes(2, term_output_diplomacy)
+                        CA.display_settings_after_changes(2, term_output_policy)
                         CTM.draw("\033[92m" + "\n\tAll terms will be considered!\033[0m")
                         NSP.play_deny_sound() if system_sound_level == 3 else None
                         time.sleep(4)
@@ -1226,7 +1239,7 @@ def search_for_terms(log_title):
                         CTM.draw('\n\tSearching for term \33[33m' + term + '\33[0m ...', clear=False)
                         time.sleep(2)
 
-                    if term_output_diplomacy == 1:
+                    if term_output_policy == 1:
                         worksheet, excel_row, log_output, \
                             hdlp_start, hdlp_doc = CA.search_and_output(worksheet=worksheet,
                                                                         excel_row=excel_row,
@@ -1240,7 +1253,7 @@ def search_for_terms(log_title):
                                                                         headline_printing=headline_printing,
                                                                         hdlp_start=hdlp_start,
                                                                         hdlp_doc=hdlp_doc)
-                    elif term_output_diplomacy == 2:
+                    elif term_output_policy == 2:
                         worksheet, excel_row, log_output, \
                             hdlp_start, hdlp_doc = CA.search_and_output(worksheet=worksheet,
                                                                         excel_row=excel_row,
@@ -1275,7 +1288,7 @@ def search_for_terms(log_title):
                     log.write("\n\n" + log_output)
                     log.close()
 
-                    workbook.save(workbook_title)
+                    workbook.save(str(workbook_title))
 
                     print("\033[92m" + "\n\tDone!" + "\033[0m")
                     NSP.play_accept_sound() if system_sound_level >= 2 else None
@@ -1291,7 +1304,7 @@ def search_for_terms(log_title):
                 CTM.block_input()
 
 
-# Program Start ----------------------------------------------------------------------------------------------
+# Program Start --------------------------------------------------------------------------------------------------------
 os.system("cls")
 CTM.block_input()
 set_console_fullscreen()
@@ -1304,10 +1317,10 @@ CA.print_opening(version=m2e_version, colour=True)
 NSP.play_start_sound()
 time.sleep(1)
 CTM.draw("\n\tLoading components...")
-time.sleep(1.5)
+time.sleep(1)
 try:
     if SDM.get_first_start():
-        set_system_variables_to_default()
+        set_system_variables_to_default(database_also=True)
         SDM.set_first_start(False)
     else:
         pass
@@ -1321,7 +1334,7 @@ try:
     database_version_description = SDM.get_database_version_description()
 
     first_start = SDM.get_first_start()
-    term_output_diplomacy = SDM.get_term_output_diplomacy()
+    term_output_policy = SDM.get_term_output_policy()
     oneline_output_format = SDM.get_one_line_output()
     headline_printing = SDM.get_headline_printing()
     alphabetical_output, abc_output_ascending = SDM.get_alphabetical_output()
@@ -1344,7 +1357,7 @@ except Exception:
         database_version_description = SDM.get_database_version_description()
 
         first_start = SDM.get_first_start()
-        term_output_diplomacy = SDM.get_term_output_diplomacy()
+        term_output_policy = SDM.get_term_output_policy()
         oneline_output_format = SDM.get_one_line_output()
         headline_printing = SDM.get_headline_printing()
         alphabetical_output, abc_output_ascending = SDM.get_alphabetical_output()

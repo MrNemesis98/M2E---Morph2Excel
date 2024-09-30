@@ -115,75 +115,86 @@ def print_manual_search_headline(tip=False):
 
 
 def print_main_menu():
+    tab_width = CTM.calculate_tab_width()
+
+    os.system("cls")
+    print_opening(version="2024.1", colour=False)
 
     def get_database_installation_info(colored=False):
 
-        normal_text = ("\n\tManual search mode is prepared."
-                       "\n\tYou can now search for terms."
-                       "\n\n\tAlternative search modes:"
-                       "\n\tI)  For Automatic Scan Mode type s! instead of a term.")
-        normal_text_colored = ("\n\t\33[97mManual search mode is prepared."
-                               "\n\tYou can now search for terms.\33[0m"
-                               "\n\n\t\033[97mAlternative search modes:\033[0m"
-                               "\n\tI)  For \033[38;5;130mAutomatic Scan Mode\033[0m type \033[38;5;130ms!\033[0m "
+        normal_text = ("\n" + tab_width * " " + "Manual search mode is prepared."
+                       "\n" + tab_width * " " + "You can now search for terms."
+                       "\n\n" + tab_width * " " + "Alternative search modes:"
+                       "\n" + tab_width * " " + "I)  For Automatic Scan Mode type s! instead of a term.")
+        normal_text_colored = ("\n" + tab_width * " " + "\33[97mManual search mode is prepared."
+                               "\n" + tab_width * " " + "You can now search for terms.\33[0m"
+                               "\n\n" + tab_width * " " + "\033[97mAlternative search modes:\033[0m"
+                               "\n" + tab_width * " " + "I)  For \033[38;5;130mAutomatic Scan Mode\033[0m type "
+                                                        "\033[38;5;130ms!\033[0m "
                                "instead of a term.")
-        exception_text = ("\n\tWarning: the wikimorph database is not installed!"
-                          "\n\tAccess to manual search mode is restricted!"
-                          "\n\n\tAlternative search modes:"
-                          "\n\tI) Access to automatic scan mode is restricted!")
-        exception_text_colored = ("\n\t\33[91mWarning: the wikimorph database is not installed!\33[0m"
-                                  "\n\tAccess to \33[91mmanual search mode\33[0m is \33[91mrestricted\33[0m!"
-                                  "\n\n\t\033[97mAlternative search modes:\033[0m"
-                                  "\n\tI) Access to \33[91mautomatic scan mode\33[0m is \33[91mrestricted\33[0m!")
+        exception_text = ("\n" + tab_width * " " + "Warning: the wikimorph database is not installed!"
+                          "\n" + tab_width * " " + "Access to manual search mode is restricted!"
+                          "\n\n" + tab_width * " " + "Alternative search modes:"
+                          "\n" + tab_width * " " + "I) Access to automatic scan mode is restricted!")
+        exception_text_colored = ("\n" + tab_width * " " + "\33[91mWarning: the wikimorph database is not "
+                                                           "installed!\33[0m"
+                                  "\n" + tab_width * " " + "Access to \33[91mmanual search mode\33[0m is "
+                                                           "\33[91mrestricted\33[0m!"
+                                  "\n\n" + tab_width * " " + "\033[97mAlternative search modes:\033[0m"
+                                  "\n" + tab_width * " " + "I) Access to \33[91mautomatic scan mode\33[0m is "
+                                                           "\33[91mrestricted\33[0m!")
         if SDM.get_database_version_date() != "":
             return normal_text_colored if colored else normal_text
         else:
             return exception_text_colored if colored else exception_text
 
-    # preparing displays ------------------------------------------------------
-    headline = "\n\t\33[92m~ Main Menu ~\33[0m"
+    # preparing displays -----------------------------------------------------------------------------------------------
+    headline = "\n" + tab_width * " " + "\33[92m~ Main Menu ~\33[0m"
 
     menu_monochrom_display = [
         get_database_installation_info(),
-        '\tII) For Comparison Mode type c! instead of a term.',
-        '\tFurther options:',
-        '\tA) For an instructions overview type i! or ? instead of a term.',
-        '\tB) For a version description type v! instead of a term.',
-        '\tC) For settings type set! instead of a term.',
-        '\tD) For ending the program type exit! instead of a term.',
-        '\tCurrent settings:',
+        tab_width * " " + 'II) For Comparison Mode type c! instead of a term.',
+        "\n" + tab_width * " " + 'Further options:',
+        tab_width * " " + 'A) For an instructions overview type i! or ? instead of a term.',
+        tab_width * " " + 'B) For a version description type v! instead of a term.',
+        tab_width * " " + 'C) For settings type set! instead of a term.',
+        tab_width * " " + 'D) For ending the program type exit! instead of a term.',
+        tab_width * " " + 'Current settings:',
         SDM.get_database_version_as_text(),
-        SDM.get_term_output_diplomacy_as_text(),
+        SDM.get_term_output_policy_as_text(),
         SDM.get_one_line_output_as_text(),
         SDM.get_headline_printing_as_text(),
         SDM.get_alphabetical_output_as_text(),
         SDM.get_auto_scan_filters_as_text(),
         SDM.get_output_detail_level_as_text(),
         SDM.get_system_sound_level_as_text(),
-        '\n\tHint: If you want to display this menu again just press enter.'
+        '\n' + tab_width * " " + 'Hint: If you want to display this menu again just press enter.'
     ]
     menu_color_display = [
         get_database_installation_info(colored=True),
-        '\tII) For \033[94mComparison Mode\033[0m type \033[94mc!\033[0m instead of a term.\t\t\033[94m<- New!\033[0m',
-        '\n\t\033[97mFurther options:\033[0m',
-        '\tA) For an \033[92minstructions\033[0m overview type \033[92mi!\033[0m or \033[92m?\033[0m instead of a term.',
-        '\tB) For a \033[95mversion description\033[0m type \033[95mv!\033[0m instead of a term.',
-        '\tC) For \033[33msettings\033[0m type \033[33mset!\033[0m instead of a term.\t\t\t\033[33m<- New!\033[0m',
-        '\tD) For \033[91mending the program\033[0m type \033[91mexit!\033[0m instead of a term.',
-        '\n\t\033[97mCurrent settings:\033[0m',
+        tab_width * " " + 'II) For \033[94mComparison Mode\033[0m type \033[94mc!\033[0m instead of a term.\t\t\033'
+                          '[94m<- New!\033[0m',
+        '\n' + tab_width * " " + '\033[97mFurther options:\033[0m',
+        tab_width * " " + 'A) For an \033[92minstructions\033[0m overview type \033[92mi!\033[0m or \033[92m?\033'
+                          '[0m instead of a term.',
+        tab_width * " " + 'B) For a \033[95mversion description\033[0m type \033[95mv!\033[0m instead of a term.',
+        tab_width * " " + 'C) For \033[33msettings\033[0m type \033[33mset!\033[0m instead of a term.\t\t\t\033'
+                          '[33m<- New!\033[0m',
+        tab_width * " " + 'D) For \033[91mending the program\033[0m type \033[91mexit!\033[0m instead of a term.',
+        '\n' + tab_width * " " + '\033[97mCurrent settings:\033[0m',
         SDM.get_database_version_as_text(),
-        SDM.get_term_output_diplomacy_as_text(),
+        SDM.get_term_output_policy_as_text(),
         SDM.get_one_line_output_as_text(),
         SDM.get_headline_printing_as_text(),
         SDM.get_alphabetical_output_as_text(),
         SDM.get_auto_scan_filters_as_text(),
         SDM.get_output_detail_level_as_text(),
         SDM.get_system_sound_level_as_text(),
-        '\n\tHint: If you want to \033[92mdisplay this menu again\033[0m just press \033[92menter\033[0m.'
+        '\n' + tab_width * " " + 'Hint: If you want to \033[92mdisplay this menu again\033[0m just press \033[92menter'
+                                 '\033[0m.'
     ]
 
-    # printing main menu ------------------------------------------------------
-    tab_width = CTM.calculate_tab_width()
+    # printing main menu -----------------------------------------------------------------------------------------------
 
     sys.stdout.write(f"\033[{4};\tH")
     sys.stdout.flush()
@@ -303,6 +314,7 @@ def download_database(url, directly_after_start=False):
             current_size = os.path.getsize("src/database/wiki_morph.json")
             current_size = int(current_size / (1024 * 1024))
             SDM.set_current_size(current_size)
+
         except Exception:
 
             CTM.clear_screen_backwards(down_to_row=5) if directly_after_start \
@@ -412,7 +424,7 @@ def show_instructions():
         CTM.unblock_input()
         input("\n\tPress \33[92menter\33[0m to return to main menu.")
         CTM.block_input()
-    except FileNotFoundError or Exception:
+    except FileNotFoundError or Exception as e:
         print("\n\t\033[91mWarning:\033[0m The program was not able to open the handbook file "
               "due to problems with the source path!"
               'You can find the respective file under '
@@ -973,7 +985,7 @@ def display_settings(setting, current_var, current_var_2=""):
               '\n\tType in \33[91mexit!\33[0m to \33[91mreturn to main menu\33[0m.')
 
     elif setting == 2:
-        print("\n\n\tSetting \33[33m2\33[0m/8: \33[33mTerm Output Diplomacy\33[0m"
+        print("\n\n\tSetting \33[33m2\33[0m/8: \33[33mTerm Output Policy\33[0m"
               "\n\t---------\33[33m[\33[0m-------\33[33m]\33[0m------------------------------------------------------"
               "\n\n\tDescription: "
               "\n\tDecide, which of the terms you searched shall be considered in the output."
@@ -1188,7 +1200,7 @@ def display_settings_after_changes(setting, current_var, current_var_2=""):
                   "\n\n\tPress \33[33menter\33[0m to \33[33mproceed\33[0m.")
 
     elif setting == 2:
-        print("\n\n\tSetting \33[33m2\33[0m/8: \33[33mTerm Output Diplomacy\33[0m"
+        print("\n\n\tSetting \33[33m2\33[0m/8: \33[33mTerm Output Policy\33[0m"
               "\n\t---------\33[33m[\33[0m-------\33[33m]\33[0m------------------------------------------------------"
               "\n\n\tDescription: "
               "\n\tDecide, which of the terms you searched shall be considered in the output."
