@@ -154,4 +154,3 @@ def clear_screen_backwards(down_to_row=1, delay=0.01):
 
         move_cursor_to(down_to_row, 0)
         clear_line()
-
