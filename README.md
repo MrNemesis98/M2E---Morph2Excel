@@ -5,7 +5,14 @@ Since this software was created for linguistic research in the field of anglisti
 and search restrictions within the program settings. M2E was developed to cover a wide range of research goals and needs.
 
 The project Morph2Excel was financed by the German Research Foundation (Deutsche Forschungsgemeinschaft / DFG). It was developed and tested as part of the ERSaF (English Root Stress across Frameworks) project at Trier University, Germany. 
-~ Project Leader: Prof. Dr. Sabine Arndt-Lappe ~ Software Development and Management: Till Preidt ~ Assistance and Benchmarking: Sonja Böker, Jakob Engel, Anika Petri, Lilly-Kristin Plock, Carolin Sloykowski
+
+Project Leader: Prof. Dr. Sabine Arndt-Lappe 
+
+Software Development and Management: Till Preidt 
+
+Assistance and Benchmarking: Sonja Böker, Jakob Engel, Anika Petri, Lilly-Kristin Plock, Carolin Sloykowski
+
+________________________________________________________________________________________________________________________________________________________________________________
 
 Copyright © MrNemesis98, GitHub, 2024
 
