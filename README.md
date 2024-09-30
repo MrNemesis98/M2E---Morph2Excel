@@ -8,6 +8,7 @@ The project Morph2Excel was financed by the German Research Foundation (Deutsche
 ~ Project Leader: Prof. Dr. Sabine Arndt-Lappe ~ Software Development and Management: Till Preidt ~ Assistance and Benchmarking: Sonja Böker, Jakob Engel, Anika Petri, Lilly-Kristin Plock, Carolin Sloykowski
 
 Copyright © MrNemesis98, GitHub, 2024
+
 Preidt, Till, Böker, S., Engel, J., Petri, A., Plock, L.-K., Sloykowski, C. & Arndt-Lappe, S. (2024, September 30). M2E - Morph2Excel. Retrieved from osf.io/jrdn3
 
 ________________________________________________________________________________________________________________________________________________________________________________
