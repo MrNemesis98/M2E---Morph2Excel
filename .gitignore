@@ -4,3 +4,4 @@
 .idea/Morph2Excel - M2E.iml
 src/database/wiki_morph.json
 *.xlsx
+.idea/workspace.xml
