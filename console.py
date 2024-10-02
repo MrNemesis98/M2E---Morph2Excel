@@ -110,21 +110,6 @@ def set_console_fullscreen():
                           win32con.SWP_FRAMECHANGED | win32con.SWP_SHOWWINDOW)
 
 
-def disable_resize_and_buttons():
-    hwnd = win32gui.GetForegroundWindow()
-
-    style = win32gui.GetWindowLong(hwnd, win32con.GWL_STYLE)
-
-    style &= ~win32con.WS_CAPTION
-    style &= ~win32con.WS_THICKFRAME
-    style &= ~win32con.WS_MAXIMIZEBOX
-    style &= ~win32con.WS_SYSMENU
-
-    win32gui.SetWindowLong(hwnd, win32con.GWL_STYLE, style)
-    win32gui.SetWindowPos(hwnd, None, 0, 0, 0, 0,
-                          win32con.SWP_NOMOVE | win32con.SWP_NOSIZE | win32con.SWP_NOZORDER | win32con.SWP_FRAMECHANGED)
-
-
 def check_database_installation():
     global database_version_date
     global database_version_description
@@ -693,8 +678,8 @@ def search_for_terms(log_title):
                    "set6!", "set7!", "set8!"]:
 
             CTM.clear_screen_backwards(down_to_row=5, delay=0)
-            print("\033[33m\n\t~ Settings Menu ~"
-                  "\n\t-------------------------------------------------------------------------------\033[0m")
+            os.system("cls")
+            CA.print_opening(version="2024.1", colour=False)
             NSP.play_accept_sound() if system_sound_level == 3 else None
 
             if i == "set!" or i == "set1!":
@@ -722,7 +707,7 @@ def search_for_terms(log_title):
 
                     # setting 1 (database version control center) ------------------------------------------------------
 
-                    CTM.clear_screen_backwards(down_to_row=8, delay=0)
+                    CTM.clear_screen_backwards(down_to_row=5, delay=0)
                     database_version_date = SDM.get_database_version_date()
                     database_version_description = SDM.get_database_version_description()
 
@@ -734,7 +719,7 @@ def search_for_terms(log_title):
                     CTM.block_input()
 
                     if i == "1":
-                        CTM.clear_screen_backwards(down_to_row=8, delay=0)
+                        CTM.clear_screen_backwards(down_to_row=5, delay=0)
                         CA.display_settings_after_changes(setting=1, current_var="u1")
                         NSP.play_deny_sound() if system_sound_level >= 2 else None
                         CTM.draw("\n\t1. Press \33[92menter\33[0m to \33[92mstart the download\33[0m.",
@@ -778,10 +763,7 @@ def search_for_terms(log_title):
                                 input()
                                 CTM.block_input()
                                 entries_list = CA.load_database(version=m2e_version)
-                                CTM.clear_screen_backwards(down_to_row=5, delay=0)
-                                print("\033[33m\n\t~ Settings Menu ~"
-                                      "\n\t---------------------------------------------------"
-                                      "----------------------------\033[0m")
+                                CTM.clear_screen_backwards(down_to_row=8, delay=0)
                             else:
                                 NSP.play_deny_sound() if system_sound_level == 3 else None
                         else:
@@ -794,7 +776,7 @@ def search_for_terms(log_title):
                         if CA.database_installation_confirmed():
                             description_set = False
                             while not description_set:
-                                CTM.clear_screen_backwards(down_to_row=8, delay=0)
+                                CTM.clear_screen_backwards(down_to_row=5, delay=0)
                                 CA.display_settings_after_changes(setting=1, current_var="d1")
                                 NSP.play_deny_sound() if system_sound_level >= 2 else None
                                 CTM.unblock_input()
@@ -810,7 +792,7 @@ def search_for_terms(log_title):
                                     time.sleep(2.5)
                                     database_version_description = i
                                     SDM.set_database_version_description(database_version_description)
-                                    CTM.clear_screen_backwards(down_to_row=8, delay=0)
+                                    CTM.clear_screen_backwards(down_to_row=5, delay=0)
                                     CA.display_settings_after_changes(setting=1, current_var="d2",
                                                                       current_var_2=database_version_description)
                                     description_set = True
@@ -821,15 +803,12 @@ def search_for_terms(log_title):
                             CTM.unblock_input()
                             input()
                             CTM.block_input()
-                            CTM.clear_screen_backwards(down_to_row=5, delay=0)
-                            print("\033[33m\n\t~ Settings Menu ~"
-                                  "\n\t---------------------------------------------------"
-                                  "----------------------------\033[0m")
+                            CTM.clear_screen_backwards(down_to_row=8, delay=0)
 
                     elif i == "3":
 
                         if CA.database_installation_confirmed():
-                            CTM.clear_screen_backwards(down_to_row=8, delay=0)
+                            CTM.clear_screen_backwards(down_to_row=5, delay=0)
                             CA.display_settings_after_changes(setting=1, current_var="r1")
                             NSP.play_deny_sound() if system_sound_level >= 2 else None
 
@@ -845,7 +824,7 @@ def search_for_terms(log_title):
                                 if os.path.exists("src/database/wiki_morph.json"):
                                     os.remove("src/database/wiki_morph.json")
 
-                                CTM.clear_screen_backwards(down_to_row=8, delay=0)
+                                CTM.clear_screen_backwards(down_to_row=5, delay=0)
                                 CA.display_settings_after_changes(setting=1, current_var="r2",
                                                                   current_var_2=database_version_date)
                                 CTM.unblock_input()
@@ -866,20 +845,16 @@ def search_for_terms(log_title):
                             CTM.unblock_input()
                             input()
                             CTM.block_input()
-                            CTM.clear_screen_backwards(down_to_row=5, delay=0)
-                            print("\033[33m\n\t~ Settings Menu ~"
-                                  "\n\t--------------------------------------------------"
-                                  "-----------------------------\033[0m")
+                            CTM.clear_screen_backwards(down_to_row=8, delay=0)
 
                     elif i == "exit" or i == "exit1" or i == "exit!":
                         setting_ctrl = 9
-                        CTM.clear_screen_backwards(down_to_row=8, delay=0)
                     else:
                         setting_ctrl = 2
 
                 if setting_ctrl == 2:
                     # setting 2 (term output policy) ----------------------------------------------------------------
-                    CTM.clear_screen_backwards(down_to_row=8, delay=0)
+                    CTM.clear_screen_backwards(down_to_row=5, delay=0)
                     CA.display_settings(2, term_output_policy)
                     CTM.unblock_input()
                     i = input("\n\tType in the \33[33moption number\33[0m of the option you want to \33[33mchoose\33[0m"
@@ -892,7 +867,7 @@ def search_for_terms(log_title):
                     if i == "1":
                         SDM.set_term_output_policy("1")
                         term_output_policy = SDM.get_term_output_policy()
-                        CTM.clear_screen_backwards(down_to_row=8, delay=0)
+                        CTM.clear_screen_backwards(down_to_row=5, delay=0)
                         CA.display_settings_after_changes(2, term_output_policy)
                         CTM.draw("\033[92m" + "\n\tOnly found terms will be considered!\033[0m")
                         NSP.play_deny_sound() if system_sound_level == 3 else None
@@ -900,7 +875,7 @@ def search_for_terms(log_title):
                     elif i == "2":
                         SDM.set_term_output_policy("2")
                         term_output_policy = SDM.get_term_output_policy()
-                        CTM.clear_screen_backwards(down_to_row=8, delay=0)
+                        CTM.clear_screen_backwards(down_to_row=5, delay=0)
                         CA.display_settings_after_changes(2, term_output_policy)
                         CTM.draw("\033[92m" + "\n\tOnly not found terms will be considered!\033[0m")
                         NSP.play_deny_sound() if system_sound_level == 3 else None
@@ -908,23 +883,21 @@ def search_for_terms(log_title):
                     elif i == "3":
                         SDM.set_term_output_policy("3")
                         term_output_policy = SDM.get_term_output_policy()
-                        CTM.clear_screen_backwards(down_to_row=8, delay=0)
+                        CTM.clear_screen_backwards(down_to_row=5, delay=0)
                         CA.display_settings_after_changes(2, term_output_policy)
                         CTM.draw("\033[92m" + "\n\tAll terms will be considered!\033[0m")
                         NSP.play_deny_sound() if system_sound_level == 3 else None
                         time.sleep(4)
                     elif i == "b!" or i == "B!" or i == "b1" or i == "B1":
                         setting_ctrl -= 1
-                        CTM.clear_screen_backwards(down_to_row=8, delay=0)
                     elif i == "exit" or i == "exit1" or i == "exit!":
                         setting_ctrl = 9
-                        CTM.clear_screen_backwards(down_to_row=8, delay=0)
                     else:
                         setting_ctrl = 3
 
                 if setting_ctrl == 3:
                     # setting 3 (Output line format) -------------------------------------------------------------------
-                    CTM.clear_screen_backwards(down_to_row=8, delay=0)
+                    CTM.clear_screen_backwards(down_to_row=5, delay=0)
                     CA.display_settings(3, oneline_output_format)
                     CTM.unblock_input()
                     i = input("\n\tType in the \33[33moption number\33[0m of the option you want to \33[33mchoose\33[0m"
@@ -937,7 +910,7 @@ def search_for_terms(log_title):
                     if i == "1":
                         SDM.set_one_line_output(True)
                         oneline_output_format = SDM.get_one_line_output()
-                        CTM.clear_screen_backwards(down_to_row=8, delay=0)
+                        CTM.clear_screen_backwards(down_to_row=5, delay=0)
                         CA.display_settings_after_changes(3, oneline_output_format)
                         CTM.draw("\033[92m" + "\n\tOutput will be printed in one-line format!\033[0m")
                         NSP.play_deny_sound() if system_sound_level == 3 else None
@@ -945,23 +918,21 @@ def search_for_terms(log_title):
                     elif i == "2":
                         SDM.set_one_line_output(False)
                         oneline_output_format = SDM.get_one_line_output()
-                        CTM.clear_screen_backwards(down_to_row=8, delay=0)
+                        CTM.clear_screen_backwards(down_to_row=5, delay=0)
                         CA.display_settings_after_changes(3, oneline_output_format)
                         CTM.draw("\033[92m" + "\n\tOutput will be printed in multi-line format!\033[0m")
                         NSP.play_deny_sound() if system_sound_level == 3 else None
                         time.sleep(4)
                     elif i == "b!" or i == "B!" or i == "b1" or i == "B1":
                         setting_ctrl -= 1
-                        CTM.clear_screen_backwards(down_to_row=8, delay=0)
                     elif i == "exit" or i == "exit1" or i == "exit!":
                         setting_ctrl = 9
-                        CTM.clear_screen_backwards(down_to_row=8, delay=0)
                     else:
                         setting_ctrl = 4
 
                 if setting_ctrl == 4:
                     # setting 4 (headline-printing) --------------------------------------------------------------------
-                    CTM.clear_screen_backwards(down_to_row=8, delay=0)
+                    CTM.clear_screen_backwards(down_to_row=5, delay=0)
                     CA.display_settings(4, headline_printing)
                     CTM.unblock_input()
                     i = input("\n\tType in the \33[33moption number\33[0m of the option you want to \33[33mchoose\33[0m"
@@ -974,7 +945,7 @@ def search_for_terms(log_title):
                     if i == "1":
                         SDM.set_headline_printing("1")
                         headline_printing = SDM.get_headline_printing()
-                        CTM.clear_screen_backwards(down_to_row=8, delay=0)
+                        CTM.clear_screen_backwards(down_to_row=5, delay=0)
                         CA.display_settings_after_changes(4, headline_printing)
                         CTM.draw("\033[92m" + "\n\tHeadline will be printed only at top of excel!\033[0m")
                         NSP.play_deny_sound() if system_sound_level == 3 else None
@@ -982,7 +953,7 @@ def search_for_terms(log_title):
                     elif i == "2":
                         SDM.set_headline_printing("2")
                         headline_printing = SDM.get_headline_printing()
-                        CTM.clear_screen_backwards(down_to_row=8, delay=0)
+                        CTM.clear_screen_backwards(down_to_row=5, delay=0)
                         CA.display_settings_after_changes(4, headline_printing)
                         CTM.draw("\033[92m" + "\n\tHeadline will be printed for every new document in scan mode!\033[0m")
                         NSP.play_deny_sound() if system_sound_level == 3 else None
@@ -990,23 +961,21 @@ def search_for_terms(log_title):
                     elif i == "3":
                         SDM.set_headline_printing("3")
                         headline_printing = SDM.get_headline_printing()
-                        CTM.clear_screen_backwards(down_to_row=8, delay=0)
+                        CTM.clear_screen_backwards(down_to_row=5, delay=0)
                         CA.display_settings_after_changes(4, headline_printing)
                         CTM.draw("\033[92m" + "\n\tHeadline will be printed for every new term!\033[0m")
                         NSP.play_deny_sound() if system_sound_level == 3 else None
                         time.sleep(4)
                     elif i == "b!" or i == "B!" or i == "b1" or i == "B1":
                         setting_ctrl -= 1
-                        CTM.clear_screen_backwards(down_to_row=8, delay=0)
                     elif i == "exit" or i == "exit1" or i == "exit!":
                         setting_ctrl = 9
-                        CTM.clear_screen_backwards(down_to_row=8, delay=0)
                     else:
                         setting_ctrl = 5
 
                 if setting_ctrl == 5:
                     # setting 5 (alphabetical output) ------------------------------------------------------------------
-                    CTM.clear_screen_backwards(down_to_row=8, delay=0)
+                    CTM.clear_screen_backwards(down_to_row=5, delay=0)
                     CA.display_settings(5, alphabetical_output, abc_output_ascending)
                     CTM.unblock_input()
                     i = input("\n\tType in the \33[33moption number\33[0m of the option you want to \33[33mchoose\33[0m"
@@ -1019,7 +988,7 @@ def search_for_terms(log_title):
                     if i == "1":
                         SDM.set_alphabetical_output(abc=True, asc=True)
                         alphabetical_output, abc_output_ascending = SDM.get_alphabetical_output()
-                        CTM.clear_screen_backwards(down_to_row=8, delay=0)
+                        CTM.clear_screen_backwards(down_to_row=5, delay=0)
                         CA.display_settings_after_changes(5, alphabetical_output, abc_output_ascending)
                         CTM.draw("\033[92m" + "\n\tOutput will be structured in ascending alphabetical order!\033[0m")
                         NSP.play_deny_sound() if system_sound_level == 3 else None
@@ -1027,7 +996,7 @@ def search_for_terms(log_title):
                     elif i == "2":
                         SDM.set_alphabetical_output(abc=True, asc=False)
                         alphabetical_output, abc_output_ascending = SDM.get_alphabetical_output()
-                        CTM.clear_screen_backwards(down_to_row=8, delay=0)
+                        CTM.clear_screen_backwards(down_to_row=5, delay=0)
                         CA.display_settings_after_changes(5, alphabetical_output, abc_output_ascending)
                         CTM.draw("\033[92m" + "\n\tOutput will be structured in descending alphabetical order!\033[0m")
                         NSP.play_deny_sound() if system_sound_level == 3 else None
@@ -1035,23 +1004,21 @@ def search_for_terms(log_title):
                     elif i == "3":
                         SDM.set_alphabetical_output(abc=False, asc=False)
                         alphabetical_output, abc_output_ascending = SDM.get_alphabetical_output()
-                        CTM.clear_screen_backwards(down_to_row=8, delay=0)
+                        CTM.clear_screen_backwards(down_to_row=5, delay=0)
                         CA.display_settings_after_changes(5, alphabetical_output, abc_output_ascending)
                         CTM.draw("\033[92m" + "\n\tOutput will not be structured at all!\033[0m")
                         NSP.play_deny_sound() if system_sound_level == 3 else None
                         time.sleep(4)
                     elif i == "b!" or i == "B!" or i == "b1" or i == "B1":
                         setting_ctrl -= 1
-                        CTM.clear_screen_backwards(down_to_row=8, delay=0)
                     elif i == "exit" or i == "exit1" or i == "exit!":
                         setting_ctrl = 9
-                        CTM.clear_screen_backwards(down_to_row=8, delay=0)
                     else:
                         setting_ctrl = 6
 
                 if setting_ctrl == 6:
                     # setting 6 (auto scan filters) --------------------------------------------------------------------
-                    CTM.clear_screen_backwards(down_to_row=8, delay=0)
+                    CTM.clear_screen_backwards(down_to_row=5, delay=0)
                     CA.display_settings(6, auto_scan_filters)
                     CTM.unblock_input()
                     i = input("\n\tType in the \33[33moption number\33[0m of the option you want to \33[33mchoose\33[0m"
@@ -1065,7 +1032,7 @@ def search_for_terms(log_title):
                     if i == "1":
                         SDM.set_auto_scan_filters("Noun")
                         auto_scan_filters = SDM.get_auto_scan_filters()
-                        CTM.clear_screen_backwards(down_to_row=8, delay=0)
+                        CTM.clear_screen_backwards(down_to_row=5, delay=0)
                         CA.display_settings_after_changes(6, auto_scan_filters)
                         CTM.draw("\033[92m" + '\n\t"Noun" is set as pos filter now!\033[0m')
                         NSP.play_deny_sound() if system_sound_level == 3 else None
@@ -1073,7 +1040,7 @@ def search_for_terms(log_title):
                     elif i == "2":
                         SDM.set_auto_scan_filters("Verb")
                         auto_scan_filters = SDM.get_auto_scan_filters()
-                        CTM.clear_screen_backwards(down_to_row=8, delay=0)
+                        CTM.clear_screen_backwards(down_to_row=5, delay=0)
                         CA.display_settings_after_changes(6, auto_scan_filters)
                         CTM.draw("\033[92m" + '\n\t"Verb" is set as pos filter now!\033[0m')
                         NSP.play_deny_sound() if system_sound_level == 3 else None
@@ -1081,7 +1048,7 @@ def search_for_terms(log_title):
                     elif i == "3":
                         SDM.set_auto_scan_filters("Adjective")
                         auto_scan_filters = SDM.get_auto_scan_filters()
-                        CTM.clear_screen_backwards(down_to_row=8, delay=0)
+                        CTM.clear_screen_backwards(down_to_row=5, delay=0)
                         CA.display_settings_after_changes(6, auto_scan_filters)
                         CTM.draw("\033[92m" + '\n\t"Adjective" is set as pos filter now!\033[0m')
                         NSP.play_deny_sound() if system_sound_level == 3 else None
@@ -1089,7 +1056,7 @@ def search_for_terms(log_title):
                     elif i == "4":
                         SDM.set_auto_scan_filters("Adverb")
                         auto_scan_filters = SDM.get_auto_scan_filters()
-                        CTM.clear_screen_backwards(down_to_row=8, delay=0)
+                        CTM.clear_screen_backwards(down_to_row=5, delay=0)
                         CA.display_settings_after_changes(6, auto_scan_filters)
                         CTM.draw("\033[92m" + '\n\t"Adverb" is set as pos filter now!\033[0m')
                         NSP.play_deny_sound() if system_sound_level == 3 else None
@@ -1097,7 +1064,7 @@ def search_for_terms(log_title):
                     elif i == "5":
                         SDM.set_auto_scan_filters("Preposition")
                         auto_scan_filters = SDM.get_auto_scan_filters()
-                        CTM.clear_screen_backwards(down_to_row=8, delay=0)
+                        CTM.clear_screen_backwards(down_to_row=5, delay=0)
                         CA.display_settings_after_changes(6, auto_scan_filters)
                         CTM.draw("\033[92m" + '\n\t"Preposition" is set as pos filter now!\033[0m')
                         NSP.play_deny_sound() if system_sound_level == 3 else None
@@ -1105,7 +1072,7 @@ def search_for_terms(log_title):
                     elif i == "6":
                         SDM.set_auto_scan_filters("Phrase")
                         auto_scan_filters = SDM.get_auto_scan_filters()
-                        CTM.clear_screen_backwards(down_to_row=8, delay=0)
+                        CTM.clear_screen_backwards(down_to_row=5, delay=0)
                         CA.display_settings_after_changes(6, auto_scan_filters)
                         CTM.draw("\033[92m" + '\n\t"Phrase" is set as pos filter now!\033[0m')
                         NSP.play_deny_sound() if system_sound_level == 3 else None
@@ -1113,23 +1080,21 @@ def search_for_terms(log_title):
                     elif i == "7":
                         SDM.set_auto_scan_filters("Noun, Verb, Adjective, Adverb, Preposition, Phrase")
                         auto_scan_filters = SDM.get_auto_scan_filters()
-                        CTM.clear_screen_backwards(down_to_row=8, delay=0)
+                        CTM.clear_screen_backwards(down_to_row=5, delay=0)
                         CA.display_settings_after_changes(6, auto_scan_filters)
                         CTM.draw("\033[92m" + '\n\tAll pos types will be considered now!\033[0m')
                         NSP.play_deny_sound() if system_sound_level == 3 else None
                         time.sleep(4)
                     elif i == "b!" or i == "B!" or i == "b1" or i == "B1":
                         setting_ctrl -= 1
-                        CTM.clear_screen_backwards(down_to_row=8, delay=0)
                     elif i == "exit" or i == "exit1" or i == "exit!":
                         setting_ctrl = 9
-                        CTM.clear_screen_backwards(down_to_row=8, delay=0)
                     else:
                         setting_ctrl = 7
 
                 if setting_ctrl == 7:
                     # setting 7 (output detail level) ------------------------------------------------------------------
-                    CTM.clear_screen_backwards(down_to_row=8, delay=0)
+                    CTM.clear_screen_backwards(down_to_row=5, delay=0)
                     CA.display_settings(7, output_detail_level)
                     CTM.unblock_input()
                     i = input("\n\tType in the \33[33moption number\33[0m of the option you want to \33[33mchoose\33[0m"
@@ -1142,7 +1107,7 @@ def search_for_terms(log_title):
                     if i == "1":
                         SDM.set_output_detail_level("1")
                         output_detail_level = SDM.get_output_detail_level()
-                        CTM.clear_screen_backwards(down_to_row=8, delay=0)
+                        CTM.clear_screen_backwards(down_to_row=5, delay=0)
                         CA.display_settings_after_changes(7, output_detail_level)
                         CTM.draw("\033[92m" + "\n\tOutput will cover term data only!\033[0m")
                         NSP.play_deny_sound() if system_sound_level == 3 else None
@@ -1150,7 +1115,7 @@ def search_for_terms(log_title):
                     elif i == "2":
                         SDM.set_output_detail_level("2")
                         output_detail_level = SDM.get_output_detail_level()
-                        CTM.clear_screen_backwards(down_to_row=8, delay=0)
+                        CTM.clear_screen_backwards(down_to_row=5, delay=0)
                         CA.display_settings_after_changes(7, output_detail_level)
                         CTM.draw("\033[92m" + "\n\tOutput will cover term data and morphology data!\033[0m")
                         NSP.play_deny_sound() if system_sound_level == 3 else None
@@ -1158,23 +1123,21 @@ def search_for_terms(log_title):
                     elif i == "3":
                         SDM.set_output_detail_level("3")
                         output_detail_level = SDM.get_output_detail_level()
-                        CTM.clear_screen_backwards(down_to_row=8, delay=0)
+                        CTM.clear_screen_backwards(down_to_row=5, delay=0)
                         CA.display_settings_after_changes(7, output_detail_level)
                         CTM.draw("\033[92m" + "\n\tOutput will cover all data information!\033[0m")
                         NSP.play_deny_sound() if system_sound_level == 3 else None
                         time.sleep(4)
                     elif i == "b!" or i == "B!" or i == "b1" or i == "B1":
                         setting_ctrl -= 1
-                        CTM.clear_screen_backwards(down_to_row=8, delay=0)
                     elif i == "exit" or i == "exit1" or i == "exit!":
                         setting_ctrl = 9
-                        CTM.clear_screen_backwards(down_to_row=8, delay=0)
                     else:
                         setting_ctrl = 8
 
                 if setting_ctrl == 8:
                     # setting 8 (system sound level) -------------------------------------------------------------------
-                    CTM.clear_screen_backwards(down_to_row=8, delay=0)
+                    CTM.clear_screen_backwards(down_to_row=5, delay=0)
                     CA.display_settings(8, system_sound_level)
                     CTM.unblock_input()
                     i = input("\n\tType in the \33[33moption number\33[0m of the option you want to \33[33mchoose\33[0m"
@@ -1187,7 +1150,7 @@ def search_for_terms(log_title):
                     if i == "1":
                         SDM.set_system_sound_level("1")
                         system_sound_level = SDM.get_system_sound_level()
-                        CTM.clear_screen_backwards(down_to_row=8, delay=0)
+                        CTM.clear_screen_backwards(down_to_row=5, delay=0)
                         CA.display_settings_after_changes(8, system_sound_level)
                         CTM.draw("\033[92m" + "\n\tNo sounds will be played!\033[0m")
                         NSP.play_deny_sound() if system_sound_level == 3 else None
@@ -1195,7 +1158,7 @@ def search_for_terms(log_title):
                     elif i == "2":
                         SDM.set_system_sound_level("2")
                         system_sound_level = SDM.get_system_sound_level()
-                        CTM.clear_screen_backwards(down_to_row=8, delay=0)
+                        CTM.clear_screen_backwards(down_to_row=5, delay=0)
                         CA.display_settings_after_changes(8, system_sound_level)
                         CTM.draw("\033[92m" + "\n\tOnly notifications sounds will be played!\033[0m")
                         NSP.play_deny_sound() if system_sound_level == 3 else None
@@ -1203,24 +1166,24 @@ def search_for_terms(log_title):
                     elif i == "3":
                         SDM.set_system_sound_level("3")
                         system_sound_level = SDM.get_system_sound_level()
-                        CTM.clear_screen_backwards(down_to_row=8, delay=0)
+                        CTM.clear_screen_backwards(down_to_row=5, delay=0)
                         CA.display_settings_after_changes(8, system_sound_level)
                         CTM.draw("\033[92m" + "\n\tNotification sounds and user feedback audio will be played!"
-                                           "\033[0m")
+                                 "\033[0m")
                         NSP.play_deny_sound() if system_sound_level == 3 else None
                         time.sleep(4)
                     elif i == "b!" or i == "B!" or i == "b1" or i == "B1":
                         setting_ctrl -= 1
-                        CTM.clear_screen_backwards(down_to_row=8, delay=0)
                     else:
                         setting_ctrl = 9
 
             CTM.clear_screen_backwards(down_to_row=8, delay=0)
             NSP.play_deny_sound() if system_sound_level >= 2 else None
-            outro = "\033[92m" + "\n\n\tConfigurations were saved!" + "\033[0m" \
-                    "\n\n\tReturning to main menu..."
-            CTM.draw(outro, clear=False)
-            time.sleep(4)
+            CTM.draw("\033[92m" + "\tConfigurations were saved!" + "\033[0m", clear=False)
+            time.sleep(2)
+            CTM.clear_screen_backwards(down_to_row=8,delay=0)
+            CTM.draw("\tReturning to main menu...", clear=False)
+            time.sleep(1)
             print_main_menu_again = True
 
         else:
@@ -1323,7 +1286,6 @@ def search_for_terms(log_title):
 os.system("cls")
 CTM.block_input()
 set_console_fullscreen()
-disable_resize_and_buttons()
 
 time.sleep(1)
 
