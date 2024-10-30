@@ -18,6 +18,8 @@ Copyright © MrNemesis98, GitHub, 2024
 
 Preidt, Till, Böker, S., Engel, J., Petri, A., Plock, L.-K., Sloykowski, C. & Arndt-Lappe, S. (2024, September 30). M2E - Morph2Excel. Retrieved from osf.io/jrdn3
 
+DOI 10.17605/OSF.IO/JRDN3
+
 ________________________________________________________________________________________________________________________________________________________________________________
 *Yarbro, J.T., Olney, A.M. (2021). WikiMorph: Learning to Decompose
 Words into Morphological Structures. In: Roll, I., McNamara, D.,
