@@ -22,8 +22,11 @@ Cham. https://doi.org/10.1007/978-3-030-78270-2_72
 Copyright © 2021 Springer Nature Switzerland AG
 
 The software as well as its handbook should be cited as follows:
+
 Preidt, Till, Böker, S., Engel, J., Petri, A., Plock, L.-K., Sloykowski, C. & Arndt-Lappe, S.
 (2024, September 30). M2E - Morph2Excel. Retrieved from osf.io/jrdn3
+
+DOI 10.17605/OSF.IO/JRDN3
 """
 
 import os

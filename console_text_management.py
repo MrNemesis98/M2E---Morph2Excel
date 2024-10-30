@@ -22,8 +22,11 @@ Cham. https://doi.org/10.1007/978-3-030-78270-2_72
 Copyright © 2021 Springer Nature Switzerland AG
 
 The software as well as its handbook should be cited as follows:
+
 Preidt, Till, Böker, S., Engel, J., Petri, A., Plock, L.-K., Sloykowski, C. & Arndt-Lappe, S.
 (2024, September 30). M2E - Morph2Excel. Retrieved from osf.io/jrdn3
+
+DOI 10.17605/OSF.IO/JRDN3
 """
 
 import msvcrt
@@ -91,6 +94,11 @@ def calculate_tab_width():
     global warning_message
     global request_error
 
+    # the following is a method for automatic text formatting inclusive exception handling
+    # it is currently outsourced since tests showed that it´s more reliable to replace these
+    # calculations be manual values, which is of course not system-dependent any more but can
+    # avoid access problems regarding e.g. the cursor position
+    """
     if not request_error == 1:
 
         try:
@@ -122,6 +130,9 @@ def calculate_tab_width():
 
     else:
         tab_width = 8
+    """
+
+    tab_width = 8
 
     return tab_width
 
@@ -152,6 +163,11 @@ def clear_screen_backwards(down_to_row=1, delay=0.01):
         sys.stdout.write(f"\033[{row};{col}H")
         sys.stdout.flush()
 
+    # the following is a method for automatic text formatting inclusive exception handling
+    # it is currently outsourced since tests showed that it´s more reliable to replace these
+    # calculations be manual values, which is of course not system-dependent any more but can
+    # avoid access problems regarding e.g. the cursor position
+    """
     if not request_error == 1:
         try:
             row, col = get_cursor_position()
@@ -192,4 +208,17 @@ def clear_screen_backwards(down_to_row=1, delay=0.01):
 
         move_cursor_to(down_to_row, 0)
         clear_line()
+    """
+
+    row = 40
+
+    while row > down_to_row:
+        move_cursor_to(row, 0)
+        clear_line()
+        time.sleep(delay)
+        row -= 1
+
+    move_cursor_to(down_to_row, 0)
+    clear_line()
+
 
