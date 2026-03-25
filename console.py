@@ -55,6 +55,7 @@ excel_row = 0
 entries_list = None
 database_is_installed = False
 request_error = None
+affix_type_indicator = 0
 
 # data to change for every release
 m2e_version = "2024.1"
@@ -205,6 +206,7 @@ def search_for_terms(log_title):
     global output_detail_level
     global system_sound_level
     global tip_need_counter
+    global affix_type_indicator
 
     worksheet_generated = False
     open_excel_automatically = False
@@ -386,7 +388,8 @@ def search_for_terms(log_title):
                                                                             output_detail_level=output_detail_level,
                                                                             headline_printing=headline_printing,
                                                                             hdlp_start=hdlp_start,
-                                                                            hdlp_doc=hdlp_doc)
+                                                                            hdlp_doc=hdlp_doc,
+                                                                            affix_type_indicator=0)
                             log.write("\n\n" + log_output)
                             time.sleep(.1)
 
@@ -410,7 +413,8 @@ def search_for_terms(log_title):
                                                                             output_detail_level=output_detail_level,
                                                                             headline_printing=headline_printing,
                                                                             hdlp_start=hdlp_start,
-                                                                            hdlp_doc=hdlp_doc)
+                                                                            hdlp_doc=hdlp_doc,
+                                                                            affix_type_indicator=0)
                             log.write("\n\n" + log_output)
                             time.sleep(.1)
 
@@ -435,7 +439,8 @@ def search_for_terms(log_title):
                                                                             output_detail_level=output_detail_level,
                                                                             headline_printing=headline_printing,
                                                                             hdlp_start=hdlp_start,
-                                                                            hdlp_doc=hdlp_doc)
+                                                                            hdlp_doc=hdlp_doc,
+                                                                            affix_type_indicator=0)
                             log.write("\n\n" + log_output)
                             time.sleep(.1)
 
@@ -1202,6 +1207,11 @@ def search_for_terms(log_title):
                     CTM.clear_screen_backwards(down_to_row=5)
                     CA.print_manual_search_headline()
 
+                    display_text_1 = ""
+                    display_text_2 = ""
+                    display_text_3 = ""
+                    affix_type_indicator = 0
+
                     open_excel_automatically = True
                     if ":" in i:
                         splitted_input = i.split(":")
@@ -1211,14 +1221,25 @@ def search_for_terms(log_title):
                             pos_filters += str(splitted_input[x]).capitalize()
                             if not x == len(splitted_input) - 1:
                                 pos_filters += ", "
-                        CTM.draw('\n\tSearching for term \33[33m' + term + '\33[0m '
-                                 'with pos tag \33[33m(' + pos_filters + ')\33[0m...', clear=False)
-                        time.sleep(2)
+                        display_text_3 = ' with pos tag \33[33m(' + pos_filters + ')\33[0m...'
+
                     else:
                         pos_filters = "Noun, Verb, Adjective, Adverb, Preposition, Phrase"
                         term = i
-                        CTM.draw('\n\tSearching for term \33[33m' + term + '\33[0m ...', clear=False)
-                        time.sleep(2)
+                        display_text_3 = '...'
+
+                    if term.endswith("-"):          # (prefix)
+                        term = term[:-1]
+                        affix_type_indicator = 1
+                        display_text_2 += " as a \33[33mPrefix\33[0m"
+                    elif term.startswith("-"):      # (suffix)
+                        term = term[1:]
+                        affix_type_indicator = 2
+                        display_text_2 += " as a \33[33mSuffix\33[0m"
+
+                    display_text_1 = '\n\tSearching for term \33[33m' + term + '\33[0m'
+                    CTM.draw(display_text_1 + display_text_2 + display_text_3, clear=False)
+                    time.sleep(2)
 
                     if term_output_policy == 1:
                         worksheet, excel_row, log_output, \
@@ -1233,7 +1254,8 @@ def search_for_terms(log_title):
                                                                         output_detail_level=output_detail_level,
                                                                         headline_printing=headline_printing,
                                                                         hdlp_start=hdlp_start,
-                                                                        hdlp_doc=hdlp_doc)
+                                                                        hdlp_doc=hdlp_doc,
+                                                                        affix_type_indicator=affix_type_indicator)
                     elif term_output_policy == 2:
                         worksheet, excel_row, log_output, \
                             hdlp_start, hdlp_doc = CA.search_and_output(worksheet=worksheet,
@@ -1247,7 +1269,8 @@ def search_for_terms(log_title):
                                                                         output_detail_level=output_detail_level,
                                                                         headline_printing=headline_printing,
                                                                         hdlp_start=hdlp_start,
-                                                                        hdlp_doc=hdlp_doc)
+                                                                        hdlp_doc=hdlp_doc,
+                                                                        affix_type_indicator=affix_type_indicator)
                     else:
                         worksheet, excel_row, log_output, \
                             hdlp_start, hdlp_doc = CA.search_and_output(worksheet=worksheet,
@@ -1261,7 +1284,8 @@ def search_for_terms(log_title):
                                                                         output_detail_level=output_detail_level,
                                                                         headline_printing=headline_printing,
                                                                         hdlp_start=hdlp_start,
-                                                                        hdlp_doc=hdlp_doc)
+                                                                        hdlp_doc=hdlp_doc,
+                                                                        affix_type_indicator=affix_type_indicator)
 
                     CTM.draw("\n\t\33[33mSaving results...\33[0m", clear=False)
 

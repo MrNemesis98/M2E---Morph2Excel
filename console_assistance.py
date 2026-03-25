@@ -55,6 +55,10 @@ def is_valid_input(i):
         pos = i.split(":")
         i = pos[0]
         pos.pop(0)
+    if i.startswith("-"):
+        i = i[1:]
+    elif i.endswith("-"):
+        i = i[:-1]
 
     allowed_inputs = ['exit!', 's!', 'i!', 'v!', 'c!', '?', '',
                       'set!', 'set1!', 'set2!', 'set3!', 'set4!',
@@ -496,26 +500,29 @@ def print_headlines(worksheet, excel_row, output_detail_level):
     brown_color = "6E2C00"
 
     term_Hcell = 'A' + str(excel_row)
-    filter_Hcell = 'B' + str(excel_row)
-    pos_Hcell = 'C' + str(excel_row)
-    syll_Hcell = 'D' + str(excel_row)
-    def_Hcell = 'E' + str(excel_row)
+    ati_Hcell = 'B' + str(excel_row)
+    filter_Hcell = 'C' + str(excel_row)
+    pos_Hcell = 'D' + str(excel_row)
+    syll_Hcell = 'E' + str(excel_row)
+    def_Hcell = 'F' + str(excel_row)
     worksheet[term_Hcell] = 'Term'
+    worksheet[ati_Hcell] = 'Affix_Type'
     worksheet[filter_Hcell] = 'Filter'
     worksheet[pos_Hcell] = 'PoS'
     worksheet[syll_Hcell] = 'Syllables'
     worksheet[def_Hcell] = 'Definition'
     worksheet[term_Hcell].font = Font(bold=True)
+    worksheet[ati_Hcell].font = Font(bold=True)
     worksheet[filter_Hcell].font = Font(bold=True)
     worksheet[pos_Hcell].font = Font(bold=True)
     worksheet[syll_Hcell].font = Font(bold=True)
     worksheet[def_Hcell].font = Font(bold=True)
 
     if output_detail_level >= 2:
-        affix_Hcell = 'F' + str(excel_row)
-        lang_Hcell = 'G' + str(excel_row)
-        sub_pos_Hcell = 'H' + str(excel_row)
-        mean_Hcell = 'I' + str(excel_row)
+        affix_Hcell = 'G' + str(excel_row)
+        lang_Hcell = 'H' + str(excel_row)
+        sub_pos_Hcell = 'I' + str(excel_row)
+        mean_Hcell = 'J' + str(excel_row)
         worksheet[affix_Hcell] = 'Affix'
         worksheet[lang_Hcell] = 'Language'
         worksheet[sub_pos_Hcell] = 'PoS'
@@ -526,11 +533,11 @@ def print_headlines(worksheet, excel_row, output_detail_level):
         worksheet[mean_Hcell].font = Font(bold=True, color=Color(rgb=blue_color))
 
     if output_detail_level == 3:
-        sub_affix_Hcell = 'J' + str(excel_row)
-        sub_lang_Hcell = 'K' + str(excel_row)
-        decoded_Hcell = 'L' + str(excel_row)
-        sub_sub_pos_Hcell = 'M' + str(excel_row)
-        sub_meaning_Hcell = 'N' + str(excel_row)
+        sub_affix_Hcell = 'K' + str(excel_row)
+        sub_lang_Hcell = 'L' + str(excel_row)
+        decoded_Hcell = 'M' + str(excel_row)
+        sub_sub_pos_Hcell = 'N' + str(excel_row)
+        sub_meaning_Hcell = 'O' + str(excel_row)
         worksheet[sub_affix_Hcell] = 'Affix'
         worksheet[sub_lang_Hcell] = 'Language'
         worksheet[decoded_Hcell] = 'Decoded'
@@ -548,7 +555,7 @@ def print_headlines(worksheet, excel_row, output_detail_level):
 
 def search_and_output(worksheet, excel_row, pos_filters, term, entries_list,
                       only_found_terms, only_not_found_terms, multiline_output, output_detail_level,
-                      headline_printing, hdlp_start, hdlp_doc):
+                      headline_printing, hdlp_start, hdlp_doc, affix_type_indicator):
 
     pos_filters = pos_filters.split(", ")
 
@@ -560,14 +567,29 @@ def search_and_output(worksheet, excel_row, pos_filters, term, entries_list,
     brown_color = "6E2C00"
     brown_font = Font(color=Color(rgb=brown_color))
 
+    # Set the color for red entries
+    red_color = "FFB71C1C"
+    red_font = Font(color=Color(rgb=red_color))
+
     # defining term print function
     # only desired terms will be printed (depends on chosen 3 way output option as you can see below)
     def print_term():
         term_cell = "A" + str(excel_row)
         worksheet[term_cell] = term
-        filter_cell = "B" + str(excel_row)
+
+        ati_cell = "B" + str(excel_row)
+        if affix_type_indicator == 1:
+            worksheet[ati_cell] = 'Prefix'
+            worksheet[ati_cell].font = red_font
+        elif affix_type_indicator == 2:
+            worksheet[ati_cell] = 'Suffix'
+            worksheet[ati_cell].font = red_font
+        else:
+            worksheet[ati_cell] = 'None'
+
+        filter_cell = "C" + str(excel_row)
         if len(pos_filters) == 6:
-            worksheet[filter_cell] = "NONE"
+            worksheet[filter_cell] = "None"
         elif 1 < len(pos_filters) < 6:
             pos_info_string = ""
             for x in range(len(pos_filters)):
@@ -621,9 +643,9 @@ def search_and_output(worksheet, excel_row, pos_filters, term, entries_list,
     # preparing functions for printing the values
     # useful to not repeat every cell definition before setting the values
     def set_level_1_cell_data(current_excel_row, pos, syllables, definition):
-        pos_cell = "C" + str(current_excel_row)
-        syll_cell = "D" + str(current_excel_row)
-        def_cell = "E" + str(current_excel_row)
+        pos_cell = "D" + str(current_excel_row)
+        syll_cell = "E" + str(current_excel_row)
+        def_cell = "F" + str(current_excel_row)
 
         worksheet[pos_cell] = str(pos)
         worksheet[syll_cell] = str(syllables)
@@ -631,10 +653,10 @@ def search_and_output(worksheet, excel_row, pos_filters, term, entries_list,
 
     def set_level_2_cell_data(current_excel_row, affix, language, sub_pos, meaning):
 
-        affix_cell = "F" + str(current_excel_row)
-        lang_cell = "G" + str(current_excel_row)
-        pos_cell = "H" + str(current_excel_row)
-        mean_cell = "I" + str(current_excel_row)
+        affix_cell = "G" + str(current_excel_row)
+        lang_cell = "H" + str(current_excel_row)
+        pos_cell = "I" + str(current_excel_row)
+        mean_cell = "J" + str(current_excel_row)
 
         worksheet[affix_cell].font = blue_font
         worksheet[lang_cell].font = blue_font
@@ -648,11 +670,11 @@ def search_and_output(worksheet, excel_row, pos_filters, term, entries_list,
 
     def set_level_3_cell_data(current_excel_row, sub_affix, sub_language, decoded, sub_sub_pos, sub_meaning):
 
-        sub_affix_cell = "J" + str(current_excel_row)
-        sub_language_cell = "K" + str(current_excel_row)
-        decoded_cell = "L" + str(current_excel_row)
-        sub_sub_pos_cell = "M" + str(current_excel_row)
-        sub_meaning_cell = "N" + str(current_excel_row)
+        sub_affix_cell = "K" + str(current_excel_row)
+        sub_language_cell = "L" + str(current_excel_row)
+        decoded_cell = "M" + str(current_excel_row)
+        sub_sub_pos_cell = "N" + str(current_excel_row)
+        sub_meaning_cell = "O" + str(current_excel_row)
 
         worksheet[sub_affix_cell].font = brown_font
         worksheet[sub_language_cell].font = brown_font
@@ -666,6 +688,22 @@ def search_and_output(worksheet, excel_row, pos_filters, term, entries_list,
         worksheet[sub_sub_pos_cell] = str(sub_sub_pos)
         worksheet[sub_meaning_cell] = str(sub_meaning)
 
+    def entry_found(e, filter, fe):
+        if affix_type_indicator == 0:           # wohle term
+            if e["Word"] == term and e["PoS"] == filter:
+                fe += 1
+                return True
+        elif affix_type_indicator == 1:         # prefix
+            if e["Word"].startswith(term) and e["PoS"] == filter:
+                fe += 1
+                return True
+        elif affix_type_indicator == 2:         # suffix
+            if e["Word"].endswith(term) and e["PoS"] == filter:
+                fe += 1
+                return True
+        else:
+            return False
+
     # search term ---------------------------------------------------------------------------------------------
     for fil in pos_filters:
 
@@ -674,8 +712,7 @@ def search_and_output(worksheet, excel_row, pos_filters, term, entries_list,
             entry = entries_list[index]
             multiline_at_level2_already_executed = False
 
-            if entry["Word"] == term and entry["PoS"] == fil:
-                found_entries += 1
+            if entry_found(e=entry, filter=fil, fe=found_entries):
 
                 if not only_not_found_terms:
 
@@ -913,8 +950,6 @@ def write_comparison_result_excel(worksheet, file_1, file_2, list_of_terms_1, li
 
     blue_color = "0000FF"
     brown_color = "6E2C00"
-    green_color = "00FF00"
-    yellow_color = "FFFF00"
 
     worksheet[term_Hcell].font = Font(bold=True)
     worksheet[property_Hcell].font = Font(bold=True)
