@@ -327,6 +327,27 @@ def search_for_terms(log_title):
                                   "\n\n\tThese terms will be ignored for searching within the wikimorph database."
                                   "\n\tThe amount of invalid terms is too large to be displayed here.")
                             NSP.play_deny_sound() if system_sound_level >= 2 else None
+                        CTM.draw("\n\tBefore starting the search please define if the scanned file"
+                                 "\n\tcontains input that shall be searched as:\n"
+                                 "\n\t\t\033[33m1. Prefixes\033[0m\t\t(type in \033[33m1\033[0m)"
+                                 "\n\t\t\033[33m2. Suffixes\t\t\033[0m(type in \033[33m2\033[0m)"
+                                 "\n\t\t\033[32m3. Whole Words\t\t\033[0m(just press \033[32menter\033[0m)")
+                        CTM.unblock_input()
+                        i = input("\n\n\tAnswer: ")
+                        CTM.block_input()
+                        if i == "1":
+                            affix_type_indicator = 1
+                            CTM.draw("\n\tThe Terms will be searched as \033[33mPrefixes\033[0m!")
+                        elif i == "2":
+                            affix_type_indicator = 2
+                            CTM.draw("\n\tThe Terms will be searched as \033[33mSuffixes\033[0m!")
+                        else:
+                            affix_type_indicator = 0
+                            CTM.draw("\n\tThe Terms will be searched as \033[32mwhole Words\033[0m!")
+                        time.sleep(3)
+
+                        CTM.clear_screen_backwards(down_to_row=8)
+                        CTM.stack(status, clear=False)
                         CTM.unblock_input()
                         i = input("\n\tPress \033[92menter\033[0m or type in anything to "
                                   "\033[92mstart\033[0m the search. "
@@ -389,9 +410,9 @@ def search_for_terms(log_title):
                                                                             headline_printing=headline_printing,
                                                                             hdlp_start=hdlp_start,
                                                                             hdlp_doc=hdlp_doc,
-                                                                            affix_type_indicator=0)
+                                                                            affix_type_indicator=affix_type_indicator)
                             log.write("\n\n" + log_output)
-                            time.sleep(.1)
+                            time.sleep(.01)
 
                     elif term_output_policy == 2:
                         for x in range(number_of_valid_cases):
@@ -414,9 +435,9 @@ def search_for_terms(log_title):
                                                                             headline_printing=headline_printing,
                                                                             hdlp_start=hdlp_start,
                                                                             hdlp_doc=hdlp_doc,
-                                                                            affix_type_indicator=0)
+                                                                            affix_type_indicator=affix_type_indicator)
                             log.write("\n\n" + log_output)
-                            time.sleep(.1)
+                            time.sleep(.01)
 
                     else:
                         for x in range(number_of_valid_cases):
@@ -440,9 +461,9 @@ def search_for_terms(log_title):
                                                                             headline_printing=headline_printing,
                                                                             hdlp_start=hdlp_start,
                                                                             hdlp_doc=hdlp_doc,
-                                                                            affix_type_indicator=0)
+                                                                            affix_type_indicator=affix_type_indicator)
                             log.write("\n\n" + log_output)
-                            time.sleep(.1)
+                            time.sleep(.01)
 
                     log.close()
                     workbook.save(str(workbook_title))
