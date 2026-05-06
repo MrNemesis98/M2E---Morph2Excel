@@ -1,5 +1,5 @@
 """
-Copyright © MrNemesis98, GitHub, 2024
+Copyright © MrNemesis98, GitHub, 2024-2026
 
 Permission is hereby granted, free of charge, to any person obtaining a copy of this software and associated
 documentation files (the "Software"), to deal in the Software without restriction, including without limitation
@@ -33,6 +33,8 @@ import sys
 import os
 import urllib.request
 import datetime
+from pathlib import Path
+
 import openpyxl
 import time
 import pandas as pd
@@ -115,7 +117,7 @@ def measure_time(start, end, search=True, comparison=False):
 
 
 def print_opening(version, colour=False):
-    header_line = "| Morph2Excel ~ Version {} ~ Copyright (c) 2024 MrNemesis98 (MIT License) |".format(version)
+    header_line = "| Morph2Excel ~ Version {} ~ Copyright (c) 2024-2026 MrNemesis98 (MIT License) |".format(version)
     upperline = "*" + "—" * (len(header_line) - 2) + "*"
     underline = "*" + "—" * (len(header_line) - 2) + "*"
     if colour:
@@ -137,16 +139,19 @@ def print_main_menu():
     tab_width = CTM.calculate_tab_width()
 
     os.system("cls")
-    print_opening(version="2024.1", colour=False)
+    print_opening(version="2026.1", colour=False)
 
     def get_database_installation_info(colored=False):
 
         normal_text = ("\n" + tab_width * " " + "Manual search mode is prepared."
                        "\n" + tab_width * " " + "You can now search for terms."
+                       "\n" + tab_width * " " + "Prefix and Suffix Search mode is prepared as well."
                        "\n\n" + tab_width * " " + "Alternative search modes:"
                        "\n" + tab_width * " " + "I)  For Automatic Scan Mode type s! instead of a term.")
         normal_text_colored = ("\n" + tab_width * " " + "\33[97mManual search mode is prepared."
                                "\n" + tab_width * " " + "You can now search for terms.\33[0m"
+                               "\n" + tab_width * " " + "\33[33mPrefix\33[0m and \33[33mSuffix Search\33[0m is prepared"
+                                                        " as well.\t\t\33[33m<- New!\033[0m"
                                "\n\n" + tab_width * " " + "\033[97mAlternative search modes:\033[0m"
                                "\n" + tab_width * " " + "I)  For \033[38;5;130mAutomatic Scan Mode\033[0m type "
                                                         "\033[38;5;130ms!\033[0m "
@@ -191,14 +196,12 @@ def print_main_menu():
     ]
     menu_color_display = [
         get_database_installation_info(colored=True),
-        tab_width * " " + 'II) For \033[94mComparison Mode\033[0m type \033[94mc!\033[0m instead of a term.\t\t\033'
-                          '[94m<- New!\033[0m',
+        tab_width * " " + 'II) For \033[94mComparison Mode\033[0m type \033[94mc!\033[0m instead of a term.',
         '\n' + tab_width * " " + '\033[97mFurther options:\033[0m',
         tab_width * " " + 'A) For an \033[92minstructions\033[0m overview type \033[92mi!\033[0m or \033[92m?\033'
                           '[0m instead of a term.',
         tab_width * " " + 'B) For a \033[95mversion description\033[0m type \033[95mv!\033[0m instead of a term.',
-        tab_width * " " + 'C) For \033[33msettings\033[0m type \033[33mset!\033[0m instead of a term.\t\t\t\033'
-                          '[33m<- New!\033[0m',
+        tab_width * " " + 'C) For \033[33msettings\033[0m type \033[33mset!\033[0m instead of a term.',
         tab_width * " " + 'D) For \033[91mending the program\033[0m type \033[91mexit!\033[0m instead of a term.',
         '\n' + tab_width * " " + '\033[97mCurrent settings:\033[0m',
         SDM.get_database_version_as_text(),
@@ -367,10 +370,11 @@ def download_database(url, directly_after_start=False):
     return normal
 
 
-def database_installation_confirmed(right_after_program_start=False):
+def database_installation_confirmed(right_after_program_start=False, version=""):
 
     def deny_access():
-        CTM.clear_screen_backwards(down_to_row=5)
+        CTM.clear_screen_backwards(down_to_row=0)
+        print_opening(version, colour=False)
         print("\n\t\33[91mWarning: Access denied!\33[0m")
         NSP.play_deny_sound() if SDM.get_system_sound_level() >= 2 else None
         time.sleep(1)
@@ -421,8 +425,9 @@ def load_database(version):
     return entries_list
 
 
-def show_instructions():
-    CTM.clear_screen_backwards(down_to_row=5)
+def show_instructions(version):
+    CTM.clear_screen_backwards(down_to_row=0)
+    print_opening(version, colour=False)
     print("\n\t\033[92m~ Instructions ~\033[0m"
           "\n\t\033[92m[-----------------------------------------------------------------------------]\033[0m")
     NSP.play_accept_sound() if SDM.get_system_sound_level() == 3 else None
@@ -438,16 +443,34 @@ def show_instructions():
         relative_path = relative_path.replace(" ", "%20")
     print("\t\33[33mPath:\33[0m " + absolute_path + relative_path)
     time.sleep(1)
+
+    handbook_path = Path(absolute_path) / relative_path
     try:
-        os.system(absolute_path+relative_path)
+        if not handbook_path.is_file():
+            raise FileNotFoundError(handbook_path)
+
+        os.startfile(handbook_path)
+
         CTM.unblock_input()
         input("\n\tPress \33[92menter\33[0m to return to main menu.")
         CTM.block_input()
-    except FileNotFoundError or Exception as e:
-        print("\n\t\033[91mWarning:\033[0m The program was not able to open the handbook file "
-              "due to problems with the source path!"
-              'You can find the respective file under '
-              '\033[33msrc/data/Externals/\33[0m and open it manually.')
+
+    except FileNotFoundError:
+        print(
+            "\n\t\033[91mWarning:\033[0m The program was not able to open the handbook file "
+            "because the file could not be found.\n"
+            "\tYou can find the respective file under "
+            "\033[33msrc/data/Externals/\33[0m and open it manually."
+        )
+        CTM.unblock_input()
+        input("\n\n\tPress \33[32menter\33[0m or type in anything to return to \33[32mmain menu\33[0m. ")
+        CTM.block_input()
+
+    except OSError as e:
+        print(
+            "\n\t\033[91mWarning:\033[0m The program was not able to open the handbook file.\n"
+            f"\tReason: {e}"
+        )
         CTM.unblock_input()
         input("\n\n\tType in any character to return to main menu: ")
         CTM.block_input()
@@ -456,37 +479,26 @@ def show_instructions():
     time.sleep(.5)
 
 
-def show_version_description():
-    CTM.clear_screen_backwards(5)
-    print("\033[95m" + "\n\n\t~ What´s new in version 2024.1 ? ~" + "\033[0m"
+def show_version_description(version):
+    CTM.clear_screen_backwards(0)
+    print_opening(version, colour=False)
+    print("\033[95m" + "\n\n\t~ What´s new in version 2026.1 ? ~" + "\033[0m"
           "\n\t\033[95m[-----------------------------------------------------------------------------]\033[0m")
     NSP.play_accept_sound() if SDM.get_system_sound_level() == 3 else None
     time.sleep(1.5)
-    print("\n\t\33[95m1)\33[0m There is a new \33[95mcomparison mode\33[0m, "
-          "\n\t\twhich allows you to select two excel files in the directory. "
-          "\n\t\tThe first column of these files will be scanned and for every term, "
-          "\n\t\tM2E will determine, in which of the files the term occurs."
-          "\n\t\tThe results of this comparison will not be saved in the standard output_excel file,"
-          "\n\t\tbut in an additional comparison_results excel file in the same folder,"
-          "\n\t\tas described in the instructions."
-          "\n\n\t\t\033[33m" + "Note:" + "\033[0m The program will ignore the first row of your excel files, "
-          "\n\t\tsince headlines should not be taken into account."
-          "\n\t\tAccordingly please take care if your terms do not start with the second row!")
+    print("\n\t\33[95m1)\33[0m It is now possible to search for \33[95mPrefixes and Suffixes\33[0m, "
+          "\n\t\tin the Manual Search Mode instead of whole words. "
+          "\n\t\tJust type in the term + '-' to mark it as prefix "
+          "\n\t\tor '-' + the term to mark it as suffix."
+          "\n\t\tOf cose this syntax can be combined with the pos filter selection."
+          "\n\n\t\t\033[33m" + "For more information please have a look at the instructions.")
     time.sleep(.25)
-    print("\n\t\33[95m2)\33[0m There is also a new \33[95msettings mode\33[0m, "
-          "\n\t\tin which you can adjust several system variables. "
-          "\n\t\tMost of them relate to the output. Changes will be saved on the flow."
-          "\n\t\tFor every setting there are a description and the respective options given."
-          "\n\t\tFurthermore there is a new \33[95mdatabase version control center\33[0m integrated in the settings,"
-          "\n\t\tthat allows you to manage your installed version of the wikimorph database.")
+    print("\n\t\33[95m2)\33[0m Also for the \33[95mAutomatic Scan mode\33[0m, "
+          "\n\t\ta prefix and suffix search is implemented now. "
+          "\n\t\tThis way the file scanned in can be defined as a list of prefixes, suffixes or whole words."
+          "\n\t\tThis option is available only once per file scanned in.")
     time.sleep(.25)
-    print("\n\t\33[95m3)\33[0m Four different \33[95msystem sounds\33[0m were integrated."
-          "\n\t\t1) A notification sound for program launch and main menu, "
-          "\n\t\t2) an audio signal for the request of an user interaction,"
-          "\n\t\t3) as well as sounds for negative and positive audio feedback."
-          "\n\t\tThese sounds can be limited or deactivated in the settings menu.")
-    time.sleep(.25)
-    print("\n\t\33[95m4)\33[0m The system menus were revised."
+    print("\n\t\33[95m3)\33[0m The system menus were revised."
           "\n\t\t1. Better structure and new \33[95mcolor schemes\33[0m in the menus."
           "\n\t\t2. A new \33[95moverview of the current system settings\33[0m for the main menu was added.")
     time.sleep(.25)
@@ -1008,7 +1020,7 @@ def write_comparison_result_excel(worksheet, file_1, file_2, list_of_terms_1, li
 def display_settings(setting, current_var, current_var_2=""):
 
     if setting == 1:
-        print("\033[33m\t~ Settings Menu ~"
+        print("\033[33m\n\t~ Settings Menu ~"
               "\n\t-------------------------------------------------------------------------------\033[0m"
               "\n\n\tSetting \33[33m1\33[0m/8: \33[33mDatabase Version Control\33[0m"
               "\n\t\33[33m[\33[0m-------\33[33m]\33[0m---------------------------------------------------------------"
@@ -1037,7 +1049,7 @@ def display_settings(setting, current_var, current_var_2=""):
               '\n\tType in \33[91mexit!\33[0m to \33[91mreturn to main menu\33[0m.')
 
     elif setting == 2:
-        print("\033[33m\t~ Settings Menu ~"
+        print("\033[33m\n\t~ Settings Menu ~"
               "\n\t-------------------------------------------------------------------------------\033[0m"
               "\n\n\tSetting \33[33m2\33[0m/8: \33[33mTerm Output Policy\33[0m"
               "\n\t---------\33[33m[\33[0m-------\33[33m]\33[0m------------------------------------------------------"
@@ -1055,7 +1067,7 @@ def display_settings(setting, current_var, current_var_2=""):
                   "\n\t\t\t\t2. only not found terms\n\t\t\t\033[33m" + "->" + "\033[0m\t3. all searched terms")
 
     elif setting == 3:
-        print("\033[33m\t~ Settings Menu ~"
+        print("\033[33m\n\t~ Settings Menu ~"
               "\n\t-------------------------------------------------------------------------------\033[0m"
               "\n\n\tSetting \33[33m3\33[0m/8: \33[33mOutput Format\33[0m"
               "\n\t------------------\33[33m[\33[0m-------\33[33m]\33[0m---------------------------------------------"
@@ -1070,7 +1082,7 @@ def display_settings(setting, current_var, current_var_2=""):
             print("\n\tOptions:\n\t\t\t\t1. one-line\n\t\t\t\033[33m" + "->" + "\033[0m\t2. multi-line")
 
     elif setting == 4:
-        print("\033[33m\t~ Settings Menu ~"
+        print("\033[33m\n\t~ Settings Menu ~"
               "\n\t-------------------------------------------------------------------------------\033[0m"
               "\n\n\tSetting \33[33m4\33[0m/8: \33[33mHeadline Printing\33[0m"
               "\n\t---------------------------\33[33m[\33[0m-------\33[33m]\33[0m------------------------------------"
@@ -1095,7 +1107,7 @@ def display_settings(setting, current_var, current_var_2=""):
                   "\n\t\t\t\033[33m" + "->" + "\033[0m\t3. for every new term printed")
 
     elif setting == 5:
-        print("\033[33m\t~ Settings Menu ~"
+        print("\033[33m\n\t~ Settings Menu ~"
               "\n\t-------------------------------------------------------------------------------\033[0m"
               "\n\n\tSetting \33[33m5\33[0m/8: \33[33mAlphabetical Output Order\33[0m"
               "\n\t------------------------------------\33[33m[\33[0m-------\33[33m]\33[0m---------------------------"
@@ -1117,7 +1129,7 @@ def display_settings(setting, current_var, current_var_2=""):
                   "\n\t\t\t\033[33m" + "->" + "\033[0m\t3. non-alphabetical")
 
     elif setting == 6:
-        print("\033[33m\t~ Settings Menu ~"
+        print("\033[33m\n\t~ Settings Menu ~"
               "\n\t-------------------------------------------------------------------------------\033[0m"
               "\n\n\tSetting \33[33m6\33[0m/8: \33[33mAutomatic Scan Filters\33[0m"
               "\n\t---------------------------------------------\33[33m[\33[0m-------\33[33m]\33[0m------------------"
@@ -1188,7 +1200,7 @@ def display_settings(setting, current_var, current_var_2=""):
               "\n\t\tThe results will be saved in the same Excel file.")
 
     elif setting == 7:
-        print("\033[33m\t~ Settings Menu ~"
+        print("\033[33m\n\t~ Settings Menu ~"
               "\n\t-------------------------------------------------------------------------------\033[0m"
               "\n\n\tSetting \33[33m7\33[0m/8: \33[33mOutput Detail Level\33[0m"
               "\n\t------------------------------------------------------\33[33m[\33[0m-------\33[33m]\33[0m---------"
@@ -1212,7 +1224,7 @@ def display_settings(setting, current_var, current_var_2=""):
                   "\n\t\t\t\033[33m" + "->" + "\033[0m\t3. Level 3: term data + morphology data + etymology data")
 
     elif setting == 8:
-        print("\033[33m\t~ Settings Menu ~"
+        print("\033[33m\n\t~ Settings Menu ~"
               "\n\t-------------------------------------------------------------------------------\033[0m"
               "\n\n\tSetting \33[33m8\33[0m/8: \33[33mSystem Sound Level\33[0m"
               "\n\t---------------------------------------------------------------\33[33m[\33[0m-------\33[33m]\33[0m"
@@ -1240,7 +1252,7 @@ def display_settings(setting, current_var, current_var_2=""):
 def display_settings_after_changes(setting, current_var, current_var_2=""):
 
     if setting == 1:
-        print("\033[33m\t~ Settings Menu ~"
+        print("\033[33m\n\t~ Settings Menu ~"
               "\n\t-------------------------------------------------------------------------------\033[0m"
               "\n\n\tSetting \33[33m1\33[0m/8: \33[33mDatabase Version Control\33[0m"
               "\n\t\33[33m[\33[0m-------\33[33m]\33[0m---------------------------------------------------------------")
@@ -1266,7 +1278,7 @@ def display_settings_after_changes(setting, current_var, current_var_2=""):
                   "\n\n\tPress \33[33menter\33[0m to \33[33mproceed\33[0m.")
 
     elif setting == 2:
-        print("\033[33m\t~ Settings Menu ~"
+        print("\033[33m\n\t~ Settings Menu ~"
               "\n\t-------------------------------------------------------------------------------\033[0m"
               "\n\n\tSetting \33[33m2\33[0m/8: \33[33mTerm Output Policy\33[0m"
               "\n\t---------\33[33m[\33[0m-------\33[33m]\33[0m------------------------------------------------------"
@@ -1284,7 +1296,7 @@ def display_settings_after_changes(setting, current_var, current_var_2=""):
                   "\n\t\t\t\t2. only not found terms\n\t\t\t\033[92m" + "->" + "\033[0m\t3. all searched terms")
 
     elif setting == 3:
-        print("\033[33m\t~ Settings Menu ~"
+        print("\033[33m\n\t~ Settings Menu ~"
               "\n\t-------------------------------------------------------------------------------\033[0m"
               "\n\n\tSetting \33[33m3\33[0m/8: \33[33mOutput Format\33[0m"
               "\n\t------------------\33[33m[\33[0m-------\33[33m]\33[0m---------------------------------------------"
@@ -1299,7 +1311,7 @@ def display_settings_after_changes(setting, current_var, current_var_2=""):
             print("\n\tOptions:\n\t\t\t\t1. one-line\n\t\t\t\033[92m" + "->" + "\033[0m\t2. multi-line")
 
     elif setting == 4:
-        print("\033[33m\t~ Settings Menu ~"
+        print("\033[33m\n\t~ Settings Menu ~"
               "\n\t-------------------------------------------------------------------------------\033[0m"
               "\n\n\tSetting \33[33m4\33[0m/8: \33[33mHeadline Printing\33[0m"
               "\n\t---------------------------\33[33m[\33[0m-------\33[33m]\33[0m------------------------------------"
@@ -1324,7 +1336,7 @@ def display_settings_after_changes(setting, current_var, current_var_2=""):
                   "\n\t\t\t\033[92m" + "->" + "\033[0m\t3. for every new term printed")
 
     elif setting == 5:
-        print("\033[33m\t~ Settings Menu ~"
+        print("\033[33m\n\t~ Settings Menu ~"
               "\n\t-------------------------------------------------------------------------------\033[0m"
               "\n\n\tSetting \33[33m5\33[0m/8: \33[33mAlphabetical Output Order\33[0m"
               "\n\t------------------------------------\33[33m[\33[0m-------\33[33m]\33[0m---------------------------"
@@ -1346,7 +1358,7 @@ def display_settings_after_changes(setting, current_var, current_var_2=""):
                   "\n\t\t\t\033[92m" + "->" + "\033[0m\t3. non-alphabetical")
 
     elif setting == 6:
-        print("\033[33m\t~ Settings Menu ~"
+        print("\033[33m\n\t~ Settings Menu ~"
               "\n\t-------------------------------------------------------------------------------\033[0m"
               "\n\n\tSetting \33[33m6\33[0m/8: \33[33mAutomatic Scan Filters\33[0m"
               "\n\t---------------------------------------------\33[33m[\33[0m-------\33[33m]\33[0m------------------"
@@ -1417,7 +1429,7 @@ def display_settings_after_changes(setting, current_var, current_var_2=""):
               "\n\t\tThe results will be saved in the same Excel file.")
 
     elif setting == 7:
-        print("\033[33m\t~ Settings Menu ~"
+        print("\033[33m\n\t~ Settings Menu ~"
               "\n\t-------------------------------------------------------------------------------\033[0m"
               "\n\n\tSetting \33[33m7\33[0m/8: \33[33mOutput Detail Level\33[0m"
               "\n\t------------------------------------------------------\33[33m[\33[0m-------\33[33m]\33[0m---------"
@@ -1441,7 +1453,7 @@ def display_settings_after_changes(setting, current_var, current_var_2=""):
                   "\n\t\t\t\033[92m" + "->" + "\033[0m\t3. Level 3: term data + morphology data + etymology data")
 
     elif setting == 8:
-        print("\033[33m\t~ Settings Menu ~"
+        print("\033[33m\n\t~ Settings Menu ~"
               "\n\t-------------------------------------------------------------------------------\033[0m"
               "\n\n\tSetting \33[33m8\33[0m/8: \33[33mSystem Sound Level\33[0m"
               "\n\t---------------------------------------------------------------\33[33m[\33[0m-------\33[33m]\33[0m"

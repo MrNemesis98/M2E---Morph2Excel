@@ -14,7 +14,7 @@ Assistance and Benchmarking: Sonja Böker, Jakob Engel, Anika Petri, Lilly-Krist
 
 ________________________________________________________________________________________________________________________________________________________________________________
 
-Copyright © MrNemesis98, GitHub, 2024
+Copyright © MrNemesis98, GitHub, 2024-2026
 
 Preidt, Till, Böker, S., Engel, J., Petri, A., Plock, L.-K., Sloykowski, C. & Arndt-Lappe, S. (2024, September 30). M2E - Morph2Excel. Retrieved from osf.io/jrdn3
 
